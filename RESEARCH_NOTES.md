@@ -1,6 +1,6 @@
 # Refract — Research Notes
 
-Compiled findings from two research sessions conducted during requirements and evaluation framework development. Organized by topic. Links verified at time of research.
+Compiled findings from research sessions conducted during requirements and evaluation framework development. Organized by topic. Links verified at time of research.
 
 ---
 
@@ -109,9 +109,98 @@ Compiled findings from two research sessions conducted during requirements and e
 
 ---
 
+## Session 3: Related Work — Cognitive Biases in LLMs (Malberg et al.)
+
+**Source:** https://github.com/simonmalberg/cognitive-biases-in-llms
+
+**Research question:** What can Refract learn from this existing systematic evaluation of cognitive biases in LLMs?
+
+### What They Built
+
+A research benchmark evaluating whether LLMs *exhibit* cognitive biases in their own decision-making — 30 biases × 20 LLMs × 200 scenarios = 30,000 test instances. Published on HuggingFace. Core methodology:
+
+- **Control/treatment pairs:** Each bias is tested via matched scenario pairs. The control presents a neutral decision context; the treatment introduces the bias-inducing condition. The delta between control and treatment response is the bias signal.
+- **XML-configured test templates:** Each bias has a `config.xml` defining the scenario template, custom value sampling, and response options, plus a `test.py` with a `TestGenerator` and `Metric` class.
+- **Scoring:** `𝔅(â₁, â₂) = (â₁ - â₂) / max(â₁, â₂) ∈ [-1, 1]` — normalized ratio of treatment vs. control response difference. Produces a quantitative bias magnitude score per model per bias.
+- **Scenario diversity:** 200 scenarios grounded in GICS industry classification (25 industry groups × 8 managerial roles) to avoid domain-specific confounds.
+- **Reproducibility:** MD5-hashed scenario seeds for deterministic instance generation.
+
+### 30 Biases Tested
+
+Anchoring, Anthropomorphism, Availability Heuristic, Bandwagon Effect, Confirmation Bias, Conservatism, Disposition Effect, Endowment Effect, Escalation of Commitment, Framing Effect, Fundamental Attribution Error, Halo Effect, Hindsight Bias, Hyperbolic Discounting, Illusion of Control, In-Group Bias, Information Bias, Loss Aversion, Mental Accounting, Negativity Bias, Not Invented Here, Optimism Bias, Planning Fallacy, Reactance, Risk Compensation, Self-Serving Bias, Social Desirability Bias, Status Quo Bias, Stereotyping, Survivorship Bias.
+
+Key finding: evidence of all 30 biases found in at least some of the 20 models tested.
+
+### How This Differs from Refract
+
+| Dimension | Malberg et al. | Refract |
+|---|---|---|
+| **What is being evaluated** | Whether LLMs *exhibit* bias in their decisions | Whether *written text* exhibits cognitive bias patterns |
+| **Subject** | The LLM itself (does Gemini show anchoring?) | The article/text (does this article use anchoring?) |
+| **Methodology** | Control/treatment decision scenarios | Pattern-matching against precomputed reference examples |
+| **Bias signal** | Delta between control and treatment responses | Verbatim excerpt identification + explanation |
+| **Output** | Quantitative bias magnitude score per model | Structured inventory: excerpts, locations, explanations |
+| **Purpose** | Research benchmark — how biased are models? | Operational tool — what biases are in this text? |
+| **Scale** | 30,000 test instances across 20 models | Per-article evaluation of natural text |
+| **Bias taxonomy** | 30 decision-making biases | ~80-100 text-detectable biases from full codex |
+| **Context** | Controlled synthetic scenarios | Real journalism, uncontrolled |
+
+### Insights to Take from Malberg et al.
+
+**1. Control/treatment pairing as a reference example strategy**
+
+Their most valuable methodological contribution for Refract is the **control/treatment structure**. Each test explicitly shows: *here is text without the bias (control), here is text with the bias (treatment)*. This is a rigorous operationalization of "what the bias looks like."
+
+Refract's precomputed reference examples should adopt this structure explicitly:
+- `positive_examples` in the taxonomy = treatment-equivalent: text that exhibits the bias
+- `near_miss_examples` = control-equivalent: similar text without the bias
+- The contrast should be as structurally parallel as possible (same topic, same length, same voice) so the model can isolate the bias signal rather than confounding it with domain or style
+
+**2. The 30-bias list is a high-confidence starting subset**
+
+Their list represents 30 biases with enough research grounding to operationalize as controlled experiments — each bias has a clear mechanism that produces measurable behavioral change. This is a natural priority tier for Refract's hand-labeling queue: these 30 are the ones most likely to have well-defined `identification_criteria` and the clearest reference examples.
+
+Cross-reference: 23 of their 30 biases map directly to Refract's 10 categories. 7 (Disposition Effect, Mental Accounting, Hyperbolic Discounting, Risk Compensation, Not Invented Here, Conservatism, Reactance) are primarily decision-making biases that may be harder to detect in journalism text without explicit behavioral framing.
+
+**3. Scenario diversity as a near-miss generation strategy**
+
+Their 200-scenario approach (25 industries × 8 roles) exists to avoid domain confounds. For Refract, the analogous technique is ensuring `positive_examples` span multiple topic domains (politics, economics, crime, science, sport) — the same bias should be detectable regardless of whether the article is about a politician or a pharmaceutical company. Their GICS-based diversification is worth borrowing as a domain coverage checklist.
+
+**4. Quantitative bias magnitude scoring**
+
+Their `𝔅` formula produces a continuous score, not binary present/absent. Refract uses binary detection + graduated severity. Worth noting: their scoring works because control/treatment delta is measurable. In natural text without a control, continuous scoring is harder to ground. Refract's approach (binary detected + high/medium/low severity) is correct for the use case, but the Malberg et al. scoring could inform how severity levels are defined — e.g., "high" severity = would score >0.7 on their scale if tested as a decision scenario.
+
+**5. The 30,000-instance dataset on HuggingFace**
+
+This is directly usable as a validation resource. If Refract detects anchoring in an article, the Malberg et al. dataset provides independently verified examples of what anchoring looks like in a controlled decision context — useful for calibrating whether Refract's reference examples are in the right neighborhood. Worth downloading and cross-referencing when building reference examples for the overlapping 23 biases.
+
+**6. XML template structure for reference example storage**
+
+Their `config.xml` + `test.py` per-bias structure is clean and extensible. Refract uses JSON taxonomy entries — similar spirit. Worth reviewing their XML schema as a cross-check on what fields matter for a rigorous bias operationalization.
+
+### What Malberg et al. Does Not Address (Refract's Distinct Contribution)
+
+- Detection in natural, uncontrolled text (their scenarios are synthetic)
+- Multi-label detection (one article, many simultaneous bias patterns)
+- Text position and excerpt identification (they score responses, not locate bias in source text)
+- Reframing (no equivalent — they measure, don't remediate)
+- Journalism-specific bias patterns (their scenarios are managerial/decision-making)
+- The author-exhibiting vs. source-reporting distinction
+
+### Recommended Actions
+
+1. **Download HuggingFace dataset** and extract the 23 overlapping biases. Use their control/treatment pairs as candidate `near_miss` / `positive` examples for the precompute phase — they're already human-designed to be structurally parallel.
+2. **Adopt the control/treatment framing** in Refract's reference example schema — rename or annotate `positive` and `near_miss` to make the structural parallel explicit.
+3. **Use their 30-bias list as the priority queue** for hand-labeling in Phase 1. These are the best-operationalized biases in the literature.
+4. **Cross-reference their bias magnitude scores** when defining Refract's severity levels — "high severity" in Refract should correspond to biases that produce large `𝔅` scores in their framework.
+5. **Note the 7 decision-biases** (Disposition Effect, Mental Accounting, etc.) that may not manifest detectably in journalism text — consider marking these `provisional` in the taxonomy with a note about detectability limitations.
+
+---
+
 ## Open Research Questions (for future sessions)
 
 - **Embedding models for pre-filtering (Mode B):** Which embedding models perform best for semantic similarity between bias definitions and news article text? Sentence-transformers? OpenAI embeddings? Domain-specific?
 - **Fine-tuned evaluator feasibility:** At what scale does fine-tuning a Prometheus-style evaluator on Refract's test set annotations become worthwhile vs. continued prompt engineering?
 - **Taxonomy coverage validation:** Is there existing NLP work on automatically checking whether a taxonomy covers a text corpus (i.e., are there biases present in the wild that the taxonomy doesn't capture)?
 - **Reframe quality evaluation:** Limited research found on automated evaluation of debiased text quality. What metrics exist beyond factual preservation and readability?
+- **Malberg et al. dataset integration:** Can their 30,000 control/treatment pairs be adapted as reference examples for the Refract taxonomy, or do they require significant reworking for journalism context?
