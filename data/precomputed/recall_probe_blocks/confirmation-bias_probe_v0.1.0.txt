@@ -1,0 +1,8 @@
+Bias to probe: Confirmation Bias
+Definition: The tendency to search for, interpret, favor, and recall information in a way that confirms or supports one's prior beliefs or values. Contradictory evidence is discounted, ignored, or reinterpreted to fit the existing belief.
+Identification criteria:
+  - The article presents evidence on one side of a contested question while omitting, burying, or briefly dismissing countervailing evidence
+  - Sources quoted or cited are overwhelmingly from one viewpoint on a contested issue, with no meaningful engagement with opposing expert views
+  - The framing of a story presupposes the conclusion (e.g., treating one side's claims as established facts requiring no qualification)
+  - Counterarguments, when present, are presented as weaker or less credible without evidentiary basis for that assessment
+  - The article selects anecdotes or case studies that support a predetermined narrative while similar cases on the other side are absent

@@ -1,0 +1,87 @@
+name: Batch Article Evaluation
+
+on:
+  push:
+    paths:
+      - "data/input/article_urls.txt"
+  workflow_dispatch:
+    inputs:
+      url_file:
+        description: "Path to URL list"
+        default: "data/input/article_urls.txt"
+        required: false
+      model_override:
+        description: "Model name (overrides batch_config.json)"
+        default: ""
+        required: false
+      skip_cached:
+        description: "Skip already-evaluated articles"
+        type: boolean
+        default: true
+        required: false
+      max_articles:
+        description: "Max articles to process (0 = unlimited)"
+        default: "0"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: batch-eval
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      EVAL_MODEL: ${{ inputs.model_override || 'gemini-2.0-flash' }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify precomputed artifacts are current
+        run: |
+          python -c "
+          import json, sys
+          from pathlib import Path
+          idx = Path('data/precomputed/taxonomy_index.json')
+          if not idx.exists():
+              print('ERROR: data/precomputed/taxonomy_index.json missing. Run precompute workflow first.')
+              sys.exit(1)
+          print('Precomputed artifacts found.')
+          "
+
+      - name: Run batch evaluation
+        run: |
+          MAX_ARG=""
+          if [ "${{ inputs.max_articles }}" != "0" ] && [ -n "${{ inputs.max_articles }}" ]; then
+            MAX_ARG="--max ${{ inputs.max_articles }}"
+          fi
+          python scripts/batch_eval.py \
+            --url-file "${{ inputs.url_file || 'data/input/article_urls.txt' }}" \
+            $MAX_ARG
+
+      - name: Rebuild index
+        run: python scripts/build_index.py
+
+      - name: Commit and push results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed/
+          git diff --staged --quiet || \
+            git commit -m "batch: evaluate articles [framework v$(python -c 'from config import FRAMEWORK_VERSION; print(FRAMEWORK_VERSION)')]"
+          git push origin HEAD

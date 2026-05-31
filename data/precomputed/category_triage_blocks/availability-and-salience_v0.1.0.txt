@@ -1,0 +1,3 @@
+Category: Availability & Salience
+Biases in this category (1):
+  - Availability Heuristic: Judging the likelihood or frequency of an event by how easily examples come to mind. Vivid, recent, emotionally salient,...

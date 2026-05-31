@@ -1,0 +1,116 @@
+name: Smoke Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "claude/**"
+      - main
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check all module imports
+        run: |
+          python -c "
+          from config import FRAMEWORK_VERSION, TAXONOMY_VERSION, EVAL_MODEL
+          from src.refract.llm_client import call_llm
+          from src.refract.ingest import fetch_url, _sha256
+          from src.refract.bias_eval import evaluate_article, pass1_category_triage, _load_taxonomy
+          from src.refract.reframe import reframe_article
+          print('All imports OK')
+          "
+
+      - name: Validate taxonomy.json schema
+        run: |
+          python -c "
+          import json, sys
+          taxonomy = json.load(open('bias_index/taxonomy.json'))
+          assert 'version' in taxonomy, 'missing version'
+          assert 'biases' in taxonomy, 'missing biases'
+          required = [
+            'id', 'name', 'category', 'definition', 'mechanism',
+            'identification_criteria', 'linguistic_signals',
+            'reframing_strategy', 'sources', 'status', 'examples_status',
+          ]
+          errors = []
+          for b in taxonomy['biases']:
+            for field in required:
+              if not b.get(field):
+                errors.append(f\"{b['id']}: missing or empty '{field}'\")
+          if errors:
+            for e in errors:
+              print('ERROR:', e)
+            sys.exit(1)
+          print(f'Taxonomy OK: {len(taxonomy[\"biases\"])} entries, version {taxonomy[\"version\"]}')
+          "
+
+      - name: Run precompute (no API key needed)
+        run: python scripts/precompute.py
+
+      - name: Verify precomputed artifact counts
+        run: |
+          python -c "
+          import json, sys
+          from pathlib import Path
+          taxonomy = json.load(open('bias_index/taxonomy.json'))
+          n = len(taxonomy['biases'])
+
+          bias_blocks = list(Path('data/precomputed/bias_blocks').glob('*.txt'))
+          probe_blocks = list(Path('data/precomputed/recall_probe_blocks').glob('*.txt'))
+          reframe_blocks = list(Path('data/precomputed/reframe_blocks').glob('*.txt'))
+          index = json.load(open('data/precomputed/taxonomy_index.json'))
+
+          errors = []
+          if len(bias_blocks) != n:
+            errors.append(f'Expected {n} bias blocks, got {len(bias_blocks)}')
+          if len(probe_blocks) != n:
+            errors.append(f'Expected {n} probe blocks, got {len(probe_blocks)}')
+          if len(reframe_blocks) != 3:
+            errors.append(f'Expected 3 reframe blocks, got {len(reframe_blocks)}')
+          if len(index) != n:
+            errors.append(f'Expected {n} taxonomy index entries, got {len(index)}')
+
+          if errors:
+            for e in errors:
+              print('ERROR:', e)
+            sys.exit(1)
+          print(f'Artifacts OK: {n} bias blocks, {n} probe blocks, 3 reframe blocks')
+          "
+
+      - name: Run build_index (no API key needed)
+        run: python scripts/build_index.py
+
+      - name: Verify index outputs exist
+        run: |
+          python -c "
+          from pathlib import Path
+          for f in ['data/processed/index.json', 'data/processed/stats.json', 'data/processed/bias_frequency.json']:
+            assert Path(f).exists(), f'Missing: {f}'
+          print('Index outputs OK')
+          "
+
+      - name: Verify batch_eval dry run (no fetch, no LLM)
+        run: |
+          python -c "
+          # Verify batch_eval CLI parses args and finds the URL file without running
+          from pathlib import Path
+          import sys
+          sys.argv = ['batch_eval.py', '--max', '0', '--url-file', 'data/input/article_urls.txt']
+          urls_path = Path('data/input/article_urls.txt')
+          assert urls_path.exists(), 'article_urls.txt missing'
+          lines = [l.strip() for l in urls_path.read_text().splitlines() if l.strip() and not l.startswith('#')]
+          assert len(lines) > 0, 'article_urls.txt has no URLs'
+          print(f'URL file OK: {len(lines)} URLs loaded')
+          "

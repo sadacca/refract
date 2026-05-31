@@ -1,0 +1,17 @@
+=== In-Group Bias (id: in-group-bias) ===
+Definition: The tendency to favor members of one's own group over members of other groups. In journalism, this manifests as asymmetric treatment of in-group and out-group actors — more charitable framing, more humanizing language, more presumption of legitimacy for the in-group.
+Mechanism: Social identity theory (Tajfel and Turner, 1979): people derive self-esteem from group membership and maintain positive group identity by viewing their group favorably relative to outgroups. Even minimal group cues ('red team' vs. 'blue team') activate in-group favoritism.
+
+Identification criteria:
+  - Members of one group are described with humanizing detail (names, family context, individual story) while members of another group are described in aggregate or with dehumanizing abstraction
+  - The same action by an in-group actor is framed as legitimate or contextually justified; the same action by an out-group actor is framed as threatening or illegitimate
+  - Sources from the in-group are given more space, treated as more authoritative, and quoted with more sympathy than out-group sources on the same contested question
+  - Casualties, suffering, or hardship of the in-group are described with specificity and emotional weight; casualties of the out-group are described statistically or minimized
+  - Fundamental attribution error applied asymmetrically: in-group bad behavior explained situationally, out-group bad behavior explained dispositionally
+
+Linguistic signals:
+  - Humanization asymmetry: named individuals with family context for in-group; 'the militants', 'the migrants', 'the rioters' for out-group
+  - Verb asymmetry: in-group 'responds' or 'defends'; out-group 'attacks' or 'threatens'
+  - Quote space asymmetry: in-group sources quoted at length with context; out-group sources quoted briefly or paraphrased
+  - Attribution asymmetry: in-group behavior described in passive voice or with situational hedging; out-group behavior described in active, agentive voice
+  - Civilian/combatant framing: in-group deaths are 'civilians'; out-group deaths are 'militants' even when the distinction is contested

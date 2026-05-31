@@ -1,0 +1,8 @@
+Bias to probe: Framing Effect
+Definition: Identical information presented in different ways produces systematically different responses. People react differently to information depending on whether it is framed as a gain or a loss, as a percentage or an absolute number, in positive or negative terms.
+Identification criteria:
+  - A statistic is presented in a form that emphasizes its magnitude (or minimizes it) compared to a neutral presentation: e.g., '90% survival rate' vs. '10% mortality rate'
+  - An event is described using gain language ('recovered', 'saved', 'improved') or loss language ('failed', 'lost', 'worsened') when the neutral facts support neither exclusively
+  - A reference point is implicitly chosen to make the current situation look better or worse than a different reference point would
+  - The same policy, person, or event is described in terms that carry emotional valence (e.g., 'tax relief' vs. 'tax cut'; 'illegal alien' vs. 'undocumented migrant') that predisposes the reader to a particular interpretation
+  - Comparisons are made to a selectively chosen baseline that makes the subject look better or worse than alternative baselines would
