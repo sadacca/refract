@@ -234,41 +234,82 @@ Article text
 
 ## Evaluation Output Schema
 
+### Design note: complete inventory, not a score
+
+An article will typically contain many bias instances — this is expected and normal. The output schema captures a **complete cognitive map** of the article: every occurrence of every bias, with positional and contextual detail sufficient to support reframing. The `summary` block provides aggregate stats, but the primary deliverable is the full `bias_instances` list.
+
+A single bias type may appear multiple times in one article (e.g., availability heuristic in the headline, the lede, and a closing anecdote). Each occurrence is a separate entry in `occurrences[]`. The reframing pipeline works at the occurrence level, not the bias-type level.
+
+### Schema
+
 All evaluations, regardless of mode, produce the same JSON structure:
 
 ```json
 {
   "article_id": "string",
   "source_url": "string | null",
+  "title": "string | null",
   "evaluated_at": "ISO8601 timestamp",
   "framework_version": "string",
   "taxonomy_version": "string",
   "model": "string",
   "mode": "deep | bulk",
+  "article_text": "string",
   "bias_instances": [
     {
+      "instance_id": "string",
       "bias_id": "string",
       "bias_name": "string",
       "category": "string",
-      "excerpt": "string",
-      "explanation": "string",
-      "confidence": "high | medium | low",
+      "occurrences": [
+        {
+          "excerpt": "string",
+          "char_start": "integer",
+          "char_end": "integer",
+          "paragraph_index": "integer",
+          "text_region": "headline | lede | body | closing",
+          "explanation": "string",
+          "confidence": "high | medium | low"
+        }
+      ],
       "severity": "high | medium | low",
-      "verified": true,
-      "author_exhibiting": true,
-      "source_reporting": false
+      "detected": true,
+      "verified": "true | false | null",
+      "author_exhibiting": "true | false",
+      "source_reporting": "true | false",
+      "recall_probe": "true | false"
     }
   ],
   "summary": {
     "dominant_categories": ["string"],
-    "overall_severity": "high | medium | low",
-    "bias_count": "integer",
-    "low_confidence_count": "integer"
+    "bias_type_count": "integer",
+    "total_occurrences": "integer",
+    "low_confidence_count": "integer",
+    "recall_probe_finds": "integer",
+    "by_region": {
+      "headline": "integer",
+      "lede": "integer",
+      "body": "integer",
+      "closing": "integer"
+    },
+    "by_category": {
+      "category_id": "integer"
+    }
   }
 }
 ```
 
-The `verified` field is `true` for instances that passed Pass 3 in Mode A; always `null` in Mode B.
+### Key schema decisions
+
+**`occurrences[]` is a list, not a single excerpt.** The same bias may appear multiple times in an article. Each occurrence has its own `excerpt`, character positions (`char_start`, `char_end`), `paragraph_index`, and `text_region`. This supports highlighting all occurrences in the UI and targeting each one individually in the reframe.
+
+**Character offsets + paragraph index.** `char_start`/`char_end` are offsets into `article_text`, enabling exact highlight rendering in the UI. `paragraph_index` is a human-readable positional indicator. `text_region` gives a coarse structural label (headline / lede / body / closing) for aggregate analysis across articles.
+
+**`bias_type_count` vs. `total_occurrences`.** The summary distinguishes between the number of distinct bias types detected and the total number of occurrences. An article with 3 instances of framing effect and 2 of availability heuristic has `bias_type_count: 2`, `total_occurrences: 5`.
+
+**`recall_probe: true`** flags instances found by Pass 3 probes — useful for tracking Pass 1 recall quality over time.
+
+The `verified` field is `true` for instances confirmed by the Pass 4 judge; `false` for those flagged as suspect; `null` in Mode B (no judge pass).
 
 ---
 

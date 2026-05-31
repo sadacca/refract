@@ -3,6 +3,31 @@
 
 ---
 
+## Foundational Framing
+
+**Cognitive bias is a normal feature of human cognition, not a character flaw or editorial sin.**
+
+Every human mind uses heuristics and shortcuts — this is how we function. Cognitive biases are not errors made by bad actors; they are natural patterns that emerge from how brains process information under uncertainty. When they appear in written text, they reflect the author's human cognition, their editor's, their source's, and their reader's. They are pervasive and expected.
+
+**What Refract is doing — and what it is not:**
+
+| What it IS | What it is NOT |
+|---|---|
+| Descriptive analysis of cognitive patterns in text | A rating system for news quality |
+| A tool for understanding *how* a piece is framed | A tool for labeling outlets as biased or unbiased |
+| Grounded in cognitive psychology literature | Grounded in political or ideological frameworks |
+| Interested in *all* biases present, as a complete picture | Interested in finding the "worst" or "most" biased sources |
+| A foundation for reframing — presenting the same facts differently | A fact-checker or misinformation detector |
+
+**Practical implications for how the tool works:**
+
+- **An article with many bias instances is normal, not alarming.** A well-written, thoroughly reported 2,000-word article will likely contain multiple instances of availability heuristic, framing effects, narrative structure, and anchoring. That's expected — it's how human writing works. The tool should present this as a complete cognitive map of the article, not a score to be minimized.
+- **Every bias instance is worth capturing.** The goal is a full inventory: every excerpt that exhibits a bias pattern, labeled with the bias type, the location in the text, and enough context to support reframing. Nothing is too minor to flag.
+- **Reframing is exploratory, not corrective.** The reframed version of an article is not the "right" version — it is a different possible framing that reduces identified cognitive patterns. Both versions are valid; the comparison is the value.
+- **The tool is not a judge of sources.** Patterns found across 100 articles from one outlet are descriptive data about that outlet's editorial tendencies, not a verdict. The same analysis applied to any outlet, including wire services, academic papers, or this tool's own output, would find cognitive patterns.
+
+---
+
 ## Overview
 
 **Refract** is a Streamlit web application that identifies, evaluates, and reframes cognitive biases in written text — starting with news articles and expanding to broader media and GenAI output. The tool is grounded in cognitive psychology (not equity/DEI framing) and is designed to build a standardized framework for bias evaluation and automated reframing.
@@ -12,8 +37,8 @@
 ## Goals
 
 1. Establish a canonical, indexed taxonomy of cognitive biases drawn from cognitive psychology literature.
-2. Evaluate written text for the presence and severity of identified cognitive biases.
-3. Reframe biased text to present the same information with reduced or removed cognitive distortion.
+2. Produce a complete inventory of all bias instances in evaluated text — every occurrence, with location and context.
+3. Reframe evaluated text to present the same information with reduced cognitive distortion, as one possible alternative framing.
 4. (Later) Scale evaluation to article sets, entire news sites, and GenAI outputs.
 
 ---
