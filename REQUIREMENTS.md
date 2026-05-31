@@ -200,6 +200,26 @@ The index is the direct input to the LLM evaluation pipeline:
 
 ---
 
+## Phase 3 — Model Comparison
+
+**Purpose:** Once the POC is working and produces a baseline dataset, compare models on their ability to detect cognitive bias to understand which is most accurate, where models diverge, and whether cost justifies quality differences.
+
+**Requirements:**
+- Run the same set of evaluated articles (from `data/processed/`) through multiple models using the same framework version and prompts
+- Models to compare: Gemini 2.0 Flash (POC baseline), Claude Sonnet, Groq/Llama 3.1 70B, and at least one additional (Gemini 1.5 Pro or Claude Haiku for cost comparison)
+- For each article, record per-model: bias instances detected, confidence scores, recall probe results, and judge verdicts
+- Aggregate comparison metrics:
+  - Agreement rate between models on the same article (which biases all models agree on vs. model-specific detections)
+  - Precision/recall per model against the hand-eval test set
+  - False negative rate per model (via recall probes)
+  - Cost per article per model
+- Display a model comparison page in the UI showing the above metrics
+- Use this to make an evidence-based decision on the default model for Phase 2 features
+
+**What makes this tractable:** Because every article is persisted with its `framework_version` and `model` field, re-running existing articles through a different model is a batch job against `data/processed/index.json`, not a fresh data collection effort. The dataset built during POC is the test bed for this comparison.
+
+---
+
 ## Technical Architecture
 
 ### Reference Architecture
@@ -242,7 +262,7 @@ The balt311-service-equity app (`github.com/sadacca/balt311-service-equity`) is 
 | **Groq** | 1,000 req/day, 30 req/min | Llama 3.1 70B, Mixtral 8x7B | Yes | Fastest inference; 70B model capable enough for bias detection |
 | **OpenRouter** | $0/M token free models | Llama 3.1 8B, Qwen 2.5 72B | Varies by model | Routes to community-hosted models; no credit card |
 
-**Recommended approach:** Use Gemini 2.0 Flash (free, 1,500 req/day) as the primary evaluator for development and the 100-article run. Switch to Claude Sonnet for production quality comparisons once you have a baseline. Architect the LLM client behind an abstraction so the model is swappable via config, not code changes.
+**Approach — RESOLVED:** Gemini 2.0 Flash is the primary evaluator for MVP. 1,500 req/day free tier is sufficient for development and the 100-article POC run. LLM client is abstracted behind a single interface (model name + API key via config) so swapping providers requires no code changes. Model comparison (Gemini vs. Claude Sonnet vs. Groq/Llama) is a defined post-MVP phase — see Phase 3 below.
 
 **Guardian API:** Free, 500 req/day, no credit card. Key at `open-platform.theguardian.com`.
 
