@@ -2,7 +2,7 @@
 # Format: one URL per line; lines starting with # are comments
 # Mix of news, opinion, and topic domains for Tier 1 bias coverage
 #
-# The Guardian — news + opinion, full article text via Guardian API
+# The Guardian — news + opinion, fetched directly via trafilatura (no API key needed)
 
 # Politics / policy (confirmation bias, framing effect, in-group bias)
 https://www.theguardian.com/politics/2024/nov/06/how-did-donald-trump-win-the-us-election

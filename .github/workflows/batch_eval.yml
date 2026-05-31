@@ -37,7 +37,6 @@ jobs:
     timeout-minutes: 360
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GUARDIAN_API_KEY: ${{ secrets.GUARDIAN_API_KEY }}
       EVAL_MODEL: ${{ inputs.model_override || 'gemini-2.0-flash' }}
 
     steps:
