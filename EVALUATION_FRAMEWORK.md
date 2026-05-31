@@ -3,6 +3,16 @@
 
 ---
 
+## Scope Note: POC vs. Production
+
+This document describes the full evaluation framework, including a production-grade section and a **POC-scoped section** that is the actual implementation target for the initial build. The full framework is documented for reference and to inform future iteration — not as a requirement for the first working version.
+
+**The POC target:** A single developer, hobby project, proof of concept. The goal is to demonstrate that the detection and reframing pipeline works at all, get real examples in front of humans, and establish a baseline. Rigorous statistical validation comes later if the concept proves out.
+
+**Rule of thumb for the POC:** If a step requires more than one additional API call per article, or more than 30 minutes of setup, it belongs in the full framework section, not the POC section.
+
+---
+
 ## Purpose
 
 This document specifies how Refract evaluates articles for cognitive bias, how it evaluates its own evaluations, and how the framework improves over time. It is the operational companion to the product requirements — where REQUIREMENTS.md says *what* to build, this document says *how the core analytical pipeline works*.
@@ -444,6 +454,102 @@ After the initial test set is established, new articles can use Config B + human
    Accepted changes merge to main. Framework version tag created.
    Prior evaluation results retain their version tag — never retroactively re-scored.
 ```
+
+---
+
+## POC Implementation: What to Actually Build First
+
+The full framework above is the north star — it's right, and it will matter once the concept is proven. But for a hobby POC, most of it is premature. Here's the minimum viable eval stack that gives you real signal without over-engineering.
+
+### What to cut for POC
+
+| Full Framework | POC Reality |
+|---|---|
+| 3-pass Mode A pipeline | 2-pass: category → identify (skip self-verification) |
+| Embedding pre-filter (Mode B) | Skip for now — just use Mode A for everything |
+| 4 separate judge criterion calls | 1 combined judge call with 2 criteria |
+| 3-model ensemble panel | You, reading the output |
+| Formal test set with Cohen's kappa | 5–10 articles you've hand-labeled yourself |
+| Automated F1 scoring infrastructure | A markdown table you update manually |
+| Minority-veto aggregation logic | Not needed |
+| Prometheus 2 setup | Use Claude as judge with a different model tier |
+
+### What to keep
+
+These are cheap to implement and provide real value even at POC scale:
+
+1. **Versioned prompts** — store prompts as text files, not hardcoded strings. One `framework_version` field in output. Takes 10 minutes, pays off immediately when you want to compare before/after a prompt change.
+
+2. **Structured JSON output** — the schema is already defined. Getting this right from day one means every future feature (judge, dashboard, export) has clean data to work with.
+
+3. **The author_exhibiting / source_reporting distinction** — this is a real cognitive task that the model needs explicit instruction on. Keep it in the system prompt.
+
+4. **Two-pass pipeline (no verification)** — category first, then biases in that category. This is what actually prevents the zero-accuracy failure at full taxonomy scale. It's two API calls, not three. Not optional.
+
+5. **Human-readable output in the UI** — the point of a POC is to look at real results. Invest in displaying output clearly so you can actually judge whether the detections are good.
+
+### POC Judge: Just You
+
+For a 5–10 article test set, the judge is you reading the output and noting:
+
+- **Right bias, right excerpt** — counts as TP
+- **Right category, wrong specific bias** — counts as partial
+- **Plausible but wrong** — counts as FP
+- **Missed something obvious** — counts as FN
+
+Keep a simple markdown log:
+
+```markdown
+## Eval Log — Framework v0.1
+
+### Article: [title/url]
+- Confirmed: availability heuristic (excerpt match ✓), framing effect (excerpt match ✓)
+- False positive: narrative fallacy — excerpt doesn't support it
+- Missed: anchoring in paragraph 3
+
+Overall: 2 TP, 1 FP, 1 FN
+```
+
+After 5–10 articles you'll have a real sense of which bias categories the framework handles well and which need taxonomy work. That's enough signal to drive iteration without any scoring infrastructure.
+
+### POC LLM Judge: One Call, Two Criteria
+
+When you want a second opinion beyond your own reading, use a single judge call covering the two criteria that matter most:
+
+```
+You are reviewing a cognitive bias detection result. Given the original article and a list of
+detected bias instances, assess each instance on two criteria only:
+
+1. EXCERPT VALID: Does the quoted excerpt appear verbatim or near-verbatim in the article? (yes / partial / no)
+2. BIAS PLAUSIBLE: Given the definition below, does the excerpt plausibly exhibit this bias? (yes / partial / no)
+
+For each instance return: excerpt_valid, bias_plausible, and one sentence of evidence.
+Do not add new detections. Do not assess explanation quality or confidence calibration.
+
+[Inject bias definitions for the detected biases only — not the full taxonomy]
+```
+
+Use a different model tier from the evaluator (e.g., evaluate with Sonnet, judge with Opus). This takes one extra API call per article and catches the most common failure modes (hallucinated excerpts, wrong bias category) without the full criterion-separated rubric overhead.
+
+### POC Iteration Trigger
+
+Don't set up automated scoring thresholds. Instead, iterate when:
+- You notice the same false positive pattern appearing in 3+ articles → tighten that bias's `identification_criteria`
+- A bias you expected to find in an article was consistently missed → expand `linguistic_signals`
+- Human and LLM judge disagree on the same bias category repeatedly → revise `common_confusions`
+
+Bump the framework version string when you make a prompt or taxonomy change so you can compare before/after on the same articles.
+
+### POC → Full Framework Migration Path
+
+When the POC is working and you want more rigor, the migration order is:
+
+1. Add Pass 3 self-verification to Mode A (one extra API call, ~14 point F1 gain per research)
+2. Formalize the eval log into `eval/test_set/` JSON files (same structure, just persisted)
+3. Write `scoring.py` to automate what you're doing manually in the markdown log
+4. Add the embedding pre-filter for Mode B (only needed once Phase 2 multi-article features are built)
+5. Add the 4-criterion judge calls (only needed once you have enough test articles to calibrate against)
+6. Add ensemble panel (only needed if you want to publish results or share the framework)
 
 ---
 
