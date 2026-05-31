@@ -111,6 +111,81 @@ Top-level categories to organize the index (based on Benson/codex structure, ada
 - **Temporal & Recency** — over- or under-weighting information based on timing (recency bias, present bias, end-of-history illusion)
 - **GenAI-Specific** *(Phase 2)* — sycophancy, training data recency bias, overconfidence, persona injection
 
+#### 1c-ii. Tiered Taxonomy Rollout
+
+Rather than launching with all ~90 text-detectable biases at once (thin entries, weak reference examples), the taxonomy is built in four tiers. Each tier is fully enriched — verified reference examples, complete identification criteria, literature-grounded definitions — before the next tier is seeded.
+
+**Tier ranking criteria** (applied in combination):
+1. **Literature prominence** — approximate Google Scholar title mention frequency; higher = more studied, more citable definitions available
+2. **Wikipedia prominence** — has a dedicated Wikipedia article (not a redirect or subsection); indicates well-established, stable definition
+3. **Journalism detectability** — can the bias be identified from text alone, without behavioral context? Biases requiring an observable decision or behavioral response are deprioritized.
+4. **Malberg et al. overlap** — appears in their 30-bias set, meaning control/treatment example pairs from their HuggingFace dataset can seed our reference examples
+5. **EDMO journalism relevance** — appears in EDMO's 10-bias "cheat sheet" for journalism/fact-checking contexts
+
+---
+
+**Tier 1 — MVP (7 biases): Start here**
+
+The highest-confidence, most literature-prominent, most journalism-relevant biases. Full entries required before any evaluation runs. These should appear in the majority of evaluated articles.
+
+| Bias | Category | Malberg? | EDMO? | Rationale |
+|---|---|---|---|---|
+| **Confirmation Bias** | Confirmation & Belief Perseverance | ✓ | ✓ | Most cited in HCI review (45 mentions); ubiquitous in news source selection and story framing |
+| **Framing Effect** | Framing & Anchoring | ✓ | ✓ | Core Kahneman/Tversky; fundamental to how any story is presented |
+| **Availability Heuristic** | Availability & Salience | ✓ | ✓ | Second most studied after confirmation; drives vividness and anecdote over base rate |
+| **Anchoring** | Framing & Anchoring | ✓ | ✓ | First number/fact mentioned sets reference point for all subsequent interpretation |
+| **Fundamental Attribution Error** | Attribution & Causation | ✓ | — | Overattributing behavior to person vs. situation; pervasive in crime, politics, crisis reporting |
+| **Negativity Bias** | Affect & Emotional Reasoning | ✓ | — | Asymmetric weight on negative events; structural feature of news selection |
+| **In-Group Bias** | In-Group & Social | ✓ | — | Us-vs-them framing; pervasive in political and conflict reporting |
+
+---
+
+**Tier 2 — 25 biases (add 18): POC 100-article run**
+
+Expand to 25 biases for the 100-article stats run. These are well-evidenced, have dedicated Wikipedia articles, and manifest detectably in journalism text.
+
+| Bias | Category | Malberg? | Notes |
+|---|---|---|---|
+| **Bandwagon Effect** | Authority & Social Proof | ✓ | Consensus as evidence; prevalent in election and trend coverage |
+| **Halo Effect** | Authority & Social Proof | ✓ | Positive trait in one domain bleeds into unrelated domains |
+| **Hindsight Bias** | Temporal & Recency | ✓ | "It was obvious all along" framing in post-event reporting |
+| **Survivorship Bias** | Omission & Selective Emphasis | ✓ | Reporting only successful/visible cases; omits failures |
+| **Status Quo Bias** | Confirmation & Belief Perseverance | ✓ | Change framed as deviation; default framed as neutral |
+| **Optimism Bias** | Temporal & Recency | ✓ | Underestimating risk/negative outcomes; common in economic and policy reporting |
+| **Stereotyping** | In-Group & Social | ✓ | Group-level generalization applied to individuals |
+| **Omission Bias** | Omission & Selective Emphasis | — | Harm by inaction framed differently than harm by action |
+| **Narrative Fallacy** | Narrative & Pattern | — | Causal story imposed on sequence of events |
+| **Appeal to Authority** | Authority & Social Proof | — | Expert citation as argument-closer rather than evidence |
+| **Affect Heuristic** | Affect & Emotional Reasoning | — | Emotional response to source/subject substitutes for evidence evaluation |
+| **Recency Bias** | Temporal & Recency | — | Recent events overweighted vs. historical base rate |
+| **Myside Bias** | Confirmation & Belief Perseverance | — | Evaluating arguments based on agreement with prior position |
+| **False Consensus Effect** | In-Group & Social | — | Overestimating how widely one's own view is shared |
+| **Selective Emphasis** | Omission & Selective Emphasis | — | Prominence/placement of information distorts perceived importance |
+| **Texas Sharpshooter Fallacy** | Narrative & Pattern | — | Drawing the target after seeing the data; post-hoc pattern |
+| **Bandwagon / Social Proof** | Authority & Social Proof | ✓ | (see above — ensure not duplicated with Bandwagon Effect) |
+| **Backfire Effect** | Confirmation & Belief Perseverance | — | Corrective information strengthens original belief |
+
+---
+
+**Tier 3 — 50 biases (add 25): Phase 2**
+
+Expand to 50 for publication inventory and multi-article analysis. Includes less-common but text-detectable biases and those specific to political/economic journalism contexts. Full list to be determined during Tier 2 operation — biases that appear frequently in Tier 2 evaluations but aren't yet in the taxonomy are candidates.
+
+Target categories to fill out: Narrative & Pattern, Affect & Emotional Reasoning, Omission & Selective Emphasis, Temporal & Recency.
+
+---
+
+**Tier 4 — Full ~90 biases: Phase 3+**
+
+Complete set of text-detectable biases from the Wikipedia codex after filtering for journalism relevance. Populated incrementally as usage patterns and the hand-eval log identify gaps. Not a timeline target — grows organically from evidence.
+
+**Excluded from all tiers (not text-detectable without behavioral context):**
+Disposition Effect, Mental Accounting, Hyperbolic Discounting, Risk Compensation, Escalation of Commitment, Endowment Effect, Loss Aversion — these require observable choice behavior to measure and do not manifest reliably as identifiable text patterns in journalism.
+
+---
+
+**Build sequence:** Tier 1 entries (7) fully enriched → POC evaluation pipeline running → 100-article run → review results for Tier 2 candidates → enrich Tier 2 entries (18) → re-run pipeline → Phase 2.
+
 #### 1d. Precompute Phase
 
 Before evaluation can run on any article, a separate precompute phase must populate `reference_examples` for every bias in the taxonomy. This runs once per taxonomy entry and re-runs whenever the entry's definition, criteria, or examples are updated.
@@ -437,9 +512,7 @@ Every evaluated article is a permanent asset. The repo is the database for the P
 
 The manifest is what the stats page and Framework Dashboard read — it's fast to load and query without pulling all article text into memory. Full records are lazy-loaded only when a specific article is opened.
 
-**GitHub Actions automation:**
-- `batch_eval.yml`: Triggered manually (workflow_dispatch) or on schedule. Reads a URL list from `data/input/batch_urls.txt`, runs `scripts/batch_eval.py`, commits new files in `data/processed/` to main. Uses repo secrets for API keys.
-- `update_index.yml`: Rebuilds `index.json` from all files in `data/processed/` — run after any batch or as a separate reconcile step.
+**GitHub Actions automation:** See GitHub Actions section below for full workflow specs.
 
 **What this gives you over time:**
 - Every article ever evaluated is replayable with a different framework version
@@ -502,10 +575,161 @@ refract/
 ```
 
 ### LLM Prompt Design Principles
-- All evaluation prompts reference the canonical taxonomy by category name and definition
-- Output is requested as structured JSON with defined schema (bias name, excerpt, explanation, confidence, severity)
-- Reframing prompts explicitly constrain the model: preserve facts, do not add claims, flag gaps
-- System prompts are versioned alongside the taxonomy
+- All evaluation prompts load precomputed prompt blocks from `data/precomputed/` — no prompt assembly at runtime
+- Output is requested as structured JSON matching the evaluation output schema
+- Reframing prompts constrain the model: preserve facts, do not add claims, flag gaps
+- System prompts are versioned alongside the taxonomy; version is recorded in every evaluation result
+
+---
+
+## GitHub Actions Automation
+
+All pipeline automation runs through GitHub Actions. Streamlit Community Cloud serves the UI only — it runs no background jobs. Every automated operation that writes to the repo uses `GITHUB_TOKEN` with `contents: write` permission. API keys are stored as repository secrets (`GEMINI_API_KEY`, `GUARDIAN_API_KEY`).
+
+**Public repo note:** GitHub Actions is free with unlimited minutes for public repositories. No billing concerns for the POC.
+
+---
+
+### Article Selection: The Input Manifest
+
+Articles to be processed in batch are declared in the repo, making the article set version-controlled alongside the pipeline and results.
+
+**`data/input/article_urls.txt`** — one URL per line; lines starting with `#` are comments:
+```
+# Initial POC subset — Guardian news articles, June 2025
+https://www.theguardian.com/...
+https://www.theguardian.com/...
+# Reuters wire for contrastive pairs
+https://reuters.com/...
+```
+
+**`data/input/batch_config.json`** — optional per-batch configuration:
+```json
+{
+  "batch_id": "poc-initial-100",
+  "description": "Initial 100-article POC run",
+  "model": "gemini-2.0-flash",
+  "framework_version": "v0.1.0",
+  "notes": "Contrastive pairs: Guardian opinion vs Reuters wire on 10 topics"
+}
+```
+
+Articles can be added to `article_urls.txt` by:
+- Editing the file directly in GitHub
+- The Guardian API search in the Streamlit UI writing selected URLs to the file (Wave 2 feature)
+- Manual addition from any other source
+
+The hash-based dedup in `batch_eval.py` means articles already in `data/processed/` are skipped automatically — re-running the workflow after adding new URLs processes only the new ones.
+
+---
+
+### Workflow 1: `batch_eval.yml` — Run Pipeline on Article Set
+
+**Trigger:** `workflow_dispatch` (manual, with inputs) or on push to `data/input/article_urls.txt`
+
+**Inputs (workflow_dispatch only):**
+- `url_file`: path to URL list (default: `data/input/article_urls.txt`)
+- `model_override`: optional model name to override `batch_config.json`
+- `skip_cached`: boolean, default `true` — skip articles already in `data/processed/`
+- `max_articles`: integer cap for the run (useful for test runs; default: unlimited)
+
+**Steps:**
+```yaml
+1. checkout (with token for push-back)
+2. setup-python 3.11
+3. pip install -r requirements.txt (cached)
+4. Verify data/precomputed/ is current for framework_version
+   → if stale, fail fast with message: "Run precompute workflow first"
+5. python scripts/batch_eval.py
+   --url-file ${{ inputs.url_file }}
+   --skip-cached ${{ inputs.skip_cached }}
+   --max ${{ inputs.max_articles }}
+   Env: GEMINI_API_KEY, GUARDIAN_API_KEY
+6. python scripts/build_index.py
+7. git config user.name "github-actions[bot]"
+8. git add data/processed/ data/cache/
+9. git commit -m "batch: evaluate N articles [batch_id] [framework_version]"
+10. git push origin main
+```
+
+**Concurrency:** `concurrency: group: batch-eval` with `cancel-in-progress: false` — prevents two batch runs writing simultaneously. A queued run waits for the running one to finish.
+
+**Rate limiting:** `batch_eval.py` enforces a configurable delay between articles (default: 5 seconds) to stay within Gemini's 30 req/min limit. With ~12 calls/article, each article takes ~1 minute including delays. 100 articles ≈ ~100 minutes. Well within the 6-hour Actions timeout.
+
+---
+
+### Workflow 2: `precompute.yml` — Regenerate Precomputed Artifacts
+
+**Trigger:** On push to `bias_index/taxonomy.json` or any file in `src/refract/prompts/`
+
+**Steps:**
+```yaml
+1. checkout
+2. setup-python
+3. pip install -r requirements.txt (cached)
+4. python scripts/precompute.py
+   → regenerates data/precomputed/ for current taxonomy + framework version
+   → writes bias_blocks/, category_triage_blocks/, recall_probe_blocks/,
+     judge_blocks/, reframe_blocks/, taxonomy_index.json
+   → updates embeddings.npy (bias vectors for Mode B)
+5. git add data/precomputed/
+6. git commit -m "precompute: update artifacts for taxonomy v{version}"
+7. git push origin main
+```
+
+**Important:** The `batch_eval.yml` workflow checks that `data/precomputed/` is current before running. This ensures the pipeline always uses artifacts that match the current taxonomy — never a stale version.
+
+---
+
+### Workflow 3: `build_index.yml` — Rebuild Index and Stats
+
+**Trigger:** Called by `batch_eval.yml` as a final step (not a separate dispatch) or manually via `workflow_dispatch` for reconciliation.
+
+**Steps:**
+```yaml
+1. python scripts/build_index.py
+   → reads all data/processed/{hash}_{version}.json files
+   → rebuilds data/processed/index.json (manifest)
+   → rebuilds data/processed/stats.json (aggregations)
+   → rebuilds data/processed/bias_frequency.json (per-bias hit rates)
+2. git add data/processed/index.json data/processed/stats.json
+              data/processed/bias_frequency.json
+3. git commit -m "index: rebuild after batch [batch_id]"
+4. git push origin main
+```
+
+---
+
+### Workflow 4: `precompute_examples.yml` — Generate Candidate Reference Examples
+
+**Trigger:** `workflow_dispatch` only (manual; human review required before results are used)
+
+**What it does:** For all bias entries in `taxonomy.json` with `examples_status: "pending"`, generates candidate positive, near-miss, and contrast examples via the LLM. Writes to `data/pending_examples/{bias_id}.json`. Does NOT update `taxonomy.json` — human review via the Framework Dashboard UI is required first.
+
+**Steps:**
+```yaml
+1. checkout
+2. setup-python
+3. pip install -r requirements.txt
+4. python scripts/precompute_examples.py
+   --status pending
+   Env: GEMINI_API_KEY
+5. git add data/pending_examples/
+6. git commit -m "examples: generate candidates for N pending bias entries"
+7. git push origin main
+```
+
+---
+
+### What Cannot Be Automated (requires human action)
+
+| Task | Why manual | Where it happens |
+|---|---|---|
+| Adding URLs to `article_urls.txt` | Article selection is a curatorial decision | Edit file in GitHub or via UI (Wave 2) |
+| Reviewing pending reference examples | Human verification is the whole point | Framework Dashboard UI |
+| QA review of evaluation results | Human judgment on TP/FP verdicts | QA Review page in UI |
+| Taxonomy entry updates | Requires cog psych literature check | Edit `taxonomy.json` directly |
+| Framework version bumps | Deliberate decision, triggers precompute | Manual edit to `config.py` + commit |
 
 ---
 
@@ -749,7 +973,116 @@ Find two articles covering the same news event — one from a source with a know
 
 ---
 
-## Success Metrics
+## UI Roadmap
+
+The UI is built in Streamlit multipage format. Pages are delivered in two waves: the pipeline MVP gets the minimum UI needed to run and inspect evaluations; the UI MVP adds the article selection, QA, and global review surfaces that make the tool usable beyond a single-article demo.
+
+---
+
+### Wave 1 — Pipeline MVP UI (needed to ship the POC)
+
+These pages are the minimum needed to demonstrate the pipeline end-to-end.
+
+**Page 1 — Article Evaluation (`2_article_eval.py`)**
+
+The core page. Everything else depends on this working.
+
+- **Input:** URL text field + "Fetch & Evaluate" button; secondary text area for paste input
+- **Status display:** Step-by-step progress as passes run (Pass 1 → Pass 2 → Pass 3 → Pass 4); spinner per pass with pass name and model shown
+- **Cache indicator:** If the article was previously evaluated, show "Loaded from cache (v{framework_version})" with option to re-run
+- **Results — bias instance cards:** One card per bias type detected. Each card shows:
+  - Bias name, category badge, severity indicator
+  - All occurrences listed: each with the quoted excerpt highlighted, paragraph location, text region label, confidence
+  - `author_exhibiting` / `source_reporting` label
+  - `recall_probe` flag if found by Pass 3
+  - Judge verdict (confirmed / suspect) if Pass 4 ran
+- **Results — article view:** Original article text rendered with all detected excerpts highlighted inline, color-coded by bias category. Clicking a highlight opens the corresponding bias card.
+- **Results — summary bar:** `bias_type_count`, `total_occurrences`, dominant categories, by-region breakdown
+- **Export:** Download full evaluation JSON; download summary as markdown
+
+**Page 2 — Article Reframe (`3_reframe.py`)**
+
+Only accessible after an evaluation has run on the current article.
+
+- **Mode selector:** Neutralize / Steelman / Annotated (radio buttons)
+- **Reframe button:** Runs the reframe pipeline; shows spinner
+- **Side-by-side view:** Original text (left) with bias highlights; reframed text (right)
+- **Bias coverage indicator:** Which of the detected biases were addressed in the reframe
+- **Export:** Download reframed text as plain text or markdown
+
+---
+
+### Wave 2 — UI MVP (article selection, QA, global review)
+
+These pages make the tool usable as a research instrument, not just a demo. Build after the pipeline is stable.
+
+**Page 3 — Article Browser & Selection (`5_article_browser.py`)**
+
+Allows users to find and queue articles without manual URL hunting.
+
+- **Guardian API search:** Search field, date range, section filter (news / opinion / world / etc.)
+- **Results list:** Article title, section, date, word count; checkbox to select for evaluation
+- **Batch queue:** Selected articles are added to an evaluation queue; "Run Queue" button triggers `batch_eval.py` on the selected set
+- **Previously evaluated indicator:** Articles already in `data/processed/index.json` are flagged so the user doesn't re-run them
+- **Manual URL add:** Still available as a fallback for non-Guardian sources
+
+**Page 4 — QA Review (`6_qa_review.py`)**
+
+Human review interface for evaluating evaluation quality. This is where the eval log lives in the UI.
+
+- **Queue view:** Articles evaluated in the current session (or all articles, filterable by date/source/framework version)
+- **Per-article review panel:**
+  - Original article text with all highlights
+  - Each bias instance card with a verdict input: **Confirm / Reject / Partially confirm** + freetext note
+  - Judge verdicts shown alongside (if Pass 4 ran) so human can see where they agree/disagree with the LLM judge
+- **Running tally:** TP / FP / partial count for the current review session
+- **Save & export:** Writes review verdicts to `eval/test_set/{article_id}_review.json`; exportable as CSV
+
+**Page 5 — Global Article Review & Stats (`7_global_review.py`)**
+
+The 100-article view. Reads from `data/processed/stats.json` and `index.json`.
+
+- **Corpus summary:** Total articles evaluated, date range, sources represented, framework version(s) used
+- **Bias prevalence chart:** Bar chart of bias types by frequency across all articles; filterable by source, date range, article type
+- **Category heatmap:** Articles × bias categories, colored by occurrence count — shows which categories cluster together
+- **Source comparison:** Side-by-side bias profiles for multiple sources (only appears when ≥2 sources have ≥5 articles each)
+- **Per-article table:** Sortable list of all evaluated articles with columns for bias_type_count, total_occurrences, dominant_category, source, date; click row to open that article's evaluation in Page 1
+- **Contrastive pair finder:** Given a topic keyword, surfaces article pairs (Guardian opinion vs. wire service) for manual comparison
+- **Export:** Download stats.json; download filtered subset as CSV
+
+**Page 6 — Bias Index (`1_bias_index.py`)**
+
+Already in the module layout. Browsable taxonomy reference.
+
+- Searchable card view of all bias entries
+- Filter by category, status (canonical / provisional), examples_status (verified / pending)
+- Full entry detail panel: definition, mechanism, identification criteria, linguistic signals, reference examples, sources
+- **Framework Dashboard tab** (within this page or as a sub-page):
+  - Current framework_version and taxonomy_version
+  - examples_status summary: how many entries have verified examples vs. pending
+  - Pending example review queue (from `data/pending_examples/`) — accept/reject interface for the precompute human review step
+  - Eval scores per framework version (post-POC, once scoring.py exists)
+  - bias_frequency.json chart: which biases appear most in the corpus
+
+---
+
+### Page Build Order
+
+```
+Pipeline MVP (Wave 1):
+  1. Page 1 — Article Evaluation     ← build first; everything depends on this
+  2. Page 2 — Article Reframe        ← build second; depends on Page 1 output
+
+UI MVP (Wave 2):
+  3. Page 6 — Bias Index             ← can build in parallel with pipeline MVP
+  4. Page 4 — QA Review              ← build after Page 1 is stable
+  5. Page 5 — Global Review          ← build after batch_eval.py produces data
+  6. Page 3 — Article Browser        ← build last; Guardian API integration
+```
+
+**Note on Page 1 priority:** The highlighted article view (original text with inline bias highlights using `char_start`/`char_end` offsets) is the single most important UI element. It makes bias detection tangible and reviewable in a way that a card list alone cannot. This should be the first component built and the first thing tested on real articles.
+
+---
 - Taxonomy covers all major cognitive bias categories recognized in the literature
 - Evaluation correctly identifies bias type and excerpt with >80% agreement against human-labeled test set
 - Reframes preserve factual content (verifiable against original) in >95% of cases
