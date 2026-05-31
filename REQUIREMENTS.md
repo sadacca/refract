@@ -437,9 +437,7 @@ Every evaluated article is a permanent asset. The repo is the database for the P
 
 The manifest is what the stats page and Framework Dashboard read — it's fast to load and query without pulling all article text into memory. Full records are lazy-loaded only when a specific article is opened.
 
-**GitHub Actions automation:**
-- `batch_eval.yml`: Triggered manually (workflow_dispatch) or on schedule. Reads a URL list from `data/input/batch_urls.txt`, runs `scripts/batch_eval.py`, commits new files in `data/processed/` to main. Uses repo secrets for API keys.
-- `update_index.yml`: Rebuilds `index.json` from all files in `data/processed/` — run after any batch or as a separate reconcile step.
+**GitHub Actions automation:** See GitHub Actions section below for full workflow specs.
 
 **What this gives you over time:**
 - Every article ever evaluated is replayable with a different framework version
@@ -502,10 +500,161 @@ refract/
 ```
 
 ### LLM Prompt Design Principles
-- All evaluation prompts reference the canonical taxonomy by category name and definition
-- Output is requested as structured JSON with defined schema (bias name, excerpt, explanation, confidence, severity)
-- Reframing prompts explicitly constrain the model: preserve facts, do not add claims, flag gaps
-- System prompts are versioned alongside the taxonomy
+- All evaluation prompts load precomputed prompt blocks from `data/precomputed/` — no prompt assembly at runtime
+- Output is requested as structured JSON matching the evaluation output schema
+- Reframing prompts constrain the model: preserve facts, do not add claims, flag gaps
+- System prompts are versioned alongside the taxonomy; version is recorded in every evaluation result
+
+---
+
+## GitHub Actions Automation
+
+All pipeline automation runs through GitHub Actions. Streamlit Community Cloud serves the UI only — it runs no background jobs. Every automated operation that writes to the repo uses `GITHUB_TOKEN` with `contents: write` permission. API keys are stored as repository secrets (`GEMINI_API_KEY`, `GUARDIAN_API_KEY`).
+
+**Public repo note:** GitHub Actions is free with unlimited minutes for public repositories. No billing concerns for the POC.
+
+---
+
+### Article Selection: The Input Manifest
+
+Articles to be processed in batch are declared in the repo, making the article set version-controlled alongside the pipeline and results.
+
+**`data/input/article_urls.txt`** — one URL per line; lines starting with `#` are comments:
+```
+# Initial POC subset — Guardian news articles, June 2025
+https://www.theguardian.com/...
+https://www.theguardian.com/...
+# Reuters wire for contrastive pairs
+https://reuters.com/...
+```
+
+**`data/input/batch_config.json`** — optional per-batch configuration:
+```json
+{
+  "batch_id": "poc-initial-100",
+  "description": "Initial 100-article POC run",
+  "model": "gemini-2.0-flash",
+  "framework_version": "v0.1.0",
+  "notes": "Contrastive pairs: Guardian opinion vs Reuters wire on 10 topics"
+}
+```
+
+Articles can be added to `article_urls.txt` by:
+- Editing the file directly in GitHub
+- The Guardian API search in the Streamlit UI writing selected URLs to the file (Wave 2 feature)
+- Manual addition from any other source
+
+The hash-based dedup in `batch_eval.py` means articles already in `data/processed/` are skipped automatically — re-running the workflow after adding new URLs processes only the new ones.
+
+---
+
+### Workflow 1: `batch_eval.yml` — Run Pipeline on Article Set
+
+**Trigger:** `workflow_dispatch` (manual, with inputs) or on push to `data/input/article_urls.txt`
+
+**Inputs (workflow_dispatch only):**
+- `url_file`: path to URL list (default: `data/input/article_urls.txt`)
+- `model_override`: optional model name to override `batch_config.json`
+- `skip_cached`: boolean, default `true` — skip articles already in `data/processed/`
+- `max_articles`: integer cap for the run (useful for test runs; default: unlimited)
+
+**Steps:**
+```yaml
+1. checkout (with token for push-back)
+2. setup-python 3.11
+3. pip install -r requirements.txt (cached)
+4. Verify data/precomputed/ is current for framework_version
+   → if stale, fail fast with message: "Run precompute workflow first"
+5. python scripts/batch_eval.py
+   --url-file ${{ inputs.url_file }}
+   --skip-cached ${{ inputs.skip_cached }}
+   --max ${{ inputs.max_articles }}
+   Env: GEMINI_API_KEY, GUARDIAN_API_KEY
+6. python scripts/build_index.py
+7. git config user.name "github-actions[bot]"
+8. git add data/processed/ data/cache/
+9. git commit -m "batch: evaluate N articles [batch_id] [framework_version]"
+10. git push origin main
+```
+
+**Concurrency:** `concurrency: group: batch-eval` with `cancel-in-progress: false` — prevents two batch runs writing simultaneously. A queued run waits for the running one to finish.
+
+**Rate limiting:** `batch_eval.py` enforces a configurable delay between articles (default: 5 seconds) to stay within Gemini's 30 req/min limit. With ~12 calls/article, each article takes ~1 minute including delays. 100 articles ≈ ~100 minutes. Well within the 6-hour Actions timeout.
+
+---
+
+### Workflow 2: `precompute.yml` — Regenerate Precomputed Artifacts
+
+**Trigger:** On push to `bias_index/taxonomy.json` or any file in `src/refract/prompts/`
+
+**Steps:**
+```yaml
+1. checkout
+2. setup-python
+3. pip install -r requirements.txt (cached)
+4. python scripts/precompute.py
+   → regenerates data/precomputed/ for current taxonomy + framework version
+   → writes bias_blocks/, category_triage_blocks/, recall_probe_blocks/,
+     judge_blocks/, reframe_blocks/, taxonomy_index.json
+   → updates embeddings.npy (bias vectors for Mode B)
+5. git add data/precomputed/
+6. git commit -m "precompute: update artifacts for taxonomy v{version}"
+7. git push origin main
+```
+
+**Important:** The `batch_eval.yml` workflow checks that `data/precomputed/` is current before running. This ensures the pipeline always uses artifacts that match the current taxonomy — never a stale version.
+
+---
+
+### Workflow 3: `build_index.yml` — Rebuild Index and Stats
+
+**Trigger:** Called by `batch_eval.yml` as a final step (not a separate dispatch) or manually via `workflow_dispatch` for reconciliation.
+
+**Steps:**
+```yaml
+1. python scripts/build_index.py
+   → reads all data/processed/{hash}_{version}.json files
+   → rebuilds data/processed/index.json (manifest)
+   → rebuilds data/processed/stats.json (aggregations)
+   → rebuilds data/processed/bias_frequency.json (per-bias hit rates)
+2. git add data/processed/index.json data/processed/stats.json
+              data/processed/bias_frequency.json
+3. git commit -m "index: rebuild after batch [batch_id]"
+4. git push origin main
+```
+
+---
+
+### Workflow 4: `precompute_examples.yml` — Generate Candidate Reference Examples
+
+**Trigger:** `workflow_dispatch` only (manual; human review required before results are used)
+
+**What it does:** For all bias entries in `taxonomy.json` with `examples_status: "pending"`, generates candidate positive, near-miss, and contrast examples via the LLM. Writes to `data/pending_examples/{bias_id}.json`. Does NOT update `taxonomy.json` — human review via the Framework Dashboard UI is required first.
+
+**Steps:**
+```yaml
+1. checkout
+2. setup-python
+3. pip install -r requirements.txt
+4. python scripts/precompute_examples.py
+   --status pending
+   Env: GEMINI_API_KEY
+5. git add data/pending_examples/
+6. git commit -m "examples: generate candidates for N pending bias entries"
+7. git push origin main
+```
+
+---
+
+### What Cannot Be Automated (requires human action)
+
+| Task | Why manual | Where it happens |
+|---|---|---|
+| Adding URLs to `article_urls.txt` | Article selection is a curatorial decision | Edit file in GitHub or via UI (Wave 2) |
+| Reviewing pending reference examples | Human verification is the whole point | Framework Dashboard UI |
+| QA review of evaluation results | Human judgment on TP/FP verdicts | QA Review page in UI |
+| Taxonomy entry updates | Requires cog psych literature check | Edit `taxonomy.json` directly |
+| Framework version bumps | Deliberate decision, triggers precompute | Manual edit to `config.py` + commit |
 
 ---
 
