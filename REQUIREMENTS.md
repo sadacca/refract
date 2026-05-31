@@ -212,25 +212,38 @@ The index is the direct input to the LLM evaluation pipeline:
 ### Key Modules
 ```
 refract/
-├── app.py                  # Streamlit entrypoint
+├── app.py                        # Streamlit entrypoint
 ├── bias_index/
-│   ├── taxonomy.json       # Canonical bias taxonomy
-│   └── index.py            # Load, search, display taxonomy
+│   ├── taxonomy.json             # Canonical bias taxonomy (versioned)
+│   ├── CHANGELOG.md              # Taxonomy change history
+│   └── index.py                  # Load, search, display taxonomy
 ├── evaluator/
-│   ├── article_fetch.py    # URL → clean text
-│   ├── bias_eval.py        # LLM bias evaluation pipeline
-│   └── prompts.py          # Structured prompts for eval and reframe
+│   ├── article_fetch.py          # URL → clean text
+│   ├── bias_eval.py              # LLM bias evaluation pipeline
+│   └── prompts/
+│       ├── system_prompt.txt     # Versioned system prompt template
+│       ├── taxonomy_injection.py # Builds taxonomy block from taxonomy.json at runtime
+│       └── reframe_prompt.txt    # Versioned reframing prompt template
 ├── reframer/
-│   └── reframe.py          # LLM reframing pipeline
+│   └── reframe.py                # LLM reframing pipeline
+├── eval/
+│   ├── test_set/                 # Labeled articles for meta-evaluation
+│   │   ├── article_001.json      # Article text + gold-standard annotations
+│   │   └── ...
+│   ├── scoring.py                # Precision/recall/F1 scoring against test set
+│   ├── results/                  # Stored scores per framework version
+│   │   └── v1.0.0.json
+│   └── feedback.py               # Human feedback collection and aggregation
 ├── ui/
 │   ├── pages/
 │   │   ├── 1_bias_index.py
 │   │   ├── 2_article_eval.py
-│   │   └── 3_reframe.py
-│   └── components.py       # Shared UI components
-├── config.py               # App config, API key management
-├── requirements.txt        # Python dependencies
-└── .env.example            # Environment variable template
+│   │   ├── 3_reframe.py
+│   │   └── 4_framework_dashboard.py
+│   └── components.py             # Shared UI components
+├── config.py                     # App config, API key management, version tracking
+├── requirements.txt              # Python dependencies
+└── .env.example                  # Environment variable template
 ```
 
 ### LLM Prompt Design Principles
@@ -239,29 +252,151 @@ refract/
 - Reframing prompts explicitly constrain the model: preserve facts, do not add claims, flag gaps
 - System prompts are versioned alongside the taxonomy
 
+---
+
+## Evaluation Framework
+
+### Overview
+
+The evaluation pipeline is not a one-off LLM call — it is a **versioned, tunable prompt framework** that can be applied consistently across articles, publications, and GenAI outputs. The framework must be:
+- **Reproducible:** the same article + same framework version produces the same evaluation
+- **Auditable:** every evaluation records which prompt version and taxonomy version were used
+- **Improvable:** there is a defined process for measuring framework quality and iterating on it
+
+---
+
+### The Standard Evaluation Prompt
+
+The evaluation prompt is a structured template, not freeform instructions. It has three layers:
+
+**Layer 1 — System prompt (stable)**
+Sets the evaluator role, grounds the task in cognitive psychology (not political/ideological framing), defines the output contract (structured JSON), and states the evaluation constraints:
+- Only identify biases with textual evidence; do not infer intent
+- Quote the specific excerpt, not a paraphrase
+- Distinguish between the author exhibiting a bias vs. the author reporting on a biased source
+- Flag low-confidence detections separately; do not suppress them
+
+**Layer 2 — Taxonomy injection (versioned per taxonomy release)**
+For each bias in the active taxonomy, injects the `identification_criteria` and `linguistic_signals` fields as a structured reference block. This is the mechanism by which taxonomy improvements automatically improve evaluations — the prompt is regenerated from the taxonomy JSON at runtime, not hardcoded.
+
+**Layer 3 — Article context (per-call)**
+The article text, source metadata, and any user-supplied context (e.g., "this is an opinion piece" vs. "this is a reported news article") that affects how the evaluation criteria are applied.
+
+**Prompt versioning:**
+- Each combination of system prompt template version + taxonomy version is assigned a `framework_version` identifier (e.g., `v1.2.0`)
+- All evaluation results record their `framework_version`
+- When the framework changes, prior evaluations are not retroactively updated — they remain as-is with their version tag, enabling comparison across versions
+
+---
+
 ### Evaluation Output Schema (JSON)
+
 ```json
 {
   "article_id": "string",
   "source_url": "string | null",
   "evaluated_at": "ISO8601 timestamp",
+  "framework_version": "string",
+  "taxonomy_version": "string",
+  "model": "string",
   "bias_instances": [
     {
+      "bias_id": "string",
       "bias_name": "string",
       "category": "string",
       "excerpt": "string",
       "explanation": "string",
       "confidence": "high | medium | low",
-      "severity": "high | medium | low"
+      "severity": "high | medium | low",
+      "author_exhibiting": true,
+      "source_reporting": false
     }
   ],
   "summary": {
     "dominant_categories": ["string"],
     "overall_severity": "high | medium | low",
-    "bias_count": "integer"
+    "bias_count": "integer",
+    "low_confidence_count": "integer"
   }
 }
 ```
+
+---
+
+### Meta-Evaluation: Assessing Assessment Quality
+
+The system must support evaluation of its own evaluations. This is how framework quality is measured and how iteration is grounded in evidence rather than intuition.
+
+#### Ground Truth Dataset
+
+- A curated set of **labeled test articles** stored in `eval/test_set/`
+- Each test article has a human-authored gold-standard annotation:
+  - Which biases are present (by `bias_id`)
+  - Which excerpts exhibit each bias
+  - Confidence and severity ratings
+  - Rationale for each annotation
+- Test set is versioned; new articles can be added but existing annotations are not modified without a changelog entry
+- Initial test set target: 20–30 articles spanning categories, bias types, and publication styles
+
+#### Automated Scoring
+
+For each framework version run against the test set, compute:
+
+| Metric | Description |
+|---|---|
+| **Precision** | Of the biases the framework detected, what fraction match the gold standard? |
+| **Recall** | Of the biases in the gold standard, what fraction did the framework detect? |
+| **F1** | Harmonic mean of precision and recall |
+| **Excerpt match rate** | When a bias is correctly identified, does the quoted excerpt match the gold-standard excerpt (fuzzy match)? |
+| **Category accuracy** | When a bias instance is detected, is the category label correct? |
+| **False positive rate** | How often does the framework flag a bias that is not in the gold standard? |
+| **Confidence calibration** | Are high-confidence detections more likely to be correct than low-confidence ones? |
+
+Scores are stored in `eval/results/{framework_version}.json` and displayed in the UI's framework dashboard.
+
+#### Human Feedback Loop
+
+In addition to the automated test set, the UI supports lightweight human feedback on live evaluations:
+- User can mark any detected bias instance as: **Agree / Disagree / Partially agree**
+- User can add a note explaining disagreement
+- Feedback is stored locally (MVP) or in the database (Phase 2)
+- Aggregate feedback per bias type surfaces in the framework dashboard as a signal for which bias categories have low human agreement
+
+---
+
+### Framework Iteration Process
+
+Improvements to the framework follow a defined cycle to prevent regressions:
+
+1. **Identify a gap** — from meta-evaluation scores, human feedback, or manual review, identify a specific failure mode (e.g., "framework misses availability cascade in economic reporting" or "too many false positives for narrative fallacy")
+
+2. **Hypothesize a fix** — the fix is one of:
+   - Update a taxonomy entry (`identification_criteria`, `linguistic_signals`, or `common_confusions`)
+   - Update the system prompt template
+   - Add new test articles to the test set that cover the gap
+
+3. **Implement on a branch** — taxonomy and prompt changes are made on a feature branch; the `framework_version` minor version is incremented
+
+4. **Run the test set** — automated scoring is run against the full test set on the new version; results are compared to the prior version
+
+5. **Accept or reject** — the change is accepted if overall F1 improves or holds, and the targeted failure mode improves; it is rejected (or revised) if it causes regressions elsewhere
+
+6. **Merge and tag** — merged changes increment the version; a changelog entry describes what changed and why
+
+This process applies to both taxonomy changes and prompt template changes. It ensures the framework improves systematically and that every change is traceable to a specific quality signal.
+
+---
+
+### Framework Dashboard (UI)
+
+A dedicated page in the app displaying:
+- Current `framework_version` and `taxonomy_version` in use
+- Test set scores for the current version (precision, recall, F1 per bias category)
+- Version history: scores across all prior framework versions (trend chart)
+- Human feedback summary: which bias categories have the most disagreements
+- Links to the test set, taxonomy JSON, and prompt templates (read-only in UI, editable in repo)
+
+This page is the operational home for anyone iterating on the framework — it surfaces where the framework is strong, where it is weak, and whether a proposed change helped.
 
 ---
 
