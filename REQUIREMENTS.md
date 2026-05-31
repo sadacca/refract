@@ -749,7 +749,116 @@ Find two articles covering the same news event — one from a source with a know
 
 ---
 
-## Success Metrics
+## UI Roadmap
+
+The UI is built in Streamlit multipage format. Pages are delivered in two waves: the pipeline MVP gets the minimum UI needed to run and inspect evaluations; the UI MVP adds the article selection, QA, and global review surfaces that make the tool usable beyond a single-article demo.
+
+---
+
+### Wave 1 — Pipeline MVP UI (needed to ship the POC)
+
+These pages are the minimum needed to demonstrate the pipeline end-to-end.
+
+**Page 1 — Article Evaluation (`2_article_eval.py`)**
+
+The core page. Everything else depends on this working.
+
+- **Input:** URL text field + "Fetch & Evaluate" button; secondary text area for paste input
+- **Status display:** Step-by-step progress as passes run (Pass 1 → Pass 2 → Pass 3 → Pass 4); spinner per pass with pass name and model shown
+- **Cache indicator:** If the article was previously evaluated, show "Loaded from cache (v{framework_version})" with option to re-run
+- **Results — bias instance cards:** One card per bias type detected. Each card shows:
+  - Bias name, category badge, severity indicator
+  - All occurrences listed: each with the quoted excerpt highlighted, paragraph location, text region label, confidence
+  - `author_exhibiting` / `source_reporting` label
+  - `recall_probe` flag if found by Pass 3
+  - Judge verdict (confirmed / suspect) if Pass 4 ran
+- **Results — article view:** Original article text rendered with all detected excerpts highlighted inline, color-coded by bias category. Clicking a highlight opens the corresponding bias card.
+- **Results — summary bar:** `bias_type_count`, `total_occurrences`, dominant categories, by-region breakdown
+- **Export:** Download full evaluation JSON; download summary as markdown
+
+**Page 2 — Article Reframe (`3_reframe.py`)**
+
+Only accessible after an evaluation has run on the current article.
+
+- **Mode selector:** Neutralize / Steelman / Annotated (radio buttons)
+- **Reframe button:** Runs the reframe pipeline; shows spinner
+- **Side-by-side view:** Original text (left) with bias highlights; reframed text (right)
+- **Bias coverage indicator:** Which of the detected biases were addressed in the reframe
+- **Export:** Download reframed text as plain text or markdown
+
+---
+
+### Wave 2 — UI MVP (article selection, QA, global review)
+
+These pages make the tool usable as a research instrument, not just a demo. Build after the pipeline is stable.
+
+**Page 3 — Article Browser & Selection (`5_article_browser.py`)**
+
+Allows users to find and queue articles without manual URL hunting.
+
+- **Guardian API search:** Search field, date range, section filter (news / opinion / world / etc.)
+- **Results list:** Article title, section, date, word count; checkbox to select for evaluation
+- **Batch queue:** Selected articles are added to an evaluation queue; "Run Queue" button triggers `batch_eval.py` on the selected set
+- **Previously evaluated indicator:** Articles already in `data/processed/index.json` are flagged so the user doesn't re-run them
+- **Manual URL add:** Still available as a fallback for non-Guardian sources
+
+**Page 4 — QA Review (`6_qa_review.py`)**
+
+Human review interface for evaluating evaluation quality. This is where the eval log lives in the UI.
+
+- **Queue view:** Articles evaluated in the current session (or all articles, filterable by date/source/framework version)
+- **Per-article review panel:**
+  - Original article text with all highlights
+  - Each bias instance card with a verdict input: **Confirm / Reject / Partially confirm** + freetext note
+  - Judge verdicts shown alongside (if Pass 4 ran) so human can see where they agree/disagree with the LLM judge
+- **Running tally:** TP / FP / partial count for the current review session
+- **Save & export:** Writes review verdicts to `eval/test_set/{article_id}_review.json`; exportable as CSV
+
+**Page 5 — Global Article Review & Stats (`7_global_review.py`)**
+
+The 100-article view. Reads from `data/processed/stats.json` and `index.json`.
+
+- **Corpus summary:** Total articles evaluated, date range, sources represented, framework version(s) used
+- **Bias prevalence chart:** Bar chart of bias types by frequency across all articles; filterable by source, date range, article type
+- **Category heatmap:** Articles × bias categories, colored by occurrence count — shows which categories cluster together
+- **Source comparison:** Side-by-side bias profiles for multiple sources (only appears when ≥2 sources have ≥5 articles each)
+- **Per-article table:** Sortable list of all evaluated articles with columns for bias_type_count, total_occurrences, dominant_category, source, date; click row to open that article's evaluation in Page 1
+- **Contrastive pair finder:** Given a topic keyword, surfaces article pairs (Guardian opinion vs. wire service) for manual comparison
+- **Export:** Download stats.json; download filtered subset as CSV
+
+**Page 6 — Bias Index (`1_bias_index.py`)**
+
+Already in the module layout. Browsable taxonomy reference.
+
+- Searchable card view of all bias entries
+- Filter by category, status (canonical / provisional), examples_status (verified / pending)
+- Full entry detail panel: definition, mechanism, identification criteria, linguistic signals, reference examples, sources
+- **Framework Dashboard tab** (within this page or as a sub-page):
+  - Current framework_version and taxonomy_version
+  - examples_status summary: how many entries have verified examples vs. pending
+  - Pending example review queue (from `data/pending_examples/`) — accept/reject interface for the precompute human review step
+  - Eval scores per framework version (post-POC, once scoring.py exists)
+  - bias_frequency.json chart: which biases appear most in the corpus
+
+---
+
+### Page Build Order
+
+```
+Pipeline MVP (Wave 1):
+  1. Page 1 — Article Evaluation     ← build first; everything depends on this
+  2. Page 2 — Article Reframe        ← build second; depends on Page 1 output
+
+UI MVP (Wave 2):
+  3. Page 6 — Bias Index             ← can build in parallel with pipeline MVP
+  4. Page 4 — QA Review              ← build after Page 1 is stable
+  5. Page 5 — Global Review          ← build after batch_eval.py produces data
+  6. Page 3 — Article Browser        ← build last; Guardian API integration
+```
+
+**Note on Page 1 priority:** The highlighted article view (original text with inline bias highlights using `char_start`/`char_end` offsets) is the single most important UI element. It makes bias detection tangible and reviewable in a way that a card list alone cannot. This should be the first component built and the first thing tested on real articles.
+
+---
 - Taxonomy covers all major cognitive bias categories recognized in the literature
 - Evaluation correctly identifies bias type and excerpt with >80% agreement against human-labeled test set
 - Reframes preserve factual content (verifiable against original) in >95% of cases
