@@ -471,7 +471,7 @@ NewsAPI and GDELT deferred: NewsAPI free tier returns headlines only (no full te
 - **Severity rating:** Graduated (high/medium/low) recorded as a separate field, populated by the evaluation model but treated as informational rather than a detection gate. Used during eval framework iteration to study where the model's severity judgments align or diverge from human judgment — i.e., severity is a calibration target, not a classification output.
 - Schema: `detected: true`, `severity: "high" | "medium" | "low"` — both fields always present; severity is always recorded but only used analytically once enough examples exist to calibrate against.
 
-**Q5 — Reframe quality flagging:** Should reframes be explicitly labeled as AI-generated in the UI, and should there be a confidence indicator on the reframe quality?
+**Q5 — Reframe quality flagging (RESOLVED):** No AI labeling, no confidence indicator. The reframe feature is a prompt that attempts a rewrite — the output speaks for itself. Keep the UI simple: show the reframed text, let the user judge it.
 
 **Q6 — Prompt context window management (RESOLVED):** *(see full resolution above)*
 
