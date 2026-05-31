@@ -409,11 +409,38 @@ This page is the operational home for anyone iterating on the framework — it s
 ---
 
 ## Open Questions / Decisions Needed
-1. **Taxonomy source:** Use an existing codex (e.g., Wikipedia's cognitive bias codex, ~180 biases) as the base, or curate a smaller focused set (~30-50) for journalism-specific relevance?
-2. **LLM model selection:** Claude Sonnet (faster/cheaper) vs. Opus (more nuanced) — or make it user-configurable?
-3. **News API:** Use a service (NewsAPI, GDELT) for multi-article fetch, or require manual URL input for MVP?
-4. **Severity scoring:** Binary (present/absent) or graduated scale for MVP?
-5. **Reframe quality:** Should reframes be flagged as AI-generated in the UI?
+
+### Resolved
+
+**Q1 — Taxonomy source:** Start from the full Wikipedia Cognitive Bias Codex (~180 biases) as the seed list. Filter for textual detectability (see 1a), then apply three categorization dimensions to each retained entry:
+
+1. **Psychological category** — grouping by shared mechanism, behavioral pattern, or neural underpinning (e.g., all availability-family biases share the same fluency/retrieval mechanism; attribution biases share causal reasoning errors). This is the primary grouping used in the evaluation pipeline.
+2. **Wikipedia prominence** — flag whether the bias has its own dedicated Wikipedia article (vs. being a redirect or subsection). Biases with dedicated articles are better documented, more likely to have primary source citations, and more recognizable to non-specialist users. Use this as a proxy for "well-established enough to include in MVP."
+3. **Literature prominence** — score each bias by frequency of mention in psychology paper titles and abstracts (via a title search of PsycINFO, Google Scholar, or Semantic Scholar). Biases with higher literature presence are better validated, more likely to have clear identification criteria, and more worth investing in rich entries. Use this to prioritize enrichment order.
+
+The combination of these three signals lets us tier the taxonomy: biases that are psychologically grouped, Wikipedia-prominent, and literature-prominent get full entries first; others are marked provisional and enriched over time.
+
+---
+
+### Still Open
+
+**Q2 — LLM model selection:** Claude Sonnet (faster/cheaper) vs. Opus (more nuanced) — or make it user-configurable per evaluation type?
+
+**Q3 — News API:** Use a service (NewsAPI, GDELT) for Phase 2 multi-article fetch, or require manual URL input for MVP and defer API integration?
+
+**Q4 — Severity scoring:** Binary (present/absent) or graduated scale (high/medium/low) for MVP? Graduated is more informative but harder to calibrate without a larger test set.
+
+**Q5 — Reframe quality flagging:** Should reframes be explicitly labeled as AI-generated in the UI, and should there be a confidence indicator on the reframe quality?
+
+**Q6 — Prompt context window management:** With ~180 biases, injecting all `identification_criteria` and `linguistic_signals` into every evaluation prompt may exceed practical context limits or degrade model attention. Decide between: (a) inject all biases always, (b) inject only biases relevant to the article type (e.g., filter by category), or (c) a retrieval step that pre-selects the most likely biases before the main evaluation call. This has significant implications for latency, cost, and recall.
+
+**Q7 — Test set annotation process:** Gold-standard annotations require human judgment. Who annotates — single expert, multiple annotators? What is the target inter-rater reliability threshold (Cohen's kappa)? Disagreements between annotators need a resolution protocol. Without this defined, the test set has no credibility as a benchmark.
+
+**Q8 — Article type differentiation:** Should the evaluation prompt behave differently for news reports vs. opinion pieces vs. headlines vs. social media posts? The author-exhibiting vs. source-reporting distinction (already in the schema) becomes especially important for opinion content. Does the system need an article-type classifier as a preprocessing step?
+
+**Q9 — Reframe evaluation rubric:** How is reframe quality measured beyond "no new factual claims"? Candidates: factual preservation score, bias reduction score (re-evaluate the reframe and compare), readability, and completeness. Need a rubric before the meta-evaluation framework can assess reframes as well as evaluations.
+
+**Q10 — Taxonomy governance:** Who can propose changes to the taxonomy? Is a git PR sufficient, or is there a review step (e.g., second human reviewer, comparison against a primary source)? Without a process, the taxonomy drifts without accountability.
 
 ---
 
