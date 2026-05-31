@@ -1,0 +1,58 @@
+{
+  "confirmation-bias": {
+    "name": "Confirmation Bias",
+    "category": "Confirmation & Belief Perseverance",
+    "subcategory": "Selective Information Processing",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "high"
+  },
+  "framing-effect": {
+    "name": "Framing Effect",
+    "category": "Framing & Anchoring",
+    "subcategory": "Presentation Effects",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "high"
+  },
+  "availability-heuristic": {
+    "name": "Availability Heuristic",
+    "category": "Availability & Salience",
+    "subcategory": "Fluency-Based Judgment",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "high"
+  },
+  "anchoring": {
+    "name": "Anchoring",
+    "category": "Framing & Anchoring",
+    "subcategory": "Numerical Reference Points",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "fundamental-attribution-error": {
+    "name": "Fundamental Attribution Error",
+    "category": "Attribution & Causation",
+    "subcategory": "Person vs. Situation Attribution",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "high"
+  },
+  "negativity-bias": {
+    "name": "Negativity Bias",
+    "category": "Affect & Emotional Reasoning",
+    "subcategory": "Asymmetric Valence Weighting",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "in-group-bias": {
+    "name": "In-Group Bias",
+    "category": "In-Group & Social",
+    "subcategory": "Group Identity Effects",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "high"
+  }
+}

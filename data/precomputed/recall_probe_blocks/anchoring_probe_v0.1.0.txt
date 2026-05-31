@@ -1,0 +1,8 @@
+Bias to probe: Anchoring
+Definition: The first numerical value or piece of information encountered (the 'anchor') has a disproportionate influence on subsequent estimates, judgments, and interpretations. Adjustment from the anchor is typically insufficient.
+Identification criteria:
+  - The first number mentioned in an article establishes the frame through which all subsequent numbers are interpreted
+  - A high (or low) initial figure is presented and subsequent discussion is structured as departures from that number rather than from a neutral baseline
+  - Price, cost, or quantity negotiations are described starting from one party's opening position, which then frames the outcome as a concession or a win relative to that anchor
+  - A statistic is cited that is technically accurate but selected because it makes a figure seem large (or small) relative to a less prominent alternative representation
+  - Historical comparison is anchored to a specific prior period that makes the current figure appear unusually high or low

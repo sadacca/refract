@@ -1,0 +1,8 @@
+Bias to probe: Availability Heuristic
+Definition: Judging the likelihood or frequency of an event by how easily examples come to mind. Vivid, recent, emotionally salient, or heavily reported events are overestimated in frequency; boring, distant, or underreported events are underestimated.
+Identification criteria:
+  - A rare event is described as representative or prevalent based on recent high-profile cases rather than statistical base rates
+  - The article's implicit probability estimate for an event is driven by the number of examples cited rather than by population-level statistics
+  - Anecdotes about vivid individual cases are used to support claims about frequency or typicality without base rate data
+  - The article covers an event that has recently been heavily in the news and presents it as an escalating trend without trend data
+  - Risk is described in absolute terms (number of cases) without reference to the denominator (total population, total incidents of similar events)

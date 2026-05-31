@@ -1,0 +1,29 @@
+Reframe mode: steelman
+
+[Confirmation Bias]
+Strategy: Identify the contested question at the center of the piece. Ensure sources representing each substantive position on that question receive roughly proportional space. Restate opposing claims in their strongest form, not in a strawman or dismissive framing. Add a paragraph explicitly acknowledging the strongest evidence against the article's implicit or explicit thesis.
+Example: The reframed financial piece would include a full paragraph from a skeptical economist explaining the specific indicators driving their caution — inventory levels, affordability ratios, historical correction patterns — alongside the bullish case, letting readers evaluate both.
+
+[Framing Effect]
+Strategy: Present both the absolute and relative form of any statistic. Name the reference point being used for comparisons and note that alternative reference points exist. Use terminology that is specific and descriptive rather than evaluatively loaded. Where gain/loss framing is being applied, state the same fact in the opposite frame and let the reader decide which better represents the reality.
+Example: The drug story reframed: 'The drug reduced heart attack risk from 2% to 1% — a 50% relative reduction, or 1 fewer heart attack per 100 patients over five years. Researchers noted the absolute risk reduction is modest; the clinical significance depends on the patient's individual risk profile.'
+
+[Availability Heuristic]
+Strategy: Anchor any frequency or probability claim in base rate data. When using an anecdote, explicitly note that it is illustrative and not representative of the broader pattern. Provide the denominator for any count (rate per population, not raw number). Contextualize recent events against the longer historical trend. Quote risk communication experts who specialize in presenting probability accurately.
+Example: The plane crash story reframed: 'The crash is the second fatal commercial aviation accident this year. Aviation safety experts note that 2025 commercial aviation fatality rates remain among the lowest on record — approximately 0.07 deaths per billion passenger miles — and that individual accidents, while tragic, do not indicate a systemic trend.'
+
+[Anchoring]
+Strategy: State multiple reference points for any numerical claim — not just the anchor but also historical averages, peer comparisons, and base rates. When covering a negotiation, identify whose opening position is functioning as the anchor and note that the anchor was strategically chosen. Present the final number relative to a neutral baseline (e.g., inflation, population growth, peer benchmarks) in addition to relative to the opening position.
+Example: The budget story reframed: 'The city's revised $200 million deficit, down from an initial projection of $500 million, still represents the largest structural deficit in over a decade and would require cutting approximately 8% of discretionary spending to close, according to city finance officials.'
+
+[Fundamental Attribution Error]
+Strategy: For any failure or misconduct story, explicitly examine structural and situational factors alongside individual ones. Use a 'what would have happened with a different person in the same situation?' frame. Ensure that systemic causes receive at least as much space as individual causes. Attribute outcomes to the combination of individual agency and contextual constraints rather than to character alone.
+Example: The school district story reframed to include: per-pupil funding data by district, comparison to state-average funding, research on the relationship between poverty concentration and test performance, and expert context on what superintendents can and cannot change given state funding formulas — alongside the management and contract coverage.
+
+[Negativity Bias]
+Strategy: Apply equal treatment to positive and negative findings of equivalent scale. If a negative trend receives a headline and multiple paragraphs, an equally-sized positive trend in the same dataset should receive proportional coverage. Describe losses and gains in equivalent terms — if a loss gets vivid language and named examples, a gain of the same magnitude should too. Present rates and magnitudes for negative events alongside positive context.
+Example: The crime story reframed: 'Crime statistics released today show mixed results: violent crime fell 8% — the largest single-year drop in over a decade — while property crime rose 3%, continuing a trend police attribute to catalytic converter theft. The net effect was a 2% decline in total crimes.'
+
+[In-Group Bias]
+Strategy: Apply equal humanizing detail across groups. If one actor is named and given family context, apply the same treatment to the other. Use parallel verb construction for parallel actions. Ensure equal source space across perspectives. Explicitly name the in-group/out-group structure and note where asymmetric treatment appears. Apply FAE correction symmetrically: explain situational factors for all actors.
+Example: The conflict story reframed to use parallel framing for both the airstrike and the response: same specificity on casualties, same engagement with civilian/combatant distinctions, same space for sources from both sides to describe their action and its context.
