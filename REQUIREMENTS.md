@@ -230,12 +230,135 @@ The balt311-service-equity app (`github.com/sadacca/balt311-service-equity`) is 
 - Streamlit Community Cloud reads directly from the repo's `main` branch at runtime
 - Processed/cached artifacts committed to `data/` in the repo — Refract equivalent: committed `taxonomy.json` and optionally cached evaluation results for the demo dataset
 
+### API Access — What's Actually Free
+
+**Anthropic API:** Claude Pro ($20/mo) is a chat subscription — it does **not** include API access or credits. API is billed separately at `console.anthropic.com`. New accounts receive a small starter credit on signup (~$5), but there is no ongoing free tier. For a hobby POC this is the primary cost: Sonnet 3.5 runs ~$3/MTok input, ~$15/MTok output; a 2,000-word article evaluation costs roughly $0.01–0.03 per article. 100 articles ≈ $1–3 total.
+
+**Free LLM API options (viable for Refract):**
+
+| Provider | Free tier | Models | Structured JSON | Notes |
+|---|---|---|---|---|
+| **Google Gemini** | 1,500 req/day, 1M token context | Gemini 2.0 Flash | Yes | Best free option; verify current limits at ai.google.dev before relying on them |
+| **Groq** | 1,000 req/day, 30 req/min | Llama 3.1 70B, Mixtral 8x7B | Yes | Fastest inference; 70B model capable enough for bias detection |
+| **OpenRouter** | $0/M token free models | Llama 3.1 8B, Qwen 2.5 72B | Varies by model | Routes to community-hosted models; no credit card |
+
+**Recommended approach:** Use Gemini 2.0 Flash (free, 1,500 req/day) as the primary evaluator for development and the 100-article run. Switch to Claude Sonnet for production quality comparisons once you have a baseline. Architect the LLM client behind an abstraction so the model is swappable via config, not code changes.
+
+**Guardian API:** Free, 500 req/day, no credit card. Key at `open-platform.theguardian.com`.
+
+**trafilatura:** Local Python library, no API, no cost.
+
 ### Stack
-- **Frontend:** Streamlit
-- **LLM Backend:** Anthropic Claude API (claude-sonnet or claude-opus, configurable)
-- **Article Fetching:** `newspaper3k` or `trafilatura` for URL parsing
-- **Data Storage (MVP):** In-memory / session state; JSON files for bias taxonomy
-- **Data Storage (Phase 2):** SQLite or Postgres for article cache and evaluation history
+- **Frontend:** Streamlit (Community Cloud deployment)
+- **LLM Backend:** Configurable — Gemini 2.0 Flash (free dev/POC), Claude Sonnet/Opus (production quality); abstracted behind a single client interface
+- **Article Fetching:** `trafilatura` for URL scraping; Guardian API for programmatic search
+- **Data Storage:** JSON files committed to repo (see Data Persistence below)
+- **Automation:** GitHub Actions for batch pipeline runs
+
+### End-to-End Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  INPUT                                                              │
+│  User pastes URL  ──or──  Guardian API search  ──or──  batch list  │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  INGEST  (src/refract/ingest.py)                                    │
+│  trafilatura fetches and cleans article text                        │
+│  Guardian API returns structured article JSON with metadata         │
+│  Output: article record { url, text, title, date, source, hash }   │
+│  Hash checked against data/processed/ — skip if already evaluated  │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  EVALUATION  (src/refract/bias_eval.py)                             │
+│  Pass 1: Category classification (LLM, small prompt)               │
+│  Pass 2: Bias identification for flagged categories (LLM)          │
+│  Pass 3: Recall probes for undetected categories (LLM)             │
+│  Pass 4: LLM judge review of detections (different model/tier)     │
+│  Output: evaluation JSON (schema defined in Evaluation Framework)  │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  PERSIST  (every article, no exceptions)                            │
+│  Write to data/processed/{article_hash}.json                        │
+│  Append to data/processed/index.json (manifest of all evaluations) │
+│  On GitHub Actions runs: git commit + push the new files            │
+│  On Streamlit UI runs: files written locally; user can download     │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │
+                      ┌────┴─────┐
+                      │          │
+                      ▼          ▼
+              ┌──────────┐  ┌────────────────┐
+              │  REFRAME │  │  DISPLAY / STATS│
+              │(optional)│  │                │
+              │ Pass eval │  │ Bias cards     │
+              │ results + │  │ Prevalence     │
+              │ article   │  │ charts         │
+              │ to LLM    │  │ Category       │
+              │ reframe   │  │ breakdown      │
+              │ prompt    │  │ Judge verdicts │
+              └──────────┘  └────────────────┘
+```
+
+**Key invariant:** Every article that completes evaluation is persisted. The pipeline never discards a processed article. Re-running the UI on the same URL returns the cached result from `data/processed/` without an API call.
+
+---
+
+### Data Persistence Strategy
+
+Every evaluated article is a permanent asset. The repo is the database for the POC.
+
+**Per-article record** (`data/processed/{article_hash}.json`):
+```json
+{
+  "article_id": "sha256 of url+text",
+  "url": "string",
+  "title": "string",
+  "source": "string",
+  "fetched_at": "ISO8601",
+  "article_text": "string",
+  "word_count": "integer",
+  "evaluation": { ... },
+  "judge_review": { ... },
+  "reframe": { "mode": "string", "text": "string" }
+}
+```
+
+**Manifest** (`data/processed/index.json`) — lightweight index of all evaluations, no article text:
+```json
+[
+  {
+    "article_id": "string",
+    "url": "string",
+    "source": "string",
+    "fetched_at": "ISO8601",
+    "framework_version": "string",
+    "bias_count": "integer",
+    "dominant_categories": ["string"],
+    "word_count": "integer"
+  }
+]
+```
+
+The manifest is what the stats page and Framework Dashboard read — it's fast to load and query without pulling all article text into memory. Full records are lazy-loaded only when a specific article is opened.
+
+**GitHub Actions automation:**
+- `batch_eval.yml`: Triggered manually (workflow_dispatch) or on schedule. Reads a URL list from `data/input/batch_urls.txt`, runs `scripts/batch_eval.py`, commits new files in `data/processed/` to main. Uses repo secrets for API keys.
+- `update_index.yml`: Rebuilds `index.json` from all files in `data/processed/` — run after any batch or as a separate reconcile step.
+
+**What this gives you over time:**
+- Every article ever evaluated is replayable with a different framework version
+- The 100-article stats run is just a query over `index.json`
+- Re-evaluating all articles with a new framework version is a batch job, not a rebuild from scratch
+- The dataset grows automatically every time anyone uses the UI and hits a new URL
+
+---
 
 ### Key Modules
 ```
