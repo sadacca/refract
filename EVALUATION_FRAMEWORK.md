@@ -261,43 +261,150 @@ Results stored as `eval/results/{framework_version}_{mode}.json`.
 
 ## Evaluation Judges
 
-Three judge configurations are supported, selectable per evaluation session:
+### What the Research Says
 
-### 1. Pure LLM Judge
+The LLM-as-judge literature has matured significantly since 2023. Key findings directly relevant to Refract:
 
-A second LLM call reviews the evaluation output against the article text:
+**Known failure modes of LLM judges:**
+- **Position bias** — judges systematically prefer candidates presented first or last; swapping presentation order in pairwise tasks shifts accuracy by >10%
+- **Verbosity bias** — longer, more formal outputs score higher regardless of correctness; artifact of RLHF training
+- **Self-enhancement bias** — an LLM judge scores its own outputs higher than equally good outputs from other models; bias strength correlates linearly with self-recognition capability (NeurIPS 2024)
+- **Criterion conflation / halo effect** — when a judge is asked to evaluate multiple criteria in a single call, scores on one criterion bleed into others
 
+**What works:**
+- **Rubric-anchored, criterion-separated evaluation** — evaluating each criterion in a separate call (or at minimum, separate prompt sections) substantially reduces halo effects and improves calibration. "RULERS" (2025) shows locked rubrics with evidence-anchored scoring produce significantly more robust evaluations than vague quality prompts
+- **Ensemble / panel judging** — multi-model panels outperform single judges by 8–15% reliability; the gain comes from error independence across models. Majority vote captures most of the gain; minority-veto (any single dissent triggers "uncertain") increases true negative rate
+- **Cross-model judging** — always use a different model family as judge than was used for evaluation; same-model judging inflates scores and introduces self-enhancement bias
+- **Few-shot calibration** — providing the judge with 3–5 scored examples from the test set, with balanced verdicts, substantially improves consistency. Without calibration examples, judge base-rate prior dominates
+- **Specialized evaluator models** — Prometheus 2 (open source, EMNLP 2024) is specifically trained for rubric-conditioned evaluation and achieves higher human correlation than GPT-4 on structured evaluation tasks. Worth considering as the judge model for cost-sensitive bulk evaluation
+
+**The ceiling on LLM-only judgment:** In specialized domains, LLM judges agree with human experts only 60–70% of the time (vs. >80% on general tasks). Cognitive bias detection is a specialized domain. LLM-only judgment is therefore appropriate for fast iteration and bulk review, but cannot replace human oversight for test set construction or framework validation.
+
+---
+
+### Judge Design Principles for Refract
+
+Given the above, the Refract judge layer is designed around five principles:
+
+1. **One criterion per call** — the judge never evaluates excerpt validity, category correctness, explanation quality, and confidence calibration in a single call. Each is a separate evaluation with its own rubric section, to prevent halo effects.
+
+2. **Locked rubric with evidence anchoring** — each criterion is scored against an explicit definition of what constitutes each score level, with a required evidence quote from the article. The judge cannot return a score without citing textual evidence.
+
+3. **Cross-model by default** — the evaluator and judge are never the same model. Recommended pairing: evaluate with Claude Sonnet (speed), judge with a different provider or Prometheus 2 (independence).
+
+4. **Few-shot calibration from the test set** — for each judging session, inject 2–3 examples from the test set with known correct verdicts, balanced across agree/disagree. This anchors the judge's scoring distribution.
+
+5. **Ensemble for test set, single judge for bulk** — test set annotation uses a 3-model panel with majority vote (and minority-veto for uncertain flags); bulk/production review uses a single judge for cost reasons, with periodic audits against the panel result to detect drift.
+
+---
+
+### Judge Configuration A — Single LLM Judge (Production / Bulk)
+
+Used in Mode B bulk evaluation and for fast iteration during framework development.
+
+Each criterion is evaluated in a **separate structured call**:
+
+**Call 1 — Excerpt validity**
 ```
-You are a bias evaluation reviewer. Given:
-- The original article
-- A set of detected bias instances (each with bias name, excerpt, explanation, confidence)
+RUBRIC: Excerpt Validity
+Score 2 (Valid): The quoted excerpt appears verbatim or near-verbatim in the article.
+Score 1 (Partial): The excerpt paraphrases the article text but the substance is present.
+Score 0 (Invalid): The excerpt does not appear in the article or substantially misrepresents it.
 
-For each instance, assess:
-1. Is the excerpt genuine (present verbatim or near-verbatim in the article)? [yes/no]
-2. Does the excerpt plausibly exhibit the named bias per the definition provided? [yes/no/partial]
-3. Is the explanation accurate and non-circular? [yes/no]
-4. Is the confidence rating appropriate? [appropriate/too-high/too-low]
+CALIBRATION EXAMPLE (Valid, Score 2):
+Article contains: "...experts warn the policy could devastate rural communities..."
+Excerpt quoted: "experts warn the policy could devastate rural communities"
+Verdict: 2 — verbatim match
 
-Return structured JSON. Do not add new detections — only review existing ones.
+CALIBRATION EXAMPLE (Invalid, Score 0):
+Article contains: "the study found mixed results"
+Excerpt quoted: "the study confirmed the hypothesis"
+Verdict: 0 — contradicts the source
+
+TASK: For the excerpt below, return score (0/1/2) and a one-sentence evidence citation.
 ```
 
-Use a **different model** from the evaluator when possible (e.g., evaluate with Claude Sonnet, judge with Claude Opus) to reduce self-consistency bias. Research shows LLM judges agree with humans >80% of the time on general tasks, dropping to 60–70% in specialized domains — cognitive bias detection is specialized, so LLM-only judgment is a floor, not a ceiling.
+**Call 2 — Category correctness**
+```
+RUBRIC: Category Correctness
+Score 2 (Correct): The bias category assigned matches the mechanism described in the definition.
+Score 1 (Plausible): The category is defensible but another category is equally or more appropriate.
+Score 0 (Incorrect): The category does not match the mechanism in the excerpt.
 
-### 2. Hybrid Human / LLM Judge
+[Inject the named bias definition + the two most common confusions from taxonomy]
+```
 
-LLM judge runs first (as above). Human reviewer sees:
-- Original article
-- Detected instances
-- LLM judge's assessment of each instance
-- Flags where LLM judge had low confidence or disagreed with the evaluator
+**Call 3 — Explanation quality**
+```
+RUBRIC: Explanation Quality
+Score 2 (Clear): The explanation identifies the specific distortion, names the mechanism, and is non-circular.
+Score 1 (Partial): The explanation describes the excerpt but does not name the mechanism, or is circular.
+Score 0 (Poor): The explanation restates the bias name without analysis, or is factually incorrect.
+```
 
-Human reviews flagged instances only, plus a random 20% sample of agreed instances (to catch systematic LLM judge errors). Human marks: **Agree / Disagree / Partially agree** with optional note.
+**Call 4 — Confidence calibration**
+```
+RUBRIC: Confidence Calibration
+Score 2 (Appropriate): The confidence level matches the strength of the textual evidence.
+Score 1 (Slightly off): Confidence is one level too high or low given the evidence.
+Score 0 (Miscalibrated): Confidence is clearly wrong (e.g., "high" for an ambiguous excerpt).
+```
 
-This is the recommended mode for test set construction — it keeps human effort focused on ambiguous cases while maintaining oversight of the full output.
+Each call returns `{"score": int, "evidence": "string", "notes": "string | null"}`. An instance passes judge review if all four criteria score ≥ 1, with at least two scoring 2.
 
-### 3. Pure Human Judge
+---
 
-Human reviews all detected instances without LLM pre-screening. Used only for initial test set bootstrapping (to avoid anchoring on LLM output) and for periodic audits of the hybrid mode.
+### Judge Configuration B — Ensemble Panel (Test Set / Validation)
+
+Used for test set construction and framework version validation. Three models judge independently; results are aggregated.
+
+**Models:** Use three models from different provider/family combinations to maximize error independence. Example: Claude Opus, Gemini Pro, Prometheus 2.
+
+**Aggregation rules:**
+- **Majority vote (2/3):** Default for accept/reject on individual instances
+- **Minority veto:** If any one model scores 0 on Excerpt Validity, the instance is flagged as uncertain regardless of other scores — a false evidence citation is disqualifying
+- **Unanimous required for test set admission:** An instance enters the gold-standard test set only if all three judges score it ≥ 1 on all criteria
+
+**Ensemble output schema:**
+```json
+{
+  "instance_id": "string",
+  "judge_scores": {
+    "model_a": {"excerpt_validity": 2, "category": 2, "explanation": 1, "confidence": 2},
+    "model_b": {"excerpt_validity": 2, "category": 1, "explanation": 2, "confidence": 2},
+    "model_c": {"excerpt_validity": 2, "category": 2, "explanation": 2, "confidence": 1}
+  },
+  "aggregate": {
+    "verdict": "accept | uncertain | reject",
+    "minority_veto": false,
+    "mean_score": 1.83,
+    "disagreement_flags": ["category"]
+  }
+}
+```
+
+Instances with `disagreement_flags` on category or explanation are routed to human review regardless of overall verdict.
+
+---
+
+### Judge Configuration C — Hybrid Human / LLM (Recommended for Test Set Bootstrap)
+
+The initial test set cannot be annotated using LLM judge output alone — anchoring the gold standard on LLM judgments would corrupt the benchmark. The bootstrap process is:
+
+1. Human annotator produces initial annotation independently (no LLM output shown)
+2. Ensemble panel (Config B) runs independently on the same article
+3. Human reviews only instances where panel and human annotation **disagree**
+4. Human makes final call on disagreements; rationale recorded in `inter_rater_notes`
+5. Instances with unresolvable disagreement (human cannot justify a clear verdict after seeing panel reasoning) are held as "ambiguous" — tracked separately, not used in F1 scoring but useful for calibration analysis
+
+After the initial test set is established, new articles can use Config B + human spot-check (random 20% of agreed instances) rather than full human-first annotation.
+
+**Human interface in the UI:** For each flagged instance, show:
+- Original article with excerpt highlighted
+- Bias name, category, and definition
+- Evaluator's explanation
+- Each panel judge's scores and evidence citations
+- Simple verdict buttons: **Confirm / Reject / Mark ambiguous** + freetext note
 
 ---
 
@@ -374,11 +481,27 @@ A reframe passes QA if: factual preservation = 100%, bias reduction > 50% (bias_
 
 ## Key References
 
+**Hierarchical & Large-Taxonomy Classification**
 - [Single-pass Hierarchical Text Classification with LLMs](https://payberah.github.io/files/download/papers/llm_classification.pdf)
 - [TELEClass: Taxonomy Enrichment and LLM-Enhanced Hierarchical Text Classification](https://arxiv.org/html/2403.00165v3)
 - [SALSA: Single-pass Autoregressive LLM Structured Classification](https://arxiv.org/pdf/2510.22691)
-- [LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods](https://arxiv.org/html/2412.05579v2)
+- [Optimizing LLM Annotation through Multi-Agent Orchestration](https://arxiv.org/pdf/2603.13353)
+
+**Context Window & Prompt Length**
 - [Context Length Alone Hurts LLM Performance Despite Perfect Retrieval](https://arxiv.org/html/2510.05381v1)
 - [Why Does the Effective Context Length of LLMs Fall Short?](https://arxiv.org/pdf/2410.18745)
-- [Optimizing LLM Annotation through Multi-Agent Orchestration](https://arxiv.org/pdf/2603.13353)
+
+**LLM-as-Judge: Biases & Failure Modes**
+- [A Systematic Study of Position Bias in LLM-as-a-Judge](https://aclanthology.org/2025.ijcnlp-long.18.pdf)
+- [Self-Preference Bias in LLM-as-a-Judge](https://www.researchgate.net/publication/385353198_Self-Preference_Bias_in_LLM-as-a-Judge)
+- [The Comparative Trap: Pairwise Comparisons Amplify Biased Preferences](https://arxiv.org/pdf/2406.12319)
+- [LLMs-as-Judges: A Comprehensive Survey](https://arxiv.org/html/2412.05579v2)
+
+**LLM-as-Judge: Rubrics & Calibration**
+- [RULERS: Locked Rubrics and Evidence-Anchored Scoring](https://arxiv.org/html/2601.08654v1)
+- [AutoRubric: Unifying Rubric-based LLM Evaluation](https://arxiv.org/html/2603.00077v2)
+- [Prometheus 2: Open Source LLM Specialized in Evaluation (EMNLP 2024)](https://aclanthology.org/2024.emnlp-main.248/)
+
+**Ensemble & Panel Judging**
+- [Auditing Multi-Agent LLM Reasoning Trees Outperforms Majority Vote and LLM-as-Judge](https://arxiv.org/html/2602.09341v1)
 - [Human-Centered Design Recommendations for LLM-as-a-Judge](https://aclanthology.org/2024.hucllm-1.2.pdf)
