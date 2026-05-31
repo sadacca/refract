@@ -37,4 +37,4 @@ jobs:
             git commit -m "precompute: update artifacts for taxonomy $(python -c 'import json; print(json.load(open(\"bias_index/taxonomy.json\"))[\"version\"])')"
 
       - name: Push
-        run: git push origin main
+        run: git push origin HEAD

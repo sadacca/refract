@@ -84,4 +84,4 @@ jobs:
           git add data/processed/
           git diff --staged --quiet || \
             git commit -m "batch: evaluate articles [framework v$(python -c 'from config import FRAMEWORK_VERSION; print(FRAMEWORK_VERSION)')]"
-          git push origin main
+          git push origin HEAD
