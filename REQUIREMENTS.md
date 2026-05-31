@@ -424,42 +424,34 @@ The combination of these three signals lets us tier the taxonomy: biases that ar
 
 ### Still Open
 
-**Q2 — LLM model selection:** Claude Sonnet (faster/cheaper) vs. Opus (more nuanced) — or make it user-configurable per evaluation type?
+**Q2 — LLM model selection (RESOLVED):** Sonnet for evaluation, Opus for judging. Model is set via environment variable (`EVAL_MODEL`, `JUDGE_MODEL`) so it can be swapped without code changes. HF free inference tier is not viable for this task — as of 2025 the free serverless API focuses on CPU inference and smaller legacy models (BERT, GPT-2 era); it does not support the nuanced structured output needed for bias detection. HF Inference Providers (Together, Fireworks, etc.) are pay-per-token with no meaningful cost advantage over Claude for this use case.
 
-**Q3 — News API:** Use a service (NewsAPI, GDELT) for Phase 2 multi-article fetch, or require manual URL input for MVP and defer API integration?
+**Q3 — Article fetching (RESOLVED):** Three-tier approach, ordered by POC practicality:
 
-**Q4 — Severity scoring:** Binary (present/absent) or graduated scale (high/medium/low) for MVP? Graduated is more informative but harder to calibrate without a larger test set.
+*Tier 1 — Direct URL scraping (POC primary):* Use `trafilatura` (preferred over `newspaper3k` — better extraction quality, actively maintained) to fetch and clean article text from any URL the user provides. Free, no API key, works on most non-paywalled major outlets. Handles the paste-or-URL input for the single-article evaluation UI. Fails gracefully on paywalled content with a clear error message.
+
+*Tier 2 — The Guardian API (POC secondary, free):* 500 requests/day, 5,000/month, full article text, structured JSON response with section, tags, and publication date. Free developer key at `open-platform.theguardian.com`. Best option for programmatic article browsing and search — useful for selecting articles to add to the test set, and as a known-quality corpus for initial evaluation. Single source limitation is acceptable for POC; quality journalism is a good test bed.
+
+*Tier 3 — RSS feed aggregation (Phase 2):* Curate a list of RSS feeds from major outlets (BBC, Reuters, AP, etc.). Pull recent articles, extract text via trafilatura. Free, no rate limits, multi-source. Better suited to Phase 2 publication inventory and multi-article event analysis than to MVP single-article review.
+
+NewsAPI and GDELT deferred: NewsAPI free tier returns headlines only (no full text) and 100 requests/day; paid tier is $449/month — not appropriate for a hobby project. GDELT is powerful but complex to query and returns document metadata, not clean article text.
+
+**Q4 — Severity scoring (RESOLVED):** Dual-mode scoring:
+- **Detection pass:** Binary — the bias is either present or not. A bias instance is either anchoring or it isn't. Binary detection avoids the calibration problem of asking the model to grade severity without a reference standard, and is more defensible for the initial test set.
+- **Severity rating:** Graduated (high/medium/low) recorded as a separate field, populated by the evaluation model but treated as informational rather than a detection gate. Used during eval framework iteration to study where the model's severity judgments align or diverge from human judgment — i.e., severity is a calibration target, not a classification output.
+- Schema: `detected: true`, `severity: "high" | "medium" | "low"` — both fields always present; severity is always recorded but only used analytically once enough examples exist to calibrate against.
 
 **Q5 — Reframe quality flagging:** Should reframes be explicitly labeled as AI-generated in the UI, and should there be a confidence indicator on the reframe quality?
 
-**Q6 — Prompt context window management (RESOLVED):** Research on large-taxonomy LLM classification is unambiguous: injecting all ~180 biases into a single prompt is not viable. Key findings:
+**Q6 — Prompt context window management (RESOLVED):** *(see full resolution above)*
 
-- On complex benchmarks with 174 classes, most LLMs achieved **zero accuracy** — complete task failure (LongICLBench)
-- Performance degrades measurably when prompts exceed **70–80% of the context window**; GPT-4 shows ~15% degradation from 4K→128K tokens
-- Multi-pass/verification approaches improve F1 from ~0.30 to ~0.44–0.46 vs. single-pass alone
-- A minimal increase in prompt context yields the highest performance gain; beyond that, additional context yields marginal or negative returns
-
-**Resolution — two operating modes:**
-
-*Mode A: Deep Evaluation* (test set generation, validation, high-stakes review)
-- **Hierarchical cascade:** First pass classifies article into 2–3 top-level bias categories (10 categories, small prompt). Second pass runs full identification criteria only for biases in those categories (~15–25 biases per category). Third pass (optional) runs a self-verification step on flagged instances.
-- Maximizes recall. Accepts higher latency and cost.
-- Used for: building and validating the test set, generating gold-standard annotations, detailed single-article review in the UI.
-
-*Mode B: Bulk Evaluation* (publication inventory, multi-article sweeps)
-- **Retrieval pre-filter:** Use a lightweight embedding similarity step to rank the full taxonomy against the article text, then inject only the top-N most similar bias entries (N=20–30) into a single evaluation call.
-- Balances speed and cost. Some recall loss accepted.
-- Used for: Phase 2 multi-article event analysis, website inventory, GenAI output batch review.
-
-Both modes use the same output schema and framework versioning. Mode is recorded in each evaluation result. The test set is always built with Mode A; bulk comparisons are always Mode B. This allows honest comparison of the two modes against the same ground truth.
-
-**Q7 — Test set annotation process:** Gold-standard annotations require human judgment. Who annotates — single expert, multiple annotators? What is the target inter-rater reliability threshold (Cohen's kappa)? Disagreements between annotators need a resolution protocol. Without this defined, the test set has no credibility as a benchmark.
+**Q7 — Test set annotation process:** Deferred to post-POC. For POC, single annotator (the developer), informal markdown log per the POC eval section of EVALUATION_FRAMEWORK.md.
 
 **Q8 — Article type differentiation:** Should the evaluation prompt behave differently for news reports vs. opinion pieces vs. headlines vs. social media posts? The author-exhibiting vs. source-reporting distinction (already in the schema) becomes especially important for opinion content. Does the system need an article-type classifier as a preprocessing step?
 
-**Q9 — Reframe evaluation rubric:** How is reframe quality measured beyond "no new factual claims"? Candidates: factual preservation score, bias reduction score (re-evaluate the reframe and compare), readability, and completeness. Need a rubric before the meta-evaluation framework can assess reframes as well as evaluations.
+**Q9 — Reframe evaluation rubric:** Informal for POC: re-run the evaluation on the reframed article and compare bias_count to the original. Formal rubric (factual preservation, completeness, readability) deferred to Phase 2.
 
-**Q10 — Taxonomy governance:** Who can propose changes to the taxonomy? Is a git PR sufficient, or is there a review step (e.g., second human reviewer, comparison against a primary source)? Without a process, the taxonomy drifts without accountability.
+**Q10 — Taxonomy governance:** Deferred. Single developer, git history is sufficient for POC.
 
 ---
 
