@@ -427,38 +427,51 @@ The manifest is what the stats page and Framework Dashboard read — it's fast t
 ### Key Modules
 ```
 refract/
-├── app.py                          # Streamlit entrypoint (mirrors balt311 app/app.py)
+├── app.py                            # Streamlit entrypoint
 ├── pages/
-│   ├── 1_bias_index.py             # Bias taxonomy browser
-│   ├── 2_article_eval.py           # Single article evaluation
-│   ├── 3_reframe.py                # Article reframing
-│   └── 4_framework_dashboard.py   # Eval scores, version history, feedback
-├── components/                     # Shared UI components (mirrors balt311 components/)
-│   ├── eval_display.py             # Renders bias instance cards
-│   ├── reframe_display.py          # Side-by-side original / reframed
-│   └── stats_display.py            # Prevalence charts, category breakdowns
+│   ├── 1_bias_index.py               # Bias taxonomy browser
+│   ├── 2_article_eval.py             # Single article evaluation
+│   ├── 3_reframe.py                  # Article reframing
+│   └── 4_framework_dashboard.py     # Eval scores, version history, feedback, example review
+├── components/
+│   ├── eval_display.py               # Renders bias instance cards
+│   ├── reframe_display.py            # Side-by-side original / reframed
+│   └── stats_display.py              # Prevalence charts, category breakdowns
 ├── src/refract/
-│   ├── ingest.py                   # Article fetch: trafilatura URL scrape + Guardian API
-│   │                               # (exponential backoff retry, mirrors balt311 ingest.py)
-│   ├── bias_eval.py                # Two-pass LLM evaluation pipeline + recall probes
-│   ├── reframe.py                  # LLM reframing pipeline
-│   └── prompts/
-│       ├── system_prompt.txt       # Versioned system prompt
-│       ├── taxonomy_injection.py   # Builds taxonomy block from taxonomy.json at runtime
-│       └── reframe_prompt.txt      # Versioned reframing prompt
+│   ├── ingest.py                     # Article fetch: trafilatura + Guardian API
+│   ├── bias_eval.py                  # 4-pass LLM evaluation — loads precomputed blocks only
+│   ├── reframe.py                    # LLM reframing pipeline
+│   └── llm_client.py                 # Thin abstraction: model + key → structured call
+│                                     # Swappable: Gemini / Claude / Groq via config
 ├── bias_index/
-│   ├── taxonomy.json               # Canonical bias taxonomy (versioned, committed)
-│   └── CHANGELOG.md               # Taxonomy change history
+│   ├── taxonomy.json                 # Canonical bias taxonomy (versioned)
+│   └── CHANGELOG.md                 # Taxonomy change history
 ├── data/
-│   ├── processed/                  # Committed: demo eval results, cached 100-article stats
-│   └── raw/                        # Gitignored: fetched article text cache
+│   ├── precomputed/                  # Committed: all precomputed prompt blocks + embeddings
+│   │   ├── bias_blocks/              # {bias_id}_{taxonomy_version}.txt
+│   │   ├── category_triage_blocks/   # {category_id}_{taxonomy_version}.txt
+│   │   ├── recall_probe_blocks/      # {category_id}_probe_{taxonomy_version}.txt
+│   │   ├── judge_blocks/             # {criterion_id}_{framework_version}.txt
+│   │   ├── reframe_blocks/           # {mode}_{taxonomy_version}.txt
+│   │   ├── embeddings.npy            # Bias embedding vectors for Mode B similarity filter
+│   │   └── taxonomy_index.json       # Flat lookup: bias_id → category, status, prominence
+│   ├── cache/                        # Gitignored: article text + intermediate pass results
+│   │   ├── {hash}_raw.json           # Cleaned article text (fetched once, never re-fetched)
+│   │   └── {hash}_{version}.json     # Per-pass cached results
+│   └── processed/                    # Committed: final evaluation records + indexes
+│       ├── {article_hash}_{fw_version}.json  # Full evaluation record
+│       ├── index.json                # Manifest: all evaluations, no article text
+│       ├── stats.json                # Precomputed aggregations
+│       └── bias_frequency.json       # Per-bias hit count/rate by framework version
 ├── eval/
-│   ├── test_set/                   # Labeled articles + annotations
-│   ├── results/                    # Stored scores per framework version
-│   └── scoring.py                  # F1 scoring (post-POC)
+│   ├── test_set/                     # Labeled articles + gold-standard annotations
+│   ├── results/                      # F1 scores per framework version
+│   └── scoring.py                    # Automated scoring (post-POC)
 ├── scripts/
-│   └── batch_eval.py               # Headless 100-article pipeline (mirrors balt311 pipeline.py)
-├── config.py                       # API key management, framework version, feature flags
+│   ├── precompute.py                 # Regenerates all data/precomputed/ artifacts
+│   ├── batch_eval.py                 # Headless N-article pipeline
+│   └── build_index.py                # Rebuilds index.json, stats.json, bias_frequency.json
+├── config.py                         # API keys, framework version, model selection
 ├── requirements.txt
 └── .env.example
 ```

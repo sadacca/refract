@@ -19,6 +19,106 @@ This document specifies how Refract evaluates articles for cognitive bias, how i
 
 ---
 
+## Design Principle: Only Labeling Is Probabilistic
+
+Every step in the pipeline that does not require LLM judgment should be deterministic, precomputed, cached, or indexed. The only things that should be probabilistic — i.e., involve an LLM call — are:
+
+1. **Pass 1:** Given article text + fixed category blocks → which categories are present?
+2. **Pass 2:** Given article text + fixed bias injection blocks + fixed reference examples → which excerpts match?
+3. **Pass 3:** Given article text + fixed recall probe blocks → is this undetected category actually absent?
+4. **Pass 4:** Given detected instances + fixed judge rubric blocks → are these instances valid?
+5. **Reframe:** Given article text + bias instances + fixed strategy blocks → rewrite
+
+Everything else is precomputed, cached, or indexed. This section catalogs what that means in practice.
+
+---
+
+## What to Precompute, Cache, and Index
+
+### Precompute — One-Time, Stored in Repo (`data/precomputed/`)
+
+Computed once per taxonomy/framework version. Re-runs when the version increments. Committed to the repo so Streamlit Cloud and GitHub Actions never need to regenerate them at runtime.
+
+| Artifact | Description | Key | Invalidated when |
+|---|---|---|---|
+| **Bias injection blocks** | Per-bias formatted prompt string: definition + mechanism + criteria + signals + common_confusions + reference_examples, pre-formatted for insertion | `{bias_id}_{taxonomy_version}.txt` | Taxonomy entry changes |
+| **Category triage blocks** | Per-category formatted prompt string for Pass 1: category name + description + characteristic signals | `{category_id}_{taxonomy_version}.txt` | Category definition changes |
+| **Recall probe blocks** | Per-category formatted prompt string for Pass 3: category description + list of bias names in category (no full entries) | `{category_id}_probe_{taxonomy_version}.txt` | Category membership changes |
+| **Judge criterion blocks** | Per-criterion formatted rubric string with scoring levels + calibration examples, ready to inject into judge prompt | `{criterion_id}_{framework_version}.txt` | Judge rubric or calibration examples change |
+| **Reframe strategy blocks** | Per-reframe-mode formatted prompt string with strategy + few-shot example from taxonomy | `{mode}_{taxonomy_version}.txt` | Reframing strategy or example changes |
+| **Bias embeddings** | Embedding vector for each bias entry's definition + signals (for Mode B similarity pre-filter) | `embeddings_{taxonomy_version}.npy` | Taxonomy entry changes |
+| **Taxonomy index** | Flat lookup: bias_id → category, name, examples_status, prominence scores | `taxonomy_index_{taxonomy_version}.json` | Any taxonomy change |
+
+**Build script:** `scripts/precompute.py` — regenerates all artifacts for the current taxonomy/framework version. Runs automatically via GitHub Actions when `taxonomy.json` or a prompt template file changes.
+
+---
+
+### Cache — Per-Article, Stored in `data/cache/`
+
+Computed once per article. Re-used across framework versions so changing the framework never requires re-fetching or re-processing article text.
+
+| Artifact | Description | Key | Invalidated when |
+|---|---|---|---|
+| **Raw article text** | Output of trafilatura extraction — cleaned body text, title, date, source | `{article_hash}_raw.json` | Never (source text is immutable) |
+| **Pass 1 result** | Category triage output | `{article_hash}_{category_block_version}.json` | Category triage blocks change |
+| **Full evaluation** | Complete output of Passes 1–4 for a given framework version | `{article_hash}_{framework_version}.json` | Framework version changes — old result retained, new result added |
+
+**Key invariant:** An article's raw text is only fetched once. A framework version's evaluation of that article is only computed once. Changing the framework creates a new evaluation record alongside the old one — nothing is overwritten.
+
+---
+
+### Index — Maintained Incrementally, Stored in `data/processed/`
+
+Lightweight lookup structures rebuilt after each batch or incrementally updated after each article.
+
+| Artifact | Description | Updated |
+|---|---|---|
+| **`index.json`** | Manifest of all evaluations: article_id, url, source, date, framework_version, model, bias_count, dominant_categories, word_count. No article text. | Appended after each evaluation |
+| **`stats.json`** | Precomputed aggregations over index.json: prevalence by bias, prevalence by category, severity distribution, source distribution, per-model comparison (Phase 3). | Rebuilt after each batch run |
+| **`bias_frequency.json`** | Per-bias hit count and hit rate across all evaluated articles, per framework version. Used by the Framework Dashboard and to prioritize taxonomy enrichment. | Rebuilt after each batch run |
+
+**Build script:** `scripts/build_index.py` — reads all files in `data/processed/`, rebuilds index.json, stats.json, and bias_frequency.json. Runs as the final step of every batch pipeline and can be run standalone to reconcile.
+
+---
+
+### What This Means at Runtime
+
+When a user submits a URL in the Streamlit app:
+
+```
+URL received
+  │
+  ├─ Hash URL+text → check data/processed/{hash}_{framework_version}.json
+  │    └─ EXISTS → return cached result immediately (0 LLM calls)
+  │
+  └─ NOT CACHED
+       │
+       ├─ Check data/cache/{hash}_raw.json
+       │    ├─ EXISTS → load cached article text (0 fetch calls)
+       │    └─ NOT CACHED → trafilatura fetch → write to cache
+       │
+       ├─ Load precomputed/category_triage_blocks_{version}.txt  ← file read
+       ├─ Check data/cache/{hash}_{category_block_version}.json
+       │    ├─ EXISTS → load cached Pass 1 result (0 LLM calls)
+       │    └─ NOT CACHED → LLM call (Pass 1) → write to cache  ← PROBABILISTIC
+       │
+       ├─ Load precomputed/bias_injection_blocks_{version}/ ← file reads
+       ├─ LLM calls (Pass 2, one per flagged category)           ← PROBABILISTIC
+       │
+       ├─ Load precomputed/recall_probe_blocks_{version}/   ← file reads
+       ├─ LLM calls (Pass 3, one per unflagged category)         ← PROBABILISTIC
+       │
+       ├─ Load precomputed/judge_criterion_blocks_{version}.txt  ← file read
+       ├─ LLM call (Pass 4, judge review)                        ← PROBABILISTIC
+       │
+       ├─ Write data/processed/{hash}_{framework_version}.json
+       └─ Append to data/processed/index.json
+```
+
+The only lines marked PROBABILISTIC are LLM calls. Everything else is a file read, a cache lookup, or a write. This makes the pipeline fast on repeated articles, transparent in what each LLM call receives, and fully reproducible given the same framework version.
+
+---
+
 ## The Core Problem: 180 Classes, One Article
 
 A naive approach — inject all ~180 bias definitions into a single prompt and ask the model to identify which are present — fails at scale. Research on large-taxonomy LLM classification is clear:
