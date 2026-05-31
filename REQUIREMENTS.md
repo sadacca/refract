@@ -52,13 +52,23 @@ Each bias entry in `taxonomy.json` must include all of the following fields:
 | `identification_criteria` | Explicit, testable criteria for identifying this bias in written text — written as rules an evaluator (human or LLM) can apply |
 | `linguistic_signals` | Specific language patterns, word choices, or structural features that are diagnostic of this bias in writing (e.g., passive voice obscuring agency, absence of counterargument, emotionally loaded adjectives) |
 | `canonical_example` | A brief neutral example of the bias in general prose, drawn from or consistent with the literature |
-| `journalism_example` | A concrete example as it would appear in a news article, headline, or op-ed — written or sourced specifically for journalism context |
 | `reframing_strategy` | How to rewrite or restructure text exhibiting this bias to reduce it; what information needs to be added, removed, or restructured |
-| `reframing_example` | The `journalism_example` rewritten using the `reframing_strategy` |
+| `reframing_example` | A journalism example rewritten using the `reframing_strategy` |
 | `common_confusions` | Other biases this one is frequently mistaken for, and how to distinguish them |
 | `severity_signal` | Typical severity when present in journalism: high / medium / low, with rationale |
 | `sources` | List of primary citations (author, year, title, DOI or URL if available) |
 | `status` | `canonical` (cited primary source) or `provisional` (needs source) |
+| `reference_examples` | Precomputed, human-verified example set used as few-shot anchors in evaluation prompts (see below) |
+
+**`reference_examples` sub-schema:**
+
+| Sub-field | Description |
+|---|---|
+| `positive[]` | 3 short journalism excerpts that clearly exhibit this bias, each via a different linguistic mechanism, spanning different topic domains. Human-verified. |
+| `near_miss[]` | 2 excerpts that look like the bias but are not instances of it. Each includes `why_not` — a one-sentence explanation of the distinction. Human-verified. |
+| `contrast` | 1 example illustrating the most commonly confused bias (`common_confusions`), with a `distinction` field explaining the boundary. |
+
+These are the anchors injected into Pass 2 identification prompts. Detection compares article text against this fixed reference set — the model does not generate its own representation of the bias at inference time. When reference examples change, `framework_version` increments.
 
 #### 1c. Bias Category Taxonomy
 
@@ -76,13 +86,28 @@ Top-level categories to organize the index (based on Benson/codex structure, ada
 - **Temporal & Recency** — over- or under-weighting information based on timing (recency bias, present bias, end-of-history illusion)
 - **GenAI-Specific** *(Phase 2)* — sycophancy, training data recency bias, overconfidence, persona injection
 
-#### 1d. Index as Evaluation Substrate
+#### 1d. Precompute Phase
+
+Before evaluation can run on any article, a separate precompute phase must populate `reference_examples` for every bias in the taxonomy. This runs once per taxonomy entry and re-runs whenever the entry's definition, criteria, or examples are updated.
+
+**Why precompute:** The evaluation pipeline injects reference examples as few-shot anchors. If an entry has no verified examples, Pass 2 falls back to criteria-only detection (the weaker, probabilistic approach). Entries without `reference_examples` are flagged as `examples_status: "pending"` in the taxonomy and tracked on the Framework Dashboard.
+
+**Precompute pipeline** (runs via `scripts/precompute_examples.py`):
+1. For each entry with `examples_status: "pending"`, call the LLM with a generation prompt requesting 3 positive, 2 near-miss, and 1 contrast example
+2. Write candidate examples to `data/pending_examples/{bias_id}.json`
+3. Human reviews each via a simple UI in the Framework Dashboard (accept / reject with reason)
+4. Accepted examples are written back to `taxonomy.json`; `examples_status` set to `"verified"`
+5. Commit updated taxonomy and increment `framework_version`
+
+**Priority order for human review:** Biases with high literature prominence and high Wikipedia prominence first (per the three-dimension scoring in 1a). These will appear most frequently in evaluated articles and benefit most from strong anchors.
+
+#### 1e. Index as Evaluation Substrate
 
 The index is the direct input to the LLM evaluation pipeline:
-- The evaluator prompt includes the full `identification_criteria` and `linguistic_signals` for each candidate bias
-- The reframing prompt uses the `reframing_strategy` and `reframing_example` as few-shot examples
-- Confidence scores in evaluations are calibrated against the `severity_signal` and `common_confusions` fields
-- When a new bias is added to the index, the evaluation and reframing pipelines automatically gain coverage for it — no prompt changes required
+- Pass 2 identification prompts inject `identification_criteria`, `linguistic_signals`, and `reference_examples` (positive, near-miss, contrast) as fixed anchors — the model compares article text against these, not against a probabilistic in-context representation
+- Recall probes inject bias names and positive example summaries to check for category-level misses
+- The reframing prompt uses `reframing_strategy` and `reframing_example` as few-shot examples
+- When a new bias is added with verified examples, the evaluation pipeline automatically gains full coverage — no prompt engineering required
 
 **UI:**
 - Sidebar nav or tabbed layout
@@ -200,7 +225,26 @@ The index is the direct input to the LLM evaluation pipeline:
 
 ---
 
-## Phase 3 — Model Comparison
+## Phase 3 — Gap Audit & Model Comparison
+
+### 3a. High-Level Gap Audit
+
+Before full Phase 3 build-out, run a structured audit of what the MVP pipeline is missing. This is a one-time review using the accumulated `data/processed/` dataset from the POC run.
+
+**Audit questions:**
+
+| Gap area | Audit method |
+|---|---|
+| **Taxonomy coverage** | Are there bias patterns appearing in articles that don't map to any taxonomy entry? Sample 20 articles manually and look for patterns the pipeline didn't detect. |
+| **Category boundary errors** | Which biases are most often misassigned to the wrong category? Check `category_accuracy` in eval log. |
+| **Reference example quality** | For each bias with high FP or FN rate in the hand-eval log, review whether the reference examples are the problem — too narrow (missing real instances) or too broad (matching non-instances). |
+| **Recall probe effectiveness** | How often do recall probes surface true positives that Pass 2 missed? If rarely, probes are working. If frequently, Pass 1 category triage is too aggressive in excluding categories. |
+| **Reframe quality** | Read 10 reframed articles. Do they read as more neutral? Are any facts changed or dropped? |
+| **Pipeline failures** | What percentage of article fetches fail (paywall, timeout, encoding issues)? What percentage of LLM calls fail or return malformed JSON? |
+
+Audit findings feed directly into taxonomy updates, reference example revisions, and prompt changes before Phase 3 model comparison runs.
+
+### 3b. Model Comparison
 
 **Purpose:** Once the POC is working and produces a baseline dataset, compare models on their ability to detect cognitive bias to understand which is most accurate, where models diverge, and whether cost justifies quality differences.
 
@@ -216,7 +260,7 @@ The index is the direct input to the LLM evaluation pipeline:
 - Display a model comparison page in the UI showing the above metrics
 - Use this to make an evidence-based decision on the default model for Phase 2 features
 
-**What makes this tractable:** Because every article is persisted with its `framework_version` and `model` field, re-running existing articles through a different model is a batch job against `data/processed/index.json`, not a fresh data collection effort. The dataset built during POC is the test bed for this comparison.
+**What makes this tractable:** Because every article is persisted with its `framework_version` and `model` field, re-running existing articles through a different model is a batch job against `data/processed/index.json`, not a fresh data collection effort. The dataset built during POC is the test bed for this comparison. Gap audit findings (3a) are resolved before model comparison runs — otherwise you're comparing models against a flawed reference framework.
 
 ---
 

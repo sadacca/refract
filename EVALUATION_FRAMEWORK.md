@@ -172,22 +172,154 @@ The `verified` field is `true` for instances that passed Pass 3 in Mode A; alway
 
 ---
 
-## Prompt Architecture
+## Precompute Phase: Reference Example Library
+
+### The Core Problem with Probabilistic Detection
+
+The original prompt design asked the model to evaluate an article against bias definitions and criteria — relying on the model's in-context, probabilistic understanding of what each bias looks like in text. This is wrong for two reasons:
+
+1. **Non-deterministic:** Two runs of the same article may produce different detections, not because the article changed, but because the model generates a different internal representation of the bias each time.
+2. **Unauditable:** When the model identifies confirmation bias in an excerpt, you cannot inspect *why* — what mental template it compared against. You can only see the output.
+
+The fix: precompute a verified reference example set for every bias and inject it as few-shot anchors. Detection becomes **pattern-matching against a fixed reference**, not probabilistic generation.
+
+---
+
+### Precompute Pipeline
+
+Before the evaluation pipeline runs on any article, a separate one-time (and periodically updated) precompute phase builds the reference library. This is a human-in-the-loop pipeline, not automated.
+
+**Step 1 — Generate candidate examples**
+
+For each bias entry in `taxonomy.json`, run a generation prompt:
+
+```
+You are building a reference library for detecting cognitive bias in journalism.
+
+Bias: {name}
+Definition: {definition}
+Mechanism: {mechanism}
+Identification criteria: {identification_criteria}
+
+Generate the following, each as a separate JSON field:
+
+positive_examples: 3 short excerpts (2-4 sentences each) from realistic news 
+article text that clearly exhibit this bias. Vary the topic domain across examples 
+(politics, economics, crime, science, sports). Each excerpt should exhibit the bias 
+through a different linguistic mechanism.
+
+near_miss_examples: 2 short excerpts that a reader might initially mistake for 
+this bias but that do not actually exhibit it. Explain briefly why each is not 
+an instance of the bias.
+
+contrast_bias: 1 example that shows the most commonly confused bias 
+({common_confusions}) to distinguish this bias from it.
+```
+
+**Step 2 — Human review**
+
+Every generated example is reviewed by a human before entering the reference library:
+- Positive examples: confirm the excerpt genuinely exhibits the bias mechanism (not just mentions bias-adjacent topics)
+- Near-miss examples: confirm they are genuinely not instances of the bias
+- Contrast examples: confirm they correctly illustrate the confusion boundary
+
+Accepted examples are stored in the taxonomy entry. Rejected examples are logged with a rejection reason — useful for improving the generation prompt.
+
+**Step 3 — Version and commit**
+
+Updated `taxonomy.json` with populated `reference_examples` fields is committed. The `framework_version` minor version increments when any reference example changes.
+
+---
+
+### Updated Taxonomy Entry Schema
+
+Add `reference_examples` to each bias entry:
+
+```json
+{
+  "id": "confirmation-bias",
+  "name": "Confirmation Bias",
+  ...
+  "reference_examples": {
+    "positive": [
+      {
+        "text": "The senator's long record of supporting renewable energy legislation was prominently featured, while her three votes against climate bills went unmentioned.",
+        "domain": "politics",
+        "mechanism": "selective omission of disconfirming evidence",
+        "verified": true,
+        "verified_by": "human",
+        "verified_at": "2025-06-01"
+      }
+    ],
+    "near_miss": [
+      {
+        "text": "The report covered both sides of the debate, quoting experts who supported and opposed the policy in roughly equal measure.",
+        "why_not": "Balanced sourcing is not confirmation bias even if the reporter personally agrees with one side — the bias requires selective presentation of evidence, not personal belief.",
+        "verified": true
+      }
+    ],
+    "contrast": {
+      "confused_with": "myside-bias",
+      "text": "...",
+      "distinction": "..."
+    }
+  }
+}
+```
+
+---
+
+### How Reference Examples Change the Prompt
+
+**Pass 2 (Bias Identification) — with examples injected:**
+
+```
+BIAS: Confirmation Bias [Confirmation & Belief Perseverance]
+Definition: ...
+Mechanism: ...
+Identification criteria: ...
+Linguistic signals: ...
+
+REFERENCE EXAMPLES — this is what confirmation bias looks like in journalism:
+Example 1 (selective omission): "The senator's long record of supporting renewable 
+energy legislation was prominently featured, while her three votes against climate 
+bills went unmentioned."
+Example 2 (source selection): ...
+Example 3 (framing): ...
+
+NEAR MISSES — these are NOT confirmation bias:
+Near miss 1: "The report covered both sides..." — Why not: balanced sourcing is 
+not confirmation bias even if the reporter personally agrees with one side.
+
+CONTRAST — distinguish from myside bias:
+...
+
+Now evaluate the article below. Quote verbatim excerpts that match the pattern 
+of the reference examples above. Do not flag excerpts that match the near-miss 
+patterns.
+```
+
+The model is no longer generating its own representation of confirmation bias at inference time — it is comparing the article against a fixed, human-verified set of examples. Detection is anchored, auditable, and consistent across runs.
+
+---
+
+### Prompt Architecture (Updated)
 
 ### System Prompt (stable, versioned)
 
-Sets evaluator role and hard constraints. Key constraints baked into every evaluation:
+Sets evaluator role and hard constraints:
 
 1. Only identify biases with direct textual evidence — do not infer author intent
-2. Quote the specific excerpt, not a paraphrase
-3. Distinguish `author_exhibiting` (the author's own framing exhibits the bias) from `source_reporting` (the author is accurately reporting on a biased source)
+2. Quote the specific excerpt verbatim — not a paraphrase
+3. Distinguish `author_exhibiting` from `source_reporting`
 4. Flag low-confidence detections — do not suppress them
-5. Output must be valid JSON matching the schema above — no prose explanation outside the schema
-6. If a bias could plausibly be categorized under two bias types, report the most specific one and note the alternative in `explanation`
+5. Output must be valid JSON — no prose outside the schema
+6. When an excerpt could match two bias types, report the most specific one and note the alternative
+7. **Only flag excerpts that match the pattern of the provided reference examples — do not identify bias patterns not represented in the reference set**
 
 ### Taxonomy Injection (runtime, generated from `taxonomy.json`)
 
-For each bias included in the call, inject:
+For each bias in the call, inject the full entry including reference examples:
 
 ```
 BIAS: {name} [{category}]
@@ -196,10 +328,19 @@ Mechanism: {mechanism}
 Identification criteria: {identification_criteria}
 Linguistic signals: {linguistic_signals}
 Common confusions: {common_confusions}
+
+REFERENCE EXAMPLES:
+[positive_examples — text + mechanism label]
+
+NEAR MISSES (do not flag these patterns):
+[near_miss_examples — text + why_not]
+
+CONTRAST WITH {confused_with}:
+[contrast example + distinction]
 ---
 ```
 
-The `journalism_example` and `reframing_example` fields from the taxonomy are **not** injected at evaluation time — they are used in Pass 3 verification and in the reframing pipeline, not in the initial detection pass. This keeps the evaluation prompt lean.
+This is larger per bias than the original injection (roughly 3–4× the tokens), but the number of biases per call is controlled by the category filter (Pass 1), so total prompt size remains within the effective context window.
 
 ### Per-Call Context
 
