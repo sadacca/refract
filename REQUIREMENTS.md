@@ -453,6 +453,45 @@ NewsAPI and GDELT deferred: NewsAPI free tier returns headlines only (no full te
 
 **Q10 — Taxonomy governance:** Deferred. Single developer, git history is sufficient for POC.
 
+**Q8 — Article type differentiation (RESOLVED):** No prompt differentiation by article type. The goal is a universal bias detector applicable across domains — the same cognitive biases manifest in news reports, opinion pieces, and GenAI output, and the detection criteria should be domain-agnostic. The `author_exhibiting` vs. `source_reporting` distinction in the schema already handles the most important contextual difference (is this the author's bias or a bias they're reporting on) without requiring separate prompts. If a specific article type proves problematic during POC testing, address it with a taxonomy entry refinement, not a prompt fork.
+
+**Q11 — Taxonomy seeding (RESOLVED):** Start with programmatic seed from the Wikipedia Cognitive Bias Codex. Write a one-time script to pull all entries and create provisional taxonomy JSON records. Most entries will be thin initially (name, category, Wikipedia definition only). Hand-label the most important entries first — prioritize by literature prominence and Wikipedia prominence scores (per the three-dimension categorization in Feature 1c). The taxonomy is always a work in progress; the seed gives full coverage, hand-labeling gives quality where it matters most.
+
+**Q12 — Deployment (RESOLVED):** Streamlit Cloud. Free tier, public URL, no infrastructure overhead. API keys stored as Streamlit secrets. Article fetching via trafilatura from the cloud container is standard and well-supported.
+
+**Q13 — POC Success Definition (RESOLVED):** The POC is successful when:
+1. User can point the app at a news article URL and get a structured bias evaluation end-to-end
+2. Initial classification runs against all bias categories (via two-pass pipeline) on short articles without timeout or failure
+3. High-level stats are compiled across 100 articles: most prevalent biases, frequency by category, severity distribution
+4. LLM-as-judge eval runs on detected instances and produces a reviewable verdict
+5. The developer, reading 10 evaluated articles alongside the output, agrees with the majority of detections
+
+The 100-article stat compilation is the key deliverable — it tests the pipeline at scale and produces something substantively interesting (what biases actually appear most in news?).
+
+---
+
+## The False Negative Problem
+
+The hardest eval challenge is not assessing hits — it's assessing misses. When the model detects a bias, a judge (human or LLM) can review the excerpt and verdict. When the model returns nothing for a bias category, there's no excerpt to review. You don't know what you missed.
+
+This is asymmetric by design: precision (are detections correct?) is easy to evaluate; recall (did we catch everything?) requires ground truth that doesn't exist at POC scale.
+
+### Approaches to estimating false negatives
+
+**1. Adversarial test articles (best signal, most setup)**
+Construct or source articles known to contain specific biases — either expert-labeled examples from the literature, or articles deliberately written to exemplify a bias type. If the model misses a known-present bias in a purpose-built example, that's a confirmed false negative. The Guardian API corpus can support this: search for articles on topics known to elicit specific biases (economic policy coverage for anchoring and framing effects; crime reporting for availability heuristic and in-group bias).
+
+**2. Targeted recall probe (good signal, moderate cost)**
+After the primary evaluation, run a second pass of targeted yes/no probes for each category the model did not flag: *"Does this article contain any example of [bias name]? If yes, quote the excerpt. If no, explain briefly why not."* This forces the model to articulate absence rather than silently skip. A well-reasoned "no" is more trustworthy than silence. Cost: one additional API call per undetected category per article — practical for a small test set, expensive at scale.
+
+**3. Recall sampling on "clean" articles (statistical estimate, no setup)**
+Randomly sample 10–20 articles the full pipeline marked as having zero or very few biases. Have a human (or Opus judge) read them and check for obvious misses. The miss rate in this sample estimates the overall false negative rate without requiring a labeled ground truth corpus. Quick and cheap; statistically noisy but useful as a sanity check.
+
+**4. Contrastive pairs (elegant, naturally available)**
+Find two articles covering the same news event — one from a source with a known editorial stance, one from a more neutral wire service (AP, Reuters). The model should detect more and different biases in the opinionated version. If it doesn't, that's a recall signal. The Guardian API makes this easy: compare a Guardian opinion piece to a Reuters wire story on the same story. No ground truth required — the comparison is the signal.
+
+**POC approach:** Use contrastive pairs and recall sampling for the 100-article stat compilation. Targeted probes for individual articles in the hand-eval test set. Adversarial test articles deferred to Phase 2 unless obvious gaps emerge early.
+
 ---
 
 ## Success Metrics
