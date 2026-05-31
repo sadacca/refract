@@ -202,6 +202,34 @@ The index is the direct input to the LLM evaluation pipeline:
 
 ## Technical Architecture
 
+### Reference Architecture
+
+The balt311-service-equity app (`github.com/sadacca/balt311-service-equity`) is the architectural reference for Refract. Key patterns to carry forward:
+
+**App structure:**
+- Single `app/app.py` entrypoint; UI components imported from `app/components/`
+- Tabbed or page-based navigation (balt311 uses two tabs; Refract uses Streamlit multipage)
+- `@st.cache_data` on all data loading functions — critical for LLM call results which are expensive to recompute
+- Session state for cross-page coordination (active article, evaluation results, selected framework version)
+- Graceful degradation: check data/result availability before rendering, display instructional message if missing
+
+**Pipeline separation:**
+- balt311 separates ingest (API fetch) from processing (clean + aggregate) into distinct stages with intermediate artifact storage
+- Refract follows the same pattern: article fetch → evaluation → results stored as JSON artifacts; evaluation does not re-run on page refresh
+- A headless `scripts/` equivalent (`refract/scripts/batch_eval.py`) for running the 100-article pipeline outside the Streamlit UI
+
+**Data fetching patterns:**
+- Exponential backoff retry (up to 4 attempts, 2^n second waits) on all external API calls — carry this directly into the Guardian API and Anthropic API clients
+- ThreadPoolExecutor with conservative worker count (4) for parallel fetches — applicable to batch article fetching in Phase 2
+- Page size negotiation before bulk fetch — relevant for Guardian API pagination
+
+**Secrets:**
+- `st.secrets` with graceful fallback — `ANTHROPIC_API_KEY`, `GUARDIAN_API_KEY` stored as Streamlit Cloud secrets; local dev uses `.env` + `python-dotenv`
+
+**Deployment:**
+- Streamlit Community Cloud reads directly from the repo's `main` branch at runtime
+- Processed/cached artifacts committed to `data/` in the repo — Refract equivalent: committed `taxonomy.json` and optionally cached evaluation results for the demo dataset
+
 ### Stack
 - **Frontend:** Streamlit
 - **LLM Backend:** Anthropic Claude API (claude-sonnet or claude-opus, configurable)
@@ -212,38 +240,40 @@ The index is the direct input to the LLM evaluation pipeline:
 ### Key Modules
 ```
 refract/
-├── app.py                        # Streamlit entrypoint
-├── bias_index/
-│   ├── taxonomy.json             # Canonical bias taxonomy (versioned)
-│   ├── CHANGELOG.md              # Taxonomy change history
-│   └── index.py                  # Load, search, display taxonomy
-├── evaluator/
-│   ├── article_fetch.py          # URL → clean text
-│   ├── bias_eval.py              # LLM bias evaluation pipeline
+├── app.py                          # Streamlit entrypoint (mirrors balt311 app/app.py)
+├── pages/
+│   ├── 1_bias_index.py             # Bias taxonomy browser
+│   ├── 2_article_eval.py           # Single article evaluation
+│   ├── 3_reframe.py                # Article reframing
+│   └── 4_framework_dashboard.py   # Eval scores, version history, feedback
+├── components/                     # Shared UI components (mirrors balt311 components/)
+│   ├── eval_display.py             # Renders bias instance cards
+│   ├── reframe_display.py          # Side-by-side original / reframed
+│   └── stats_display.py            # Prevalence charts, category breakdowns
+├── src/refract/
+│   ├── ingest.py                   # Article fetch: trafilatura URL scrape + Guardian API
+│   │                               # (exponential backoff retry, mirrors balt311 ingest.py)
+│   ├── bias_eval.py                # Two-pass LLM evaluation pipeline + recall probes
+│   ├── reframe.py                  # LLM reframing pipeline
 │   └── prompts/
-│       ├── system_prompt.txt     # Versioned system prompt template
-│       ├── taxonomy_injection.py # Builds taxonomy block from taxonomy.json at runtime
-│       └── reframe_prompt.txt    # Versioned reframing prompt template
-├── reframer/
-│   └── reframe.py                # LLM reframing pipeline
+│       ├── system_prompt.txt       # Versioned system prompt
+│       ├── taxonomy_injection.py   # Builds taxonomy block from taxonomy.json at runtime
+│       └── reframe_prompt.txt      # Versioned reframing prompt
+├── bias_index/
+│   ├── taxonomy.json               # Canonical bias taxonomy (versioned, committed)
+│   └── CHANGELOG.md               # Taxonomy change history
+├── data/
+│   ├── processed/                  # Committed: demo eval results, cached 100-article stats
+│   └── raw/                        # Gitignored: fetched article text cache
 ├── eval/
-│   ├── test_set/                 # Labeled articles for meta-evaluation
-│   │   ├── article_001.json      # Article text + gold-standard annotations
-│   │   └── ...
-│   ├── scoring.py                # Precision/recall/F1 scoring against test set
-│   ├── results/                  # Stored scores per framework version
-│   │   └── v1.0.0.json
-│   └── feedback.py               # Human feedback collection and aggregation
-├── ui/
-│   ├── pages/
-│   │   ├── 1_bias_index.py
-│   │   ├── 2_article_eval.py
-│   │   ├── 3_reframe.py
-│   │   └── 4_framework_dashboard.py
-│   └── components.py             # Shared UI components
-├── config.py                     # App config, API key management, version tracking
-├── requirements.txt              # Python dependencies
-└── .env.example                  # Environment variable template
+│   ├── test_set/                   # Labeled articles + annotations
+│   ├── results/                    # Stored scores per framework version
+│   └── scoring.py                  # F1 scoring (post-POC)
+├── scripts/
+│   └── batch_eval.py               # Headless 100-article pipeline (mirrors balt311 pipeline.py)
+├── config.py                       # API key management, framework version, feature flags
+├── requirements.txt
+└── .env.example
 ```
 
 ### LLM Prompt Design Principles
@@ -490,7 +520,7 @@ Randomly sample 10–20 articles the full pipeline marked as having zero or very
 **4. Contrastive pairs (elegant, naturally available)**
 Find two articles covering the same news event — one from a source with a known editorial stance, one from a more neutral wire service (AP, Reuters). The model should detect more and different biases in the opinionated version. If it doesn't, that's a recall signal. The Guardian API makes this easy: compare a Guardian opinion piece to a Reuters wire story on the same story. No ground truth required — the comparison is the signal.
 
-**POC approach:** Use contrastive pairs and recall sampling for the 100-article stat compilation. Targeted probes for individual articles in the hand-eval test set. Adversarial test articles deferred to Phase 2 unless obvious gaps emerge early.
+**POC approach:** Targeted recall probes are the primary false negative strategy for the POC. After the main two-pass evaluation, run a targeted yes/no probe for each bias category the model did not flag: *"Does this article contain any example of [bias name]? If yes, quote the excerpt and explain. If no, explain briefly why not."* This forces the model to reason about absence rather than silently skip — a well-reasoned "no" is auditable; silence is not. Contrastive pairs (same story, Guardian opinion vs. Reuters wire) serve as a secondary check at the 100-article scale. Adversarial test articles and recall sampling deferred to Phase 2.
 
 ---
 
