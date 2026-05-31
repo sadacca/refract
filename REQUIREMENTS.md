@@ -432,7 +432,26 @@ The combination of these three signals lets us tier the taxonomy: biases that ar
 
 **Q5 — Reframe quality flagging:** Should reframes be explicitly labeled as AI-generated in the UI, and should there be a confidence indicator on the reframe quality?
 
-**Q6 — Prompt context window management:** With ~180 biases, injecting all `identification_criteria` and `linguistic_signals` into every evaluation prompt may exceed practical context limits or degrade model attention. Decide between: (a) inject all biases always, (b) inject only biases relevant to the article type (e.g., filter by category), or (c) a retrieval step that pre-selects the most likely biases before the main evaluation call. This has significant implications for latency, cost, and recall.
+**Q6 — Prompt context window management (RESOLVED):** Research on large-taxonomy LLM classification is unambiguous: injecting all ~180 biases into a single prompt is not viable. Key findings:
+
+- On complex benchmarks with 174 classes, most LLMs achieved **zero accuracy** — complete task failure (LongICLBench)
+- Performance degrades measurably when prompts exceed **70–80% of the context window**; GPT-4 shows ~15% degradation from 4K→128K tokens
+- Multi-pass/verification approaches improve F1 from ~0.30 to ~0.44–0.46 vs. single-pass alone
+- A minimal increase in prompt context yields the highest performance gain; beyond that, additional context yields marginal or negative returns
+
+**Resolution — two operating modes:**
+
+*Mode A: Deep Evaluation* (test set generation, validation, high-stakes review)
+- **Hierarchical cascade:** First pass classifies article into 2–3 top-level bias categories (10 categories, small prompt). Second pass runs full identification criteria only for biases in those categories (~15–25 biases per category). Third pass (optional) runs a self-verification step on flagged instances.
+- Maximizes recall. Accepts higher latency and cost.
+- Used for: building and validating the test set, generating gold-standard annotations, detailed single-article review in the UI.
+
+*Mode B: Bulk Evaluation* (publication inventory, multi-article sweeps)
+- **Retrieval pre-filter:** Use a lightweight embedding similarity step to rank the full taxonomy against the article text, then inject only the top-N most similar bias entries (N=20–30) into a single evaluation call.
+- Balances speed and cost. Some recall loss accepted.
+- Used for: Phase 2 multi-article event analysis, website inventory, GenAI output batch review.
+
+Both modes use the same output schema and framework versioning. Mode is recorded in each evaluation result. The test set is always built with Mode A; bulk comparisons are always Mode B. This allows honest comparison of the two modes against the same ground truth.
 
 **Q7 — Test set annotation process:** Gold-standard annotations require human judgment. Who annotates — single expert, multiple annotators? What is the target inter-rater reliability threshold (Cohen's kappa)? Disagreements between annotators need a resolution protocol. Without this defined, the test set has no credibility as a benchmark.
 
