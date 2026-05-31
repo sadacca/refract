@@ -1,0 +1,248 @@
+REFRACT — ACTIVE TASK LIST
+==========================
+Updated: 2026-05-31
+
+Pipeline architecture note: GitHub Actions workflows are composite (ingest + eval
+in one job). The data layer already provides logical separation via hash-based
+dedup and cached article text. Separate workflows exist only where triggers differ:
+  - precompute.yml     → triggers on taxonomy.json changes
+  - batch_eval.yml     → composite ingest+eval; triggers on article_urls.txt push or manual dispatch
+  - build_index.yml    → called at end of batch_eval, or manual dispatch
+  - precompute_examples.yml → manual only; human review required before output is used
+
+==========================
+PHASE 0 — REPO SCAFFOLDING
+==========================
+[ ] 0.1  Create full directory structure from module layout in REQUIREMENTS.md
+          refract/, pages/, components/, src/refract/, bias_index/, data/precomputed/,
+          data/cache/ (gitignored), data/processed/, data/input/, eval/test_set/,
+          eval/results/, scripts/, .github/workflows/
+[ ] 0.2  Create requirements.txt
+          streamlit, trafilatura, google-generativeai, sentence-transformers,
+          numpy, python-dotenv
+[ ] 0.3  Create config.py
+          API keys (from env), framework_version, taxonomy_version, model selection,
+          eval mode (deep/bulk), rate limit delay
+[ ] 0.4  Create .env.example
+          GEMINI_API_KEY, GUARDIAN_API_KEY, EVAL_MODEL, JUDGE_MODEL
+[ ] 0.5  Create app.py (Streamlit multipage entrypoint + nav)
+[ ] 0.6  Create bias_index/taxonomy.json (empty versioned scaffold)
+[ ] 0.7  Create bias_index/CHANGELOG.md
+[ ] 0.8  Create data/input/article_urls.txt with seed Guardian URLs (10-20 articles
+          covering a mix of news, opinion, and topic domains)
+[ ] 0.9  Create .gitignore (data/cache/, .env, __pycache__, *.pyc)
+
+=========================================
+PHASE 1 — TIER 1 TAXONOMY (7 biases, fully enriched)
+=========================================
+Must be complete before any evaluation runs.
+
+[ ] 1.1  Write scripts/seed_taxonomy.py
+          Pull Wikipedia Cognitive Bias Codex, create provisional JSON records
+          for all entries (name, category, Wikipedia definition, status: provisional)
+[ ] 1.2  Hand-enrich all 7 Tier 1 entries in taxonomy.json with full schema:
+          id, name, aliases, category, subcategory, definition, mechanism,
+          literature_description, identification_criteria, linguistic_signals,
+          canonical_example, journalism_example, reframing_strategy,
+          reframing_example, common_confusions, severity_signal, sources, status
+          Tier 1 biases:
+            - Confirmation Bias
+            - Framing Effect
+            - Availability Heuristic
+            - Anchoring
+            - Fundamental Attribution Error
+            - Negativity Bias
+            - In-Group Bias
+[ ] 1.3  Write scripts/precompute_examples.py
+          For each entry with examples_status: "pending", call LLM to generate
+          candidate positive (3), near-miss (2), and contrast (1) examples.
+          Write to data/pending_examples/{bias_id}.json. Does NOT update taxonomy.json.
+[ ] 1.4  Human review all Tier 1 reference examples (accept/reject each candidate).
+          Write accepted examples back to taxonomy.json; set examples_status: "verified".
+          Commit and increment framework_version.
+[ ] 1.5  Write scripts/precompute.py
+          Reads taxonomy.json, builds all data/precomputed/ artifacts:
+            - bias_blocks/{bias_id}_{taxonomy_version}.txt
+            - category_triage_blocks/{category_id}_{taxonomy_version}.txt
+            - recall_probe_blocks/{category_id}_probe_{taxonomy_version}.txt
+            - judge_blocks/{criterion_id}_{framework_version}.txt
+            - reframe_blocks/{mode}_{taxonomy_version}.txt
+            - embeddings.npy (bias definition vectors for Mode B)
+            - taxonomy_index.json (flat lookup: bias_id → category, status, prominence)
+
+=========================================
+PHASE 2 — CORE PIPELINE
+=========================================
+Depends on Phase 1 complete (at least 7 verified Tier 1 entries).
+
+[ ] 2.1  Write src/refract/llm_client.py
+          Thin abstraction: model name + API key → structured JSON call.
+          Handles Gemini 2.0 Flash (primary). Swappable via config.
+          Exponential backoff retry (4 attempts, 2^n seconds).
+          Returns parsed JSON or raises with full error context.
+
+[ ] 2.2  Write src/refract/ingest.py
+          - trafilatura URL fetch + clean (primary)
+          - Guardian API article fetch by URL or search (secondary)
+          - sha256(url+text) as article_id
+          - Check data/processed/ for existing article_id; return cached if found
+          - Write raw article text to data/cache/{hash}_raw.json
+
+[ ] 2.3  Write src/refract/bias_eval.py
+          4-pass evaluation pipeline. Loads precomputed blocks from data/precomputed/;
+          does NOT assemble prompts at runtime.
+          Pass 1: Category triage (1 LLM call) — which of 10 categories are present?
+          Pass 2: Bias identification (1 call per flagged category, injects bias_blocks
+                  + reference examples as few-shot anchors)
+          Pass 3: Recall probes (1 call per unflagged category — forces model to
+                  articulate absence, not just skip)
+          Pass 4: LLM judge (1 cross-model call per article — pointwise, one criterion,
+                  locked rubric with evidence anchoring, few-shot calibration)
+          Output: evaluation JSON matching schema in REQUIREMENTS.md / EVALUATION_FRAMEWORK.md
+          Write result to data/processed/{article_hash}_{fw_version}.json
+
+[ ] 2.4  Write src/refract/reframe.py
+          Three modes: Neutralize / Steelman / Annotated
+          Loads reframe_blocks from data/precomputed/.
+          Injects evaluation results + article text.
+          Constraint in prompt: preserve facts, do not add claims, flag gaps.
+
+[ ] 2.5  Write scripts/batch_eval.py
+          Headless pipeline: reads data/input/article_urls.txt, runs ingest + eval
+          per article, skips already-processed hashes, respects rate limit delay
+          (default 5s between articles to stay within Gemini 30 req/min).
+          Accepts CLI args: --url-file, --skip-cached, --max, --model-override.
+
+[ ] 2.6  Write scripts/build_index.py
+          Reads all data/processed/*.json, rebuilds:
+            - data/processed/index.json (manifest, no article text)
+            - data/processed/stats.json (aggregations)
+            - data/processed/bias_frequency.json (per-bias hit count/rate)
+
+=========================================
+PHASE 3 — GITHUB ACTIONS WORKFLOWS
+=========================================
+[ ] 3.1  .github/workflows/precompute.yml
+          Trigger: push to bias_index/taxonomy.json or src/refract/prompts/
+          Runs scripts/precompute.py, commits data/precomputed/ back to main.
+          Fails fast if framework_version not incremented.
+
+[ ] 3.2  .github/workflows/batch_eval.yml  ← COMPOSITE: ingest + eval in one job
+          Trigger: workflow_dispatch (with inputs) OR push to data/input/article_urls.txt
+          Inputs: url_file, model_override, skip_cached (bool), max_articles (int)
+          Steps: checkout → setup-python → pip install (cached) →
+                 verify data/precomputed/ is current for framework_version →
+                 python scripts/batch_eval.py →
+                 python scripts/build_index.py →
+                 git add data/processed/ → git commit → git push main
+          Concurrency: group: batch-eval, cancel-in-progress: false
+
+[ ] 3.3  .github/workflows/build_index.yml
+          Trigger: workflow_dispatch only (for manual reconciliation)
+          Runs scripts/build_index.py, commits updated index/stats files.
+
+[ ] 3.4  .github/workflows/precompute_examples.yml
+          Trigger: workflow_dispatch only
+          Runs scripts/precompute_examples.py --status pending
+          Commits data/pending_examples/ (not taxonomy.json — human review required first)
+
+=========================================
+PHASE 4 — WAVE 1 UI (Pipeline MVP)
+=========================================
+Minimum UI to demonstrate end-to-end.
+Build order: 4.2 → 4.1 → 4.3
+
+[ ] 4.1  pages/2_article_eval.py
+          - URL text field + "Fetch & Evaluate" button; text area for paste input
+          - Step-by-step pass progress (Pass 1 → 2 → 3 → 4) with spinner + model shown
+          - Cache indicator: "Loaded from cache (v{framework_version})" + re-run option
+          - Bias instance cards: name, category badge, severity, all occurrences with
+            excerpt, paragraph location, text region, confidence, author_exhibiting /
+            source_reporting label, recall_probe flag, judge verdict
+          - Inline article view: original text with all excerpts highlighted,
+            color-coded by category; clicking highlight opens bias card
+            [PRIORITY: this is the most important UI element]
+          - Summary bar: bias_type_count, total_occurrences, dominant categories,
+            by-region breakdown
+          - Export: full evaluation JSON, summary markdown
+
+[ ] 4.2  components/eval_display.py
+          Bias card component; inline highlight renderer using char_start/char_end offsets
+
+[ ] 4.3  pages/3_reframe.py
+          - Requires evaluation to have run (check session state)
+          - Mode selector: Neutralize / Steelman / Annotated (radio)
+          - Reframe button + spinner
+          - Side-by-side: original with highlights (left), reframed text (right)
+          - Bias coverage indicator: which detected biases were addressed
+          - Export: plain text or markdown
+
+=========================================
+PHASE 5 — WAVE 2 UI (QA + Global Review)
+=========================================
+Build after pipeline is stable and 100-article run has data.
+Build order: 5.1 → 5.3 → 5.4 → 5.2 → 5.5
+
+[ ] 5.1  pages/1_bias_index.py
+          - Searchable card view of all taxonomy entries
+          - Filter by category, status (canonical/provisional), examples_status
+          - Full detail panel: all schema fields including reference examples and sources
+          - Framework Dashboard tab: versions, examples_status summary,
+            pending example review queue (accept/reject from data/pending_examples/)
+
+[ ] 5.2  pages/4_framework_dashboard.py
+          - Current framework_version and taxonomy_version
+          - Eval scores per version (precision/recall/F1 per bias category)
+          - Version history trend chart
+          - bias_frequency.json chart
+          - Human feedback summary (post-POC once scoring.py exists)
+
+[ ] 5.3  pages/6_qa_review.py
+          - Queue of evaluated articles (filterable by date/source/framework version)
+          - Per-article review: original text with highlights, per-instance
+            verdict input (Confirm / Reject / Partially confirm + freetext note)
+          - Judge verdicts shown alongside for comparison
+          - Running TP/FP/partial tally
+          - Save: writes to eval/test_set/{article_id}_review.json; export as CSV
+
+[ ] 5.4  pages/7_global_review.py
+          - Reads data/processed/stats.json and index.json
+          - Corpus summary: total articles, date range, sources, framework versions
+          - Bias prevalence bar chart (filterable by source/date/article type)
+          - Category heatmap: articles × categories
+          - Source comparison (appears when ≥2 sources have ≥5 articles each)
+          - Sortable per-article table; click row to open in 2_article_eval.py
+          - Contrastive pair finder (Guardian opinion vs. wire on same topic)
+          - Export: stats.json, filtered CSV
+
+[ ] 5.5  pages/5_article_browser.py
+          - Guardian API search: query field, date range, section filter
+          - Results list with previously-evaluated flag
+          - Batch queue: checkbox select → "Run Queue" → triggers batch_eval.py
+          - Manual URL fallback
+
+=========================================
+ONGOING / POST-POC
+=========================================
+[ ] Enrich Tier 2 entries (18 biases) after first 100-article run reveals patterns
+[ ] Build eval/test_set/ with 20-30 labeled articles for automated scoring
+[ ] Write eval/scoring.py for automated precision/recall/F1 against test set
+[ ] Phase 3 gap audit: manual review of 20 articles for uncaptured bias patterns
+[ ] Phase 3b model comparison: Gemini Flash vs. Claude Sonnet vs. Groq/Llama 3.1 70B
+[ ] Add GenAI-specific bias categories for Feature 6 (Phase 2)
+
+==========================
+DECISION LOG
+==========================
+2026-05-31  Pipeline architecture: composite ingest+eval in batch_eval.yml (not
+            separate workflows). Data layer provides logical separation via hash-based
+            dedup and data/cache/. Re-fetching is fast and free; separate workflows
+            add complexity with no benefit at this scale.
+
+2026-05-31  Tier 1 taxonomy: 7 biases fully enriched before any evaluation runs.
+            Build sequence: enrich → precompute_examples → human review → precompute.py
+            → pipeline runs.
+
+2026-05-31  Free API stack: Gemini 2.0 Flash (primary, 1500 req/day), Guardian API
+            (article source, 500 req/day), trafilatura (URL scraping, local/free).
+            LLM client abstracted; model is a config swap.
