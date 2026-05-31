@@ -22,25 +22,74 @@
 
 ### Feature 1: Cognitive Bias Index
 
-**Purpose:** Provide a browsable, searchable reference of cognitive bias categories and examples — the foundation for all downstream evaluation.
+**Purpose:** Provide a browsable, searchable reference of cognitive bias categories and examples — the foundation for all downstream evaluation. The index is not merely a glossary; it is the ground-truth reference used by the LLM evaluation pipeline. Its richness directly determines the quality of detection and reframing.
 
-**Requirements:**
-- Display a structured taxonomy of cognitive bias categories (e.g., attribution biases, availability heuristics, confirmation bias, framing effects, anchoring, in-group bias, narrative bias, etc.)
-- Each bias entry includes:
-  - Name and category
-  - Cognitive psychology definition (plain language)
-  - Mechanism: how the bias distorts perception or reasoning
-  - Example in neutral prose
-  - Example as it appears in journalism/written media
-  - Severity signal: how detectable and distorting the bias typically is
-- Index is searchable by name, category, and keyword
-- Index is version-controlled and extensible (new biases can be added)
-- Source taxonomy draws from established references (Kahneman, Tversky, Cialdini, Wikipedia cognitive bias codex, etc.)
+#### 1a. Index Construction Process
+
+The index must be built deliberately, not scraped wholesale. Construction process:
+
+1. **Seed from canonical sources** — start with the Wikipedia Cognitive Bias Codex (~180 biases) and Buster Benson's categorization, then cross-reference against primary literature (Kahneman & Tversky, Cialdini, Ariely, Gilovich, etc.)
+2. **Filter for textual detectability** — retain only biases that can manifest detectably in written text; exclude purely perceptual or memory-retrieval biases with no written signal
+3. **Enrich each entry from the literature** — pull identification criteria, canonical examples, and reframing strategies from source papers and textbooks, not from secondary summaries
+4. **Add journalism-specific examples** — for each bias, include at least one real or constructed example as it would appear in a news article, op-ed, or headline
+5. **Peer-review the entry** — each entry should cite at least one primary source; entries without a citable source are marked "provisional"
+6. **Version and publish** — the taxonomy is stored as versioned JSON; changes are tracked in git with a changelog
+
+#### 1b. Per-Entry Data Schema
+
+Each bias entry in `taxonomy.json` must include all of the following fields:
+
+| Field | Description |
+|---|---|
+| `id` | Unique slug (e.g., `confirmation-bias`) |
+| `name` | Common name |
+| `aliases` | Other names for the same bias |
+| `category` | Top-level grouping (see categories below) |
+| `subcategory` | More specific grouping within category |
+| `definition` | Plain-language definition (2–4 sentences) |
+| `mechanism` | Cognitive mechanism: what mental shortcut or error produces this bias |
+| `literature_description` | How the bias is described in the primary cog psych literature; include key researcher names and study context |
+| `identification_criteria` | Explicit, testable criteria for identifying this bias in written text — written as rules an evaluator (human or LLM) can apply |
+| `linguistic_signals` | Specific language patterns, word choices, or structural features that are diagnostic of this bias in writing (e.g., passive voice obscuring agency, absence of counterargument, emotionally loaded adjectives) |
+| `canonical_example` | A brief neutral example of the bias in general prose, drawn from or consistent with the literature |
+| `journalism_example` | A concrete example as it would appear in a news article, headline, or op-ed — written or sourced specifically for journalism context |
+| `reframing_strategy` | How to rewrite or restructure text exhibiting this bias to reduce it; what information needs to be added, removed, or restructured |
+| `reframing_example` | The `journalism_example` rewritten using the `reframing_strategy` |
+| `common_confusions` | Other biases this one is frequently mistaken for, and how to distinguish them |
+| `severity_signal` | Typical severity when present in journalism: high / medium / low, with rationale |
+| `sources` | List of primary citations (author, year, title, DOI or URL if available) |
+| `status` | `canonical` (cited primary source) or `provisional` (needs source) |
+
+#### 1c. Bias Category Taxonomy
+
+Top-level categories to organize the index (based on Benson/codex structure, adapted for written-text detectability):
+
+- **Attribution & Causation** — errors in assigning cause, credit, or blame (fundamental attribution error, actor-observer bias, just-world hypothesis)
+- **Framing & Anchoring** — how presentation order and reference points distort interpretation (framing effect, anchoring, contrast effect)
+- **Availability & Salience** — overweighting information that is vivid, recent, or easily recalled (availability heuristic, the spotlight effect, availability cascade)
+- **Confirmation & Belief Perseverance** — seeking and favoring information that confirms existing beliefs (confirmation bias, myside bias, backfire effect)
+- **In-Group & Social** — favoritism toward perceived in-group and distortion of out-group (in-group bias, out-group homogeneity, moral licensing)
+- **Narrative & Pattern** — imposing story structure, causality, or pattern where none is established (narrative fallacy, clustering illusion, Texas sharpshooter fallacy)
+- **Authority & Social Proof** — deferring to authority, consensus, or popularity as a substitute for evidence (appeal to authority, bandwagon effect, expert halo)
+- **Affect & Emotional Reasoning** — letting emotional tone stand in for evidentiary argument (affect heuristic, emotional contagion in text, fear/outrage framing)
+- **Omission & Selective Emphasis** — bias through what is left out, minimized, or buried (omission bias, selective emphasis, euphemistic labeling)
+- **Temporal & Recency** — over- or under-weighting information based on timing (recency bias, present bias, end-of-history illusion)
+- **GenAI-Specific** *(Phase 2)* — sycophancy, training data recency bias, overconfidence, persona injection
+
+#### 1d. Index as Evaluation Substrate
+
+The index is the direct input to the LLM evaluation pipeline:
+- The evaluator prompt includes the full `identification_criteria` and `linguistic_signals` for each candidate bias
+- The reframing prompt uses the `reframing_strategy` and `reframing_example` as few-shot examples
+- Confidence scores in evaluations are calibrated against the `severity_signal` and `common_confusions` fields
+- When a new bias is added to the index, the evaluation and reframing pipelines automatically gain coverage for it — no prompt changes required
 
 **UI:**
 - Sidebar nav or tabbed layout
 - Card or table view with expandable detail panels
-- Filter by category, severity, or type (cognitive vs. social vs. memory)
+- Filter by category, subcategory, severity, or status (canonical / provisional)
+- Each card shows: name, category, definition, linguistic signals, journalism example, and reframing example
+- Full detail panel shows all fields including literature description, sources, and common confusions
 
 ---
 
