@@ -111,6 +111,81 @@ Top-level categories to organize the index (based on Benson/codex structure, ada
 - **Temporal & Recency** — over- or under-weighting information based on timing (recency bias, present bias, end-of-history illusion)
 - **GenAI-Specific** *(Phase 2)* — sycophancy, training data recency bias, overconfidence, persona injection
 
+#### 1c-ii. Tiered Taxonomy Rollout
+
+Rather than launching with all ~90 text-detectable biases at once (thin entries, weak reference examples), the taxonomy is built in four tiers. Each tier is fully enriched — verified reference examples, complete identification criteria, literature-grounded definitions — before the next tier is seeded.
+
+**Tier ranking criteria** (applied in combination):
+1. **Literature prominence** — approximate Google Scholar title mention frequency; higher = more studied, more citable definitions available
+2. **Wikipedia prominence** — has a dedicated Wikipedia article (not a redirect or subsection); indicates well-established, stable definition
+3. **Journalism detectability** — can the bias be identified from text alone, without behavioral context? Biases requiring an observable decision or behavioral response are deprioritized.
+4. **Malberg et al. overlap** — appears in their 30-bias set, meaning control/treatment example pairs from their HuggingFace dataset can seed our reference examples
+5. **EDMO journalism relevance** — appears in EDMO's 10-bias "cheat sheet" for journalism/fact-checking contexts
+
+---
+
+**Tier 1 — MVP (7 biases): Start here**
+
+The highest-confidence, most literature-prominent, most journalism-relevant biases. Full entries required before any evaluation runs. These should appear in the majority of evaluated articles.
+
+| Bias | Category | Malberg? | EDMO? | Rationale |
+|---|---|---|---|---|
+| **Confirmation Bias** | Confirmation & Belief Perseverance | ✓ | ✓ | Most cited in HCI review (45 mentions); ubiquitous in news source selection and story framing |
+| **Framing Effect** | Framing & Anchoring | ✓ | ✓ | Core Kahneman/Tversky; fundamental to how any story is presented |
+| **Availability Heuristic** | Availability & Salience | ✓ | ✓ | Second most studied after confirmation; drives vividness and anecdote over base rate |
+| **Anchoring** | Framing & Anchoring | ✓ | ✓ | First number/fact mentioned sets reference point for all subsequent interpretation |
+| **Fundamental Attribution Error** | Attribution & Causation | ✓ | — | Overattributing behavior to person vs. situation; pervasive in crime, politics, crisis reporting |
+| **Negativity Bias** | Affect & Emotional Reasoning | ✓ | — | Asymmetric weight on negative events; structural feature of news selection |
+| **In-Group Bias** | In-Group & Social | ✓ | — | Us-vs-them framing; pervasive in political and conflict reporting |
+
+---
+
+**Tier 2 — 25 biases (add 18): POC 100-article run**
+
+Expand to 25 biases for the 100-article stats run. These are well-evidenced, have dedicated Wikipedia articles, and manifest detectably in journalism text.
+
+| Bias | Category | Malberg? | Notes |
+|---|---|---|---|
+| **Bandwagon Effect** | Authority & Social Proof | ✓ | Consensus as evidence; prevalent in election and trend coverage |
+| **Halo Effect** | Authority & Social Proof | ✓ | Positive trait in one domain bleeds into unrelated domains |
+| **Hindsight Bias** | Temporal & Recency | ✓ | "It was obvious all along" framing in post-event reporting |
+| **Survivorship Bias** | Omission & Selective Emphasis | ✓ | Reporting only successful/visible cases; omits failures |
+| **Status Quo Bias** | Confirmation & Belief Perseverance | ✓ | Change framed as deviation; default framed as neutral |
+| **Optimism Bias** | Temporal & Recency | ✓ | Underestimating risk/negative outcomes; common in economic and policy reporting |
+| **Stereotyping** | In-Group & Social | ✓ | Group-level generalization applied to individuals |
+| **Omission Bias** | Omission & Selective Emphasis | — | Harm by inaction framed differently than harm by action |
+| **Narrative Fallacy** | Narrative & Pattern | — | Causal story imposed on sequence of events |
+| **Appeal to Authority** | Authority & Social Proof | — | Expert citation as argument-closer rather than evidence |
+| **Affect Heuristic** | Affect & Emotional Reasoning | — | Emotional response to source/subject substitutes for evidence evaluation |
+| **Recency Bias** | Temporal & Recency | — | Recent events overweighted vs. historical base rate |
+| **Myside Bias** | Confirmation & Belief Perseverance | — | Evaluating arguments based on agreement with prior position |
+| **False Consensus Effect** | In-Group & Social | — | Overestimating how widely one's own view is shared |
+| **Selective Emphasis** | Omission & Selective Emphasis | — | Prominence/placement of information distorts perceived importance |
+| **Texas Sharpshooter Fallacy** | Narrative & Pattern | — | Drawing the target after seeing the data; post-hoc pattern |
+| **Bandwagon / Social Proof** | Authority & Social Proof | ✓ | (see above — ensure not duplicated with Bandwagon Effect) |
+| **Backfire Effect** | Confirmation & Belief Perseverance | — | Corrective information strengthens original belief |
+
+---
+
+**Tier 3 — 50 biases (add 25): Phase 2**
+
+Expand to 50 for publication inventory and multi-article analysis. Includes less-common but text-detectable biases and those specific to political/economic journalism contexts. Full list to be determined during Tier 2 operation — biases that appear frequently in Tier 2 evaluations but aren't yet in the taxonomy are candidates.
+
+Target categories to fill out: Narrative & Pattern, Affect & Emotional Reasoning, Omission & Selective Emphasis, Temporal & Recency.
+
+---
+
+**Tier 4 — Full ~90 biases: Phase 3+**
+
+Complete set of text-detectable biases from the Wikipedia codex after filtering for journalism relevance. Populated incrementally as usage patterns and the hand-eval log identify gaps. Not a timeline target — grows organically from evidence.
+
+**Excluded from all tiers (not text-detectable without behavioral context):**
+Disposition Effect, Mental Accounting, Hyperbolic Discounting, Risk Compensation, Escalation of Commitment, Endowment Effect, Loss Aversion — these require observable choice behavior to measure and do not manifest reliably as identifiable text patterns in journalism.
+
+---
+
+**Build sequence:** Tier 1 entries (7) fully enriched → POC evaluation pipeline running → 100-article run → review results for Tier 2 candidates → enrich Tier 2 entries (18) → re-run pipeline → Phase 2.
+
 #### 1d. Precompute Phase
 
 Before evaluation can run on any article, a separate precompute phase must populate `reference_examples` for every bias in the taxonomy. This runs once per taxonomy entry and re-runs whenever the entry's definition, criteria, or examples are updated.
