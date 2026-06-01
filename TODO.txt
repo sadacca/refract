@@ -80,6 +80,112 @@ PHASE 5 — WAVE 2 UI  [NOT STARTED]
 [ ] 5.3  pages/5_article_browser.py — Guardian API search, batch queue
 
 =========================================
+PHASE 6 — EVAL FRAMEWORK HARDENING  [NOT STARTED]
+Research basis: see RESEARCH_REFERENCES.md
+=========================================
+
+--- BIAS ASSESSMENT IMPROVEMENTS ---
+
+[ ] 6.1  CROSS-FAMILY JUDGE (Pass 4)
+         Switch JUDGE_MODEL in config.py from llama-3.3-70b-versatile to Gemini.
+         Gemini REST client already implemented in llm_client.py.
+         Rationale: self-preference bias documented at 10–25% score inflation when
+         judge and evaluator share model family (linear correlation with self-recognition
+         capability; NeurIPS 2024 Oral, arXiv:2404.13076). Anchoring over-rejection
+         pattern in current data is a likely symptom.
+         Effort: 1 line in config.py. Zero structural changes.
+
+[ ] 6.2  SWAP AUGMENTATION (Pass 4 position bias)
+         In pass4_judge(), run the judge twice: once with instances in original order,
+         once with order reversed. Take intersection of "confirmed" verdicts as the
+         high-confidence set; mark divergent verdicts as "suspect".
+         Rationale: reordering alone flips 66/80 pairwise rankings in GPT-4 judge
+         (Wang et al. ACL 2024, arXiv:2305.17926); >10% accuracy shift across 150k
+         instances (Shen et al. 2024, arXiv:2406.07791). Doubles Pass 4 LLM calls
+         but Pass 4 is already cross-family after 6.1.
+         Effort: ~1 day in bias_eval.py.
+
+[ ] 6.3  SCHEMA FIELD ORDER FIX (Pass 4 CoT integrity)
+         Verify that the Pass 4 judge JSON schema has "rationale" before "verdict".
+         If verdict appears first, models answer zero-shot and bypass reasoning.
+         Rationale: G-Eval paper (arXiv:2303.16634) and structured-output research
+         (arXiv:2511.22312) both confirm: placing the answer token before the reason
+         token disables chain-of-thought. Required pre-condition for 6.2 to work correctly.
+         Effort: 30 minutes — inspect and fix pass4_judge() prompt in bias_eval.py.
+
+[ ] 6.4  MACRO-F1 TEST SET + SCORING SCRIPT
+         Build eval/test_set/ with 20 hand-annotated articles (target: all 7 Tier 1
+         bias categories represented; mix of article types and bias density).
+         Write eval/scoring.py computing per-bias precision, recall, macro-F1, and
+         confusion matrix. Store results in eval/results/{framework_version}_scores.json.
+         Annotation admission gate: Cohen's kappa >= 0.65 between two reviewers.
+         Rationale: no quantitative signal exists today; "Anchoring frequently rejected"
+         and "Framing in 100% of articles" are observations — macro-F1 per class is
+         the only way to distinguish over-detection from genuine prevalence. Macro-F1
+         (equal class weighting) is the correct metric for an imbalanced taxonomy where
+         rare classes matter as much as common ones (arXiv:2510.04641, arXiv:2411.15594).
+         Effort: 3–5 days (annotation) + 1 day (scoring script).
+
+[ ] 6.5  G-EVAL PROBABILITY WEIGHTING (Pass 4 confidence)
+         After 6.3 and 6.4 are in place: request logprobs for verdict tokens
+         ("confirmed", "suspect", "rejected") from Pass 4. Compute probability-weighted
+         confidence score (float 0–1) alongside the discrete verdict. Store as
+         "verdict_confidence" in judge_result schema.
+         Rationale: G-Eval (arXiv:2303.16634) shows probability re-weighting adds
+         2–3 Spearman correlation points and produces continuous calibrated scores
+         instead of brittle 3-class outputs. Groq API supports logprobs.
+         Effort: ~1 day. Requires Groq logprobs parameter.
+
+--- TOKEN EFFICIENCY IMPROVEMENTS ---
+
+[ ] 6.6  JSON STRUCTURED OUTPUT MODE (all passes)
+         Enable response_format={"type": "json_object"} on all call_llm() invocations
+         that request structured output (Passes 0–4). Eliminates JSON parse errors and
+         retry loops.
+         Rationale: constrained decoding eliminates malformed-output retries (100%
+         wasted tokens) and improves time-per-output-token by up to 40%
+         (arXiv:2506.03887). Groq supports json_object mode.
+         Pre-condition: complete 6.3 first (schema field order) — JSON mode with
+         wrong field order will lock in the CoT-bypass behavior.
+         Effort: 2 hours in llm_client.py.
+
+[ ] 6.7  PASS 0 → PASS 2 SHORT-CIRCUIT
+         After pass0_paragraph_triage(): if a category has zero assigned paragraphs,
+         skip it from Pass 1 flagging and Pass 2 identification entirely. No LLM calls
+         for categories where Pass 0 found no relevant text.
+         Rationale: Pass 0 paragraph triage and Pass 1 category triage are partially
+         redundant. Zero-paragraph result from Pass 0 is a strong signal of absence.
+         TELEClass (arXiv:2403.00165) confirms coarse-to-fine routing eliminates
+         superfluous calls for trivially-absent categories.
+         Expected impact: 20–40% reduction in Pass 2 calls across diverse corpus
+         (FAE and Anchoring absent from short sports articles).
+         Effort: ~2 hours in bias_eval.py evaluate_article().
+
+[ ] 6.8  STATIC BIAS BLOCK PREFIX ALIGNMENT
+         Restructure Pass 2 prompt construction so the static bias block
+         (data/precomputed/bias_blocks/{bias_id}.txt) is always the leading prefix,
+         with the variable article text appended after. This is a zero-cost change now
+         that pays dividends when migrating to a provider with prefix caching.
+         Rationale: Anthropic prompt caching gives 90% cost reduction on cached tokens
+         with 85% latency improvement; OpenAI gives 50% automatically. Both require the
+         static content to be at the prompt prefix. Groq does not currently support
+         prefix caching — this is a migration enabler.
+         Effort: 1 hour in bias_eval.py.
+
+[ ] 6.9  LLMLINGUA-2 COMPRESSION ON PASS 2 PAYLOAD  [MODEST TRADEOFF]
+         Evaluate LLMLingua-2 as a pre-processing step between Pass 0 paragraph
+         selection and Pass 2 identification. Compress selected paragraphs at rate=0.5
+         (2x) before injecting into Pass 2 prompt.
+         Rationale: LLMLingua-2 (arXiv:2403.12968) achieves <1.5 point accuracy loss
+         at 20x compression; negligible loss at 3x–9x. 2x compression is conservative
+         and should preserve subtle linguistic signals (hedging language, verb asymmetry)
+         that are the detection targets.
+         RISK: journalism bias signals are often in specific word choices that
+         compression could strip. Validate against eval/test_set/ (requires 6.4 first)
+         before enabling in production.
+         Effort: 1 day (pip install llmlingua + integration + test set validation).
+
+=========================================
 NEXT STEPS TO REACH END-TO-END WORKING
 =========================================
 These must happen in order before the pipeline runs on a real article:
@@ -121,6 +227,10 @@ ONGOING / POST-POC
 ==========================
 DECISION LOG
 ==========================
+2026-06-01  Phase 6 eval hardening tasks added (6.1–6.9). Grounded in 2024–2026
+            LLM-as-judge research. Priority order: 6.3 → 6.6 → 6.1 → 6.7 → 6.2 →
+            6.4 → 6.8 → 6.5 → 6.9. See RESEARCH_REFERENCES.md for full citations.
+
 2026-05-31  Pipeline architecture: composite ingest+eval in batch_eval.yml.
 
 2026-05-31  Tier 1 taxonomy: 7 biases fully schema-enriched (provisional status).

@@ -869,27 +869,41 @@ A reframe passes QA if: factual preservation = 100%, bias reduction > 50% (bias_
 
 ## Key References
 
-**Hierarchical & Large-Taxonomy Classification**
-- [Single-pass Hierarchical Text Classification with LLMs](https://payberah.github.io/files/download/papers/llm_classification.pdf)
-- [TELEClass: Taxonomy Enrichment and LLM-Enhanced Hierarchical Text Classification](https://arxiv.org/html/2403.00165v3)
-- [SALSA: Single-pass Autoregressive LLM Structured Classification](https://arxiv.org/pdf/2510.22691)
-- [Optimizing LLM Annotation through Multi-Agent Orchestration](https://arxiv.org/pdf/2603.13353)
-
-**Context Window & Prompt Length**
-- [Context Length Alone Hurts LLM Performance Despite Perfect Retrieval](https://arxiv.org/html/2510.05381v1)
-- [Why Does the Effective Context Length of LLMs Fall Short?](https://arxiv.org/pdf/2410.18745)
+See [RESEARCH_REFERENCES.md](./RESEARCH_REFERENCES.md) for the full categorized reference library
+(13 categories, 60+ papers, reading priority guide). Selected highlights below.
 
 **LLM-as-Judge: Biases & Failure Modes**
+- [Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge](https://arxiv.org/abs/2410.02736) — 12-bias CALM taxonomy
+- [Large Language Models are not Fair Evaluators](https://arxiv.org/abs/2305.17926) — swap augmentation; 66/80 ranking flips
+- [LLM Evaluators Recognize and Favor Their Own Generations](https://arxiv.org/abs/2404.13076) — NeurIPS 2024 Oral; self-preference mechanism
+- [Judging the Judges: Systematic Evaluation of Bias Mitigation Strategies](https://arxiv.org/abs/2604.23178) — Apr 2026; 9 mitigations compared
 - [A Systematic Study of Position Bias in LLM-as-a-Judge](https://aclanthology.org/2025.ijcnlp-long.18.pdf)
-- [Self-Preference Bias in LLM-as-a-Judge](https://www.researchgate.net/publication/385353198_Self-Preference_Bias_in_LLM-as-a-Judge)
-- [The Comparative Trap: Pairwise Comparisons Amplify Biased Preferences](https://arxiv.org/pdf/2406.12319)
-- [LLMs-as-Judges: A Comprehensive Survey](https://arxiv.org/html/2412.05579v2)
+- [LLMs-as-Judges: A Comprehensive Survey](https://arxiv.org/abs/2412.05579)
 
 **LLM-as-Judge: Rubrics & Calibration**
-- [RULERS: Locked Rubrics and Evidence-Anchored Scoring](https://arxiv.org/html/2601.08654v1)
-- [AutoRubric: Unifying Rubric-based LLM Evaluation](https://arxiv.org/html/2603.00077v2)
+- [G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment](https://arxiv.org/abs/2303.16634) — CoT + probability weighting
+- [LLM-Rubric: A Multidimensional, Calibrated Approach](https://arxiv.org/abs/2501.00274) — per-dimension rubric + neural calibration
+- [RULERS: Locked Rubrics and Evidence-Anchored Scoring](https://arxiv.org/abs/2601.08654)
+- [AutoRubric: Unifying Rubric-based LLM Evaluation](https://arxiv.org/abs/2603.00077)
 - [Prometheus 2: Open Source LLM Specialized in Evaluation (EMNLP 2024)](https://aclanthology.org/2024.emnlp-main.248/)
 
 **Ensemble & Panel Judging**
-- [Auditing Multi-Agent LLM Reasoning Trees Outperforms Majority Vote and LLM-as-Judge](https://arxiv.org/html/2602.09341v1)
+- [Trust or Escalate: LLM Judges with Provable Guarantees](https://arxiv.org/abs/2407.18370) — ICLR 2025 Oral; conformal prediction cascade
+- [ChatEval: Towards Better LLM-based Evaluators through Multi-Agent Debate](https://arxiv.org/abs/2308.07201) — ICLR 2024
+- [Auditing Multi-Agent LLM Reasoning Trees Outperforms Majority Vote](https://arxiv.org/abs/2602.09341)
 - [Human-Centered Design Recommendations for LLM-as-a-Judge](https://aclanthology.org/2024.hucllm-1.2.pdf)
+
+**Hierarchical & Large-Taxonomy Classification**
+- [TELEClass: Taxonomy Enrichment and LLM-Enhanced Hierarchical Text Classification](https://arxiv.org/abs/2403.00165)
+- [Single-pass Hierarchical Text Classification with LLMs](https://payberah.github.io/files/download/papers/llm_classification.pdf)
+- [SALSA: Single-pass Autoregressive LLM Structured Classification](https://arxiv.org/abs/2510.22691)
+- [Optimizing LLM Annotation through Multi-Agent Orchestration](https://arxiv.org/abs/2603.13353)
+
+**Context Window & Prompt Length**
+- [Context Length Alone Hurts LLM Performance Despite Perfect Retrieval](https://arxiv.org/abs/2510.05381)
+- [Why Does the Effective Context Length of LLMs Fall Short?](https://arxiv.org/abs/2410.18745)
+
+**Token Efficiency**
+- [LLMLingua-2: Data Distillation for Efficient Task-Agnostic Prompt Compression](https://arxiv.org/abs/2403.12968) — 3x–20x compression; pip install llmlingua
+- [Prompt Compression for Large Language Models: A Survey](https://aclanthology.org/2025.naacl-long.368.pdf) — NAACL 2025
+- [Pre3: Deterministic Pushdown Automata for Faster Structured LLM Generation](https://arxiv.org/abs/2506.03887) — 40% time-per-token improvement
