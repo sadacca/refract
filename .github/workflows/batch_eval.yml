@@ -95,8 +95,13 @@ jobs:
           if [ "${{ inputs.max_articles }}" != "0" ] && [ -n "${{ inputs.max_articles }}" ]; then
             MAX_ARG="--max ${{ inputs.max_articles }}"
           fi
+          SKIP_ARG="--skip-cached"
+          if [ "${{ inputs.skip_cached }}" = "false" ]; then
+            SKIP_ARG="--no-skip-cached"
+          fi
           python scripts/batch_eval.py \
             --url-file "${{ inputs.url_file || 'data/input/article_urls.txt' }}" \
+            $SKIP_ARG \
             $MAX_ARG
 
       - name: Rebuild index

@@ -69,6 +69,12 @@ def main() -> None:
         default=True,
         help="Skip articles already in data/processed/",
     )
+    parser.add_argument(
+        "--no-skip-cached",
+        action="store_false",
+        dest="skip_cached",
+        help="Re-evaluate articles even if already in data/processed/",
+    )
     parser.add_argument("--max", type=int, default=None, dest="max_articles")
     parser.add_argument("--model", default=EVAL_MODEL, dest="model")
     args = parser.parse_args()
