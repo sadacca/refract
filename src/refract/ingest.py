@@ -44,11 +44,25 @@ def fetch_url(url: str) -> dict:
     Fetch and extract article text from a URL using trafilatura.
     Returns a record dict with url, title, text, word_count, article_id.
     """
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (compatible; Refract/0.1; research bot; "
+            "+https://github.com/sadacca/refract)"
+        )
+    }
+
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             downloaded = trafilatura.fetch_url(url)
             if not downloaded:
-                raise ValueError(f"trafilatura returned empty for {url}")
+                # trafilatura fetch failed — try requests with browser UA
+                resp = requests.get(url, headers=headers, timeout=20)
+                if resp.status_code == 404:
+                    raise ValueError(f"404 Not Found: {url}")
+                resp.raise_for_status()
+                downloaded = resp.text
+            if not downloaded:
+                raise ValueError(f"empty response from {url}")
 
             text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
             if not text:
