@@ -5,11 +5,6 @@
 # Trafilatura + requests fallback fetch text — no API key needed.
 # Already-evaluated articles are skipped on re-run (hash-based dedup).
 
-# --- Wikipedia (open access, low-bias baseline) ---
-https://en.wikipedia.org/wiki/Confirmation_bias
-https://en.wikipedia.org/wiki/Framing_effect_(psychology)
-https://en.wikipedia.org/wiki/Availability_heuristic
-
 # --- NPR (open access) ---
 https://www.npr.org/2026/05/31/g-s1-125047/wembanyama-san-antonio-spurs-win-west-oklahoma-thunder-nba
 https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean
