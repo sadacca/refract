@@ -139,6 +139,7 @@ else:
 
 p2_instances = [i for i in instances if not i.get("recall_probe")]
 p3_instances = [i for i in instances if i.get("recall_probe")]
+p2_cats      = sorted({i.get("category", "?") for i in p2_instances})
 verdicts     = {j["bias_id"]: j for j in all_judgments}
 all_cats_in_data = (
     set(cat_paragraphs.keys()) if cat_paragraphs
