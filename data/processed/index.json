@@ -87,56 +87,5 @@
       "Framing & Anchoring"
     ],
     "word_count": 562
-  },
-  {
-    "article_id": "62d041289a845e78",
-    "url": "https://en.wikipedia.org/wiki/Availability_heuristic",
-    "title": "Availability heuristic - Wikipedia",
-    "source": null,
-    "evaluated_at": "2026-06-01T01:28:50.046158+00:00",
-    "framework_version": "v0.1.0",
-    "taxonomy_version": "v0.1.0",
-    "model": "llama-3.3-70b-versatile",
-    "bias_type_count": 2,
-    "total_occurrences": 6,
-    "dominant_categories": [
-      "Availability & Salience",
-      "Framing & Anchoring"
-    ],
-    "word_count": 6062
-  },
-  {
-    "article_id": "ce5ec14caba175ba",
-    "url": "https://en.wikipedia.org/wiki/Framing_effect_(psychology)",
-    "title": "Framing effect (psychology) - Wikipedia",
-    "source": null,
-    "evaluated_at": "2026-06-01T01:27:17.420672+00:00",
-    "framework_version": "v0.1.0",
-    "taxonomy_version": "v0.1.0",
-    "model": "llama-3.3-70b-versatile",
-    "bias_type_count": 3,
-    "total_occurrences": 7,
-    "dominant_categories": [
-      "Affect & Emotional Reasoning",
-      "Framing & Anchoring",
-      "Availability & Salience"
-    ],
-    "word_count": 4104
-  },
-  {
-    "article_id": "bb7d000f93f70de2",
-    "url": "https://en.wikipedia.org/wiki/Confirmation_bias",
-    "title": "Confirmation bias - Wikipedia",
-    "source": null,
-    "evaluated_at": "2026-06-01T01:15:04.879597+00:00",
-    "framework_version": "v0.1.0",
-    "taxonomy_version": "v0.1.0",
-    "model": "llama-3.3-70b-versatile",
-    "bias_type_count": 7,
-    "total_occurrences": 14,
-    "dominant_categories": [
-      "Unknown"
-    ],
-    "word_count": 13348
   }
 ]
