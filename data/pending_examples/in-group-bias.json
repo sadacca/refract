@@ -1,0 +1,35 @@
+{
+  "bias_id": "in-group-bias",
+  "positive": [
+    {
+      "excerpt": "Local resident and mother of two, Sarah Johnson, responded to the recent tax cuts by organizing a community event to support small businesses. Johnson's efforts were met with widespread acclaim from local leaders, who praised her initiative and dedication to the community. In contrast, out-of-town protesters were described as 'disrupting the peace' by law enforcement. The event highlighted the community's resilience and solidarity.",
+      "mechanism": "Humanization asymmetry",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "The national team's coach defended his players' actions in the heated match against their arch-rivals, stating that they were 'just trying to protect themselves' from the opposing team's aggressive tactics. Meanwhile, the opposing team's coach was quoted as saying that his team was 'attacked without provocation'. The incident has sparked a debate about sportsmanship and fair play.",
+      "mechanism": "Verb asymmetry",
+      "domain": "sport"
+    },
+    {
+      "excerpt": "Dr. Maria Rodriguez, a leading expert in the field, was extensively quoted in a recent article about the new healthcare policy, discussing its potential benefits and drawbacks. In contrast, a representative from a rival research institution was only briefly paraphrased, with their comments presented as 'criticisms' rather than 'concerns'. The article highlighted the complexities of the issue and the need for further research.",
+      "mechanism": "Quote space asymmetry",
+      "domain": "health"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The new policy has been met with widespread criticism from various groups, including local residents, business owners, and environmental activists. While some have praised the policy's potential benefits, others have raised concerns about its impact on the community. The debate highlights the complexities of the issue and the need for further discussion.",
+      "why_not": "This excerpt presents a balanced view of the issue, quoting multiple perspectives without exhibiting humanization asymmetry or other linguistic signals of in-group bias."
+    },
+    {
+      "excerpt": "The recent study on climate change has sparked a heated debate among scientists, with some arguing that the findings are conclusive and others claiming that more research is needed. The study's authors have defended their methodology, while critics have raised questions about the data. The controversy highlights the ongoing challenges in understanding and addressing climate change.",
+      "why_not": "This excerpt presents a neutral, factual account of the debate, without exhibiting the linguistic signals of in-group bias, such as humanization asymmetry or verb asymmetry."
+    }
+  ],
+  "contrast": {
+    "bias": "Fundamental Attribution Error",
+    "excerpt": "The recent scandal involving a prominent CEO has raised questions about the individual's character and judgment. While some have argued that the CEO's actions were a result of situational factors, others have claimed that they reflect a deeper flaw in the CEO's personality. The incident highlights the challenges of understanding the motivations behind people's actions.",
+    "distinction": "This excerpt exhibits Fundamental Attribution Error, which is distinct from in-group bias in that it involves attributing behavior to a person's character or disposition, rather than to situational factors, without necessarily involving group membership or asymmetric treatment."
+  }
+}

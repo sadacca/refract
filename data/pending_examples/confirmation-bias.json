@@ -1,0 +1,35 @@
+{
+  "bias_id": "confirmation-bias",
+  "positive": [
+    {
+      "excerpt": "According to experts at the Climate Change Institute, the recent surge in global temperatures is undeniable proof of human-induced climate change. Critics claim that natural cycles are to blame, but these claims are not supported by scientific evidence. The Institute's director, Dr. Jane Smith, stated that 'the science is clear' and that 'we must take immediate action to reduce our carbon footprint.'",
+      "mechanism": "asymmetric hedging",
+      "domain": "science"
+    },
+    {
+      "excerpt": "The new economic policy has been a resounding success, with multiple business leaders praising its effectiveness. John Doe, CEO of XYZ Corporation, said 'this policy has been a game-changer for our company.' Similarly, Jane Johnson, CEO of ABC Inc., stated that 'we've seen a significant increase in profits since the policy was implemented.'",
+      "mechanism": "one-sided source selection",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "The recent crime wave in the city is a clear indication that the current mayor's policies are not working. Reportedly, some argue that the increase in crime is due to socioeconomic factors, but the facts speak for themselves. The mayor's opponent, Sarah Lee, has proposed a new plan to increase police presence and reduce crime. Multiple cases of successful crime reduction in other cities that have implemented similar plans demonstrate the effectiveness of this approach.",
+      "mechanism": "dismissive language toward opposing views",
+      "domain": "crime"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The debate over the new healthcare policy has been ongoing, with proponents arguing that it will increase access to healthcare for low-income families. Opponents claim that it will lead to increased costs for taxpayers. However, a recent study found that similar policies in other countries have been successful in reducing healthcare costs.",
+      "why_not": "this excerpt presents both sides of the argument and engages with counterarguments, which is not characteristic of confirmation bias."
+    },
+    {
+      "excerpt": "The new sports stadium has been a topic of controversy, with some arguing that it will bring in revenue and create jobs, while others claim that it will be a waste of taxpayer money. A recent poll found that the majority of residents are in favor of the stadium, but some experts warn that the economic benefits may be overstated.",
+      "why_not": "this excerpt presents a balanced view of the issue, including both supporting and opposing views, which is not indicative of confirmation bias."
+    }
+  ],
+  "contrast": {
+    "bias": "Framing Effect",
+    "excerpt": "A new study found that 90% of people who used a certain brand of sunscreen did not get skin cancer. However, when the same information was presented as '10% of people who used the sunscreen did get skin cancer,' people's perceptions of the risk changed significantly.",
+    "distinction": "this example illustrates the Framing Effect, which is distinct from Confirmation Bias because it involves the way information is presented, rather than the selective presentation or interpretation of information to support a pre-existing belief."
+  }
+}

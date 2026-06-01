@@ -1,0 +1,35 @@
+{
+  "bias_id": "framing-effect",
+  "positive": [
+    {
+      "excerpt": "The new tax reform has saved American families over $1 billion in taxes last year, with the average family seeing a reduction of $500. This significant tax relief is expected to boost economic growth. The reform has been hailed as a major success by economists and policymakers alike. As a result, consumer spending has risen by 5%.",
+      "mechanism": "Gain/loss framing: 'saved' vs. 'lost'",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "A recent study found that 90% of patients who underwent the new treatment showed significant improvement in their condition. This is a substantial increase from the 50% success rate of the previous treatment. The study's findings have been met with enthusiasm from the medical community. The treatment has been shown to reduce the risk of complications by 20%.",
+      "mechanism": "Percentage vs. absolute framing: '90% success rate' vs. '9 out of 10 patients'",
+      "domain": "health"
+    },
+    {
+      "excerpt": "The city has seen a surge in crime over the past year, with a 10% increase in reported incidents. However, the police department has implemented new strategies that have led to a 5% reduction in crime rates compared to the previous quarter. The department's efforts have been praised by community leaders. The crime rate is still lower than the national average.",
+      "mechanism": "Loaded terminology without attribution: 'surge' in crime",
+      "domain": "crime"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The company's sales have increased by 10% over the past year, with a total revenue of $1 million. This is a significant achievement, considering the current market trends. The company's success can be attributed to its innovative marketing strategies. The revenue growth is expected to continue in the coming year.",
+      "why_not": "This excerpt does not exhibit framing effect because it presents a neutral and factual representation of the company's sales without using loaded language or selective framing."
+    },
+    {
+      "excerpt": "The new policy has been met with both support and criticism from the community. Some argue that it will lead to significant economic growth, while others claim it will have a negative impact on the environment. The policy's effects are still being debated by experts. A thorough analysis of the policy's pros and cons is necessary to make an informed decision.",
+      "why_not": "This excerpt does not exhibit framing effect because it presents a balanced view of the policy, acknowledging both positive and negative perspectives without using selective framing or loaded language."
+    }
+  ],
+  "contrast": {
+    "bias": "Anchoring",
+    "excerpt": "The price of the new smartphone is $999, which is a significant reduction from the initial price of $1,200. However, when compared to the price of the previous model, which was $800, the new price seems relatively high. The price reduction is still a good deal, considering the improved features of the new model.",
+    "distinction": "This excerpt exhibits anchoring bias, where the initial price of $1,200 serves as an anchor, making the reduced price of $999 seem more reasonable, whereas framing effect would involve presenting the price reduction in a way that influences the reader's perception, such as 'save $201' or 'get 17% off'."
+  }
+}

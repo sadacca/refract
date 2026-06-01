@@ -1,0 +1,35 @@
+{
+  "bias_id": "availability-heuristic",
+  "positive": [
+    {
+      "excerpt": "The number of cyberattacks on major corporations is increasingly becoming a concern, with high-profile cases like the recent hack of a large tech firm making headlines. This growing number of attacks highlights the need for better cybersecurity measures. Since the attack on the tech firm, there have been numerous reports of similar incidents, indicating a trend. Companies must take immediate action to protect themselves.",
+      "mechanism": "Trend claims without trend data",
+      "domain": "crime"
+    },
+    {
+      "excerpt": "A recent study found that a new diet has been linked to several cases of severe weight loss. Stories like this are becoming common, with many people reporting similar experiences after trying the diet. This is what happens when you follow a diet that is not properly regulated, and it's a warning sign that something needs to be done. The diet's popularity is a recipe for disaster.",
+      "mechanism": "Anecdote-as-data",
+      "domain": "health"
+    },
+    {
+      "excerpt": "There have been 200 reported cases of players suffering from concussions in the league this season. This is a staggering number and highlights the need for better safety protocols. The risk of concussion is very real, and it's essential that the league takes steps to mitigate it. The number of concussions is a clear indication that something needs to be done.",
+      "mechanism": "Denominator neglect",
+      "domain": "sport"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "According to a recent study, the number of people affected by climate change has increased by 20% over the past year. This trend is expected to continue, with more frequent natural disasters and rising temperatures. The study provides a comprehensive analysis of the data, including statistics on the number of people affected per region. The findings are based on a thorough examination of the available data.",
+      "why_not": "This excerpt does not exhibit the Availability Heuristic bias because it provides statistical evidence and context to support the claims."
+    },
+    {
+      "excerpt": "A new policy has been implemented to reduce the number of accidents on the road. The policy has been successful, with a significant decrease in the number of accidents reported. The data shows that the number of accidents has decreased by 15% since the policy was introduced. This is a positive trend, and it's essential to continue monitoring the situation to ensure the policy remains effective.",
+      "why_not": "This excerpt does not exhibit the Availability Heuristic bias because it provides specific data and statistics to support the claims, rather than relying on anecdotes or vivid examples."
+    }
+  ],
+  "contrast": {
+    "bias": "Negativity Bias",
+    "excerpt": "The latest economic reports indicate that the country is on the brink of a recession, with rising unemployment and decreasing economic growth. The situation is dire, and it's essential to take immediate action to mitigate the effects. The prospects for the future look bleak, and it's unlikely that the economy will recover anytime soon. The outlook is grim, and it's time to prepare for the worst.",
+    "distinction": "This excerpt exhibits Negativity Bias, which is distinct from the Availability Heuristic because it involves an overall pessimistic outlook and emphasis on negative aspects, rather than overestimating the frequency of an event based on vivid examples."
+  }
+}

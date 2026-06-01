@@ -1,0 +1,35 @@
+{
+  "bias_id": "anchoring",
+  "positive": [
+    {
+      "excerpt": "The new stadium deal was initially valued at $2.5 billion, but after negotiations, the final cost came in at $2.2 billion, a savings of $300 million. This is a significant reduction from the initial ask. The city council is hailing this as a major victory. The deal includes a mix of public and private funding.",
+      "mechanism": "Opening numbers followed by relative framing",
+      "domain": "sports"
+    },
+    {
+      "excerpt": "As many as 500,000 people are expected to attend the music festival this year, with organizers anticipating a crowd similar to last year's record attendance. Compared to last year's event, which drew 475,000, this year's festival is expected to be even bigger. The festival will feature performances by top artists and include a variety of food and drink options.",
+      "mechanism": "Initial framing of magnitude",
+      "domain": "entertainment"
+    },
+    {
+      "excerpt": "The company's stock price has risen by 20% since the beginning of the year, up from a low of $50 per share in January. This is the highest the stock has been since 2018. Analysts attribute the increase to the company's strong quarterly earnings report. The stock is expected to continue to rise in the coming months.",
+      "mechanism": "Comparisons structured as departures",
+      "domain": "economics"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The average temperature in July was 85 degrees, which is 5 degrees higher than the average temperature in June. This increase in temperature is due to the changing seasons. The warmer weather is expected to continue into August.",
+      "why_not": "This example does not exhibit anchoring bias because it presents a neutral comparison between two months, without using an initial value to frame subsequent interpretations."
+    },
+    {
+      "excerpt": "The new policy aims to reduce carbon emissions by 10% over the next 5 years. This goal is based on current emission levels and is considered ambitious by environmental experts. The policy includes a variety of initiatives to reduce emissions.",
+      "why_not": "This example does not exhibit anchoring bias because it presents a specific, absolute goal, rather than framing it as a departure from an initial value or using a selective historical reference."
+    }
+  ],
+  "contrast": {
+    "bias": "Framing Effect",
+    "excerpt": "The new medical treatment has a 90% success rate, with only 10% of patients experiencing side effects. This is a significant improvement over the previous treatment, which had a 50% success rate. The new treatment is considered a major breakthrough in the field of medicine.",
+    "distinction": "This example exhibits the Framing Effect, which is distinct from anchoring bias because it involves presenting information in a way that influences the reader's perception, rather than using an initial value to frame subsequent interpretations."
+  }
+}
