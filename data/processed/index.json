@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "article_id": "bb7d000f93f70de2",
+    "url": "https://en.wikipedia.org/wiki/Confirmation_bias",
+    "title": "Confirmation bias - Wikipedia",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:15:04.879597+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 7,
+    "total_occurrences": 14,
+    "dominant_categories": [
+      "Unknown"
+    ],
+    "word_count": 13348
+  }
+]

@@ -1,1 +1,14 @@
-{}
+{
+  "total_articles": 1,
+  "total_bias_instances": 7,
+  "total_occurrences": 14,
+  "sources": {
+    "unknown": 1
+  },
+  "framework_versions": {
+    "v0.1.0": 1
+  },
+  "category_distribution": {
+    "Unknown": 14
+  }
+}

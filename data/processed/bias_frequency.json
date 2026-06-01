@@ -1,1 +1,44 @@
-{}
+{
+  "negativity-bias": {
+    "name": "Negativity Bias",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  },
+  "fundamental-attribution-error": {
+    "name": "Fundamental Attribution Error",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  },
+  "availability-heuristic": {
+    "name": "Availability Heuristic",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  },
+  "confirmation-bias": {
+    "name": "Confirmation Bias",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  },
+  "framing-effect": {
+    "name": "Framing Effect",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  },
+  "anchoring": {
+    "name": "Anchoring",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  },
+  "in-group-bias": {
+    "name": "In-Group Bias",
+    "category": "",
+    "article_count": 1,
+    "prevalence_pct": 100.0
+  }
+}
