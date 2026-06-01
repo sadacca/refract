@@ -82,9 +82,13 @@ def call_llm(
         except requests.HTTPError as e:
             status = e.response.status_code if e.response is not None else 0
             logger.warning("HTTP %d on attempt %d: %s", status, attempt, e)
-            # 429 rate limit — always retry with backoff
             if attempt == MAX_RETRIES:
                 raise
+            # 429 rate limit: wait much longer — free tier resets per minute
+            wait = 65 if status == 429 else RETRY_BASE_DELAY * (2 ** (attempt - 1))
+            logger.info("Waiting %ds before retry...", wait)
+            time.sleep(wait)
+            continue
         except Exception as e:
             logger.warning("LLM call error on attempt %d: %s", attempt, e)
             if attempt == MAX_RETRIES:
