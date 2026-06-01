@@ -12,7 +12,7 @@ on:
         default: "llama-3.3-70b-versatile"
         required: false
       judge_model:
-        description: "Judge model — Pass 4 verdict (judge). Leave empty for auto cross-family: Groq eval → gemini-1.5-flash, Gemini eval → llama-3.3-70b-versatile. Explicit override: gemini-2.0-flash, gemini-1.5-pro, etc."
+        description: "Judge model — Pass 4 verdict (judge). Leave empty for auto cross-family: Groq eval → gemini-2.5-flash-lite (15 RPM/1000 RPD free), Gemini eval → llama-3.3-70b-versatile. Override: gemini-2.5-flash, gemini-2.5-pro, etc."
         default: ""
         required: false
       skip_cached:
