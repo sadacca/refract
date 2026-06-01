@@ -452,7 +452,10 @@ def evaluate_article(
         logger.info("Mode=flat: running Pass 2 on all %d categories [%s]", len(all_cats), eval_model)
         for category in all_cats:
             indices = category_paragraphs.get(category, [])
-            article_slice = _paragraphs_for_pass2(paragraphs, indices) if indices else text[:8000]
+            if not indices:
+                logger.info("Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs", category)
+                continue
+            article_slice = _paragraphs_for_pass2(paragraphs, indices)
             logger.info(
                 "Pass 2: category '%s' — %d/%d paragraphs selected",
                 category, len(indices), len(paragraphs),
@@ -470,9 +473,18 @@ def evaluate_article(
 
         logger.info("Flagged categories: %s", flagged)
 
+        p2_skipped = []
         for category in sorted(flagged):
             indices = category_paragraphs.get(category, [])
-            article_slice = _paragraphs_for_pass2(paragraphs, indices) if indices else text[:8000]
+            if not indices:
+                logger.info(
+                    "Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs; routing to Pass 3 batch",
+                    category,
+                )
+                p2_skipped.append(category)
+                unflagged.add(category)
+                continue
+            article_slice = _paragraphs_for_pass2(paragraphs, indices)
             logger.info(
                 "Pass 2: category '%s' — %d/%d paragraphs [%s]",
                 category, len(indices), len(paragraphs), eval_model,
@@ -482,7 +494,11 @@ def evaluate_article(
                 inst["category"] = category
             bias_instances.extend(instances)
 
+        if p2_skipped:
+            logger.info("Pass 2 skipped %d category(ies) with no paragraphs: %s", len(p2_skipped), p2_skipped)
+
         # Pass 3: one batched call per unflagged category (all biases in category together)
+        # Includes categories demoted from Pass 2 by the zero-paragraph gate.
         for category in sorted(unflagged):
             biases_to_probe = _biases_for_category(taxonomy, category)
             if not biases_to_probe:
