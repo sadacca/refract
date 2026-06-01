@@ -7,12 +7,16 @@ on:
         description: "Path to URL list"
         default: "data/input/article_urls.txt"
         required: false
-      model_override:
-        description: "Model name (overrides batch_config.json)"
+      eval_model:
+        description: "Classification model — Pass 2 identification (eval). Groq models: llama-3.3-70b-versatile, llama-3.1-8b-instant. Gemini: gemini-2.0-flash, gemini-1.5-pro."
+        default: "llama-3.3-70b-versatile"
+        required: false
+      judge_model:
+        description: "Judge model — Pass 4 verdict (judge). Leave empty for auto cross-family: Groq eval → Gemini judge, Gemini eval → Llama judge. Explicit override only when needed."
         default: ""
         required: false
       skip_cached:
-        description: "Skip already-evaluated articles"
+        description: "Skip articles already evaluated with this exact eval+judge model combination"
         type: boolean
         default: true
         required: false
@@ -43,7 +47,8 @@ jobs:
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      EVAL_MODEL: ${{ inputs.model_override || 'llama-3.3-70b-versatile' }}
+      EVAL_MODEL: ${{ inputs.eval_model || 'llama-3.3-70b-versatile' }}
+      JUDGE_MODEL: ${{ inputs.judge_model }}
       TRIAGE_MODEL: llama-3.1-8b-instant
 
     steps:
@@ -122,5 +127,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/processed/
           git diff --staged --quiet || \
-            git commit -m "batch: evaluate articles [framework v$(python -c 'from config import FRAMEWORK_VERSION; print(FRAMEWORK_VERSION)')]"
+            git commit -m "batch: evaluate articles [$(python -c '
+from config import FRAMEWORK_VERSION, EVAL_MODEL, JUDGE_MODEL, model_abbrev
+print(f"fw {FRAMEWORK_VERSION} | eval={model_abbrev(EVAL_MODEL)} judge={model_abbrev(JUDGE_MODEL)}")
+')]"
           git push origin HEAD

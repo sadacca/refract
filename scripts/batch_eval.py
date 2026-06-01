@@ -23,6 +23,8 @@ from config import (
     JUDGE_MODEL,
     TRIAGE_MODEL,
     RATE_LIMIT_DELAY,
+    model_abbrev,
+    _cross_family_default,
 )
 from src.refract.ingest import fetch_url, _already_evaluated
 from src.refract.bias_eval import evaluate_article
@@ -78,12 +80,23 @@ def main() -> None:
     parser.add_argument("--max", type=int, default=None, dest="max_articles")
     parser.add_argument("--model", default=EVAL_MODEL, dest="model")
     parser.add_argument(
+        "--judge-model",
+        default="",
+        dest="judge_model",
+        help=(
+            "Judge model for Pass 4. Empty (default) = auto cross-family: "
+            "Groq eval → Gemini judge, Gemini eval → Llama judge."
+        ),
+    )
+    parser.add_argument(
         "--mode",
         choices=["deep", "flat"],
         default="deep",
         help="deep: Pass 1 triage + Pass 3 recall probes; flat: Pass 2 on all categories directly",
     )
     args = parser.parse_args()
+
+    effective_judge = args.judge_model if args.judge_model else _cross_family_default(args.model)
 
     if not verify_precomputed():
         sys.exit(1)
@@ -96,7 +109,11 @@ def main() -> None:
     if args.max_articles:
         urls = urls[: args.max_articles]
 
-    logger.info("Loaded %d URLs from %s", len(urls), args.url_file)
+    model_sig = f"{model_abbrev(args.model)}_{model_abbrev(effective_judge)}"
+    logger.info(
+        "Loaded %d URLs from %s | eval=%s judge=%s (sig: %s)",
+        len(urls), args.url_file, args.model, effective_judge, model_sig,
+    )
 
     processed = 0
     skipped = 0
@@ -109,8 +126,8 @@ def main() -> None:
             article = fetch_url(url)
             article_id = article["article_id"]
 
-            if args.skip_cached and _already_evaluated(article_id, FRAMEWORK_VERSION):
-                logger.info("  Skipped (already evaluated)")
+            if args.skip_cached and _already_evaluated(article_id, FRAMEWORK_VERSION, model_sig):
+                logger.info("  Skipped (already evaluated with %s)", model_sig)
                 skipped += 1
                 continue
 
@@ -118,7 +135,7 @@ def main() -> None:
             evaluate_article(
                 article,
                 eval_model=args.model,
-                judge_model=JUDGE_MODEL,
+                judge_model=effective_judge,
                 triage_model=TRIAGE_MODEL,
                 mode=args.mode,
             )

@@ -41,6 +41,7 @@ def build_index(records: list[dict]) -> list[dict]:
             "framework_version": r.get("framework_version"),
             "taxonomy_version": r.get("taxonomy_version"),
             "model": r.get("model"),
+            "models": r.get("models", {"eval": r.get("model"), "judge": None, "triage": None}),
             "bias_type_count": summary.get("bias_type_count", 0),
             "total_occurrences": summary.get("total_occurrences", 0),
             "dominant_categories": summary.get("dominant_categories", []),

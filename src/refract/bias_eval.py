@@ -33,12 +33,55 @@ from config import (
     EVAL_MODEL,
     JUDGE_MODEL,
     TRIAGE_MODEL,
+    COMPRESS_PASS2,
+    COMPRESSION_RATE,
+    JUDGE_SWAP_AUGMENTATION,
+    model_abbrev,
 )
 from src.refract.llm_client import call_llm
 
 logger = logging.getLogger(__name__)
 
 BIAS_INDEX_PATH = Path("bias_index/taxonomy.json")
+
+# ---------------------------------------------------------------------------
+# T4 / TODO 6.9: Optional LLMLingua-2 compression for Pass 2 article slices.
+# Lazy-loaded so the import cost and model download only hit when COMPRESS_PASS2=true.
+# Falls back silently if llmlingua is not installed.
+# ---------------------------------------------------------------------------
+_compressor: object = None
+
+
+def _get_compressor():
+    global _compressor
+    if _compressor is None:
+        try:
+            from llmlingua import PromptCompressor  # type: ignore[import]
+            _compressor = PromptCompressor(
+                model_name="microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+                use_llmlingua2=True,
+            )
+            logger.info("LLMLingua-2 compressor loaded")
+        except ImportError:
+            logger.warning("llmlingua not installed; COMPRESS_PASS2 disabled. Run: pip install llmlingua")
+            _compressor = False
+        except Exception as e:
+            logger.warning("LLMLingua-2 load failed (%s) — compression disabled", e)
+            _compressor = False
+    return _compressor if _compressor is not False else None
+
+
+def _compress_text(text: str, rate: float) -> str:
+    """Compress text to ~rate fraction of original tokens via LLMLingua-2."""
+    compressor = _get_compressor()
+    if compressor is None or not text.strip():
+        return text
+    try:
+        result = compressor.compress_prompt(text, rate=rate, force_tokens=["\n"])
+        return result.get("compressed_prompt", text)
+    except Exception as e:
+        logger.warning("LLMLingua compression failed (%s) — using original text", e)
+        return text
 
 
 def _load_taxonomy() -> dict:
@@ -156,8 +199,18 @@ Return JSON:
 }}"""
 
 
-def pass1_category_triage(article_text: str, taxonomy: dict, model: str) -> dict:
-    categories = _all_categories(taxonomy)
+def pass1_category_triage(
+    article_text: str,
+    taxonomy: dict,
+    model: str,
+    categories: list[str] | None = None,
+) -> dict:
+    # T3/6.7: accepts a pre-filtered category list so zero-paragraph categories
+    # (already routed to Pass 3 by the Pass 0 short-circuit) are excluded.
+    if categories is None:
+        categories = _all_categories(taxonomy)
+    if not categories:
+        return {"flagged_categories": [], "rationale": {}}
     prompt = PASS1_PROMPT.format(
         article_text=article_text[:6000],
         categories="\n".join(f"- {c}" for c in categories),
@@ -379,8 +432,8 @@ For each instance, return:
     {{
       "instance_id": "string",
       "bias_id": "string",
-      "verdict": "confirmed|suspect|rejected",
-      "rationale": "one or two sentences explaining the verdict with specific reference to the excerpt"
+      "rationale": "one or two sentences explaining the verdict with specific reference to the excerpt",
+      "verdict": "confirmed|suspect|rejected"
     }}
   ],
   "overall_quality": "high|medium|low",
@@ -400,12 +453,61 @@ def pass4_judge(
         inst_copy["instance_id"] = f"inst_{i:03d}"
         instances_with_ids.append(inst_copy)
 
-    prompt = PASS4_PROMPT.format(
-        article_text=article_text[:6000],
-        instances_json=json.dumps(instances_with_ids, indent=2),
-    )
-    result = call_llm(prompt, judge_model, system=PASS4_SYSTEM)
-    return result
+    def _run(ordered: list[dict]) -> dict:
+        prompt = PASS4_PROMPT.format(
+            article_text=article_text[:6000],
+            instances_json=json.dumps(ordered, indent=2),
+        )
+        return call_llm(prompt, judge_model, system=PASS4_SYSTEM)
+
+    result_a = _run(instances_with_ids)
+
+    # Swap augmentation (TODO 6.2): run the judge a second time with instance order
+    # reversed. A verdict that flips based solely on list position is position-biased
+    # rather than content-grounded; those instances are downgraded to "suspect".
+    # Wang et al. ACL 2024 (arXiv:2305.17926): reordering alone flips 66/80 rankings.
+    if not JUDGE_SWAP_AUGMENTATION or len(instances_with_ids) <= 1:
+        return result_a
+
+    result_b = _run(list(reversed(instances_with_ids)))
+
+    # Match both runs by instance_id (stable across both orderings).
+    verdicts_b = {j["instance_id"]: j for j in result_b.get("judgments", [])}
+
+    quality_rank = {"high": 2, "medium": 1, "low": 0}
+    merged = []
+    disagreements = 0
+
+    for j_a in result_a.get("judgments", []):
+        iid = j_a.get("instance_id")
+        j_b = verdicts_b.get(iid)
+        v_a = j_a.get("verdict")
+        v_b = j_b.get("verdict") if j_b else None
+
+        if v_b is None or v_a == v_b:
+            merged.append({**j_a, "swap_agreement": True})
+        else:
+            disagreements += 1
+            merged.append({
+                **j_a,
+                "verdict": "suspect",
+                "swap_agreement": False,
+                "swap_verdicts": {"forward": v_a, "reversed": v_b},
+            })
+
+    q_a = result_a.get("overall_quality", "medium")
+    q_b = result_b.get("overall_quality", "medium")
+    overall_quality = q_a if quality_rank.get(q_a, 1) <= quality_rank.get(q_b, 1) else q_b
+
+    return {
+        "judgments": merged,
+        "overall_quality": overall_quality,
+        "notes": (
+            f"Swap augmentation: {disagreements}/{len(merged)} instance(s) showed "
+            f"position-dependent verdicts and were downgraded to 'suspect'."
+        ),
+        "swap_augmentation": True,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -456,6 +558,13 @@ def evaluate_article(
                 logger.info("Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs", category)
                 continue
             article_slice = _paragraphs_for_pass2(paragraphs, indices)
+            if COMPRESS_PASS2 and article_slice:
+                orig_len = len(article_slice)
+                article_slice = _compress_text(article_slice, COMPRESSION_RATE)
+                logger.info(
+                    "Pass 2: compressed slice %d→%d chars (%.1fx) for '%s'",
+                    orig_len, len(article_slice), orig_len / max(len(article_slice), 1), category,
+                )
             logger.info(
                 "Pass 2: category '%s' — %d/%d paragraphs selected",
                 category, len(indices), len(paragraphs),
@@ -466,25 +575,44 @@ def evaluate_article(
             bias_instances.extend(instances)
     else:
         # deep mode: Pass 1 category triage → Pass 2 flagged → Pass 3 recall probes
-        logger.info("Pass 1: category triage [%s] for article %s", triage_model, article_id)
-        p1 = pass1_category_triage(text, taxonomy, triage_model)
+        #
+        # T3/6.7 Pass 0 short-circuit: categories where Pass 0 found zero relevant
+        # paragraphs bypass Pass 1 entirely and go straight to the Pass 3 recall probe.
+        # This avoids Pass 1 wasting capacity on categories with no textual signal,
+        # and prevents those categories from being incorrectly flagged or missed.
+        cats_with_paragraphs = sorted(c for c in all_cats if category_paragraphs.get(c))
+        cats_without_paragraphs = sorted(c for c in all_cats if not category_paragraphs.get(c))
+        if cats_without_paragraphs:
+            logger.info(
+                "Pass 1: bypassing %d category(ies) with 0 Pass 0 paragraphs → Pass 3: %s",
+                len(cats_without_paragraphs), cats_without_paragraphs,
+            )
+        logger.info(
+            "Pass 1: category triage on %d/%d categories [%s] for article %s",
+            len(cats_with_paragraphs), len(all_cats), triage_model, article_id,
+        )
+        p1 = pass1_category_triage(text, taxonomy, triage_model, categories=cats_with_paragraphs)
         flagged = set(p1.get("flagged_categories", []))
-        unflagged = set(all_cats) - flagged
+        # Unflagged = not flagged among paragraph-present categories + all zero-paragraph categories
+        unflagged = (set(cats_with_paragraphs) - flagged) | set(cats_without_paragraphs)
 
         logger.info("Flagged categories: %s", flagged)
 
-        p2_skipped = []
         for category in sorted(flagged):
             indices = category_paragraphs.get(category, [])
             if not indices:
-                logger.info(
-                    "Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs; routing to Pass 3 batch",
-                    category,
-                )
-                p2_skipped.append(category)
+                # Shouldn't happen after the short-circuit above, but guard defensively.
+                logger.info("Pass 2: skipping '%s' — no paragraphs (should have been short-circuited)", category)
                 unflagged.add(category)
                 continue
             article_slice = _paragraphs_for_pass2(paragraphs, indices)
+            if COMPRESS_PASS2 and article_slice:
+                orig_len = len(article_slice)
+                article_slice = _compress_text(article_slice, COMPRESSION_RATE)
+                logger.info(
+                    "Pass 2: compressed slice %d→%d chars (%.1fx) for '%s'",
+                    orig_len, len(article_slice), orig_len / max(len(article_slice), 1), category,
+                )
             logger.info(
                 "Pass 2: category '%s' — %d/%d paragraphs [%s]",
                 category, len(indices), len(paragraphs), eval_model,
@@ -493,9 +621,6 @@ def evaluate_article(
             for inst in instances:
                 inst["category"] = category
             bias_instances.extend(instances)
-
-        if p2_skipped:
-            logger.info("Pass 2 skipped %d category(ies) with no paragraphs: %s", len(p2_skipped), p2_skipped)
 
         # Pass 3: one batched call per unflagged category (all biases in category together)
         # Includes categories demoted from Pass 2 by the zero-paragraph gate.
@@ -549,6 +674,10 @@ def evaluate_article(
 
     dominant = sorted(by_category, key=by_category.get, reverse=True)[:3]
 
+    # Model signature used in the output filename so evaluations from different
+    # model combinations are stored separately and can be compared or re-run.
+    model_sig = f"{model_abbrev(eval_model)}_{model_abbrev(judge_model)}"
+
     evaluation = {
         "article_id": article_id,
         "source_url": article.get("url"),
@@ -556,7 +685,12 @@ def evaluate_article(
         "evaluated_at": now,
         "framework_version": FRAMEWORK_VERSION,
         "taxonomy_version": TAXONOMY_VERSION,
-        "model": eval_model,
+        "model": eval_model,          # kept for backward compat with index/UI readers
+        "models": {
+            "triage": triage_model,
+            "eval":   eval_model,
+            "judge":  judge_model,
+        },
         "mode": mode,
         "article_text": text,
         "pass0_result": p0,
@@ -583,9 +717,10 @@ def evaluate_article(
         },
     }
 
-    # Persist
+    # Persist — filename encodes both eval and judge model so re-scoring with a
+    # different model combination lands in a new file, not overwriting the old one.
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = PROCESSED_DIR / f"{article_id}_{FRAMEWORK_VERSION}.json"
+    out_path = PROCESSED_DIR / f"{article_id}_{FRAMEWORK_VERSION}_{model_sig}.json"
     out_path.write_text(json.dumps(evaluation, indent=2))
     logger.info("Evaluation written to %s", out_path)
 

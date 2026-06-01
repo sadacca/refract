@@ -32,10 +32,37 @@ def _write_cache(article_id: str, record: dict) -> None:
     path.write_text(json.dumps(record, indent=2))
 
 
-def _already_evaluated(article_id: str, framework_version: str) -> Optional[dict]:
-    path = PROCESSED_DIR / f"{article_id}_{framework_version}.json"
-    if path.exists():
-        return json.loads(path.read_text())
+def _already_evaluated(
+    article_id: str,
+    framework_version: str,
+    model_sig: str = "",
+) -> Optional[dict]:
+    """
+    Return an existing evaluation record if one exists, else None.
+
+    When model_sig is provided (batch eval path): checks the exact file for
+    that model combination — enabling re-scoring with a new model without
+    overwriting the previous result.
+
+    When model_sig is omitted (UI / get_article path): returns the most recent
+    evaluation for this article+version across any model combination.
+    """
+    if model_sig:
+        path = PROCESSED_DIR / f"{article_id}_{framework_version}_{model_sig}.json"
+        return json.loads(path.read_text()) if path.exists() else None
+
+    # No model_sig: find the most recent evaluation for this article+version.
+    candidates = sorted(
+        PROCESSED_DIR.glob(f"{article_id}_{framework_version}_*.json"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    # Also check the legacy filename format (pre-model-sig).
+    legacy = PROCESSED_DIR / f"{article_id}_{framework_version}.json"
+    if legacy.exists():
+        candidates.append(legacy)
+    if candidates:
+        return json.loads(candidates[0].read_text())
     return None
 
 
