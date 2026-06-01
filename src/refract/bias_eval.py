@@ -365,6 +365,19 @@ def evaluate_article(
         logger.info("Pass 4: LLM judge review")
         judge_result = pass4_judge(text, bias_instances, judge_model)
 
+        # Filter instances the judge rejected — they are false positives.
+        # TODO: accumulate rejected excerpts as near-miss examples in the taxonomy
+        #       so future Pass 2 calls have better few-shot anchors. Needs a human
+        #       review loop before writing back (scripts/review_pending_examples.py).
+        rejected_ids = {
+            j["bias_id"]
+            for j in judge_result.get("judgments", [])
+            if j.get("verdict") == "rejected"
+        }
+        if rejected_ids:
+            logger.info("Pass 4 rejected %d bias type(s): %s", len(rejected_ids), rejected_ids)
+            bias_instances = [i for i in bias_instances if i["bias_id"] not in rejected_ids]
+
     # Build output
     now = datetime.now(timezone.utc).isoformat()
     by_region: dict[str, int] = {"headline": 0, "lede": 0, "body": 0, "closing": 0}
