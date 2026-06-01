@@ -330,34 +330,47 @@ def evaluate_article(
     taxonomy = _load_taxonomy()
     text = article["text"]
     article_id = article["article_id"]
-
-    logger.info("Pass 1: category triage [%s] for article %s", triage_model, article_id)
-    p1 = pass1_category_triage(text, taxonomy, triage_model)
-    flagged = set(p1.get("flagged_categories", []))
     all_cats = set(_all_categories(taxonomy))
-    unflagged = all_cats - flagged
 
-    logger.info("Flagged categories: %s", flagged)
-
-    # Pass 2: identify in flagged categories (large model)
-    bias_instances = []
-    for category in sorted(flagged):
-        logger.info("Pass 2: identifying biases in category '%s' [%s]", category, eval_model)
-        instances = pass2_identify(text, category, taxonomy, eval_model)
-        for inst in instances:
-            inst["category"] = category
-        bias_instances.extend(instances)
-
-    # Pass 3: recall probes for unflagged categories (small model — yes/no task)
+    p1: dict = {}
     recall_finds = 0
-    for category in sorted(unflagged):
-        for bias in _biases_for_category(taxonomy, category):
-            logger.info("Pass 3: recall probe for '%s' [%s]", bias["name"], triage_model)
-            found = pass3_recall_probe(text, bias, triage_model)
-            if found:
-                found["category"] = category
-                bias_instances.append(found)
-                recall_finds += 1
+
+    if mode == "flat":
+        # Skip triage and recall probes — run Pass 2 on every category directly.
+        # Fewer total calls at small taxonomy sizes; useful for comparing against deep mode.
+        logger.info("Mode=flat: running Pass 2 on all %d categories [%s]", len(all_cats), eval_model)
+        bias_instances = []
+        for category in sorted(all_cats):
+            logger.info("Pass 2: identifying biases in category '%s'", category)
+            instances = pass2_identify(text, category, taxonomy, eval_model)
+            for inst in instances:
+                inst["category"] = category
+            bias_instances.extend(instances)
+    else:
+        # deep mode: Pass 1 triage → Pass 2 flagged → Pass 3 recall probes
+        logger.info("Pass 1: category triage [%s] for article %s", triage_model, article_id)
+        p1 = pass1_category_triage(text, taxonomy, triage_model)
+        flagged = set(p1.get("flagged_categories", []))
+        unflagged = all_cats - flagged
+
+        logger.info("Flagged categories: %s", flagged)
+
+        bias_instances = []
+        for category in sorted(flagged):
+            logger.info("Pass 2: identifying biases in category '%s' [%s]", category, eval_model)
+            instances = pass2_identify(text, category, taxonomy, eval_model)
+            for inst in instances:
+                inst["category"] = category
+            bias_instances.extend(instances)
+
+        for category in sorted(unflagged):
+            for bias in _biases_for_category(taxonomy, category):
+                logger.info("Pass 3: recall probe for '%s' [%s]", bias["name"], triage_model)
+                found = pass3_recall_probe(text, bias, triage_model)
+                if found:
+                    found["category"] = category
+                    bias_instances.append(found)
+                    recall_finds += 1
 
     # Pass 4: judge
     judge_result = {}

@@ -77,6 +77,12 @@ def main() -> None:
     )
     parser.add_argument("--max", type=int, default=None, dest="max_articles")
     parser.add_argument("--model", default=EVAL_MODEL, dest="model")
+    parser.add_argument(
+        "--mode",
+        choices=["deep", "flat"],
+        default="deep",
+        help="deep: Pass 1 triage + Pass 3 recall probes; flat: Pass 2 on all categories directly",
+    )
     args = parser.parse_args()
 
     if not verify_precomputed():
@@ -114,6 +120,7 @@ def main() -> None:
                 eval_model=args.model,
                 judge_model=JUDGE_MODEL,
                 triage_model=TRIAGE_MODEL,
+                mode=args.mode,
             )
             processed += 1
             logger.info("  Done.")
