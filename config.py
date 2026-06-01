@@ -19,9 +19,10 @@ EVAL_DIR = ROOT / "eval"
 FRAMEWORK_VERSION = "v0.1.0"
 TAXONOMY_VERSION = "v0.1.0"
 
-# Model config — Groq primary (30 RPM free), Gemini fallback/judge
-EVAL_MODEL = os.getenv("EVAL_MODEL", "llama-3.3-70b-versatile")
-JUDGE_MODEL = os.getenv("JUDGE_MODEL", "llama-3.3-70b-versatile")
+# Model config — tiered: small model for triage/probes, large for identification/judge
+EVAL_MODEL = os.getenv("EVAL_MODEL", "llama-3.3-70b-versatile")        # Pass 2 identification
+JUDGE_MODEL = os.getenv("JUDGE_MODEL", "llama-3.3-70b-versatile")       # Pass 4 judge
+TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "llama-3.1-8b-instant")        # Pass 1 triage + Pass 3 recall probes
 
 # API keys
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")

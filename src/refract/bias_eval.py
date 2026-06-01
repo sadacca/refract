@@ -23,6 +23,7 @@ from config import (
     TAXONOMY_VERSION,
     EVAL_MODEL,
     JUDGE_MODEL,
+    TRIAGE_MODEL,
 )
 from src.refract.llm_client import call_llm
 
@@ -317,39 +318,44 @@ def evaluate_article(
     article: dict,
     eval_model: str = EVAL_MODEL,
     judge_model: str = JUDGE_MODEL,
+    triage_model: str = TRIAGE_MODEL,
     mode: str = "deep",
     run_judge: bool = True,
 ) -> dict:
     """
     Run the full 4-pass evaluation on an article record.
+    Pass 1 + 3 use triage_model (small/fast); Pass 2 + 4 use eval_model/judge_model (large).
     Returns the complete evaluation dict; writes result to data/processed/.
     """
     taxonomy = _load_taxonomy()
     text = article["text"]
     article_id = article["article_id"]
 
-    logger.info("Pass 1: category triage for article %s", article_id)
-    p1 = pass1_category_triage(text, taxonomy, eval_model)
+    logger.info("Pass 1: category triage [%s] for article %s", triage_model, article_id)
+    p1 = pass1_category_triage(text, taxonomy, triage_model)
     flagged = set(p1.get("flagged_categories", []))
     all_cats = set(_all_categories(taxonomy))
     unflagged = all_cats - flagged
 
     logger.info("Flagged categories: %s", flagged)
 
-    # Pass 2: identify in flagged categories
+    # Pass 2: identify in flagged categories (large model)
     bias_instances = []
     for category in sorted(flagged):
-        logger.info("Pass 2: identifying biases in category '%s'", category)
+        logger.info("Pass 2: identifying biases in category '%s' [%s]", category, eval_model)
         instances = pass2_identify(text, category, taxonomy, eval_model)
+        for inst in instances:
+            inst["category"] = category
         bias_instances.extend(instances)
 
-    # Pass 3: recall probes for unflagged categories
+    # Pass 3: recall probes for unflagged categories (small model — yes/no task)
     recall_finds = 0
     for category in sorted(unflagged):
         for bias in _biases_for_category(taxonomy, category):
-            logger.info("Pass 3: recall probe for '%s'", bias["name"])
-            found = pass3_recall_probe(text, bias, eval_model)
+            logger.info("Pass 3: recall probe for '%s' [%s]", bias["name"], triage_model)
+            found = pass3_recall_probe(text, bias, triage_model)
             if found:
+                found["category"] = category
                 bias_instances.append(found)
                 recall_finds += 1
 
@@ -358,6 +364,19 @@ def evaluate_article(
     if run_judge and bias_instances:
         logger.info("Pass 4: LLM judge review")
         judge_result = pass4_judge(text, bias_instances, judge_model)
+
+        # Filter instances the judge rejected — they are false positives.
+        # TODO: accumulate rejected excerpts as near-miss examples in the taxonomy
+        #       so future Pass 2 calls have better few-shot anchors. Needs a human
+        #       review loop before writing back (scripts/review_pending_examples.py).
+        rejected_ids = {
+            j["bias_id"]
+            for j in judge_result.get("judgments", [])
+            if j.get("verdict") == "rejected"
+        }
+        if rejected_ids:
+            logger.info("Pass 4 rejected %d bias type(s): %s", len(rejected_ids), rejected_ids)
+            bias_instances = [i for i in bias_instances if i["bias_id"] not in rejected_ids]
 
     # Build output
     now = datetime.now(timezone.utc).isoformat()

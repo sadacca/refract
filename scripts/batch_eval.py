@@ -21,6 +21,7 @@ from config import (
     FRAMEWORK_VERSION,
     EVAL_MODEL,
     JUDGE_MODEL,
+    TRIAGE_MODEL,
     RATE_LIMIT_DELAY,
 )
 from src.refract.ingest import fetch_url, _already_evaluated
@@ -106,6 +107,7 @@ def main() -> None:
                 article,
                 eval_model=args.model,
                 judge_model=JUDGE_MODEL,
+                triage_model=TRIAGE_MODEL,
             )
             processed += 1
             logger.info("  Done.")
