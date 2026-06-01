@@ -344,6 +344,8 @@ def evaluate_article(
     for category in sorted(flagged):
         logger.info("Pass 2: identifying biases in category '%s' [%s]", category, eval_model)
         instances = pass2_identify(text, category, taxonomy, eval_model)
+        for inst in instances:
+            inst["category"] = category
         bias_instances.extend(instances)
 
     # Pass 3: recall probes for unflagged categories (small model — yes/no task)
@@ -353,6 +355,7 @@ def evaluate_article(
             logger.info("Pass 3: recall probe for '%s' [%s]", bias["name"], triage_model)
             found = pass3_recall_probe(text, bias, triage_model)
             if found:
+                found["category"] = category
                 bias_instances.append(found)
                 recall_finds += 1
 
