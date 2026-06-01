@@ -275,53 +275,72 @@ def pass2_identify(
 # Pass 3: Recall probes for unflagged categories
 # ---------------------------------------------------------------------------
 
-PASS3_SYSTEM = """You are a cognitive psychology expert auditing whether a specific bias category is absent from an article.
-Answer whether any instance of the specified bias is present.
-If yes, provide the excerpt and explanation. If no, briefly explain why not.
-Be honest: it is acceptable to confirm absence.
+PASS3_SYSTEM = """You are a cognitive psychology expert auditing whether specific biases are absent from an article.
+For each bias listed, answer whether any instance is present in the article.
+Be honest: it is acceptable to confirm absence for most or all biases.
 Output structured JSON only."""
 
-PASS3_PROMPT = """Bias to probe: {bias_name}
-Definition: {definition}
-Identification criteria:
-{criteria}
-
-Article text:
+PASS3_PROMPT = """Article text:
 \"\"\"
 {article_text}
 \"\"\"
 
+For each bias below, determine if any instance is present in the article.
+
+{bias_blocks}
+
 Return JSON:
 {{
-  "found": true | false,
-  "excerpt": "exact quoted text if found, else null",
-  "explanation": "why this is or is not an instance of {bias_name}"
+  "findings": [
+    {{
+      "bias_id": "string",
+      "found": true | false,
+      "excerpt": "exact quoted text if found, else null",
+      "explanation": "one sentence: why this is or is not present"
+    }}
+  ]
 }}"""
 
 
-def pass3_recall_probe(
-    article_text: str, bias: dict, model: str
-) -> Optional[dict]:
-    criteria = "\n".join(f"  - {c}" for c in bias.get("identification_criteria", []))
+def _format_bias_block_compact(bias: dict) -> str:
+    criteria = "; ".join(bias.get("identification_criteria", [])[:2])
+    return f"- {bias['name']} (id: {bias['id']}): {bias['definition']} Criteria: {criteria}"
+
+
+def pass3_recall_probe_batch(
+    article_text: str, biases: list[dict], model: str
+) -> list[dict]:
+    """Probe multiple biases in one call. Returns a list of found bias instances."""
+    if not biases:
+        return []
+    bias_blocks = "\n".join(_format_bias_block_compact(b) for b in biases)
     prompt = PASS3_PROMPT.format(
-        bias_name=bias["name"],
-        definition=bias["definition"],
-        criteria=criteria,
         article_text=article_text[:6000],
+        bias_blocks=bias_blocks,
     )
     result = call_llm(prompt, model, system=PASS3_SYSTEM)
-    if result.get("found"):
-        return {
+    findings = result.get("findings", [])
+
+    # Build a lookup so we can hydrate full bias metadata from the id
+    bias_by_id = {b["id"]: b for b in biases}
+    instances = []
+    for f in findings:
+        if not f.get("found"):
+            continue
+        bias = bias_by_id.get(f.get("bias_id", ""))
+        if not bias:
+            continue
+        instances.append({
             "bias_id": bias["id"],
             "bias_name": bias["name"],
             "occurrences": [
                 {
-                    "excerpt": result.get("excerpt", ""),
+                    "excerpt": f.get("excerpt", ""),
                     "char_start": None,
                     "char_end": None,
                     "paragraph_index": None,
                     "text_region": "body",
-                    "explanation": result.get("explanation", ""),
+                    "explanation": f.get("explanation", ""),
                     "confidence": "low",
                 }
             ],
@@ -329,8 +348,8 @@ def pass3_recall_probe(
             "author_exhibiting": True,
             "source_reporting": False,
             "recall_probe": True,
-        }
-    return None
+        })
+    return instances
 
 
 # ---------------------------------------------------------------------------
@@ -463,14 +482,20 @@ def evaluate_article(
                 inst["category"] = category
             bias_instances.extend(instances)
 
+        # Pass 3: one batched call per unflagged category (all biases in category together)
         for category in sorted(unflagged):
-            for bias in _biases_for_category(taxonomy, category):
-                logger.info("Pass 3: recall probe for '%s' [%s]", bias["name"], triage_model)
-                found = pass3_recall_probe(text, bias, triage_model)
-                if found:
-                    found["category"] = category
-                    bias_instances.append(found)
-                    recall_finds += 1
+            biases_to_probe = _biases_for_category(taxonomy, category)
+            if not biases_to_probe:
+                continue
+            logger.info(
+                "Pass 3: recall probe — %d biases in '%s' [%s]",
+                len(biases_to_probe), category, triage_model,
+            )
+            found_instances = pass3_recall_probe_batch(text, biases_to_probe, triage_model)
+            for inst in found_instances:
+                inst["category"] = category
+            bias_instances.extend(found_instances)
+            recall_finds += len(found_instances)
 
     # Pass 4: judge
     judge_result = {}
