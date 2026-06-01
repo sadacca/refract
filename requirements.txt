@@ -4,3 +4,4 @@ numpy>=1.26.0
 python-dotenv>=1.0.0
 requests>=2.31.0
 # sentence-transformers>=3.0.0  # Required for Mode B embedding pre-filter (Phase 2)
+# llmlingua>=0.2.0              # Optional: Pass 2 payload compression (TODO 6.9). Downloads ~400 MB model on first use.

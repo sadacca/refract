@@ -105,7 +105,7 @@ Research basis: see RESEARCH_REFERENCES.md
          but Pass 4 is already cross-family after 6.1.
          Effort: ~1 day in bias_eval.py.
 
-[ ] 6.3  SCHEMA FIELD ORDER FIX (Pass 4 CoT integrity)
+[x] 6.3  SCHEMA FIELD ORDER FIX (Pass 4 CoT integrity)
          Verify that the Pass 4 judge JSON schema has "rationale" before "verdict".
          If verdict appears first, models answer zero-shot and bypass reasoning.
          Rationale: G-Eval paper (arXiv:2303.16634) and structured-output research
@@ -138,7 +138,7 @@ Research basis: see RESEARCH_REFERENCES.md
 
 --- TOKEN EFFICIENCY IMPROVEMENTS ---
 
-[ ] 6.6  JSON STRUCTURED OUTPUT MODE (all passes)
+[x] 6.6  JSON STRUCTURED OUTPUT MODE (all passes)
          Enable response_format={"type": "json_object"} on all call_llm() invocations
          that request structured output (Passes 0–4). Eliminates JSON parse errors and
          retry loops.
@@ -149,7 +149,7 @@ Research basis: see RESEARCH_REFERENCES.md
          wrong field order will lock in the CoT-bypass behavior.
          Effort: 2 hours in llm_client.py.
 
-[ ] 6.7  PASS 0 → PASS 2 SHORT-CIRCUIT
+[x] 6.7  PASS 0 → PASS 2 SHORT-CIRCUIT
          After pass0_paragraph_triage(): if a category has zero assigned paragraphs,
          skip it from Pass 1 flagging and Pass 2 identification entirely. No LLM calls
          for categories where Pass 0 found no relevant text.
@@ -172,7 +172,7 @@ Research basis: see RESEARCH_REFERENCES.md
          prefix caching — this is a migration enabler.
          Effort: 1 hour in bias_eval.py.
 
-[ ] 6.9  LLMLINGUA-2 COMPRESSION ON PASS 2 PAYLOAD  [MODEST TRADEOFF]
+[x] 6.9  LLMLINGUA-2 COMPRESSION ON PASS 2 PAYLOAD  [MODEST TRADEOFF]
          Evaluate LLMLingua-2 as a pre-processing step between Pass 0 paragraph
          selection and Pass 2 identification. Compress selected paragraphs at rate=0.5
          (2x) before injecting into Pass 2 prompt.

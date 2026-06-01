@@ -38,3 +38,9 @@ BULK_MODE_TOP_K = 25  # biases to inject in Mode B embedding pre-filter
 # LLM call config
 MAX_RETRIES = 4
 RETRY_BASE_DELAY = 2  # seconds; doubles each retry
+
+# Pass 2 payload compression via LLMLingua-2 (T4 / TODO 6.9)
+# Requires: pip install llmlingua  (downloads ~400 MB model on first use)
+# rate=0.5 keeps 50% of tokens (2x compression); safe range: 0.33–0.67
+COMPRESS_PASS2 = os.getenv("COMPRESS_PASS2", "false").lower() == "true"
+COMPRESSION_RATE = float(os.getenv("COMPRESSION_RATE", "0.5"))
