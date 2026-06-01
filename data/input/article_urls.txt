@@ -1,21 +1,15 @@
 # Refract — Initial POC article seed list
 # Format: one URL per line; lines starting with # are comments
-# Mix of news, opinion, and topic domains for Tier 1 bias coverage
 #
-# The Guardian — news + opinion, fetched directly via trafilatura (no API key needed)
+# Add direct article URLs (not homepage/hub URLs).
+# Trafilatura fetches and extracts text — no API key needed.
+# Already-evaluated articles are skipped on re-run (hash-based dedup).
+#
+# Reliable open-access sources: AP News, NPR, Wikipedia, BBC News,
+# Ars Technica, MIT Technology Review, Vox, The Conversation.
 
-# Politics / policy (confirmation bias, framing effect, in-group bias)
-https://www.theguardian.com/politics/2024/nov/06/how-did-donald-trump-win-the-us-election
-https://www.theguardian.com/us-news/2024/nov/07/what-does-donald-trump-election-win-mean
-
-# Economics / finance (anchoring, framing effect, availability heuristic)
-https://www.theguardian.com/business/2024/oct/31/uk-budget-2024-key-points
-
-# Crime / justice (availability heuristic, fundamental attribution error, in-group bias)
-https://www.theguardian.com/uk-news/2024/dec/01/crime-statistics-england-wales-2024
-
-# Science / health (availability heuristic, framing effect, negativity bias)
-https://www.theguardian.com/science/2025/jan/15/climate-change-extreme-weather-2024
-
-# Opinion pieces (higher density of confirmation bias, framing, in-group bias)
-https://www.theguardian.com/commentisfree/2024/oct/28/the-guardian-view-on-the-uk-budget
+# --- ADD ARTICLE URLS BELOW ---
+# Example format:
+# https://apnews.com/article/trump-tariffs-economy-abc123
+# https://www.npr.org/2025/01/15/nx-s1-1234/article-title
+# https://en.wikipedia.org/wiki/Framing_effect_(psychology)

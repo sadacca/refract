@@ -64,6 +64,32 @@ jobs:
           print('Precomputed artifacts found.')
           "
 
+      - name: Verify URLs are fetchable (spot check first URL)
+        run: |
+          python -c "
+          import sys, requests, trafilatura
+          from pathlib import Path
+          urls = [l.strip() for l in Path('data/input/article_urls.txt').read_text().splitlines()
+                  if l.strip() and not l.startswith('#')]
+          if not urls:
+              print('WARNING: article_urls.txt has no URLs — nothing to evaluate')
+              sys.exit(0)
+          url = urls[0]
+          print(f'Spot-checking: {url}')
+          headers = {'User-Agent': 'Mozilla/5.0 (compatible; Refract/0.1; +https://github.com/sadacca/refract)'}
+          try:
+              r = requests.get(url, headers=headers, timeout=20)
+              text = trafilatura.extract(r.text)
+              if text:
+                  print(f'OK: extracted {len(text.split())} words')
+              else:
+                  print(f'WARNING: URL returned HTTP {r.status_code} but trafilatura extracted no text')
+                  print('Check that URLs point to individual articles, not hub/index pages')
+          except Exception as e:
+              print(f'WARNING: fetch failed — {e}')
+              print('Articles may still evaluate if other URLs work')
+          "
+
       - name: Run batch evaluation
         run: |
           MAX_ARG=""
