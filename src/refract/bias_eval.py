@@ -35,6 +35,7 @@ from config import (
     TRIAGE_MODEL,
     COMPRESS_PASS2,
     COMPRESSION_RATE,
+    JUDGE_SWAP_AUGMENTATION,
 )
 from src.refract.llm_client import call_llm
 
@@ -451,12 +452,61 @@ def pass4_judge(
         inst_copy["instance_id"] = f"inst_{i:03d}"
         instances_with_ids.append(inst_copy)
 
-    prompt = PASS4_PROMPT.format(
-        article_text=article_text[:6000],
-        instances_json=json.dumps(instances_with_ids, indent=2),
-    )
-    result = call_llm(prompt, judge_model, system=PASS4_SYSTEM)
-    return result
+    def _run(ordered: list[dict]) -> dict:
+        prompt = PASS4_PROMPT.format(
+            article_text=article_text[:6000],
+            instances_json=json.dumps(ordered, indent=2),
+        )
+        return call_llm(prompt, judge_model, system=PASS4_SYSTEM)
+
+    result_a = _run(instances_with_ids)
+
+    # Swap augmentation (TODO 6.2): run the judge a second time with instance order
+    # reversed. A verdict that flips based solely on list position is position-biased
+    # rather than content-grounded; those instances are downgraded to "suspect".
+    # Wang et al. ACL 2024 (arXiv:2305.17926): reordering alone flips 66/80 rankings.
+    if not JUDGE_SWAP_AUGMENTATION or len(instances_with_ids) <= 1:
+        return result_a
+
+    result_b = _run(list(reversed(instances_with_ids)))
+
+    # Match both runs by instance_id (stable across both orderings).
+    verdicts_b = {j["instance_id"]: j for j in result_b.get("judgments", [])}
+
+    quality_rank = {"high": 2, "medium": 1, "low": 0}
+    merged = []
+    disagreements = 0
+
+    for j_a in result_a.get("judgments", []):
+        iid = j_a.get("instance_id")
+        j_b = verdicts_b.get(iid)
+        v_a = j_a.get("verdict")
+        v_b = j_b.get("verdict") if j_b else None
+
+        if v_b is None or v_a == v_b:
+            merged.append({**j_a, "swap_agreement": True})
+        else:
+            disagreements += 1
+            merged.append({
+                **j_a,
+                "verdict": "suspect",
+                "swap_agreement": False,
+                "swap_verdicts": {"forward": v_a, "reversed": v_b},
+            })
+
+    q_a = result_a.get("overall_quality", "medium")
+    q_b = result_b.get("overall_quality", "medium")
+    overall_quality = q_a if quality_rank.get(q_a, 1) <= quality_rank.get(q_b, 1) else q_b
+
+    return {
+        "judgments": merged,
+        "overall_quality": overall_quality,
+        "notes": (
+            f"Swap augmentation: {disagreements}/{len(merged)} instance(s) showed "
+            f"position-dependent verdicts and were downgraded to 'suspect'."
+        ),
+        "swap_augmentation": True,
+    }
 
 
 # ---------------------------------------------------------------------------

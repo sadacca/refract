@@ -44,3 +44,15 @@ RETRY_BASE_DELAY = 2  # seconds; doubles each retry
 # rate=0.5 keeps 50% of tokens (2x compression); safe range: 0.33–0.67
 COMPRESS_PASS2 = os.getenv("COMPRESS_PASS2", "false").lower() == "true"
 COMPRESSION_RATE = float(os.getenv("COMPRESSION_RATE", "0.5"))
+
+# Pass 4 swap augmentation (T2 / TODO 6.2)
+# Runs the judge twice with instance order reversed. Verdicts that flip across
+# orderings are downgraded to "suspect" — if the verdict depends on where in the
+# list the instance appeared, it was position-biased, not content-grounded.
+# Doubles Pass 4 LLM calls; disable for cost-sensitive runs.
+JUDGE_SWAP_AUGMENTATION = os.getenv("JUDGE_SWAP_AUGMENTATION", "true").lower() == "true"
+
+# Pass 4 cross-family judge (TODO 6.1)
+# Set JUDGE_MODEL env var to a Gemini model (e.g. gemini-2.0-flash) once
+# GEMINI_API_KEY is configured. Eliminates self-preference bias (arXiv:2404.13076).
+# Default retains current Llama judge until API key is available.

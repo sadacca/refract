@@ -95,7 +95,7 @@ Research basis: see RESEARCH_REFERENCES.md
          pattern in current data is a likely symptom.
          Effort: 1 line in config.py. Zero structural changes.
 
-[ ] 6.2  SWAP AUGMENTATION (Pass 4 position bias)
+[x] 6.2  SWAP AUGMENTATION (Pass 4 position bias)
          In pass4_judge(), run the judge twice: once with instances in original order,
          once with order reversed. Take intersection of "confirmed" verdicts as the
          high-confidence set; mark divergent verdicts as "suspect".
