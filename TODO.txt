@@ -86,7 +86,7 @@ Research basis: see RESEARCH_REFERENCES.md
 
 --- BIAS ASSESSMENT IMPROVEMENTS ---
 
-[ ] 6.1  CROSS-FAMILY JUDGE (Pass 4)
+[x] 6.1  CROSS-FAMILY JUDGE (Pass 4)
          Switch JUDGE_MODEL in config.py from llama-3.3-70b-versatile to Gemini.
          Gemini REST client already implemented in llm_client.py.
          Rationale: self-preference bias documented at 10–25% score inflation when
@@ -230,6 +230,12 @@ DECISION LOG
 2026-06-01  Phase 6 eval hardening tasks added (6.1–6.9). Grounded in 2024–2026
             LLM-as-judge research. Priority order: 6.3 → 6.6 → 6.1 → 6.7 → 6.2 →
             6.4 → 6.8 → 6.5 → 6.9. See RESEARCH_REFERENCES.md for full citations.
+
+2026-06-01  6.1, 6.2, 6.3, 6.6, 6.7, 6.9 implemented. Cross-family judge now
+            auto-selects opposite provider (Groq eval → Gemini judge, vice versa).
+            Output filenames encode model pair for parallel re-scoring without
+            overwriting. Swap augmentation and Pass 0 short-circuit live.
+            Remaining: 6.4 (test set), 6.5 (logprob weighting), 6.8 (prefix align).
 
 2026-05-31  Pipeline architecture: composite ingest+eval in batch_eval.yml.
 

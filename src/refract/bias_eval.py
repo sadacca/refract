@@ -36,6 +36,7 @@ from config import (
     COMPRESS_PASS2,
     COMPRESSION_RATE,
     JUDGE_SWAP_AUGMENTATION,
+    model_abbrev,
 )
 from src.refract.llm_client import call_llm
 
@@ -673,6 +674,10 @@ def evaluate_article(
 
     dominant = sorted(by_category, key=by_category.get, reverse=True)[:3]
 
+    # Model signature used in the output filename so evaluations from different
+    # model combinations are stored separately and can be compared or re-run.
+    model_sig = f"{model_abbrev(eval_model)}_{model_abbrev(judge_model)}"
+
     evaluation = {
         "article_id": article_id,
         "source_url": article.get("url"),
@@ -680,7 +685,12 @@ def evaluate_article(
         "evaluated_at": now,
         "framework_version": FRAMEWORK_VERSION,
         "taxonomy_version": TAXONOMY_VERSION,
-        "model": eval_model,
+        "model": eval_model,          # kept for backward compat with index/UI readers
+        "models": {
+            "triage": triage_model,
+            "eval":   eval_model,
+            "judge":  judge_model,
+        },
         "mode": mode,
         "article_text": text,
         "pass0_result": p0,
@@ -707,9 +717,10 @@ def evaluate_article(
         },
     }
 
-    # Persist
+    # Persist — filename encodes both eval and judge model so re-scoring with a
+    # different model combination lands in a new file, not overwriting the old one.
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = PROCESSED_DIR / f"{article_id}_{FRAMEWORK_VERSION}.json"
+    out_path = PROCESSED_DIR / f"{article_id}_{FRAMEWORK_VERSION}_{model_sig}.json"
     out_path.write_text(json.dumps(evaluation, indent=2))
     logger.info("Evaluation written to %s", out_path)
 
