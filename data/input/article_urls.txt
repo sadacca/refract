@@ -10,12 +10,7 @@ https://en.wikipedia.org/wiki/Confirmation_bias
 https://en.wikipedia.org/wiki/Framing_effect_(psychology)
 https://en.wikipedia.org/wiki/Availability_heuristic
 
-# --- AP News (open access) ---
-# Add direct AP article URLs here, e.g.:
-# https://apnews.com/article/some-article-slug-abc123
-
 # --- NPR (open access) ---
-# https://www.npr.org/2025/01/15/nx-s1-XXXX/article-title
-
-# --- Other open-access sources ---
-# Ars Technica, MIT Technology Review, The Conversation, Vox, FiveThirtyEight
+https://www.npr.org/2026/05/31/g-s1-125047/wembanyama-san-antonio-spurs-win-west-oklahoma-thunder-nba
+https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean
+https://www.npr.org/2026/05/30/nx-s1-5839921/timmy-humpback-whale-autopsy
