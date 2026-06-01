@@ -1,9 +1,6 @@
 name: Batch Article Evaluation
 
 on:
-  push:
-    paths:
-      - "data/input/article_urls.txt"
   workflow_dispatch:
     inputs:
       url_file:
@@ -37,7 +34,8 @@ jobs:
     timeout-minutes: 360
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      EVAL_MODEL: ${{ inputs.model_override || 'gemini-2.0-flash' }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      EVAL_MODEL: ${{ inputs.model_override || 'llama-3.3-70b-versatile' }}
 
     steps:
       - uses: actions/checkout@v4

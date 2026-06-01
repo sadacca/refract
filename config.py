@@ -19,17 +19,18 @@ EVAL_DIR = ROOT / "eval"
 FRAMEWORK_VERSION = "v0.1.0"
 TAXONOMY_VERSION = "v0.1.0"
 
-# Model config
-EVAL_MODEL = os.getenv("EVAL_MODEL", "gemini-2.0-flash")
-JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gemini-2.0-flash")
+# Model config — Groq primary (30 RPM free), Gemini fallback/judge
+EVAL_MODEL = os.getenv("EVAL_MODEL", "llama-3.3-70b-versatile")
+JUDGE_MODEL = os.getenv("JUDGE_MODEL", "llama-3.3-70b-versatile")
 
 # API keys
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GUARDIAN_API_KEY = os.getenv("GUARDIAN_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
 # Pipeline config
 EVAL_MODE = os.getenv("EVAL_MODE", "deep")  # "deep" or "bulk"
-RATE_LIMIT_DELAY = int(os.getenv("RATE_LIMIT_DELAY", "65"))  # seconds between articles (Gemini free: 15 RPM)
+RATE_LIMIT_DELAY = int(os.getenv("RATE_LIMIT_DELAY", "5"))   # seconds between articles
 MAX_ARTICLE_WORDS = 10_000
 BULK_MODE_TOP_K = 25  # biases to inject in Mode B embedding pre-filter
 

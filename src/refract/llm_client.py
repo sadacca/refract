@@ -1,7 +1,7 @@
 """
 Thin LLM client: structured JSON calls via REST APIs.
-Supports Gemini (primary, free tier) and is extensible to other providers.
-Uses requests directly to avoid SDK dependency conflicts.
+Supports Groq (primary) and Gemini (fallback/judge).
+Provider is inferred from the model name prefix.
 """
 import json
 import logging
@@ -10,20 +10,63 @@ from typing import Any
 
 import requests
 
-from config import GEMINI_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY
+from config import GEMINI_API_KEY, GROQ_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY
 
 logger = logging.getLogger(__name__)
 
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
+GROQ_BASE = "https://api.groq.com/openai/v1/chat/completions"
+
+# Minimum seconds between any two LLM calls process-wide.
+# Groq free: 30 RPM = 1 call per 2s; use 3s for headroom.
+# Gemini free: 15 RPM = 1 call per 4s; use 5s for headroom.
+_CALL_MIN_INTERVAL = 3.0
+_last_call_time: float = 0.0
 
 
-def _call_gemini(
-    prompt: str,
-    model: str,
-    system: str = "",
-    expect_json: bool = True,
-    temperature: float = 0.0,
-) -> dict | str:
+def _provider(model: str) -> str:
+    """Infer provider from model name."""
+    if model.startswith(("llama", "mixtral", "gemma", "qwen", "deepseek")):
+        return "groq"
+    return "gemini"
+
+
+def _call_groq(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
+    if not GROQ_API_KEY:
+        raise RuntimeError("GROQ_API_KEY not set")
+
+    messages = []
+    if system:
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": prompt})
+
+    body: dict[str, Any] = {
+        "model": model,
+        "messages": messages,
+        "temperature": temperature,
+    }
+    if expect_json:
+        body["response_format"] = {"type": "json_object"}
+
+    resp = requests.post(
+        GROQ_BASE,
+        json=body,
+        headers={"Authorization": f"Bearer {GROQ_API_KEY}"},
+        timeout=120,
+    )
+    resp.raise_for_status()
+    raw = resp.json()["choices"][0]["message"]["content"].strip()
+
+    if expect_json:
+        if raw.startswith("```"):
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+        return json.loads(raw)
+    return raw
+
+
+def _call_gemini(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
     if not GEMINI_API_KEY:
         raise RuntimeError("GEMINI_API_KEY not set")
 
@@ -45,7 +88,6 @@ def _call_gemini(
     resp.raise_for_status()
 
     raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
-
     if expect_json:
         if raw.startswith("```"):
             raw = raw.split("```")[1]
@@ -64,11 +106,20 @@ def call_llm(
 ) -> dict | str:
     """
     Send a prompt to the specified model and return parsed JSON (or raw text).
-    Retries on transient errors with exponential backoff.
+    Provider is inferred from model name. Retries with exponential backoff.
     """
+    global _last_call_time
+    elapsed = time.time() - _last_call_time
+    if elapsed < _CALL_MIN_INTERVAL:
+        time.sleep(_CALL_MIN_INTERVAL - elapsed)
+
+    provider = _provider(model)
+    caller = _call_groq if provider == "groq" else _call_gemini
+
     for attempt in range(1, MAX_RETRIES + 1):
         try:
-            return _call_gemini(
+            _last_call_time = time.time()
+            return caller(
                 prompt=prompt,
                 model=model,
                 system=system,
@@ -84,7 +135,6 @@ def call_llm(
             logger.warning("HTTP %d on attempt %d: %s", status, attempt, e)
             if attempt == MAX_RETRIES:
                 raise
-            # 429 rate limit: wait much longer — free tier resets per minute
             wait = 65 if status == 429 else RETRY_BASE_DELAY * (2 ** (attempt - 1))
             logger.info("Waiting %ds before retry...", wait)
             time.sleep(wait)
