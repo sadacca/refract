@@ -29,7 +29,7 @@ GUARDIAN_API_KEY = os.getenv("GUARDIAN_API_KEY", "")
 
 # Pipeline config
 EVAL_MODE = os.getenv("EVAL_MODE", "deep")  # "deep" or "bulk"
-RATE_LIMIT_DELAY = int(os.getenv("RATE_LIMIT_DELAY", "65"))  # seconds between articles (Gemini free: 15 RPM)
+RATE_LIMIT_DELAY = int(os.getenv("RATE_LIMIT_DELAY", "5"))   # seconds between articles (per-call throttle in llm_client handles RPM)
 MAX_ARTICLE_WORDS = 10_000
 BULK_MODE_TOP_K = 25  # biases to inject in Mode B embedding pre-filter
 

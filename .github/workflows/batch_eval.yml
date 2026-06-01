@@ -1,9 +1,6 @@
 name: Batch Article Evaluation
 
 on:
-  push:
-    paths:
-      - "data/input/article_urls.txt"
   workflow_dispatch:
     inputs:
       url_file:

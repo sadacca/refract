@@ -16,6 +16,11 @@ logger = logging.getLogger(__name__)
 
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 
+# Minimum seconds between any two LLM calls — keeps us under 15 RPM on free tier.
+# 15 RPM = 1 call per 4s. Use 5s to give headroom.
+_CALL_MIN_INTERVAL = 5.0
+_last_call_time: float = 0.0
+
 
 def _call_gemini(
     prompt: str,
@@ -66,8 +71,14 @@ def call_llm(
     Send a prompt to the specified model and return parsed JSON (or raw text).
     Retries on transient errors with exponential backoff.
     """
+    global _last_call_time
+    elapsed = time.time() - _last_call_time
+    if elapsed < _CALL_MIN_INTERVAL:
+        time.sleep(_CALL_MIN_INTERVAL - elapsed)
+
     for attempt in range(1, MAX_RETRIES + 1):
         try:
+            _last_call_time = time.time()
             return _call_gemini(
                 prompt=prompt,
                 model=model,
