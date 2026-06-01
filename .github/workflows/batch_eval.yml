@@ -20,6 +20,14 @@ on:
         description: "Max articles to process (0 = unlimited)"
         default: "0"
         required: false
+      eval_mode:
+        description: "deep: Pass 1 triage + Pass 3 recall probes; flat: Pass 2 on all categories (no triage)"
+        type: choice
+        options:
+          - deep
+          - flat
+        default: deep
+        required: false
 
 permissions:
   contents: write
@@ -95,8 +103,14 @@ jobs:
           if [ "${{ inputs.max_articles }}" != "0" ] && [ -n "${{ inputs.max_articles }}" ]; then
             MAX_ARG="--max ${{ inputs.max_articles }}"
           fi
+          SKIP_ARG="--skip-cached"
+          if [ "${{ inputs.skip_cached }}" = "false" ]; then
+            SKIP_ARG="--no-skip-cached"
+          fi
           python scripts/batch_eval.py \
             --url-file "${{ inputs.url_file || 'data/input/article_urls.txt' }}" \
+            --mode "${{ inputs.eval_mode || 'deep' }}" \
+            $SKIP_ARG \
             $MAX_ARG
 
       - name: Rebuild index

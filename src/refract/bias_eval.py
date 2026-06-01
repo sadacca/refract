@@ -1,11 +1,20 @@
 """
-4-pass cognitive bias evaluation pipeline.
+4-pass cognitive bias evaluation pipeline with optional Pass 0 paragraph triage.
 
-Pass 1: Category triage — which of the 10 bias categories are present?
-Pass 2: Bias identification — one call per flagged category, injecting
-        precomputed bias blocks and reference examples as few-shot anchors.
-Pass 3: Recall probes — one yes/no call per unflagged category to surface misses.
+Pass 0: Paragraph triage — chunk article into paragraphs, map each category to
+        the paragraph indices worth deep review. Cached per article.
+Pass 1: Category triage — which bias categories are present? (deep mode only)
+Pass 2: Bias identification — one call per flagged category, using only the
+        paragraphs selected in Pass 0 instead of the full article.
+Pass 3: Recall probes — one batched call per unflagged category (deep mode only).
 Pass 4: LLM judge — pointwise quality check on all detections.
+
+# TODO — alternatives to Pass 0 paragraph triage worth researching:
+#   A) Extend Pass 1 to return paragraph-level assignments per category in a
+#      single call (saves one round-trip; risk: overloads Pass 1 prompt quality).
+#   B) Embedding-based pre-filter: embed paragraphs + bias definitions, select
+#      top-K by cosine similarity before any LLM call. Zero LLM cost for selection;
+#      requires an embedding model/API and adds infrastructure complexity.
 
 All prompt blocks are loaded from data/precomputed/ — no prompt assembly at runtime.
 """
@@ -51,6 +60,74 @@ def _all_categories(taxonomy: dict) -> list[str]:
 
 def _biases_for_category(taxonomy: dict, category: str) -> list[dict]:
     return [b for b in taxonomy["biases"] if b["category"] == category]
+
+
+# ---------------------------------------------------------------------------
+# Pass 0: Paragraph chunking + category-to-paragraph mapping
+# ---------------------------------------------------------------------------
+
+def _chunk_paragraphs(text: str) -> list[dict]:
+    """Split text into paragraphs, preserving original char offsets."""
+    paragraphs = []
+    pos = 0
+    for block in text.split("\n\n"):
+        block = block.strip()
+        if not block:
+            pos = text.find("\n\n", pos) + 2
+            continue
+        start = text.find(block, pos)
+        end = start + len(block)
+        paragraphs.append({"idx": len(paragraphs), "char_start": start, "char_end": end, "text": block})
+        pos = end
+    return paragraphs
+
+
+PASS0_SYSTEM = """You are a cognitive psychology expert doing rapid relevance triage.
+Given a list of article paragraphs and a set of bias categories, identify which paragraphs
+are worth deep review for each category. Be inclusive but efficient — only include paragraphs
+that contain language, claims, or framing plausibly related to the category.
+Output structured JSON only."""
+
+PASS0_PROMPT = """Bias categories to map:
+{categories}
+
+Article paragraphs (index | char range | preview):
+{paragraph_list}
+
+Return JSON mapping each category to the paragraph indices that warrant deep review:
+{{
+  "category_paragraphs": {{
+    "<category_name>": [0, 3, 7]
+  }}
+}}
+
+If a category has no relevant paragraphs, map it to an empty list."""
+
+
+def pass0_paragraph_triage(
+    paragraphs: list[dict], categories: list[str], model: str
+) -> dict[str, list[int]]:
+    para_list = "\n".join(
+        f"[{p['idx']}] chars {p['char_start']}-{p['char_end']}: {p['text'][:120].replace(chr(10), ' ')}..."
+        for p in paragraphs
+    )
+    prompt = PASS0_PROMPT.format(
+        categories="\n".join(f"- {c}" for c in categories),
+        paragraph_list=para_list,
+    )
+    result = call_llm(prompt, model, system=PASS0_SYSTEM)
+    return result.get("category_paragraphs", {})
+
+
+def _paragraphs_for_pass2(paragraphs: list[dict], indices: list[int]) -> str:
+    """Reconstruct article text subset with original char offsets embedded as anchors."""
+    selected = [p for p in paragraphs if p["idx"] in set(indices)]
+    if not selected:
+        return ""
+    blocks = []
+    for p in selected:
+        blocks.append(f"[chars {p['char_start']}-{p['char_end']}]\n{p['text']}")
+    return "\n\n".join(blocks)
 
 
 # ---------------------------------------------------------------------------
@@ -184,6 +261,8 @@ def pass2_identify(
         return []
 
     bias_block = _build_bias_block(biases)
+    # article_text may be full article or a paragraph-filtered subset (from Pass 0).
+    # When filtered, char offsets embedded in the text let the LLM report accurate positions.
     prompt = PASS2_PROMPT.format(
         bias_block=bias_block,
         article_text=article_text[:8000],
@@ -196,53 +275,72 @@ def pass2_identify(
 # Pass 3: Recall probes for unflagged categories
 # ---------------------------------------------------------------------------
 
-PASS3_SYSTEM = """You are a cognitive psychology expert auditing whether a specific bias category is absent from an article.
-Answer whether any instance of the specified bias is present.
-If yes, provide the excerpt and explanation. If no, briefly explain why not.
-Be honest: it is acceptable to confirm absence.
+PASS3_SYSTEM = """You are a cognitive psychology expert auditing whether specific biases are absent from an article.
+For each bias listed, answer whether any instance is present in the article.
+Be honest: it is acceptable to confirm absence for most or all biases.
 Output structured JSON only."""
 
-PASS3_PROMPT = """Bias to probe: {bias_name}
-Definition: {definition}
-Identification criteria:
-{criteria}
-
-Article text:
+PASS3_PROMPT = """Article text:
 \"\"\"
 {article_text}
 \"\"\"
 
+For each bias below, determine if any instance is present in the article.
+
+{bias_blocks}
+
 Return JSON:
 {{
-  "found": true | false,
-  "excerpt": "exact quoted text if found, else null",
-  "explanation": "why this is or is not an instance of {bias_name}"
+  "findings": [
+    {{
+      "bias_id": "string",
+      "found": true | false,
+      "excerpt": "exact quoted text if found, else null",
+      "explanation": "one sentence: why this is or is not present"
+    }}
+  ]
 }}"""
 
 
-def pass3_recall_probe(
-    article_text: str, bias: dict, model: str
-) -> Optional[dict]:
-    criteria = "\n".join(f"  - {c}" for c in bias.get("identification_criteria", []))
+def _format_bias_block_compact(bias: dict) -> str:
+    criteria = "; ".join(bias.get("identification_criteria", [])[:2])
+    return f"- {bias['name']} (id: {bias['id']}): {bias['definition']} Criteria: {criteria}"
+
+
+def pass3_recall_probe_batch(
+    article_text: str, biases: list[dict], model: str
+) -> list[dict]:
+    """Probe multiple biases in one call. Returns a list of found bias instances."""
+    if not biases:
+        return []
+    bias_blocks = "\n".join(_format_bias_block_compact(b) for b in biases)
     prompt = PASS3_PROMPT.format(
-        bias_name=bias["name"],
-        definition=bias["definition"],
-        criteria=criteria,
         article_text=article_text[:6000],
+        bias_blocks=bias_blocks,
     )
     result = call_llm(prompt, model, system=PASS3_SYSTEM)
-    if result.get("found"):
-        return {
+    findings = result.get("findings", [])
+
+    # Build a lookup so we can hydrate full bias metadata from the id
+    bias_by_id = {b["id"]: b for b in biases}
+    instances = []
+    for f in findings:
+        if not f.get("found"):
+            continue
+        bias = bias_by_id.get(f.get("bias_id", ""))
+        if not bias:
+            continue
+        instances.append({
             "bias_id": bias["id"],
             "bias_name": bias["name"],
             "occurrences": [
                 {
-                    "excerpt": result.get("excerpt", ""),
+                    "excerpt": f.get("excerpt", ""),
                     "char_start": None,
                     "char_end": None,
                     "paragraph_index": None,
                     "text_region": "body",
-                    "explanation": result.get("explanation", ""),
+                    "explanation": f.get("explanation", ""),
                     "confidence": "low",
                 }
             ],
@@ -250,8 +348,8 @@ def pass3_recall_probe(
             "author_exhibiting": True,
             "source_reporting": False,
             "recall_probe": True,
-        }
-    return None
+        })
+    return instances
 
 
 # ---------------------------------------------------------------------------
@@ -330,34 +428,90 @@ def evaluate_article(
     taxonomy = _load_taxonomy()
     text = article["text"]
     article_id = article["article_id"]
+    all_cats = sorted(_all_categories(taxonomy))
 
-    logger.info("Pass 1: category triage [%s] for article %s", triage_model, article_id)
-    p1 = pass1_category_triage(text, taxonomy, triage_model)
-    flagged = set(p1.get("flagged_categories", []))
-    all_cats = set(_all_categories(taxonomy))
-    unflagged = all_cats - flagged
-
-    logger.info("Flagged categories: %s", flagged)
-
-    # Pass 2: identify in flagged categories (large model)
-    bias_instances = []
-    for category in sorted(flagged):
-        logger.info("Pass 2: identifying biases in category '%s' [%s]", category, eval_model)
-        instances = pass2_identify(text, category, taxonomy, eval_model)
-        for inst in instances:
-            inst["category"] = category
-        bias_instances.extend(instances)
-
-    # Pass 3: recall probes for unflagged categories (small model — yes/no task)
+    p0: dict = {}
+    p1: dict = {}
     recall_finds = 0
-    for category in sorted(unflagged):
-        for bias in _biases_for_category(taxonomy, category):
-            logger.info("Pass 3: recall probe for '%s' [%s]", bias["name"], triage_model)
-            found = pass3_recall_probe(text, bias, triage_model)
-            if found:
-                found["category"] = category
-                bias_instances.append(found)
-                recall_finds += 1
+
+    # Pass 0: paragraph triage — always runs to reduce Pass 2 article payload.
+    # Maps each category to the paragraph indices worth deep review.
+    paragraphs = _chunk_paragraphs(text)
+    logger.info(
+        "Pass 0: paragraph triage — %d paragraphs, %d categories [%s]",
+        len(paragraphs), len(all_cats), triage_model,
+    )
+    category_paragraphs = pass0_paragraph_triage(paragraphs, all_cats, triage_model)
+    p0 = {"paragraph_count": len(paragraphs), "category_paragraphs": category_paragraphs}
+
+    bias_instances = []
+
+    if mode == "flat":
+        # Skip category triage and recall probes — run Pass 2 on every category.
+        # Fewer total calls at small taxonomy sizes; useful for comparing against deep mode.
+        logger.info("Mode=flat: running Pass 2 on all %d categories [%s]", len(all_cats), eval_model)
+        for category in all_cats:
+            indices = category_paragraphs.get(category, [])
+            if not indices:
+                logger.info("Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs", category)
+                continue
+            article_slice = _paragraphs_for_pass2(paragraphs, indices)
+            logger.info(
+                "Pass 2: category '%s' — %d/%d paragraphs selected",
+                category, len(indices), len(paragraphs),
+            )
+            instances = pass2_identify(article_slice, category, taxonomy, eval_model)
+            for inst in instances:
+                inst["category"] = category
+            bias_instances.extend(instances)
+    else:
+        # deep mode: Pass 1 category triage → Pass 2 flagged → Pass 3 recall probes
+        logger.info("Pass 1: category triage [%s] for article %s", triage_model, article_id)
+        p1 = pass1_category_triage(text, taxonomy, triage_model)
+        flagged = set(p1.get("flagged_categories", []))
+        unflagged = set(all_cats) - flagged
+
+        logger.info("Flagged categories: %s", flagged)
+
+        p2_skipped = []
+        for category in sorted(flagged):
+            indices = category_paragraphs.get(category, [])
+            if not indices:
+                logger.info(
+                    "Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs; routing to Pass 3 batch",
+                    category,
+                )
+                p2_skipped.append(category)
+                unflagged.add(category)
+                continue
+            article_slice = _paragraphs_for_pass2(paragraphs, indices)
+            logger.info(
+                "Pass 2: category '%s' — %d/%d paragraphs [%s]",
+                category, len(indices), len(paragraphs), eval_model,
+            )
+            instances = pass2_identify(article_slice, category, taxonomy, eval_model)
+            for inst in instances:
+                inst["category"] = category
+            bias_instances.extend(instances)
+
+        if p2_skipped:
+            logger.info("Pass 2 skipped %d category(ies) with no paragraphs: %s", len(p2_skipped), p2_skipped)
+
+        # Pass 3: one batched call per unflagged category (all biases in category together)
+        # Includes categories demoted from Pass 2 by the zero-paragraph gate.
+        for category in sorted(unflagged):
+            biases_to_probe = _biases_for_category(taxonomy, category)
+            if not biases_to_probe:
+                continue
+            logger.info(
+                "Pass 3: recall probe — %d biases in '%s' [%s]",
+                len(biases_to_probe), category, triage_model,
+            )
+            found_instances = pass3_recall_probe_batch(text, biases_to_probe, triage_model)
+            for inst in found_instances:
+                inst["category"] = category
+            bias_instances.extend(found_instances)
+            recall_finds += len(found_instances)
 
     # Pass 4: judge
     judge_result = {}
@@ -405,6 +559,7 @@ def evaluate_article(
         "model": eval_model,
         "mode": mode,
         "article_text": text,
+        "pass0_result": p0,
         "pass1_result": p1,
         "bias_instances": bias_instances,
         "judge_result": judge_result,
@@ -420,6 +575,11 @@ def evaluate_article(
             "recall_probe_finds": recall_finds,
             "by_region": by_region,
             "by_category": by_category,
+            "pass0_paragraph_count": len(paragraphs),
+            "pass0_avg_paragraphs_per_category": (
+                round(sum(len(v) for v in category_paragraphs.values()) / len(all_cats), 1)
+                if all_cats else 0
+            ),
         },
     }
 

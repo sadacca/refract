@@ -5,6 +5,7 @@ Provider is inferred from the model name prefix.
 """
 import json
 import logging
+import os
 import time
 from typing import Any
 
@@ -17,11 +18,11 @@ logger = logging.getLogger(__name__)
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 GROQ_BASE = "https://api.groq.com/openai/v1/chat/completions"
 
-# Minimum seconds between any two LLM calls process-wide.
-# Groq free: 30 RPM = 1 call per 2s; use 3s for headroom.
-# Gemini free: 15 RPM = 1 call per 4s; use 5s for headroom.
-_CALL_MIN_INTERVAL = 3.0
-_last_call_time: float = 0.0
+# Minimum seconds between calls, tracked per model to avoid cross-model interference.
+# Groq free: 30 RPM / model. TPM limits (not just RPM) cause most 429s on long articles.
+# 6s per call = ~10 RPM, leaving headroom for token bursts.
+_CALL_MIN_INTERVAL = float(os.getenv("LLM_CALL_INTERVAL", "6"))
+_last_call_time: dict[str, float] = {}
 
 
 def _provider(model: str) -> str:
@@ -109,7 +110,8 @@ def call_llm(
     Provider is inferred from model name. Retries with exponential backoff.
     """
     global _last_call_time
-    elapsed = time.time() - _last_call_time
+    last = _last_call_time.get(model, 0.0)
+    elapsed = time.time() - last
     if elapsed < _CALL_MIN_INTERVAL:
         time.sleep(_CALL_MIN_INTERVAL - elapsed)
 
@@ -118,7 +120,7 @@ def call_llm(
 
     for attempt in range(1, MAX_RETRIES + 1):
         try:
-            _last_call_time = time.time()
+            _last_call_time[model] = time.time()
             return caller(
                 prompt=prompt,
                 model=model,
