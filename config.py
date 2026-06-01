@@ -33,7 +33,9 @@ def _is_groq_model(model: str) -> bool:
 
 def _cross_family_default(eval_model: str) -> str:
     """Return the opposite-provider judge model for cross-family evaluation."""
-    return "gemini-2.0-flash" if _is_groq_model(eval_model) else "llama-3.3-70b-versatile"
+    # gemini-1.5-flash preferred over 2.0-flash: same 15 RPM free tier but
+    # more permissive token quota; 2.0-flash hits 429 on first call in practice.
+    return "gemini-1.5-flash" if _is_groq_model(eval_model) else "llama-3.3-70b-versatile"
 
 
 # Short filename-safe abbreviations — used in output filenames so parallel model
