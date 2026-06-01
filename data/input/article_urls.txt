@@ -1,15 +1,21 @@
 # Refract — Initial POC article seed list
 # Format: one URL per line; lines starting with # are comments
 #
-# Add direct article URLs (not homepage/hub URLs).
-# Trafilatura fetches and extracts text — no API key needed.
+# Use direct article URLs, not homepage/hub URLs.
+# Trafilatura + requests fallback fetch text — no API key needed.
 # Already-evaluated articles are skipped on re-run (hash-based dedup).
-#
-# Reliable open-access sources: AP News, NPR, Wikipedia, BBC News,
-# Ars Technica, MIT Technology Review, Vox, The Conversation.
 
-# --- ADD ARTICLE URLS BELOW ---
-# Example format:
-# https://apnews.com/article/trump-tariffs-economy-abc123
-# https://www.npr.org/2025/01/15/nx-s1-1234/article-title
-# https://en.wikipedia.org/wiki/Framing_effect_(psychology)
+# --- Wikipedia (open access, low-bias baseline) ---
+https://en.wikipedia.org/wiki/Confirmation_bias
+https://en.wikipedia.org/wiki/Framing_effect_(psychology)
+https://en.wikipedia.org/wiki/Availability_heuristic
+
+# --- AP News (open access) ---
+# Add direct AP article URLs here, e.g.:
+# https://apnews.com/article/some-article-slug-abc123
+
+# --- NPR (open access) ---
+# https://www.npr.org/2025/01/15/nx-s1-XXXX/article-title
+
+# --- Other open-access sources ---
+# Ars Technica, MIT Technology Review, The Conversation, Vox, FiveThirtyEight

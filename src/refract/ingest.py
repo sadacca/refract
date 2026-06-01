@@ -53,14 +53,16 @@ def fetch_url(url: str) -> dict:
 
     for attempt in range(1, MAX_RETRIES + 1):
         try:
-            downloaded = trafilatura.fetch_url(url, config=trafilatura.settings.use_config())
-            # Fall back to requests if trafilatura fetch returns nothing
+            downloaded = trafilatura.fetch_url(url)
             if not downloaded:
+                # trafilatura fetch failed — try requests with browser UA
                 resp = requests.get(url, headers=headers, timeout=20)
+                if resp.status_code == 404:
+                    raise ValueError(f"404 Not Found: {url}")
                 resp.raise_for_status()
                 downloaded = resp.text
             if not downloaded:
-                raise ValueError(f"trafilatura returned empty for {url}")
+                raise ValueError(f"empty response from {url}")
 
             text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
             if not text:
