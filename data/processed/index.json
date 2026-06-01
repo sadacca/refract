@@ -1,5 +1,129 @@
 [
   {
+    "article_id": "68916677e2694999",
+    "url": "https://sports.yahoo.com/college-sports/article/no-1-overall-seed-ucla-eliminated-in-baseball-regionals-after-saint-marys-walks-it-off-in-extras-004141511.html",
+    "title": "No. 1 overall seed UCLA eliminated in baseball regionals after Saint Mary's walks it off in extras",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:33:21.892335+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 2,
+    "total_occurrences": 6,
+    "dominant_categories": [
+      "Framing & Anchoring",
+      "Availability & Salience"
+    ],
+    "word_count": 299
+  },
+  {
+    "article_id": "f6689812c6468531",
+    "url": "https://abcnews.com/Sports/wireStory/rematch-1999-spurs-knicks-nba-title-after-teams-133459424",
+    "title": "Rematch of 1999: It's Spurs vs. Knicks for the NBA title",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:32:52.536692+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 4,
+    "total_occurrences": 9,
+    "dominant_categories": [
+      "Framing & Anchoring",
+      "Availability & Salience",
+      "In-Group & Social"
+    ],
+    "word_count": 705
+  },
+  {
+    "article_id": "6b84de0e8f29e514",
+    "url": "https://www.npr.org/2026/05/30/nx-s1-5839921/timmy-humpback-whale-autopsy",
+    "title": "Carcass of Timmy the humpback whale brought to shore in Denmark",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:31:19.319430+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 3,
+    "total_occurrences": 5,
+    "dominant_categories": [
+      "Availability & Salience",
+      "Framing & Anchoring",
+      "Attribution & Causation"
+    ],
+    "word_count": 260
+  },
+  {
+    "article_id": "2c004a0212bba67c",
+    "url": "https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean",
+    "title": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:30:51.611321+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 4,
+    "total_occurrences": 8,
+    "dominant_categories": [
+      "Availability & Salience",
+      "Framing & Anchoring",
+      "In-Group & Social"
+    ],
+    "word_count": 215
+  },
+  {
+    "article_id": "79e314d552cce19b",
+    "url": "https://www.npr.org/2026/05/31/g-s1-125047/wembanyama-san-antonio-spurs-win-west-oklahoma-thunder-nba",
+    "title": "San Antonio Spurs win the West, beating Oklahoma City Thunder to head to NBA Finals",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:30:23.275201+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 4,
+    "total_occurrences": 10,
+    "dominant_categories": [
+      "In-Group & Social",
+      "Affect & Emotional Reasoning",
+      "Framing & Anchoring"
+    ],
+    "word_count": 562
+  },
+  {
+    "article_id": "62d041289a845e78",
+    "url": "https://en.wikipedia.org/wiki/Availability_heuristic",
+    "title": "Availability heuristic - Wikipedia",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:28:50.046158+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 2,
+    "total_occurrences": 6,
+    "dominant_categories": [
+      "Availability & Salience",
+      "Framing & Anchoring"
+    ],
+    "word_count": 6062
+  },
+  {
+    "article_id": "ce5ec14caba175ba",
+    "url": "https://en.wikipedia.org/wiki/Framing_effect_(psychology)",
+    "title": "Framing effect (psychology) - Wikipedia",
+    "source": null,
+    "evaluated_at": "2026-06-01T01:27:17.420672+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.1.0",
+    "model": "llama-3.3-70b-versatile",
+    "bias_type_count": 3,
+    "total_occurrences": 7,
+    "dominant_categories": [
+      "Affect & Emotional Reasoning",
+      "Framing & Anchoring",
+      "Availability & Salience"
+    ],
+    "word_count": 4104
+  },
+  {
     "article_id": "bb7d000f93f70de2",
     "url": "https://en.wikipedia.org/wiki/Confirmation_bias",
     "title": "Confirmation bias - Wikipedia",

@@ -1,0 +1,227 @@
+{
+  "article_id": "2c004a0212bba67c",
+  "source_url": "https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean",
+  "title": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week",
+  "evaluated_at": "2026-06-01T01:30:51.611321+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "mode": "deep",
+  "article_text": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week\nWASHINGTON \u2014 The U.S. military said it carried out another strike Saturday on a boat accused of smuggling drugs in the eastern Pacific Ocean, killing three men in the fourth attack this week and putting the total death toll at 205.\nU.S. Southern Command announced the strike with its usual language that the vessel was \"engaged in narco-trafficking operations\" and operated by a designated terrorist organization. It provided no evidence for the allegation.\nIt's the latest in a monthslong campaign against alleged drug boats traversing the Caribbean Sea and eastern Pacific.\nVideo released by the military on social media shows a small vessel floating in the ocean before it's hit and engulfed in a fireball.\nThe attack brings the death toll to 205 in a series of U.S. strikes that began in early September, with other attacks announced on Tuesday, Wednesday and Friday. The Trump administration has declared that the U.S. is at armed conflict with Latin American drug cartels, saying they are behind the flow of drugs into American communities.\nU.S. Southern Command said in its post on X that the strike came at the direction of Gen. Francis L. Donovan, the top U.S. commander in Latin America.",
+  "pass1_result": {
+    "flagged_categories": [
+      "Attribution & Causation",
+      "Availability & Salience",
+      "Framing & Anchoring",
+      "In-Group & Social"
+    ],
+    "rationale": {
+      "Attribution & Causation": "The article implies a direct causal link between the U.S. strikes and the reduction of drug flow into American communities, without providing concrete evidence.",
+      "Availability & Salience": "The article highlights the death toll of 205, which may create an availability heuristic, making the reader perceive this as a significant number.",
+      "Framing & Anchoring": "The article frames the U.S. strikes as a necessary measure to combat drug cartels, which may anchor the reader's perception of the issue and influence their opinion.",
+      "In-Group & Social": "The article uses language that implies the U.S. military is acting in the best interest of American communities, which may create an in-group bias, where the reader identifies with the U.S. and its actions."
+    }
+  },
+  "bias_instances": [
+    {
+      "bias_id": "availability-heuristic",
+      "bias_name": "Availability Heuristic",
+      "occurrences": [
+        {
+          "excerpt": "in the fourth attack this week and putting the total death toll at 205",
+          "char_start": 156,
+          "char_end": 196,
+          "paragraph_index": 0,
+          "text_region": "body",
+          "explanation": "The article presents a high number of attacks in a short time frame (four attacks this week) without providing base rate data or comparing it to the overall frequency of such events, potentially overestimating the prevalence of these attacks due to their recency and the vividness of the event.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "The attack brings the death toll to 205 in a series of U.S. strikes that began in early September",
+          "char_start": 297,
+          "char_end": 357,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "The article reports the total death toll (205) without providing a denominator (e.g., total number of incidents, time frame, or population size), which could lead to an overestimation of the risk or frequency of these events.",
+          "confidence": "medium"
+        },
+        {
+          "excerpt": "with other attacks announced on Tuesday, Wednesday and Friday",
+          "char_start": 258,
+          "char_end": 296,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "The mention of recent attacks (on Tuesday, Wednesday, and Friday) without statistical context may lead to an overestimation of the frequency of these events due to their recency and the vividness of the reporting.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Availability & Salience"
+    },
+    {
+      "bias_id": "framing-effect",
+      "bias_name": "Framing Effect",
+      "occurrences": [
+        {
+          "excerpt": "killing three men in the fourth attack this week and putting the total death toll at 205",
+          "char_start": 156,
+          "char_end": 206,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "The statistic 'total death toll at 205' could be seen as emphasizing the magnitude of the situation, framing it in terms of absolute numbers rather than, for example, a percentage change or a comparison to a previous period, which might minimize or maximize the perceived impact.",
+          "confidence": "medium"
+        },
+        {
+          "excerpt": "the death toll to 205",
+          "char_start": 391,
+          "char_end": 409,
+          "paragraph_index": 4,
+          "text_region": "body",
+          "explanation": "Similar to the previous instance, focusing on the 'death toll to 205' frames the information in absolute terms, which might influence the reader's perception of the severity of the situation.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Framing & Anchoring"
+    },
+    {
+      "bias_id": "anchoring",
+      "bias_name": "Anchoring",
+      "occurrences": [
+        {
+          "excerpt": "killing three men in the fourth attack this week and putting the total death toll at 205",
+          "char_start": 156,
+          "char_end": 206,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "The number '205' serves as an anchor, establishing a frame through which the reader interprets the severity and scale of the U.S. strikes. Subsequent discussions or thoughts about the situation might be influenced by this initial figure, potentially leading to an insufficient adjustment from this anchor when considering the broader context or implications.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Framing & Anchoring"
+    },
+    {
+      "bias_id": "in-group-bias",
+      "bias_name": "In-Group Bias",
+      "occurrences": [
+        {
+          "excerpt": "The Trump administration has declared that the U.S. is at armed conflict with Latin American drug cartels, saying they are behind the flow of drugs into American communities.",
+          "char_start": 761,
+          "char_end": 846,
+          "paragraph_index": 3,
+          "text_region": "body",
+          "explanation": "This excerpt exhibits in-group bias by framing the U.S. actions as a response to an external threat (Latin American drug cartels), while also humanizing the in-group (American communities) by implying they are the victims of the drug flow. The out-group (Latin American drug cartels) is dehumanized and portrayed as a threat.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "U.S. Southern Command said in its post on X that the strike came at the direction of Gen. Francis L. Donovan, the top U.S. commander in Latin America.",
+          "char_start": 896,
+          "char_end": 964,
+          "paragraph_index": 4,
+          "text_region": "body",
+          "explanation": "This excerpt exhibits in-group bias by providing the name and title of the U.S. commander (Gen. Francis L. Donovan), humanizing the in-group and implying legitimacy and authority. In contrast, the out-group (those on the alleged drug boat) are not named or humanized.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "In-Group & Social"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'The Trump administration has declared that the U.S. is at armed conflict with Latin American drug cartels, saying they are behind the flow of drugs into American communities' indeed exhibits the Fundamental Attribution Error bias by attributing the flow of drugs into American communities to the character and intentions of Latin American drug cartels without examining potential systemic factors."
+      },
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "verdict": "rejected",
+        "rationale": "The excerpt 'U.S. Southern Command said in its post on X that the strike came at the direction of Gen. Francis L. Donovan, the top U.S. commander in Latin America' does not clearly exhibit the Fundamental Attribution Error bias as it simply reports the decision-maker without implying that the individual's character is the sole cause of the action."
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "availability-heuristic",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'in the fourth attack this week and putting the total death toll at 205' exhibits the Availability Heuristic bias by presenting a high number of attacks in a short time frame without base rate data, potentially overestimating the prevalence of these attacks due to their recency and vividness."
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "availability-heuristic",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'The attack brings the death toll to 205 in a series of U.S. strikes that began in early September' also exhibits the Availability Heuristic bias by reporting the total death toll without providing a denominator, which could lead to an overestimation of the risk or frequency of these events."
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "availability-heuristic",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'with other attacks announced on Tuesday, Wednesday and Friday' exhibits the Availability Heuristic bias by mentioning recent attacks without statistical context, potentially leading to an overestimation of the frequency of these events due to their recency and vividness."
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "framing-effect",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'killing three men in the fourth attack this week and putting the total death toll at 205' exhibits the Framing Effect bias by emphasizing the magnitude of the situation through absolute numbers, which could influence the reader's perception of the severity of the situation."
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "framing-effect",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'the death toll to 205' also exhibits the Framing Effect bias by framing the information in absolute terms, which might influence the reader's perception of the severity of the situation."
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "anchoring",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'killing three men in the fourth attack this week and putting the total death toll at 205' exhibits the Anchoring bias by using the number '205' as an anchor, which could influence subsequent discussions or thoughts about the situation by establishing a frame through which the reader interprets the severity and scale of the U.S. strikes."
+      },
+      {
+        "instance_id": "inst_004",
+        "bias_id": "in-group-bias",
+        "verdict": "confirmed",
+        "rationale": "The excerpt 'The Trump administration has declared that the U.S. is at armed conflict with Latin American drug cartels, saying they are behind the flow of drugs into American communities' exhibits the In-Group Bias by framing the U.S. actions as a response to an external threat and humanizing the in-group while dehumanizing the out-group."
+      },
+      {
+        "instance_id": "inst_004",
+        "bias_id": "in-group-bias",
+        "verdict": "suspect",
+        "rationale": "The excerpt 'U.S. Southern Command said in its post on X that the strike came at the direction of Gen. Francis L. Donovan, the top U.S. commander in Latin America' may exhibit the In-Group Bias by providing the name and title of the U.S. commander, but it is not clear if this is done to imply legitimacy and authority in a way that dehumanizes the out-group."
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "The evaluation reveals a pattern of biases related to the presentation of numerical data and the framing of information, which could influence the reader's perception of the situation. Additionally, the use of language that humanizes the in-group while dehumanizing the out-group is a notable pattern."
+  },
+  "summary": {
+    "dominant_categories": [
+      "Availability & Salience",
+      "Framing & Anchoring",
+      "In-Group & Social"
+    ],
+    "bias_type_count": 4,
+    "total_occurrences": 8,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 8,
+      "closing": 0
+    },
+    "by_category": {
+      "Availability & Salience": 3,
+      "Framing & Anchoring": 3,
+      "In-Group & Social": 2
+    }
+  }
+}

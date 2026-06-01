@@ -1,0 +1,146 @@
+{
+  "article_id": "6b84de0e8f29e514",
+  "source_url": "https://www.npr.org/2026/05/30/nx-s1-5839921/timmy-humpback-whale-autopsy",
+  "title": "Carcass of Timmy the humpback whale brought to shore in Denmark",
+  "evaluated_at": "2026-06-01T01:31:19.319430+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "mode": "deep",
+  "article_text": "Carcass of Timmy the humpback whale brought to shore in Denmark\nANHOLT, Denmark \u2014 The carcass of a humpback whale, whose life and death captivated Germans for months as the mammal became repeatedly stranded in the Baltic Sea, was dragged Saturday onto a Danish beach after two weeks of the body languishing in shallow waters.\nThe whale had gained the nicknames \"Timmy\" and \"Hope\" as German media outlets sent push alerts and updated live blogs with the status of its health since it was first spotted off the German coast on March 3.\nThe whale was found dead on May 14, stranded just off the small island of Anholt in the Kattegat, the broad strait between Denmark and Sweden that connects the Baltic Sea to the North Sea.\nThe whale's death ended months of a spectacular and contentious rescue effort that culminated May 2, when the mammal was transported toward the North Sea in a barge in a final effort to guide it back to its natural habitat in the Atlantic Ocean.\nThe carcass will be examined next week to determine the cause of death, according to the Danish Environmental Protection Agency.\nDanish news outlet \"News5\" on Saturday published a livestream of the carcass being dragged onto the shoreline by a cable attached to a truck on the beach.\nIt's not clear why it swam into the Baltic Sea, which is far from its habitat and it wasn't suited to, although some experts said it may have lost its way while swimming after a shoal of herring or during migration.",
+  "pass1_result": {
+    "flagged_categories": [
+      "Attribution & Causation",
+      "Availability & Salience",
+      "Framing & Anchoring"
+    ],
+    "rationale": {
+      "Attribution & Causation": "The article implies a possible cause of death ('lost its way while swimming after a shoal of herring or during migration') without providing concrete evidence, which may be an instance of attribution bias.",
+      "Availability & Salience": "The article highlights the whale's prolonged rescue effort and the public's emotional investment in its fate, which may be an example of the availability heuristic.",
+      "Framing & Anchoring": "The article frames the whale's death as a 'spectacular and contentious rescue effort', which may influence the reader's perception of the event and create an anchor for their emotional response."
+    }
+  },
+  "bias_instances": [
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "although some experts said it may have lost its way while swimming after a shoal of herring or during migration",
+          "char_start": 1566,
+          "char_end": 1634,
+          "paragraph_index": 5,
+          "text_region": "body",
+          "explanation": "The article attributes the whale's behavior (swimming into the Baltic Sea) to its disposition or actions (losing its way), without fully examining situational or structural factors that may have contributed to this behavior, such as environmental changes or navigational challenges.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "Attribution & Causation"
+    },
+    {
+      "bias_id": "availability-heuristic",
+      "bias_name": "Availability Heuristic",
+      "occurrences": [
+        {
+          "excerpt": "The whale had gained the nicknames 'Timmy' and 'Hope' as German media outlets sent push alerts and updated live blogs with the status of its health since it was first spotted off the German coast on March 3.",
+          "char_start": 266,
+          "char_end": 423,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "This excerpt exhibits the Availability Heuristic bias because it describes a rare event (a humpback whale becoming stranded in the Baltic Sea) as if it's a significant or representative case due to the extensive media coverage it received, rather than providing statistical context about the frequency of such events.",
+          "confidence": "medium"
+        },
+        {
+          "excerpt": "The whale's death ended months of a spectacular and contentious rescue effort that culminated May 2, when the mammal was transported toward the North Sea in a barge in a final effort to guide it back to its natural habitat in the Atlantic Ocean.",
+          "char_start": 424,
+          "char_end": 636,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "This excerpt may also imply the Availability Heuristic by focusing on the vivid details of the rescue effort and the whale's death, potentially leading readers to overestimate the frequency of such events based on the vividness of the example rather than statistical data.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "Availability & Salience"
+    },
+    {
+      "bias_id": "framing-effect",
+      "bias_name": "Framing Effect",
+      "occurrences": [
+        {
+          "excerpt": "ended months of a spectacular and contentious rescue effort",
+          "char_start": 1066,
+          "char_end": 1115,
+          "paragraph_index": 4,
+          "text_region": "body",
+          "explanation": "The use of 'spectacular' to describe the rescue effort frames it in a positive light, emphasizing the magnitude of the effort rather than its outcome.",
+          "confidence": "medium"
+        },
+        {
+          "excerpt": "the whale's death ended months of ... rescue effort",
+          "char_start": 1066,
+          "char_end": 1115,
+          "paragraph_index": 4,
+          "text_region": "body",
+          "explanation": "Framing the whale's death as the end of a 'rescue effort' rather than a 'failed rescue' or simply 'death' influences the reader's perception of the event.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Framing & Anchoring"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "verdict": "confirmed",
+        "rationale": "The excerpt attributes the whale's behavior to losing its way, which aligns with the definition of fundamental attribution error by focusing on the whale's actions rather than considering broader environmental factors. This attribution is made without fully examining situational factors."
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "availability-heuristic",
+        "verdict": "suspect",
+        "rationale": "While the excerpts describe a vivid and rare event, it's not entirely clear if the article is implying that such events are more common than they actually are, which is necessary for the availability heuristic bias to be confirmed. The focus on the event's details might lead to overestimation, but statistical context is not explicitly provided or omitted."
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "framing-effect",
+        "verdict": "confirmed",
+        "rationale": "The use of 'spectacular' to describe the rescue effort and framing the whale's death as the end of a rescue effort indeed influences the reader's perception by emphasizing the effort's magnitude and implying a sense of closure or finality, which aligns with the framing effect bias. This framing can affect how readers perceive the outcome of the rescue effort."
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "The evaluation reveals a pattern where the detected biases often relate to how events are framed and attributed within the article, suggesting that the author's presentation of information can influence reader perceptions. However, the confidence levels and explanations provided for some instances could be more detailed to fully support the verdicts."
+  },
+  "summary": {
+    "dominant_categories": [
+      "Availability & Salience",
+      "Framing & Anchoring",
+      "Attribution & Causation"
+    ],
+    "bias_type_count": 3,
+    "total_occurrences": 5,
+    "low_confidence_count": 1,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 5,
+      "closing": 0
+    },
+    "by_category": {
+      "Attribution & Causation": 1,
+      "Availability & Salience": 2,
+      "Framing & Anchoring": 2
+    }
+  }
+}

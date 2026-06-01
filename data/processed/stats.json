@@ -1,14 +1,19 @@
 {
-  "total_articles": 1,
-  "total_bias_instances": 7,
-  "total_occurrences": 14,
+  "total_articles": 8,
+  "total_bias_instances": 29,
+  "total_occurrences": 65,
   "sources": {
-    "unknown": 1
+    "unknown": 8
   },
   "framework_versions": {
-    "v0.1.0": 1
+    "v0.1.0": 8
   },
   "category_distribution": {
-    "Unknown": 14
+    "Framing & Anchoring": 22,
+    "Availability & Salience": 14,
+    "Unknown": 14,
+    "In-Group & Social": 8,
+    "Affect & Emotional Reasoning": 6,
+    "Attribution & Causation": 1
   }
 }
