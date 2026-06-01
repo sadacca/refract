@@ -11,7 +11,7 @@ from typing import Any
 
 import requests
 
-from config import GEMINI_API_KEY, GROQ_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY
+from config import GEMINI_API_KEY, GROQ_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY, POST_CALL_DELAY
 
 logger = logging.getLogger(__name__)
 
@@ -121,13 +121,16 @@ def call_llm(
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             _last_call_time[model] = time.time()
-            return caller(
+            result = caller(
                 prompt=prompt,
                 model=model,
                 system=system,
                 expect_json=expect_json,
                 temperature=temperature,
             )
+            if POST_CALL_DELAY > 0:
+                time.sleep(POST_CALL_DELAY)
+            return result
         except json.JSONDecodeError as e:
             logger.warning("JSON parse error on attempt %d: %s", attempt, e)
             if attempt == MAX_RETRIES:

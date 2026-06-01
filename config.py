@@ -80,6 +80,13 @@ BULK_MODE_TOP_K = 25  # biases to inject in Mode B embedding pre-filter
 MAX_RETRIES = 4
 RETRY_BASE_DELAY = 2  # seconds; doubles each retry
 
+# Per-call pause injected after every successful LLM response.
+# Applies globally across all models/providers — a cross-model pace-setter that
+# the per-model _CALL_MIN_INTERVAL (in llm_client.py) does not cover.
+# Default 2 s: enough to absorb token-bucket recovery without noticeably slowing
+# a batch run. Set LLM_POST_CALL_DELAY=0 to disable during local testing.
+POST_CALL_DELAY = float(os.getenv("LLM_POST_CALL_DELAY", "2.0"))
+
 # Pass 2 payload compression via LLMLingua-2 (T4 / TODO 6.9)
 # Requires: pip install llmlingua  (downloads ~400 MB model on first use)
 # rate=0.5 keeps 50% of tokens (2x compression); safe range: 0.33–0.67
