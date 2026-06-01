@@ -2,43 +2,37 @@
   "framing-effect": {
     "name": "Framing Effect",
     "category": "Framing & Anchoring",
-    "article_count": 8,
+    "article_count": 5,
     "prevalence_pct": 100.0
   },
   "availability-heuristic": {
     "name": "Availability Heuristic",
     "category": "Availability & Salience",
-    "article_count": 7,
-    "prevalence_pct": 87.5
+    "article_count": 4,
+    "prevalence_pct": 80.0
   },
   "anchoring": {
     "name": "Anchoring",
     "category": "Framing & Anchoring",
-    "article_count": 4,
-    "prevalence_pct": 50.0
+    "article_count": 3,
+    "prevalence_pct": 60.0
   },
   "in-group-bias": {
     "name": "In-Group Bias",
     "category": "In-Group & Social",
-    "article_count": 4,
-    "prevalence_pct": 50.0
+    "article_count": 3,
+    "prevalence_pct": 60.0
   },
   "negativity-bias": {
     "name": "Negativity Bias",
     "category": "Affect & Emotional Reasoning",
-    "article_count": 3,
-    "prevalence_pct": 37.5
+    "article_count": 1,
+    "prevalence_pct": 20.0
   },
   "fundamental-attribution-error": {
     "name": "Fundamental Attribution Error",
-    "category": "",
-    "article_count": 2,
-    "prevalence_pct": 25.0
-  },
-  "confirmation-bias": {
-    "name": "Confirmation Bias",
-    "category": "",
+    "category": "Attribution & Causation",
     "article_count": 1,
-    "prevalence_pct": 12.5
+    "prevalence_pct": 20.0
   }
 }
