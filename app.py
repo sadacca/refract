@@ -29,6 +29,7 @@ exact excerpt, its location in the text, and an explanation of the bias mechanis
 | **Article Evaluation** | Submit a URL or paste text to run a live full-pipeline evaluation |
 | **Article Reframe** | Rewrite an evaluated article with identified biases reduced |
 | **Framework Dashboard** | Taxonomy status, precomputed artifact health, pending example review queue, and corpus-level quality metrics |
+| **Pipeline Inspector** | Per-pass output viewer for any evaluated article — Pass 0 through Pass 4 tabs plus a Judge Summary answering three diagnostic questions about triage quality, recall gaps, and false positive rate |
 
 ---
 
