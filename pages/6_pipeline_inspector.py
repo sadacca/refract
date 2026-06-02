@@ -17,31 +17,24 @@ import streamlit as st
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-from config import FRAMEWORK_VERSION, TAXONOMY_VERSION, PROCESSED_DIR
+from config import FRAMEWORK_VERSION, TAXONOMY_VERSION
+from components.corpus import load_corpus, render_refresh_button
 
 st.set_page_config(page_title="Pipeline Inspector — Refract", layout="wide")
 st.title("Pipeline Inspector")
-st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
+col_title, col_refresh = st.columns([8, 1])
+col_title.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
+with col_refresh:
+    render_refresh_button()
 
 
 # ---------------------------------------------------------------------------
 # Data loading
 # ---------------------------------------------------------------------------
-@st.cache_data(ttl=60)
-def load_results() -> dict[str, dict]:
-    out = {}
-    for p in sorted(PROCESSED_DIR.glob(f"*_{FRAMEWORK_VERSION}*.json")):
-        try:
-            d = json.loads(p.read_text())
-            label = (d.get("title") or d.get("source_url") or d["article_id"])[:70]
-            d["_word_count"] = len(d.get("article_text", "").split())
-            out[label] = d
-        except Exception:
-            continue
-    return out
-
-
-results = load_results()
+results = {
+    (d.get("title") or d.get("source_url") or d["article_id"])[:70]: d
+    for d in load_corpus(FRAMEWORK_VERSION)
+}
 
 if not results:
     st.warning("No evaluated articles found. Run the batch_eval workflow first.")

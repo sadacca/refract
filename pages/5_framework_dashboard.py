@@ -8,18 +8,21 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
 from config import FRAMEWORK_VERSION, TAXONOMY_VERSION, PRECOMPUTED_DIR, PROCESSED_DIR, PENDING_EXAMPLES_DIR
+from components.corpus import load_corpus, load_taxonomy, render_refresh_button
 
 st.set_page_config(page_title="Framework Dashboard — Refract", layout="wide")
 st.title("Framework Dashboard")
-st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
+col_title, col_refresh = st.columns([8, 1])
+col_title.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
+with col_refresh:
+    render_refresh_button()
 
 # ---------------------------------------------------------------------------
 # Taxonomy status
 # ---------------------------------------------------------------------------
 st.header("Taxonomy Status")
 
-TAXONOMY_PATH = ROOT / "bias_index" / "taxonomy.json"
-taxonomy = json.loads(TAXONOMY_PATH.read_text()) if TAXONOMY_PATH.exists() else {"biases": []}
+taxonomy = load_taxonomy()
 biases = taxonomy.get("biases", [])
 
 total = len(biases)
@@ -90,34 +93,42 @@ else:
                     st.info("Delete the pending file and re-run the precompute_examples workflow.")
 
 # ---------------------------------------------------------------------------
-# Corpus stats (from processed records)
+# Corpus stats (derived live from processed records)
 # ---------------------------------------------------------------------------
 st.header("Corpus Stats")
 
-stats_path = PROCESSED_DIR / "stats.json"
-freq_path = PROCESSED_DIR / "bias_frequency.json"
+corpus = load_corpus(FRAMEWORK_VERSION)
 
-if not stats_path.exists():
+if not corpus:
     st.info("No evaluation results yet. Run the batch_eval workflow or evaluate an article first.")
 else:
-    stats = json.loads(stats_path.read_text())
+    total_instances = sum(len(r.get("bias_instances", [])) for r in corpus)
+    total_occ = sum(r.get("summary", {}).get("total_occurrences", 0) for r in corpus)
     cols = st.columns(3)
-    cols[0].metric("Articles evaluated", stats.get("total_articles", 0))
-    cols[1].metric("Total bias instances", stats.get("total_bias_instances", 0))
-    cols[2].metric("Total occurrences", stats.get("total_occurrences", 0))
+    cols[0].metric("Articles evaluated", len(corpus))
+    cols[1].metric("Total bias instances", total_instances)
+    cols[2].metric("Total occurrences", total_occ)
 
-    cat_dist = stats.get("category_distribution", {})
+    cat_dist: dict[str, int] = {}
+    bias_arts: dict[str, dict] = {}
+    for r in corpus:
+        for inst in r.get("bias_instances", []):
+            cat = inst.get("category", "Unknown")
+            cat_dist[cat] = cat_dist.get(cat, 0) + len(inst.get("occurrences", []))
+            bid = inst["bias_id"]
+            if bid not in bias_arts:
+                bias_arts[bid] = {"name": inst["bias_name"], "articles": set()}
+            bias_arts[bid]["articles"].add(r["article_id"])
+
     if cat_dist:
         st.markdown("**Occurrences by category:**")
         for cat, count in sorted(cat_dist.items(), key=lambda x: -x[1]):
             st.progress(count / max(cat_dist.values()), text=f"{cat}: {count}")
 
-if freq_path.exists():
-    freq = json.loads(freq_path.read_text())
-    if freq:
+    if bias_arts:
         st.markdown("**Most prevalent biases (% of articles):**")
-        for bid, info in list(freq.items())[:10]:
-            pct = info.get("prevalence_pct", 0)
+        for bid, info in sorted(bias_arts.items(), key=lambda x: -len(x[1]["articles"]))[:10]:
+            pct = round(100 * len(info["articles"]) / len(corpus))
             st.markdown(f"- **{info['name']}**: {pct}% of articles")
 
 # ---------------------------------------------------------------------------
