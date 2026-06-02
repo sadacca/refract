@@ -136,6 +136,14 @@ JUDGE_SWAP_AUGMENTATION = os.getenv("JUDGE_SWAP_AUGMENTATION", "true").lower() =
 # Tripping the free-tier RPD cap forces a billing-tier upgrade that causes 429s
 # across ALL Google API models for the rest of the day — this chain prevents that.
 # RPD limits as of 2026-06: gemini-3.1-flash-lite=500, gemma-4-*=1500.
+# Provider RPD reality check (as of 2026-06):
+#   Groq:     30 RPM / 14,400 RPD per-model / 6K TPM  (Llama 4 Maverick: 15 RPM / 500 RPD)
+#   Cerebras: 30 RPM / ~1,000 RPD ACCOUNT-WIDE / 1M tokens-per-day / 8K context
+#             (token-bound: at ~1K tokens/req, 1M tok/day ≈ 1,000 RPD)
+#   Mistral:  2 RPM free "Experiment" / 1B tokens/month / no hard RPD cap
+#             (2 RPM × 60 × 24 = 2,880 RPD theoretical max — slow, last resort)
+#   Gemini:   per-model RPD listed below in GEMINI_JUDGE_CHAIN
+
 GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
     ("gemini-3.1-flash-lite", 500),
     ("gemma-4-31b-it", 1500),
@@ -143,15 +151,21 @@ GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
 ]
 
 # Eval model fallback chain for Pass 2 identification.
-# (model_id, approx_free_tier_daily_request_limit)
-# Groq: 30 RPM / ~14.4k RPD per model. Cerebras: 30 RPM / 14.4k RPD / 1M tokens/day.
-# Mistral "Experiment" tier: 300 RPM / 1B tokens per month (very generous).
-# Use provider/model prefix to disambiguate same model names across providers.
-# select_from_chain() picks the first model below 85% of its daily limit.
+# (model_id, free_tier_rpd_soft_limit) — conservative estimates; see note above.
+# Cerebras RPD is account-wide (shared with TRIAGE_CHAIN use); budget conservatively.
 EVAL_CHAIN: list[tuple[str, int]] = [
-    ("llama-3.3-70b-versatile", 1000),       # Groq primary
-    ("cerebras/qwen-3-32b", 5000),            # Cerebras: best free reasoning, ~14.4k RPD
-    ("mistral-small-latest", 20000),          # Mistral: 300 RPM, 1B tokens/month
+    ("llama-3.3-70b-versatile", 14_400),   # Groq: 14,400 RPD per-model
+    ("cerebras/qwen-3-32b", 500),           # Cerebras: ~1,000 RPD account-wide; reserve half for triage
+    ("mistral-small-latest", 2_800),        # Mistral: 2 RPM free ≈ 2,880 RPD max (slow, last resort)
+]
+
+# Triage model fallback chain for Pass 0 / 1 / 3 (small-model calls).
+# Triage prompts are typically 1,000–2,000 tokens; all models below are within Cerebras' 8K limit.
+# Cerebras RPD here and in EVAL_CHAIN draw from the same account-wide pool (budget ~500 each).
+TRIAGE_CHAIN: list[tuple[str, int]] = [
+    ("llama-3.1-8b-instant",    14_400),   # Groq 8B: highest per-model RPD on Groq
+    ("cerebras/llama-3.1-8b",   500),      # Cerebras: fast, shares account pool with eval
+    ("mistral-small-latest",    2_800),    # Mistral: overkill but available as last resort
 ]
 
 # ---------------------------------------------------------------------------
@@ -162,12 +176,13 @@ EVAL_CHAIN: list[tuple[str, int]] = [
 # approach this. Estimates use ~4 chars/token (conservative for English).
 # ---------------------------------------------------------------------------
 MODEL_CONTEXT_LIMITS: dict[str, int] = {
-    # Cerebras — 8 192 token hard limit on free tier
+    # Cerebras — 8,192 token hard limit on free tier (applies to all models)
     "qwen-3-32b":                              8_192,
     "cerebras/qwen-3-32b":                     8_192,
     "cerebras/deepseek-r1-distill-llama-70b":  8_192,
     "cerebras/llama-3.3-70b":                  8_192,
     "cerebras/llama-3.1-8b":                   8_192,
+    "cerebras/llama-3.1-8b-instant":           8_192,  # alternate name form
     # Groq
     "llama-3.3-70b-versatile":                128_000,
     "llama-3.1-70b-versatile":                128_000,
@@ -195,35 +210,44 @@ MODEL_CONTEXT_LIMITS: dict[str, int] = {
 # ---------------------------------------------------------------------------
 MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
     "groq": {
+        # Per-model RPD; 6K TPM is the tighter real-world constraint on long prompts.
         "eval": [
-            {"id": "llama-3.3-70b-versatile",       "context": 128_000, "rpm": 30, "rpd": 14_400, "notes": "Primary eval; strong general reasoning"},
-            {"id": "deepseek-r1-distill-llama-70b",  "context": 32_000,  "rpm": 30, "rpd": 14_400, "notes": "Chain-of-thought reasoning distill"},
+            {"id": "llama-3.3-70b-versatile",      "context": 128_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000,  "notes": "Primary eval; strong general reasoning"},
+            {"id": "deepseek-r1-distill-llama-70b", "context": 32_000,  "rpm": 30, "rpd": 14_400, "tpm": 6_000,  "notes": "Chain-of-thought R1 distill; 32K ctx"},
         ],
         "triage": [
-            {"id": "llama-3.1-8b-instant",           "context": 128_000, "rpm": 30, "rpd": 14_400, "notes": "Fast/cheap Pass 0/1/3 triage"},
+            {"id": "llama-3.1-8b-instant",          "context": 128_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000,  "notes": "Fast/cheap triage; highest Groq RPD"},
         ],
     },
     "cerebras": {
+        # ACCOUNT-WIDE pool: all models share 1,000 RPD / 1M tokens-per-day.
+        # 8,192 token context limit applies to all free-tier Cerebras models.
         "eval": [
-            {"id": "cerebras/qwen-3-32b",                      "context": 8_192, "rpm": 30, "rpd": 14_400, "notes": "Best free reasoning; Hybrid CoT; ~2 400 tok/s — 8K ctx limit"},
-            {"id": "cerebras/deepseek-r1-distill-llama-70b",   "context": 8_192, "rpm": 30, "rpd": 14_400, "notes": "R1 reasoning; fastest inference — 8K ctx limit"},
+            {"id": "cerebras/qwen-3-32b",                     "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "rpd_scope": "account", "notes": "Best free reasoning; Hybrid CoT; ~2,400 tok/s"},
+            {"id": "cerebras/deepseek-r1-distill-llama-70b",  "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "rpd_scope": "account", "notes": "R1 reasoning; world's fastest 70B inference"},
         ],
         "triage": [
-            {"id": "cerebras/llama-3.1-8b",                    "context": 8_192, "rpm": 30, "rpd": 14_400, "notes": "Fast triage fallback — 8K ctx limit"},
+            {"id": "cerebras/llama-3.1-8b",                   "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "rpd_scope": "account", "notes": "Fast triage; same account pool as eval models"},
         ],
     },
     "mistral": {
+        # Free "Experiment" tier: 2 RPM hard limit, 1B tokens/month, no RPD cap.
+        # 2 RPM = 2,880 RPD theoretical max. Slow — last-resort fallback only.
         "eval": [
-            {"id": "mistral-small-latest",  "context": 128_000, "rpm": 300, "rpd": None, "notes": "Flexible; 128K ctx; 1B tokens/month free"},
+            {"id": "mistral-small-latest", "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "rpd_scope": "account", "notes": "128K ctx; 1B tokens/month; 2 RPM free tier — slow"},
+        ],
+        "triage": [
+            {"id": "mistral-small-latest", "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "rpd_scope": "account", "notes": "Overkill for triage; available as last resort"},
         ],
     },
     "gemini": {
+        # Per-model RPD for the Google AI free tier.
         "judge": [
-            {"id": "gemini-3.1-flash-lite", "context": 1_000_000, "rpm": 15, "rpd": 500,  "notes": "Primary judge; best free RPD for Gemini"},
-            {"id": "gemma-4-31b-it",        "context": 128_000,   "rpm": 15, "rpd": 1500, "notes": "Fallback judge; highest free RPD"},
-            {"id": "gemma-4-26b-a4b-it",    "context": 128_000,   "rpm": 15, "rpd": 1500, "notes": "MoE fallback; high RPD, lower active params"},
-            {"id": "gemini-2.5-flash",      "context": 1_000_000, "rpm": 10, "rpd": 250,  "notes": "Higher quality; lower free RPD"},
-            {"id": "gemini-2.5-pro",        "context": 1_000_000, "rpm": 5,  "rpd": 100,  "notes": "Highest quality; very low free RPD"},
+            {"id": "gemini-3.1-flash-lite", "context": 1_000_000, "rpm": 15, "rpd": 500,  "tpm": 250_000, "notes": "Primary judge; best RPD among Gemini models"},
+            {"id": "gemma-4-31b-it",        "context": 128_000,   "rpm": 15, "rpd": 1_500, "tpm": 250_000, "notes": "Fallback judge; highest free RPD"},
+            {"id": "gemma-4-26b-a4b-it",    "context": 128_000,   "rpm": 15, "rpd": 1_500, "tpm": 250_000, "notes": "MoE fallback; 4B active params, efficient"},
+            {"id": "gemini-2.5-flash",      "context": 1_000_000, "rpm": 10, "rpd": 250,  "tpm": 250_000, "notes": "Higher quality; lower free RPD"},
+            {"id": "gemini-2.5-pro",        "context": 1_000_000, "rpm": 5,  "rpd": 100,  "tpm": 250_000, "notes": "Highest quality; very restrictive free RPD"},
         ],
     },
 }
