@@ -59,22 +59,12 @@ _MODEL_ABBREVS = {
     "gemini-3.1-flash-lite":                     "gem31lite",
     "gemma-4-31b-it":                            "gemma431b",
     "gemma-4-26b-a4b-it":                        "gemma426b",
-    # Cerebras (account-wide ~1,000 RPD / 1M tokens-per-day / 30 RPM)
-    # gpt-oss-120b and zai-glm-4.7 have 131K context; all others capped at 8K free-tier
+    # Cerebras (account-wide ~1M tokens-per-day / 30 RPM; 131K context)
+    # Available models as of 2026-06: gpt-oss-120b, zai-glm-4.7
     "gpt-oss-120b":                              "gptoss120",
     "cerebras/gpt-oss-120b":                     "gptoss120",
-    "qwen3-235b":                                "qwn3235b",
-    "cerebras/qwen3-235b":                       "qwn3235b",
-    "qwen3-32b":                                 "qwn332b",
-    "cerebras/qwen3-32b":                        "qwn332b",
     "zai-glm-4.7":                               "zaiglm47",
     "cerebras/zai-glm-4.7":                      "zaiglm47",
-    "llama-4-scout-17b":                         "llm4sct17",
-    "cerebras/llama-4-scout-17b":                "llm4sct17",
-    "cerebras/deepseek-r1-distill-llama-70b":    "cbrdsr170b",
-    "cerebras/llama-3.3-70b":                    "cbrlma70b",
-    "cerebras/llama-3.1-70b":                    "cbr31l70b",
-    "cerebras/llama-3.1-8b":                     "cbrlma8b",
     # Mistral (2 RPM free / 1B tokens-per-month / account-wide; ~2,880 RPD theoretical max)
     "mistral-large-latest":                      "mstrlg",
     "mistral/mistral-large-latest":              "mstrlg",
@@ -102,19 +92,18 @@ def model_abbrev(model: str) -> str:
 EVAL_MODEL = os.getenv("EVAL_MODEL", "deepseek-r1-distill-llama-70b")  # Pass 2 identification
 _judge_env = os.getenv("JUDGE_MODEL", "")
 JUDGE_MODEL = _judge_env if _judge_env else _cross_family_default(EVAL_MODEL)  # Pass 4 judge
-TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "llama-3.1-8b-instant")  # Pass 0/1/3 triage + probes
+TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/gpt-oss-120b")  # Pass 0/1/3 triage + probes
 
 # Curated model menus for the Streamlit UI — grouped by role suitability.
 # Keys are display labels, values are model IDs passed to the pipeline.
 EVAL_MODEL_OPTIONS = [
-    # Groq — best for Pass 2 identification (large context, strong reasoning)
+    # Groq
     "deepseek-r1-distill-llama-70b",
     "llama-3.3-70b-versatile",
-    # Cerebras — fast inference, large context
+    # Cerebras (verified available: gpt-oss-120b, zai-glm-4.7)
     "cerebras/gpt-oss-120b",
-    "cerebras/qwen3-235b",
-    "cerebras/llama-3.3-70b",
-    # Gemini — high quality, generous free tier
+    "cerebras/zai-glm-4.7",
+    # Gemini
     "gemini-2.5-flash",
     "gemini-2.5-pro",
     "gemini-2.0-flash",
@@ -124,29 +113,23 @@ EVAL_MODEL_OPTIONS = [
 ]
 
 JUDGE_MODEL_OPTIONS = [
-    # Cross-family defaults first
     "gemini-2.5-flash",
     "gemini-2.0-flash",
     "gemini-2.5-pro",
-    # Groq
     "llama-3.3-70b-versatile",
     "deepseek-r1-distill-llama-70b",
-    # Cerebras
     "cerebras/gpt-oss-120b",
-    # Mistral
     "mistral-large-latest",
 ]
 
 TRIAGE_MODEL_OPTIONS = [
-    # Reasoning models — better triage quality, ~1M tok/day on Cerebras free tier
-    "cerebras/qwen3-32b",
-    "cerebras/deepseek-r1-distill-llama-70b",
+    # Cerebras — 120B model, 131K context, ~1M tok/day free
+    "cerebras/gpt-oss-120b",
+    "cerebras/zai-glm-4.7",
     "gemini-2.5-flash-lite",
-    # Fast small models — higher RPD ceiling, no reasoning
+    # Groq small/fast
     "llama-3.1-8b-instant",
     "llama-3.2-3b-preview",
-    "cerebras/llama-3.1-8b",
-    "cerebras/llama-4-scout-17b",
     "mistral-small-latest",
     "llama-3.3-70b-versatile",
 ]
