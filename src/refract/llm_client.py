@@ -150,8 +150,8 @@ def _provider(model: str) -> str:
             return prefix
     if model.startswith("gemma-4"):
         return "gemini"       # Gemma 4 via Google AI
-    if model.startswith("qwen-3"):
-        return "cerebras"     # Qwen 3 series on Cerebras
+    if model.startswith(("qwen-3", "gpt-oss", "zai")):
+        return "cerebras"     # Qwen 3 / GPT-OSS / ZAI-GLM on Cerebras
     if model.startswith(("llama", "mixtral", "gemma", "qwen", "deepseek")):
         return "groq"
     if model.startswith("mistral"):
