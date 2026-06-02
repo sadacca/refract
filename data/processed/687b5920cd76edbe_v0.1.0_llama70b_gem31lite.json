@@ -1,0 +1,49 @@
+{
+  "article_id": "687b5920cd76edbe",
+  "source_url": "https://abcnews.com/Sports/wireStory/rematch-1999-spurs-knicks-nba-title-after-teams-133459424",
+  "title": "Rematch of 1999: It's Spurs vs. Knicks for the NBA title",
+  "evaluated_at": "2026-06-02T02:55:39.885441+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Rematch of 1999: It's Spurs vs. Knicks for the NBA title\nThe last time the New York Knicks made the NBA Finals, the San Antonio Spurs were the opponent and just happened to have a generational big-man talent who was heading to the title round for the first time\nOKLAHOMA CITY -- The last time the New York Knicks made the NBA Finals, the San Antonio Spurs were the opponent and just happened to have a generational big man talent who was heading to the title round for the first time.\nD\u00e9j\u00e0 vu.\nBack then for the Spurs, it was Tim Duncan. This time for the Spurs, it's Victor Wembanyama. Here they go again: San Antonio vs. New York is the matchup for the 2026 NBA Finals, a Spurs team looking to return to basketball's mountaintop for the sixth time and a Knicks team looking for its first championship in 53 years.\nGame 1 is Wednesday in San Antonio.\nIt's an appealing matchup for so many reasons \u2014 among them, it's a rematch of this season's NBA Cup championship game won by the Knicks. It has appeal of a global capital like New York, it has the international element with a French superstar like Wembanyama and it extends an era of parity the likes of which the league has never before seen.\nNo matter who wins this series, it'll be the eighth different franchise to win a title in the last eight seasons \u2014 extending the longest such stretch in NBA history. Toronto won in 2019, followed by the Los Angeles Lakers in 2020, then Milwaukee in 2021, Golden State in 2022, Denver in 2023, Boston in 2024, Oklahoma City last year, and now either New York or San Antonio will be added to that list.\nThe Spurs' win in Oklahoma City on Saturday night extended another part of the parity puzzle, that being no defending champion has even gotten back to the NBA Finals since Golden State won in 2018 and returned in 2019.\nThe Knicks are trying to do something not done since the days of Willis Reed, Walt Frazier, Dave DeBusschere, Bill Bradley, Earl Monroe and Phil Jackson \u2014 that being, win it all. There have been 17 different franchises (18 if the Thunder and Seattle SuperSonics are considered separately, as some fans prefer) that have celebrated championships since the Knicks last won the title, with the Los Angeles Lakers having won 11 crowns in that span, Boston winning seven, Chicago six and Golden State five.\nThey're the talk of New York right now, after earning their first finals trip since 1999. The mood was quite different a month ago, when New York trailed Atlanta 2-1 after back-to-back one-point losses in Games 2 and 3 of their first-round series.\nNew York is 11-0 since, winning almost all those games by blowout. And if the team didn\u2019t hear the negative noise from Round 1, it can\u2019t hear all the effusive praise coming now, Knicks guard Jalen Brunson said.\n\u201cWhen there\u2019s negative things being said about you, it\u2019s important to ignore them,\u201d Brunson said. \u201cWhen there\u2019s positive things about you, it\u2019s easy to be able to read them to make you feel good. But you can\u2019t do one and not the other. Just block it out as best you can.\u201d\nPopular Reads\nTechnically, the teams went 1-1 against each other. New York won two of the three meetings, but the NBA Cup final matchup \u2014 essentially an 83rd game in an 82-game season \u2014 doesn't count in any league records or statistics.\nBoth teams won their home game against the other this season. Julian Champagnie made 11 3-pointers and Wembanyama scored 31 points to lead the Spurs to a comeback 134-132 win over New York on Dec. 31. The Knicks pulled away in the fourth to a 114-89 win on March 1 to snap San Antonio's 11-game winning streak, plus won the Cup final in Las Vegas.\nAs would be expected, the Spurs \u2014 who have home-court advantage \u2014 are the early favorites to win the series. They were listed with odds of -210 on Saturday night, meaning bettors would to wager $210 to win $100.\nThe Knicks had odds of +170.\n___\nAP NBA: https://apnews.com/nba",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [],
+    "rationale": {}
+  },
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.0
+  }
+}

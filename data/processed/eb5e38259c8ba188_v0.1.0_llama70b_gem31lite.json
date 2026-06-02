@@ -1,0 +1,114 @@
+{
+  "article_id": "eb5e38259c8ba188",
+  "source_url": "https://www.yahoo.com/news/politics/articles/pete-hegseth-blocked-navy-promotions-195254261.html",
+  "title": "Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report",
+  "evaluated_at": "2026-06-02T03:14:13.228997+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report\n(AP Photo/Alex Brandon, File)\nDefense Secretary Pete Hegseth reportedly blocked more armed services promotions in a move that notably affected Black and female Navy officers.\nIn recent months, Hegseth has faced scrutiny for major shake-ups within the Defense Department. The secretary has fired multiple high-ranking officials amid the ongoing war in Iran, and has also intervened in countless promotions across all the branches of the U.S. armed forces. In an April report from NBC News, nine sources claimed that Hegseth blocked the promotions based on race, gender, and possible ties to the administration of former President Joe Biden.\nOn Monday, The New York Times published a report revealing that a new round of promotions had been blocked by the secretary. According to the report, most of the officers affected were Black or female.\nThe report continued:\nThe net result of Mr. Hegseth\u2019s intervention is a slate of 22 nominees to be one-star admirals that bears little resemblance to the broader force these officers will help lead.\nAt least two of the officers removed by Mr. Hegseth from the promotion list are women and two are Black men. An additional three are white men.\nMr. Hegseth\u2019s actions, which appear to violate the rules governing a promotion system that is supposed to be apolitical and merit-based, were described by four current and former defense officials who spoke on the condition of anonymity to discuss sensitive personnel matters.\nAdditionally, sources characterized Hegseth\u2019s removal of the officers as \u201chighly unusual.\u201d\nA Pentagon spokesperson told The New York Times that promotions were given to those \u201cwho have earned them\u201d and refuted the notion that race or gender would factor into the decision.\nThe post Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report first appeared on Mediaite.",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [
+        0
+      ],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [],
+      "In-Group & Social": [
+        0
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Attribution & Causation",
+      "In-Group & Social"
+    ],
+    "rationale": {
+      "Attribution & Causation": "The article implies a causal relationship between Hegseth's actions and the disproportionate effect on Black and female officers, without providing direct evidence.",
+      "In-Group & Social": "The article highlights the potential negative impact on Black and female officers, which may be perceived as favoring an in-group (those not affected by Hegseth's actions) and creating an out-group (those affected)."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The instances are rejected because the text is reporting on allegations made by third-party sources rather than the author making an internal attribution about Hegseth's character. Reporting on external claims of rule-breaking is a standard journalistic function, not a psychological bias.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "in-group-bias",
+        "rationale": "The rationale provided is weak; reporting on the demographic impact of a policy is a factual observation in this context, not an expression of in-group favoritism by the author.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "negativity-bias",
+        "rationale": "While the article focuses on negative events, this is due to the nature of the news (a controversy regarding personnel changes). It is not a cognitive bias but a reflection of the subject matter.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "negativity-bias",
+        "rationale": "Reporting on 'shake-ups' and 'firings' is descriptive of the news event. Labeling this as negativity bias misinterprets the role of investigative journalism.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_004",
+        "bias_id": "negativity-bias",
+        "rationale": "The article is reporting on a conflict; highlighting the conflict is the primary purpose of the piece, not an emotional bias toward negativity.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_005",
+        "bias_id": "negativity-bias",
+        "rationale": "The inclusion of the Pentagon's rebuttal actually serves to balance the narrative, contradicting the claim that the author is exhibiting a negativity bias.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_006",
+        "bias_id": "confirmation-bias",
+        "rationale": "The article includes the Pentagon's official response, which provides a counter-narrative. Including a rebuttal demonstrates an attempt at balance rather than confirmation bias.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 0/7 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 5,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.3
+  }
+}

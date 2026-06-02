@@ -1,0 +1,49 @@
+{
+  "article_id": "79e314d552cce19b",
+  "source_url": "https://www.npr.org/2026/05/31/g-s1-125047/wembanyama-san-antonio-spurs-win-west-oklahoma-thunder-nba",
+  "title": "San Antonio Spurs win the West, beating Oklahoma City Thunder to head to NBA Finals",
+  "evaluated_at": "2026-06-02T02:52:10.421726+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "San Antonio Spurs win the West, beating Oklahoma City Thunder to head to NBA Finals\nVictor Wembanyama and the San Antonio Spurs started the Western Conference finals with a win in Oklahoma City, then ended the series the same way.\nThe champions are dethroned. Wembanyama and the Spurs are headed to the NBA Finals.\nWembanyama scored 22 points, Julian Champagnie got 18 of his 20 off of 3-pointers and the Spurs beat the Oklahoma City Thunder 111-103 on Saturday night \u2014 bucking heavy odds to win a Game 7 on the road.\n\"This feeling, I can't explain it,\" Wembanyama said. \"It's so powerful.\"\nStephon Castle scored 16 points and De'Aaron Fox had 15. Dylan Harper added 12 and Keldon Johnson and Devin Vassell each finished with 11 for the Spurs, who are headed to the NBA Finals for the first time since 2014.\nThey will host the New York Knicks in Game 1 on Wednesday night.\n\"Back in October, we knew we had a chance to be pretty good,\" Spurs coach Mitch Johnson said.\nCorrection \u2014 the Spurs have a chance to be great. Championship-level great.\nA huge moment came midway through the fourth, when San Antonio's Luke Kornet blocked Oklahoma City's Isaiah Hartenstein at the rim \u2014 denying a fast-break score that would have gotten the Thunder within four.\nIt felt like the last gasp for the Thunder. Kornet played six minutes, missed all three of his shot attempts and finished with only two points, but the block was an epic moment.\nShai Gilgeous-Alexander led the Thunder with 35 points and nine assists, but for the eighth consecutive season the NBA will have a new champion. Cason Wallace scored 17 points, while Jared McCain and Alex Caruso had 12 apiece for the Thunder.\n\"You have to grow from every experience, including the tough ones,\" Thunder coach Mark Daigneault said. \"And it's the NBA \u2014 there are tough ones. We can also be really disappointed. ... There's nobody that we don't think we can beat, respectfully.\"\nAfter four straight games that were largely decided going into the fourth quarter \u2014 the Thunder led Game 3 by 11, the Spurs led Game 4 by 18, the Thunder led Game 5 by 10 and the Spurs led Game 6 by 26, those leads all holding up with relative ease \u2014 this one was different, worthy of a Game 7.\nSpurs 80, Thunder 77 was the score going into the fourth, a bit of a back-and-forth contest where the Spurs led by as many as 14 in the first half and then by as many as 11 in the third, only to see the Thunder come roaring back both times.\n\"The players did what they've been doing all year and they met the biggest moment,\" Johnson said.\nThe Spurs pulled away in the fourth again, daring the Thunder to try to come back one more time. The champions \u2014 short-handed, with Jalen Williams sidelined with a bad hamstring \u2014 just didn't have anything left.\n\"Winning an NBA championship is very hard in itself to do one time,\" Gilgeous-Alexander said. \"So to do it all over again would just only make it harder.\"\nSan Antonio won eight of the 12 meetings against the Thunder this season \u2014 and in the end, the only matchup that really mattered.\n\"We want four more,\" Wembanyama said. \"We're not done.\"",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [],
+    "rationale": {}
+  },
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.0
+  }
+}

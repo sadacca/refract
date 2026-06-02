@@ -2,37 +2,43 @@
   "framing-effect": {
     "name": "Framing Effect",
     "category": "Framing & Anchoring",
-    "article_count": 5,
-    "prevalence_pct": 100.0
-  },
-  "availability-heuristic": {
-    "name": "Availability Heuristic",
-    "category": "Availability & Salience",
-    "article_count": 4,
-    "prevalence_pct": 80.0
+    "article_count": 8,
+    "prevalence_pct": 36.4
   },
   "anchoring": {
     "name": "Anchoring",
     "category": "Framing & Anchoring",
+    "article_count": 5,
+    "prevalence_pct": 22.7
+  },
+  "availability-heuristic": {
+    "name": "Availability Heuristic",
+    "category": "Availability & Salience",
+    "article_count": 5,
+    "prevalence_pct": 22.7
+  },
+  "negativity-bias": {
+    "name": "Negativity Bias",
+    "category": "Affect & Emotional Reasoning",
     "article_count": 3,
-    "prevalence_pct": 60.0
+    "prevalence_pct": 13.6
   },
   "in-group-bias": {
     "name": "In-Group Bias",
     "category": "In-Group & Social",
     "article_count": 3,
-    "prevalence_pct": 60.0
-  },
-  "negativity-bias": {
-    "name": "Negativity Bias",
-    "category": "Affect & Emotional Reasoning",
-    "article_count": 1,
-    "prevalence_pct": 20.0
+    "prevalence_pct": 13.6
   },
   "fundamental-attribution-error": {
     "name": "Fundamental Attribution Error",
     "category": "Attribution & Causation",
-    "article_count": 1,
-    "prevalence_pct": 20.0
+    "article_count": 2,
+    "prevalence_pct": 9.1
+  },
+  "confirmation-bias": {
+    "name": "Confirmation Bias",
+    "category": "Confirmation & Belief Perseverance",
+    "article_count": 2,
+    "prevalence_pct": 9.1
   }
 }

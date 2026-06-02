@@ -1,0 +1,402 @@
+{
+  "article_id": "f8bb3a503afdd2b5",
+  "source_url": "https://wolfstreet.com/2026/05/27/micron-the-wtf-ai-mania-chart-of-the-year/",
+  "title": "Micron, the WTF AI Mania Chart of the Year",
+  "evaluated_at": "2026-06-02T02:58:34.259637+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "The stock has a history of collapsing by 50% to 98% after every spike, regularly falling below its Dotcom Bubble high. But this time is different?\nBy Wolf Richter for WOLF STREET.\nThe stock of memory chip maker Micron Technology has a history of fantastical mania spikes that then collapse. So now there\u2019s another fantastical mania spike, but it\u2019s an AI mania spike, and everything else pales compared to it. Since the low of April 3, 2025, Micron\u2019s stock [MU] exploded by 1,315%, and its market capitalization exploded from $72 billion to $1.01 trillion. Over the past 12 months, shares exploded by 854%. Yesterday, they spiked by 19%. Today, they\u2019re up about 2% at the moment, at $916 a share.\nBut for Micron, spikes have invariably been followed by collapses. For example, from September 1995 to July 1996, the stock collapsed by 82%; and from Micron\u2019s Dotcom Bubble\u2019s peak in July 2000 ($95.13) to December 2008, so in about 8 years, it collapsed by 98% to $1.85, most of which in the first two years. There were numerous spikes followed by post-spike plunges of 50% or more. But it took the shares 18 years (till March 2018) to exceed the Dotcom Bubble high for the first time, and then shares plunged 50% again, well below the Dotcom Bubble high.\nThe Dotcom Bubble high wasn\u2019t seen again until mid-2020; the stock continued to surge until mid-January 2022, but then plunged by 50%, once again below the Dotcom Bubble high. And the stock plunged by 58% again between June 2024 and April 2025, to $64.72, which was 32% below its Dotcom Bubble high 25 years earlier. At each spike along the way, it was: \u201cThis time it\u2019s different,\u201d and it was never different. But nothing compares to the current AI mania spike.\nTrump was helping along the way. On Friday, he said at a rally, \u201cBoy, Micron is great.\u201d\nIn terms of market cap, Micron\u2019s path to a $1 trillion stock from a $500 billion stock broke all records: only 48 trading days to reel in the second $500 billion after the stock hit $500 billion in market cap for the first time on March 17.\nAnd we know: \u201cThis time it\u2019s different,\u201d and this time it is different because the amounts of dollars involved \u2013 they\u2019re no longer tens of billions, but a trillion this time.\nIn terms of speed from $500 billion to $1 trillion, that 48 trading days was by far a record. Nvidia, the poster boy for this sort of stuff, took 490 trading days to get there. Nvidia is now a $5 trillion company. Now there are 12 publicly traded US companies valued at over $1 trillion, including Micron.\nThere is no telling how much further this AI mania will go, and what new crazy thing will happen next, and there is no telling which of these stocks will tank first by 50%-plus.\nWhen this stuff goes up in smoke once again, some serious dollars will vanish. Even a minor drawdown of 10% of these 12 stocks combined incinerates trillions of dollars of imagined value that then becomes unimagined.\nBut investors are spread around the world as the entire world has piled into these few stocks to get rich quick, and they got rich quick, and when the AI stock mania deflates, as all manias eventually do, the damage will be spread around the world too. But wait, no, this time it\u2019s different\u2026.\nEnjoy reading WOLF STREET and want to support it? You can donate. I appreciate it immensely. Click on the mug to find out how:",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [
+        0
+      ],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Framing & Anchoring"
+    ],
+    "rationale": {
+      "Framing & Anchoring": "The article repeatedly uses the phrase 'This time it's different' to frame the current situation, which may be an attempt to create a false sense of novelty and justify the expectation of a different outcome, and also uses extreme values (e.g., 1,315% increase, $1.01 trillion market capitalization) to anchor the reader's perception of the stock's performance."
+    }
+  },
+  "bias_instances": [
+    {
+      "bias_id": "framing-effect",
+      "bias_name": "Framing Effect",
+      "occurrences": [
+        {
+          "excerpt": "the stock collapsed by 82%; and from Micron\u2019s Dotcom Bubble\u2019s peak in July 2000 ($95.13) to December 2008, so in about 8 years, it collapsed by 98% to $1.85",
+          "char_start": 734,
+          "char_end": 864,
+          "paragraph_index": 2,
+          "text_region": "body",
+          "explanation": "The excerpt presents a statistic (stock collapse) in a form that emphasizes its magnitude (98% collapse) compared to a neutral presentation, which could have been the absolute change in value.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "the stock plunged by 50% again, well below the Dotcom Bubble high",
+          "char_start": 1036,
+          "char_end": 1074,
+          "paragraph_index": 2,
+          "text_region": "body",
+          "explanation": "The use of 'plunged by 50%' frames the event in a loss language, emphasizing the negative aspect of the stock's movement.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "a minor drawdown of 10% of these 12 stocks combined incinerates trillions of dollars of imagined value that then becomes unimagined",
+          "char_start": 2464,
+          "char_end": 2534,
+          "paragraph_index": 6,
+          "text_region": "body",
+          "explanation": "The phrase 'incinerates trillions of dollars' uses loaded terminology to frame the potential loss in a dramatic and negative light.",
+          "confidence": "high"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Framing & Anchoring"
+    },
+    {
+      "bias_id": "anchoring",
+      "bias_name": "Anchoring",
+      "occurrences": [
+        {
+          "excerpt": "Since the low of April 3, 2025, Micron\u2019s stock [MU] exploded by 1,315%, and its market capitalization exploded from $72 billion to $1.01 trillion",
+          "char_start": 444,
+          "char_end": 514,
+          "paragraph_index": 1,
+          "text_region": "body",
+          "explanation": "The initial figure of $72 billion and the subsequent growth to $1.01 trillion serve as an anchor, making the growth seem exceptionally large by comparison.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "Nvidia, the poster boy for this sort of stuff, took 490 trading days to get there. Nvidia is now a $5 trillion company",
+          "char_start": 1544,
+          "char_end": 1614,
+          "paragraph_index": 4,
+          "text_region": "body",
+          "explanation": "The comparison of Micron's 48 trading days to Nvidia's 490 trading days to reach $1 trillion serves as an anchor, making Micron's achievement seem unusually fast by comparison.",
+          "confidence": "high"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Framing & Anchoring"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "But this time is different? By Wolf Richter for WOLF STREET. The stock of memory chip maker Micron Technology has a history of fantastical mania spikes that then collapse.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article starts with a question that implies a negative outcome, and then immediately mentions a history of collapses, giving disproportionate prominence to negative events.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "But for Micron, spikes have invariably been followed by collapses.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article repeatedly mentions collapses and plunges, while only briefly mentioning the stock's surges, giving more coverage to negative outcomes.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "When this stuff goes up in smoke once again, some serious dollars will vanish.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article uses a vivid and negative metaphor to describe a potential future event, emphasizing the potential loss.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "Even a minor drawdown of 10% of these 12 stocks combined incinerates trillions of dollars of imagined value that then becomes unimagined.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article uses a strong and negative word ('incinerates') to describe a potential loss, emphasizing the severity of the outcome.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "availability-heuristic",
+      "bias_name": "Availability Heuristic",
+      "occurrences": [
+        {
+          "excerpt": "But for Micron, spikes have invariably been followed by collapses.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article uses recent high-profile cases to estimate the likelihood of Micron's stock collapsing, rather than considering population-level statistics.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Availability & Salience"
+    },
+    {
+      "bias_id": "availability-heuristic",
+      "bias_name": "Availability Heuristic",
+      "occurrences": [
+        {
+          "excerpt": "There were numerous spikes followed by post-spike plunges of 50% or more.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article cites multiple examples of Micron's stock collapsing, which may lead to an overestimation of the likelihood of such events.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Availability & Salience"
+    },
+    {
+      "bias_id": "availability-heuristic",
+      "bias_name": "Availability Heuristic",
+      "occurrences": [
+        {
+          "excerpt": "But nothing compares to the current AI mania spike.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article uses the recent AI mania spike as a representative example, which may lead to an overestimation of its likelihood or frequency.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Availability & Salience"
+    },
+    {
+      "bias_id": "confirmation-bias",
+      "bias_name": "Confirmation Bias",
+      "occurrences": [
+        {
+          "excerpt": "But for Micron, spikes have invariably been followed by collapses.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article presents evidence on one side of a contested question (Micron's stock always collapsing after a spike) while omitting countervailing evidence (the possibility that this time it might be different).",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Confirmation & Belief Perseverance"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "framing-effect",
+        "rationale": "The author consistently uses emotionally charged language like 'incinerates' and 'plunged' to frame market volatility as a catastrophic event, which is a classic example of framing bias.",
+        "verdict": "confirmed",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "anchoring",
+        "rationale": "The author uses specific historical data points (e.g., 490 days for Nvidia) to anchor the reader's perception of Micron's current growth speed, effectively guiding the reader toward a specific conclusion about the stock's 'mania' status.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "negativity-bias",
+        "rationale": "The article explicitly focuses on the history of collapses to set a negative tone, which aligns with the definition of negativity bias.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "negativity-bias",
+        "rationale": "The author emphasizes the inevitability of 'collapses' while dismissing the current growth as 'mania,' showing a clear preference for negative framing.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_004",
+        "bias_id": "negativity-bias",
+        "rationale": "The use of the metaphor 'goes up in smoke' is a clear attempt to evoke fear and emphasize the negative outcome of a potential market correction.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "suspect"
+        }
+      },
+      {
+        "instance_id": "inst_005",
+        "bias_id": "negativity-bias",
+        "rationale": "The term 'incinerates' is highly emotive and serves to amplify the perceived severity of a standard market drawdown.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "suspect"
+        }
+      },
+      {
+        "instance_id": "inst_006",
+        "bias_id": "availability-heuristic",
+        "rationale": "The author relies on the most salient historical 'collapses' to predict future performance, ignoring broader market variables.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_007",
+        "bias_id": "availability-heuristic",
+        "rationale": "By repeatedly citing past plunges, the author makes these events the most available information for the reader, skewing the perception of risk.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_008",
+        "bias_id": "availability-heuristic",
+        "rationale": "The author uses the current 'AI mania' as the primary reference point, which is a recent and highly salient event used to justify a broader, potentially biased, market outlook.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_009",
+        "bias_id": "confirmation-bias",
+        "rationale": "The author actively dismisses the 'this time is different' argument throughout the text, reinforcing their pre-existing belief that a collapse is inevitable.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "Swap augmentation: 9/10 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [
+      "Framing & Anchoring",
+      "Affect & Emotional Reasoning",
+      "Availability & Salience"
+    ],
+    "bias_type_count": 5,
+    "total_occurrences": 13,
+    "low_confidence_count": 8,
+    "recall_probe_finds": 8,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 13,
+      "closing": 0
+    },
+    "by_category": {
+      "Framing & Anchoring": 5,
+      "Affect & Emotional Reasoning": 4,
+      "Availability & Salience": 3,
+      "Confirmation & Belief Perseverance": 1
+    },
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.2
+  }
+}

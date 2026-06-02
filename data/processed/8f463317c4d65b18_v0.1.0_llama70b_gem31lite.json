@@ -1,0 +1,72 @@
+{
+  "article_id": "8f463317c4d65b18",
+  "source_url": "https://www.yahoo.com/sports/nba/breaking-news/article/stephen-curry-signs-new-shoe-deal-with-chinese-company-li-ning-after-under-armour-split-221435483.html",
+  "title": "Stephen Curry signs new shoe deal with Chinese company Li-Ning after Under Armour split",
+  "evaluated_at": "2026-06-02T03:15:00.582369+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Stephen Curry signs new shoe deal with Chinese company Li-Ning after Under Armour split\nStephen Curry finally has his new shoe deal.\nCurry signed a massive 10-year shoe endorsement contract with Chinese company Li-Ning on Monday, according to ESPN\u2019s Shams Charania. While it\u2019s unclear how much the deal is worth, Curry\u2019s deal will include basketball products, athleisure, a full golf line and the ability for him to sign other athletes under his brand in the future. The Golden State Warriors star confirmed the partnership on Instagram, too.\nCurry has been a sneaker free agent since his shocking split with Under Armour last year. The two sides split in November, ending a 12-year partnership that saw Curry quickly become one of the main faces of the company. Curry was previously at Nike before he joined Under Armour in 2013.\nCurry and Under Armour launched the Curry Brand in 2020, and Curry eventually took over as president of that brand, which was later separated from the company in their split. Curry received significant Under Armour stock when he signed a new long-term deal with the company in 2023, too. Curry was one of just a handful of NBA players with lifetime shoe deals. Both LeBron James and Kevin Durant have lifetime contracts with Nike, and Damian Lillard has a similar deal with Adidas.\nMore NBA news\nCurry just wrapped up his 17th season in the league. The 12-time All-Star averaged 26.6 points and 4.7 assists per game last season, though he appeared in just 43 games while dealing with a lengthy right knee injury. The Warriors went 37-45 and missed the playoffs for the second time in three years.\nLi-Ning was founded in 1990 by former Olympic gymnast Li Ning. The company has signed several NBA players in the past, including former Cleveland Cavaliers guard Damon Jones back in 2006. Jimmy Butler, Dwyane Wade, Fred VanVleet, D\u2019Angelo Russell and CJ McCollum all have had deals with the company, too.\nWhile Curry is undoubtedly nearing the end of his playing career \u2014 he signed a one-year, $62.5 million extension to remain with the organization through the end of next season, when he\u2019ll be 39 years old \u2014 his brand now has a new home for the foreseeable future.",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [
+        0
+      ],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Attribution & Causation"
+    ],
+    "rationale": {
+      "Attribution & Causation": "The article implies a causal relationship between Curry's shoe deal with Li-Ning and his nearing the end of his playing career, suggesting that the deal is a result of his impending retirement."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The excerpt is a factual report of contractual status in the NBA. It does not attempt to explain the 'why' behind the success, nor does it ignore situational factors; it simply lists existing business arrangements, making the attribution of bias incorrect.",
+        "verdict": "rejected"
+      },
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The text is a standard sports journalism summary of a player's career stage and contract status. Attributing a professional athlete's market value to their talent and career longevity is a logical assessment of professional sports economics, not a cognitive bias.",
+        "verdict": "rejected"
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "The detected instances misapply the Fundamental Attribution Error to objective reporting of sports business facts. The model appears to be over-interpreting standard journalistic descriptions of professional success as psychological biases."
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.2
+  }
+}

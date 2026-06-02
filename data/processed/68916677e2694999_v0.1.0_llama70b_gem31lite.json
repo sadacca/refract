@@ -1,0 +1,76 @@
+{
+  "article_id": "68916677e2694999",
+  "source_url": "https://sports.yahoo.com/college-sports/article/no-1-overall-seed-ucla-eliminated-in-baseball-regionals-after-saint-marys-walks-it-off-in-extras-004141511.html",
+  "title": "No. 1 overall seed UCLA eliminated in baseball regionals after Saint Mary's walks it off in extras",
+  "evaluated_at": "2026-06-02T02:56:33.103481+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "No. 1 overall seed UCLA eliminated in baseball regionals after Saint Mary's walks it off in extras\nFor the second straight year, the No. 1 overall seed has crashed out of the NCAA baseball regionals. UCLA\u2019s season came to a close after a 6-5 loss to Saint Mary\u2019s in extra innings.\nThe Gaels picked up the one-run win after sending the game to extras with a game-tying run in the bottom of the ninth. Then, Saint Mary\u2019s stunned the Bruins in the 10th inning with Makoa Sniffen\u2019s walk-off base hit that sent Cody Kashimoto home for the win. Both of those high-stakes RBIs came with two outs on the board.\nIt\u2019s the second time in three days that UCLA has been upset by Saint Mary\u2019s. The Gaels shocked the Bruins in the regionals\u2019 opener on Friday. Jacob Johnson gave his team the lead with a solo homer in the top of the ninth, and Cam Staton closed it out on the mound to give Saint Mary\u2019s a 3-2 win.\nPrior to 2025, no No. 1 seed had ever failed to at least make the regional final, per ESPN. Now, UCLA joins Vanderbilt, which fell to Wright State last year, as the second straight No. 1 seed to stumble early.\nSaint Mary\u2019s will now face Cal Poly for a chance to stay alive, in a rematch of the Gaels\u2019 14-1 loss to the Mustangs on Saturday. Because this stage of the tournament is double elimination, Saint Mary\u2019s will have to beat Cal Poly twice (once on Sunday and once on Monday) in order to advance.\nUCLA, meanwhile, will be heading home. The Bruins\u2019 early exit also marks another poor showing from the Big Ten, baseball-wise, leaving Oregon and USC as the only teams left in the conference \u2014 for now.",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [],
+    "rationale": {}
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "negativity-bias",
+        "rationale": "The excerpt is a factual report of a game result. Reporting a loss is not inherently biased when the article also details the winning team's actions and the specific plays that led to the outcome.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "negativity-bias",
+        "rationale": "The excerpt provides necessary historical context for a sports upset. Highlighting a statistical anomaly or a 'stumble' is standard sports journalism and does not constitute cognitive negativity bias.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "negativity-bias",
+        "rationale": "The author is objectively describing a conference's performance trend. Describing a 'poor showing' is an accurate assessment of a team's elimination and does not reflect an emotional bias.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 0/3 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 3,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.0
+  }
+}

@@ -1,18 +1,19 @@
 {
-  "total_articles": 5,
-  "total_bias_instances": 17,
-  "total_occurrences": 38,
+  "total_articles": 22,
+  "total_bias_instances": 41,
+  "total_occurrences": 69,
   "sources": {
-    "unknown": 5
+    "unknown": 22
   },
   "framework_versions": {
-    "v0.1.0": 5
+    "v0.1.0": 22
   },
   "category_distribution": {
-    "Framing & Anchoring": 17,
-    "Availability & Salience": 9,
+    "Framing & Anchoring": 29,
+    "Availability & Salience": 12,
+    "Affect & Emotional Reasoning": 10,
     "In-Group & Social": 8,
-    "Affect & Emotional Reasoning": 3,
-    "Attribution & Causation": 1
+    "Attribution & Causation": 6,
+    "Confirmation & Belief Perseverance": 4
   }
 }

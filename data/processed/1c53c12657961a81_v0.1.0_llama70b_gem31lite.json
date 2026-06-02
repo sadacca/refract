@@ -1,0 +1,498 @@
+{
+  "article_id": "1c53c12657961a81",
+  "source_url": "https://www.yahoo.com/entertainment/tv/articles/60-minutes-correspondent-scott-pelley-163916832.html",
+  "title": "60 Minutes correspondent Scott Pelley accuses Bari Weiss of \u2018murdering\u2019 show",
+  "evaluated_at": "2026-06-02T03:13:18.663768+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "60 Minutes correspondent Scott Pelley accuses Bari Weiss of \u2018murdering\u2019 show\nScott Pelley, a veteran 60 Minutes correspondent, called out CBS News management in a heated meeting on Monday morning, attacking the network\u2019s decision on Thursday to fire the show\u2019s executive producer, executive editor, and two fellow correspondents, Sharyn Alfonsi and Cecilia Vega, as part of a broader overhaul of the show, sources tell the Guardian.\nDuring a meeting of the show\u2019s staff and Nick Bilton, its newly appointed executive producer, along with the CBS News managing editor Charles Forelle, Pelley took direct aim at Bari Weiss, the network\u2019s controversial editor-in-chief.\n\u201cShe\u2019s murdering 60 Minutes,\u201d Pelley said, according to sources with knowledge of the situation. \u201cShe does not love this place. She was brought in to kill it and is doing exactly that.\u201d\nForelle accused Pelley of being rude, and Pelley countered by saying that the network had been rude by the way it treated Tanya Simon, the show\u2019s executive producer who was fired on Thursday.\nBilton conveyed to Pelley that he would not be \u201cintimidated\u201d by his remarks.\n60 Minutes staff who were present for the meeting showed strong support for Pelley, giving him a standing ovation, sources said.\nA CBS News spokesperson declined comment on the meeting. A source with knowledge of the situation said that overtures have been made to Pelley, who is seen as an important part of the show. (Pelley has also been contacted for comment.)\nRelated: CBS News shakes up 60 Minutes as ousted correspondents \u2018fear what comes next\u2019\nStill, the exchange on Monday raises questions about Pelley\u2019s long-term future at the show.\nLast Wednesday, hours after Alfonsi announced that the network had opted not to renew her contract for the show\u2019s 59th season, Pelley gave her a shoutout at the News & Documentary Emmy awards. \u201cThere have been many great 60 Minutes correspondents over the years. I see Sharyn Alfonsi in the audience,\u201d he said.\nPelley was also effusive in praising Santiago Campos, an 18-year-old high school senior who called out the network\u2019s direction under Weiss, saying that it \u201cstains the legacy of Mike Wallace\u201d, the namesake of the award that Campos received.\n\u201cI know that Mike Wallace is looking down on you with pride at this very moment,\u201d Pelley said.\nOn Wednesday, Alfonsi \u2013 who had reported a December 2025 segment about a notorious prison in El Salvador that got shelved by Weiss \u2013 released a blistering statement, saying: \u201cThe wall between editorial independence and corporate interest at CBS is being methodically torn down.\u201d She added: \u201cJournalists willing to challenge authority are being pushed aside in favor of those who will not. If this continues, the result will be a broadcast that looks like 60 Minutes but lacks the courage and character to produce journalism that matters.\u201d\nIn her own statement on Thursday, Vega, who joined the show in 2023, suggested that political bias was at play at the network.\n\u201cIn recent months, my producing teams and I have experienced efforts to insert political bias into our stories,\u201d she said. \u201cReporting teams have held back on submitting story pitches about important news topics out of fear of the internal repercussions. Let\u2019s call this what it is: censorship, both imposed and self-driven. It is dangerous for the show and dangerous for democracy.\u201d The network released a statement contesting Vega\u2019s characterization.",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [
+        0
+      ],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Framing & Anchoring",
+      "Confirmation Bias",
+      "Ad Hominem",
+      "Bandwagon Effect",
+      "Censorship"
+    ],
+    "rationale": {
+      "Framing & Anchoring": "The article frames Bari Weiss as the primary antagonist, using loaded language such as 'murdering' to describe her actions, which may influence the reader's perception of her intentions.",
+      "Confirmation Bias": "The article presents a one-sided view of the situation, with quotes from Pelley and other staff members, but no direct quotes from Weiss or other network representatives, which may indicate a confirmation bias in the reporting.",
+      "Ad Hominem": "Pelley's attack on Weiss is an ad hominem attack, focusing on her character and intentions rather than the specific decisions she made as editor-in-chief.",
+      "Bandwagon Effect": "The article mentions that 60 Minutes staff showed strong support for Pelley, which may create a bandwagon effect, influencing the reader's opinion based on the perceived popularity of Pelley's views.",
+      "Censorship": "The article mentions that reporting teams have held back on submitting story pitches due to fear of internal repercussions, which raises concerns about censorship and the potential impact on the show's journalism."
+    }
+  },
+  "bias_instances": [
+    {
+      "bias_id": "framing-effect",
+      "bias_name": "Framing Effect",
+      "occurrences": [
+        {
+          "excerpt": "She's murdering 60 Minutes",
+          "char_start": 433,
+          "char_end": 453,
+          "paragraph_index": 2,
+          "text_region": "body",
+          "explanation": "The use of the word 'murdering' to describe Bari Weiss's actions towards 60 Minutes is an example of loss language, framing her actions in a strongly negative light.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "The wall between editorial independence and corporate interest at CBS is being methodically torn down",
+          "char_start": 1934,
+          "char_end": 1984,
+          "paragraph_index": 7,
+          "text_region": "body",
+          "explanation": "This statement frames the situation at CBS in a negative light, using the metaphor of a wall being torn down to convey a sense of loss and destruction.",
+          "confidence": "high"
+        },
+        {
+          "excerpt": "censorship, both imposed and self-driven",
+          "char_start": 2414,
+          "char_end": 2443,
+          "paragraph_index": 9,
+          "text_region": "body",
+          "explanation": "The use of the word 'censorship' to describe the situation at CBS frames it in a strongly negative light, implying a loss of freedom and autonomy.",
+          "confidence": "high"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "Framing & Anchoring"
+    },
+    {
+      "bias_id": "anchoring",
+      "bias_name": "Anchoring",
+      "occurrences": [
+        {
+          "excerpt": "18-year-old high school senior",
+          "char_start": 1547,
+          "char_end": 1571,
+          "paragraph_index": 5,
+          "text_region": "body",
+          "explanation": "The mention of the age of the high school senior, Santiago Campos, serves as an anchor, making his actions and opinions seem more impressive and noteworthy due to his young age.",
+          "confidence": "medium"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "Framing & Anchoring"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "She\u2019s murdering 60 Minutes,\u201d Pelley said, according to sources with knowledge of the situation. \u201cShe does not love this place. She was brought in to kill it and is doing exactly that.\u201d",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article gives disproportionate prominence to negative events, such as Pelley's accusation that Bari Weiss is 'murdering' 60 Minutes, and reports on the firings of several staff members, while equivalent positive outcomes are not mentioned.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "Alfonsi \u2013 who had reported a December 2025 segment about a notorious prison in El Salvador that got shelved by Weiss \u2013 released a blistering statement, saying: \u201cThe wall between editorial independence and corporate interest at CBS is being methodically torn down.\u201d",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Alfonsi's statement is described as 'blistering', indicating a strong negative tone, and reports on the shelving of her segment, highlighting a negative outcome.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "negativity-bias",
+      "bias_name": "Negativity Bias",
+      "occurrences": [
+        {
+          "excerpt": "Vega, who joined the show in 2023, suggested that political bias was at play at the network.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Vega's statement implies a negative outcome, suggesting that the network is biased, and reports on efforts to insert political bias into stories, highlighting a negative aspect.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Affect & Emotional Reasoning"
+    },
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "She does not love this place. She was brought in to kill it and is doing exactly that.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Pelley attributes the network's decision to fire staff to Bari Weiss's character and intentions, rather than examining systemic or structural factors.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Attribution & Causation"
+    },
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "She does not love this place. She was brought in to kill it and is doing exactly that.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Pelley implies that Weiss's actions are driven by a personal desire to 'kill' the show, rather than considering the possibility of external pressures or circumstances.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Attribution & Causation"
+    },
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "She does not love this place. She was brought in to kill it and is doing exactly that.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Pelley's statement suggests that Weiss's character and intentions are the primary drivers of the network's decisions, rather than examining the role of systemic or structural factors.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Attribution & Causation"
+    },
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "She does not love this place. She was brought in to kill it and is doing exactly that.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Pelley's statement implies that Weiss's actions are a result of her personal character, rather than considering the possibility of external pressures or circumstances.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Attribution & Causation"
+    },
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "She does not love this place. She was brought in to kill it and is doing exactly that.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "Pelley's statement suggests that Weiss's character and intentions are the primary drivers of the network's decisions, rather than examining the role of systemic or structural factors.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Attribution & Causation"
+    },
+    {
+      "bias_id": "confirmation-bias",
+      "bias_name": "Confirmation Bias",
+      "occurrences": [
+        {
+          "excerpt": "Pelley said, \u201cShe does not love this place. She was brought in to kill it and is doing exactly that.\u201d",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article presents a quote from Pelley that suggests Bari Weiss intentionally wants to harm 60 Minutes, without providing any countervailing evidence or opposing viewpoints from Weiss or her supporters.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Confirmation & Belief Perseverance"
+    },
+    {
+      "bias_id": "confirmation-bias",
+      "bias_name": "Confirmation Bias",
+      "occurrences": [
+        {
+          "excerpt": "Alfonsi \u2013 who had reported a December 2025 segment about a notorious prison in El Salvador that got shelved by Weiss \u2013 released a blistering statement, saying: \u201cThe wall between editorial independence and corporate interest at CBS is being methodically torn down.\u201d",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article presents a quote from Alfonsi that suggests Weiss is compromising editorial independence, without providing any countervailing evidence or opposing viewpoints from Weiss or her supporters.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Confirmation & Belief Perseverance"
+    },
+    {
+      "bias_id": "confirmation-bias",
+      "bias_name": "Confirmation Bias",
+      "occurrences": [
+        {
+          "excerpt": "Vega, who joined the show in 2023, suggested that political bias was at play at the network.",
+          "char_start": null,
+          "char_end": null,
+          "paragraph_index": null,
+          "text_region": "body",
+          "explanation": "The article presents a quote from Vega that suggests political bias is present at the network, without providing any countervailing evidence or opposing viewpoints from Weiss or her supporters.",
+          "confidence": "low"
+        }
+      ],
+      "severity": "low",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "recall_probe": true,
+      "category": "Confirmation & Belief Perseverance"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "framing-effect",
+        "rationale": "The excerpts accurately reflect the use of loaded, emotionally charged language (e.g., 'murdering', 'torn down', 'censorship') to frame the organizational changes as destructive, which is a classic application of the framing effect.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "anchoring",
+        "rationale": "Highlighting the age of the individual serves to anchor the reader's perception of the critique's significance, potentially inflating its perceived weight based on the subject's youth.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "negativity-bias",
+        "rationale": "The article focuses heavily on conflict and negative outcomes. While it reports on a meeting, the selection of quotes emphasizes destruction and hostility, which aligns with negativity bias.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "negativity-bias",
+        "rationale": "The article highlights 'blistering' statements and negative professional outcomes, reinforcing a narrative of decline and conflict.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_004",
+        "bias_id": "negativity-bias",
+        "rationale": "The focus on allegations of censorship and political bias emphasizes the negative aspects of the organizational change, consistent with negativity bias.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_005",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "Pelley's quote attributes the network's structural changes entirely to Weiss's personal malice ('does not love this place') rather than organizational or strategic mandates.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_006",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "This is a duplicate of inst_005; the attribution of systemic corporate decisions to an individual's internal character is a clear example of the fundamental attribution error.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_007",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "This is a duplicate of inst_005; the reasoning remains valid regarding the misattribution of corporate policy to personal intent.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_008",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "This is a duplicate of inst_005; the assessment of the error remains accurate.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_009",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "This is a duplicate of inst_005; the assessment of the error remains accurate.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_010",
+        "bias_id": "confirmation-bias",
+        "rationale": "The article presents a one-sided narrative by quoting critics of the new management without providing the network's perspective or the rationale behind the changes, reinforcing a specific viewpoint.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_011",
+        "bias_id": "confirmation-bias",
+        "rationale": "The inclusion of the 'blistering' statement without balancing context supports a narrative of institutional decline, consistent with confirmation bias.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      },
+      {
+        "instance_id": "inst_012",
+        "bias_id": "confirmation-bias",
+        "rationale": "By presenting allegations of political bias as the primary narrative without counter-evidence, the article reinforces the reader's potential existing belief in the network's decline.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "confirmed",
+          "reversed": "rejected"
+        }
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 13/13 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [
+      "Attribution & Causation",
+      "Framing & Anchoring",
+      "Affect & Emotional Reasoning"
+    ],
+    "bias_type_count": 5,
+    "total_occurrences": 15,
+    "low_confidence_count": 11,
+    "recall_probe_finds": 11,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 15,
+      "closing": 0
+    },
+    "by_category": {
+      "Framing & Anchoring": 4,
+      "Affect & Emotional Reasoning": 3,
+      "Attribution & Causation": 5,
+      "Confirmation & Belief Perseverance": 3
+    },
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.2
+  }
+}

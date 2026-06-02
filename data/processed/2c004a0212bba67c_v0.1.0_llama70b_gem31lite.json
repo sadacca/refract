@@ -1,0 +1,89 @@
+{
+  "article_id": "2c004a0212bba67c",
+  "source_url": "https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean",
+  "title": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week",
+  "evaluated_at": "2026-06-02T02:53:03.749081+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.1.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "llama-3.1-8b-instant",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week\nWASHINGTON \u2014 The U.S. military said it carried out another strike Saturday on a boat accused of smuggling drugs in the eastern Pacific Ocean, killing three men in the fourth attack this week and putting the total death toll at 205.\nU.S. Southern Command announced the strike with its usual language that the vessel was \"engaged in narco-trafficking operations\" and operated by a designated terrorist organization. It provided no evidence for the allegation.\nIt's the latest in a monthslong campaign against alleged drug boats traversing the Caribbean Sea and eastern Pacific.\nVideo released by the military on social media shows a small vessel floating in the ocean before it's hit and engulfed in a fireball.\nThe attack brings the death toll to 205 in a series of U.S. strikes that began in early September, with other attacks announced on Tuesday, Wednesday and Friday. The Trump administration has declared that the U.S. is at armed conflict with Latin American drug cartels, saying they are behind the flow of drugs into American communities.\nU.S. Southern Command said in its post on X that the strike came at the direction of Gen. Francis L. Donovan, the top U.S. commander in Latin America.",
+  "pass0_result": {
+    "paragraph_count": 1,
+    "category_paragraphs": {
+      "Affect & Emotional Reasoning": [],
+      "Attribution & Causation": [
+        0
+      ],
+      "Availability & Salience": [],
+      "Confirmation & Belief Perseverance": [],
+      "Framing & Anchoring": [],
+      "In-Group & Social": []
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Attribution & Causation"
+    ],
+    "rationale": {
+      "Attribution & Causation": "The article presents a claim of 'narco-trafficking operations' without providing evidence, which may indicate a bias in attributing the boat's actions and a potential causal link to a designated terrorist organization."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The Fundamental Attribution Error applies to individuals, not political administrations or military commands. Attributing policy decisions to an administration's stated rationale or a commander's orders is standard reporting of institutional action, not a psychological error.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "negativity-bias",
+        "rationale": "Reporting on a death toll is a factual account of the consequences of military action. Labeling the reporting of deaths as 'negativity bias' ignores the journalistic responsibility to report on the human cost of conflict.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "confirmation-bias",
+        "rationale": "The excerpt explicitly highlights the lack of evidence provided by the military, which is the opposite of confirmation bias; it is a critical check on the source's claims.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "anchoring",
+        "rationale": "The death toll is a cumulative statistic relevant to the story's context. It serves as a factual summary rather than an arbitrary anchor intended to bias the reader's perception of subsequent data.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 0/4 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 3,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 1,
+    "pass0_avg_paragraphs_per_category": 0.2
+  }
+}
