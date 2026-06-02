@@ -13,29 +13,20 @@ import streamlit as st
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-from config import FRAMEWORK_VERSION, TAXONOMY_VERSION, PROCESSED_DIR
+from config import FRAMEWORK_VERSION, TAXONOMY_VERSION
+from components.corpus import load_corpus, render_refresh_button
 
 st.set_page_config(page_title="Bias Analysis — Refract", layout="wide")
 st.title("Bias Analysis")
-st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
+col_title, col_refresh = st.columns([8, 1])
+col_title.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
+with col_refresh:
+    render_refresh_button()
 
 
 # ---------------------------------------------------------------------------
 # Data loading
 # ---------------------------------------------------------------------------
-@st.cache_data(ttl=60)
-def load_results() -> list[dict]:
-    results = []
-    for p in sorted(PROCESSED_DIR.glob(f"*_{FRAMEWORK_VERSION}.json")):
-        try:
-            d = json.loads(p.read_text())
-            d["_word_count"] = len(d.get("article_text", "").split())
-            results.append(d)
-        except Exception:
-            continue
-    return results
-
-
 def bias_table(results: list[dict]) -> dict:
     """Return aggregated per-bias stats across all results."""
     counts: dict[str, dict] = {}
@@ -69,7 +60,7 @@ def bias_table(results: list[dict]) -> dict:
     return counts
 
 
-results = load_results()
+results = load_corpus(FRAMEWORK_VERSION)
 n_articles = len(results)
 
 if not results:
