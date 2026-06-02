@@ -3,6 +3,7 @@ Thin LLM client: structured JSON calls via REST APIs.
 Supports Groq (primary) and Gemini (fallback/judge).
 Provider is inferred from the model name prefix.
 """
+import datetime
 import json
 import logging
 import os
@@ -11,7 +12,7 @@ from typing import Any
 
 import requests
 
-from config import GEMINI_API_KEY, GROQ_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY, POST_CALL_DELAY
+from config import GEMINI_API_KEY, GROQ_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY, POST_CALL_DELAY, CACHE_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +25,82 @@ GROQ_BASE = "https://api.groq.com/openai/v1/chat/completions"
 _CALL_MIN_INTERVAL = float(os.getenv("LLM_CALL_INTERVAL", "6"))
 _last_call_time: dict[str, float] = {}
 
+# ---------------------------------------------------------------------------
+# Daily call tracking — prevents tripping Google's free-tier RPD limit, which
+# upgrades the project to a paid tier and causes 429s across ALL models.
+# Stored in data/cache/llm_daily_usage.json; auto-resets each calendar day.
+# ---------------------------------------------------------------------------
+_USAGE_FILE = CACHE_DIR / "llm_daily_usage.json"
+
+
+def _today() -> str:
+    return datetime.date.today().isoformat()
+
+
+def _load_daily_usage() -> dict:
+    try:
+        if _USAGE_FILE.exists():
+            data = json.loads(_USAGE_FILE.read_text())
+            today = _today()
+            return {today: data.get(today, {})}
+    except Exception:
+        pass
+    return {}
+
+
+def _save_daily_usage(data: dict) -> None:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    _USAGE_FILE.write_text(json.dumps(data, indent=2))
+
+
+def _increment_daily_calls(model: str) -> None:
+    today = _today()
+    data = _load_daily_usage()
+    day = data.get(today, {})
+    day[model] = day.get(model, 0) + 1
+    _save_daily_usage({today: day})
+
+
+def get_daily_calls(model: str) -> int:
+    """Return successful LLM calls made today for this model."""
+    return _load_daily_usage().get(_today(), {}).get(model, 0)
+
+
+def _is_near_daily_limit(model: str, rpd_limit: int, soft_pct: float = 0.85) -> bool:
+    calls = get_daily_calls(model)
+    soft = int(rpd_limit * soft_pct)
+    if calls >= soft:
+        logger.info("Daily usage: %s at %d calls (soft limit %d/%d RPD)", model, calls, soft, rpd_limit)
+        return True
+    return False
+
+
+def select_from_chain(model_chain: list[tuple[str, int]]) -> str:
+    """
+    Return the first model in the chain below its daily RPD soft limit (85%).
+    Logs which models are skipped. Falls back to the last model if all are near limit.
+    """
+    for model, rpd in model_chain:
+        calls = get_daily_calls(model)
+        soft = int(rpd * 0.85)
+        if calls < soft:
+            logger.debug("Chain: selected %s (%d/%d calls today)", model, calls, rpd)
+            return model
+        logger.info("Chain: skipping %s (%d calls >= soft limit %d/%d RPD)", model, calls, soft, rpd)
+    fallback = model_chain[-1][0]
+    logger.warning("All chain models near daily RPD limit — forcing %s", fallback)
+    return fallback
+
+
+def provider_for(model: str) -> str:
+    """Return 'groq' or 'gemini' for a given model name."""
+    return _provider(model)
+
 
 def _provider(model: str) -> str:
     """Infer provider from model name."""
+    if model.startswith("gemma-4"):
+        return "gemini"  # Gemma 4 served via Google AI, not Groq
     if model.startswith(("llama", "mixtral", "gemma", "qwen", "deepseek")):
         return "groq"
     return "gemini"
@@ -128,6 +202,7 @@ def call_llm(
                 expect_json=expect_json,
                 temperature=temperature,
             )
+            _increment_daily_calls(model)
             if POST_CALL_DELAY > 0:
                 time.sleep(POST_CALL_DELAY)
             return result

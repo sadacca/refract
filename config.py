@@ -28,14 +28,16 @@ _GROQ_PREFIXES = ("llama", "mixtral", "gemma", "qwen", "deepseek")
 
 
 def _is_groq_model(model: str) -> bool:
+    if model.lower().startswith("gemma-4"):
+        return False  # Gemma 4 served via Google AI, not Groq
     return any(model.lower().startswith(p) for p in _GROQ_PREFIXES)
 
 
 def _cross_family_default(eval_model: str) -> str:
     """Return the opposite-provider judge model for cross-family evaluation."""
-    # gemini-2.5-flash-lite: best free tier (15 RPM, 1000 RPD) vs flash (10/250) or pro (5/100).
-    # 2.0-flash-lite shut down 2026-06-01; 1.5-flash being superseded.
-    return "gemini-2.5-flash-lite" if _is_groq_model(eval_model) else "llama-3.3-70b-versatile"
+    # First entry in GEMINI_JUDGE_CHAIN is the primary Gemini judge.
+    # select_from_chain() in llm_client handles fallback within the chain at runtime.
+    return "gemini-3.1-flash-lite" if _is_groq_model(eval_model) else "llama-3.3-70b-versatile"
 
 
 # Short filename-safe abbreviations — used in output filenames so parallel model
@@ -52,6 +54,9 @@ _MODEL_ABBREVS = {
     "gemini-2.5-flash-lite":   "gem25lite",
     "gemini-2.5-flash":        "gem25flash",
     "gemini-2.5-pro":          "gem25pro",
+    "gemini-3.1-flash-lite":   "gem31lite",
+    "gemma-4-31b-it":          "gemma431b",
+    "gemma-4-26b-a4b-it":      "gemma426b",
     "mixtral-8x7b-32768":      "mixtral",
 }
 
@@ -105,6 +110,18 @@ COMPRESSION_RATE = float(os.getenv("COMPRESSION_RATE", "0.5"))
 JUDGE_SWAP_AUGMENTATION = os.getenv("JUDGE_SWAP_AUGMENTATION", "true").lower() == "true"
 
 # Pass 4 cross-family judge (TODO 6.1)
-# Set JUDGE_MODEL env var to a Gemini model (e.g. gemini-2.0-flash) once
+# Set JUDGE_MODEL env var to a Gemini model (e.g. gemini-3.1-flash-lite) once
 # GEMINI_API_KEY is configured. Eliminates self-preference bias (arXiv:2404.13076).
 # Default retains current Llama judge until API key is available.
+
+# Ordered Gemini judge fallback chain: (model_id, free_tier_rpd_limit).
+# At runtime, select_from_chain() picks the first model below 85% of its daily
+# RPD limit. On 429, evaluate_article() steps to the next model in the list.
+# Tripping the free-tier RPD cap forces a billing-tier upgrade that causes 429s
+# across ALL Google API models for the rest of the day — this chain prevents that.
+# RPD limits as of 2026-06: gemini-3.1-flash-lite=500, gemma-4-*=1500.
+GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
+    ("gemini-3.1-flash-lite", 500),
+    ("gemma-4-31b-it", 1500),
+    ("gemma-4-26b-a4b-it", 1500),
+]
