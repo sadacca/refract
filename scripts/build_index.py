@@ -16,10 +16,15 @@ sys.path.insert(0, str(ROOT))
 from config import PROCESSED_DIR
 
 
+_INDEX_FILES = {
+    "index.json", "stats.json", "bias_frequency.json", "model_provenance.json",
+}
+
+
 def load_evaluations() -> list[dict]:
     records = []
     for f in PROCESSED_DIR.glob("*.json"):
-        if f.name in ("index.json", "stats.json", "bias_frequency.json"):
+        if f.name in _INDEX_FILES:
             continue
         try:
             records.append(json.loads(f.read_text()))
@@ -108,6 +113,58 @@ def build_bias_frequency(records: list[dict]) -> dict:
     return result
 
 
+def build_model_provenance(records: list[dict]) -> dict:
+    """
+    Build a dual-indexed model provenance map:
+      by_article: article_id → {eval, judge, triage}
+      by_model:   model_id  → {eval_articles: [...], judge_articles: [...], counts}
+
+    Lets you answer:
+      "Which model evaluated article X?"   → by_article[article_id]
+      "Which articles did Cerebras eval?"  → by_model["cerebras/qwen-3-32b"]["eval_articles"]
+    """
+    by_article: dict[str, dict] = {}
+    by_model: dict[str, dict] = {}
+
+    def _record_model(model_id: str, article_id: str, role: str) -> None:
+        if not model_id or not article_id:
+            return
+        if model_id not in by_model:
+            by_model[model_id] = {"eval_articles": [], "judge_articles": [], "triage_articles": [],
+                                  "eval_count": 0, "judge_count": 0, "triage_count": 0}
+        key = f"{role}_articles"
+        if article_id not in by_model[model_id][key]:
+            by_model[model_id][key].append(article_id)
+            by_model[model_id][f"{role}_count"] += 1
+
+    for r in records:
+        aid = r.get("article_id", "")
+        models = r.get("models", {})
+        eval_m  = models.get("eval")  or r.get("model", "")
+        judge_m = models.get("judge", "")
+        triage_m = models.get("triage", "")
+
+        by_article[aid] = {
+            "eval":   eval_m,
+            "judge":  judge_m,
+            "triage": triage_m,
+            "evaluated_at": r.get("evaluated_at", ""),
+        }
+        _record_model(eval_m,   aid, "eval")
+        _record_model(judge_m,  aid, "judge")
+        _record_model(triage_m, aid, "triage")
+
+    # Sort article lists by recency so the most recent evaluation is first
+    for m in by_model.values():
+        for key in ("eval_articles", "judge_articles", "triage_articles"):
+            m[key].sort(
+                key=lambda aid: by_article.get(aid, {}).get("evaluated_at", ""),
+                reverse=True,
+            )
+
+    return {"by_article": by_article, "by_model": by_model}
+
+
 def main() -> None:
     print("Building index from", PROCESSED_DIR)
     records = load_evaluations()
@@ -124,6 +181,11 @@ def main() -> None:
     freq = build_bias_frequency(records)
     (PROCESSED_DIR / "bias_frequency.json").write_text(json.dumps(freq, indent=2))
     print(f"  bias_frequency.json ({len(freq)} biases)")
+
+    provenance = build_model_provenance(records)
+    (PROCESSED_DIR / "model_provenance.json").write_text(json.dumps(provenance, indent=2))
+    models_seen = len(provenance.get("by_model", {}))
+    print(f"  model_provenance.json ({models_seen} models, {len(records)} articles)")
 
     print("\nDone.")
 

@@ -15,6 +15,7 @@ import requests
 from config import (
     GEMINI_API_KEY, GROQ_API_KEY, CEREBRAS_API_KEY, MISTRAL_API_KEY,
     MAX_RETRIES, RETRY_BASE_DELAY, POST_CALL_DELAY, CACHE_DIR,
+    MODEL_CONTEXT_LIMITS,
 )
 
 logger = logging.getLogger(__name__)
@@ -97,6 +98,36 @@ def select_from_chain(model_chain: list[tuple[str, int]]) -> str:
     return fallback
 
 
+# Conservative chars-per-token for English text; used only for limit estimates.
+_CHARS_PER_TOKEN = 4
+
+
+def _check_context_limit(prompt: str, system: str, model: str) -> None:
+    """
+    Warn when estimated token count approaches or exceeds a model's context limit.
+    Cerebras free tier: 8 192 tokens — warn at 80%, error-log at 100%.
+    Estimates are rough (~4 chars/token); actual tokenisation may differ.
+    """
+    bare = _bare_model(model)
+    limit = MODEL_CONTEXT_LIMITS.get(model) or MODEL_CONTEXT_LIMITS.get(bare)
+    if not limit:
+        return
+    est = int((len(prompt) + len(system)) / _CHARS_PER_TOKEN)
+    pct = 100 * est / limit
+    if est >= limit:
+        logger.error(
+            "Context limit EXCEEDED for %s: ~%d estimated tokens (%.0f%% of %d) — "
+            "prompt=%d chars, system=%d chars. Call will likely fail.",
+            model, est, pct, limit, len(prompt), len(system),
+        )
+    elif pct >= 80:
+        logger.warning(
+            "Context limit WARNING for %s: ~%d tokens estimated (%.0f%% of %d limit). "
+            "Consider truncating the prompt.",
+            model, est, pct, limit,
+        )
+
+
 def provider_for(model: str) -> str:
     """Return 'groq', 'gemini', 'cerebras', or 'mistral' for a given model name."""
     return _provider(model)
@@ -119,8 +150,8 @@ def _provider(model: str) -> str:
             return prefix
     if model.startswith("gemma-4"):
         return "gemini"       # Gemma 4 via Google AI
-    if model.startswith("qwen-3"):
-        return "cerebras"     # Qwen 3 series on Cerebras
+    if model.startswith(("qwen-3", "gpt-oss", "zai")):
+        return "cerebras"     # Qwen 3 / GPT-OSS / ZAI-GLM on Cerebras
     if model.startswith(("llama", "mixtral", "gemma", "qwen", "deepseek")):
         return "groq"
     if model.startswith("mistral"):
@@ -221,6 +252,8 @@ def call_llm(
     Send a prompt to the specified model and return parsed JSON (or raw text).
     Provider is inferred from model name. Retries with exponential backoff.
     """
+    _check_context_limit(prompt, system, model)
+
     global _last_call_time
     last = _last_call_time.get(model, 0.0)
     elapsed = time.time() - last
