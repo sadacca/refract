@@ -63,10 +63,10 @@ _MODEL_ABBREVS = {
     # gpt-oss-120b and zai-glm-4.7 have 131K context; all others capped at 8K free-tier
     "gpt-oss-120b":                              "gptoss120",
     "cerebras/gpt-oss-120b":                     "gptoss120",
-    "qwen-3-235b":                               "qwn3235b",
-    "cerebras/qwen-3-235b":                      "qwn3235b",
-    "qwen-3-32b":                                "qwn332b",
-    "cerebras/qwen-3-32b":                       "qwn332b",
+    "qwen3-235b":                                "qwn3235b",
+    "cerebras/qwen3-235b":                       "qwn3235b",
+    "qwen3-32b":                                 "qwn332b",
+    "cerebras/qwen3-32b":                        "qwn332b",
     "zai-glm-4.7":                               "zaiglm47",
     "cerebras/zai-glm-4.7":                      "zaiglm47",
     "llama-4-scout-17b":                         "llm4sct17",
@@ -102,7 +102,7 @@ def model_abbrev(model: str) -> str:
 EVAL_MODEL = os.getenv("EVAL_MODEL", "deepseek-r1-distill-llama-70b")  # Pass 2 identification
 _judge_env = os.getenv("JUDGE_MODEL", "")
 JUDGE_MODEL = _judge_env if _judge_env else _cross_family_default(EVAL_MODEL)  # Pass 4 judge
-TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/qwen-3-32b")  # Pass 0/1/3 triage + probes
+TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/qwen3-32b")  # Pass 0/1/3 triage + probes
 
 # Curated model menus for the Streamlit UI — grouped by role suitability.
 # Keys are display labels, values are model IDs passed to the pipeline.
@@ -112,7 +112,7 @@ EVAL_MODEL_OPTIONS = [
     "llama-3.3-70b-versatile",
     # Cerebras — fast inference, large context
     "cerebras/gpt-oss-120b",
-    "cerebras/qwen-3-235b",
+    "cerebras/qwen3-235b",
     "cerebras/llama-3.3-70b",
     # Gemini — high quality, generous free tier
     "gemini-2.5-flash",
@@ -139,7 +139,7 @@ JUDGE_MODEL_OPTIONS = [
 
 TRIAGE_MODEL_OPTIONS = [
     # Reasoning models — better triage quality, ~1M tok/day on Cerebras free tier
-    "cerebras/qwen-3-32b",
+    "cerebras/qwen3-32b",
     "cerebras/deepseek-r1-distill-llama-70b",
     "gemini-2.5-flash-lite",
     # Fast small models — higher RPD ceiling, no reasoning
