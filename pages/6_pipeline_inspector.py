@@ -30,7 +30,7 @@ st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
 @st.cache_data(ttl=60)
 def load_results() -> dict[str, dict]:
     out = {}
-    for p in sorted(PROCESSED_DIR.glob(f"*_{FRAMEWORK_VERSION}.json")):
+    for p in sorted(PROCESSED_DIR.glob(f"*_{FRAMEWORK_VERSION}*.json")):
         try:
             d = json.loads(p.read_text())
             label = (d.get("title") or d.get("source_url") or d["article_id"])[:70]
