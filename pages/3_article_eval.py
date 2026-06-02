@@ -26,7 +26,11 @@ import streamlit as st
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-from config import FRAMEWORK_VERSION, TAXONOMY_VERSION, EVAL_MODEL, JUDGE_MODEL, TRIAGE_MODEL, PROCESSED_DIR
+from config import (
+    FRAMEWORK_VERSION, TAXONOMY_VERSION, PROCESSED_DIR,
+    EVAL_MODEL, JUDGE_MODEL, TRIAGE_MODEL,
+    EVAL_MODEL_OPTIONS, JUDGE_MODEL_OPTIONS, TRIAGE_MODEL_OPTIONS,
+)
 from src.refract.ingest import fetch_url, get_article
 from src.refract.bias_eval import evaluate_article
 from components.eval_display import (
@@ -37,7 +41,7 @@ from components.eval_display import (
 
 st.set_page_config(page_title="Article Evaluation — Refract", layout="wide")
 st.title("Article Evaluation")
-st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION} · Model: {EVAL_MODEL}")
+st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
 
 POLL_INTERVAL = 3  # seconds between result-file checks
 
@@ -56,14 +60,14 @@ def _load_result(article_id: str) -> dict | None:
     return None
 
 
-def _run_eval_thread(article: dict) -> None:
+def _run_eval_thread(article: dict, eval_model: str, judge_model: str, triage_model: str) -> None:
     """Runs in a daemon thread. Writes result to disk; updates session flags via shared dict."""
     try:
         evaluate_article(
             article,
-            eval_model=EVAL_MODEL,
-            judge_model=JUDGE_MODEL,
-            triage_model=TRIAGE_MODEL,
+            eval_model=eval_model,
+            judge_model=judge_model,
+            triage_model=triage_model,
             run_judge=True,
         )
         st.session_state["_eval_done"] = True
@@ -71,6 +75,30 @@ def _run_eval_thread(article: dict) -> None:
         st.session_state["_eval_error"] = str(e)
         st.session_state["_eval_done"] = True
 
+
+# ---------------------------------------------------------------------------
+# Model selection
+# ---------------------------------------------------------------------------
+with st.expander("Model settings", expanded=False):
+    mc1, mc2, mc3 = st.columns(3)
+    sel_eval = mc1.selectbox(
+        "Eval model (Pass 2)",
+        EVAL_MODEL_OPTIONS,
+        index=EVAL_MODEL_OPTIONS.index(EVAL_MODEL) if EVAL_MODEL in EVAL_MODEL_OPTIONS else 0,
+        help="Large model used for bias identification (Pass 2).",
+    )
+    sel_judge = mc2.selectbox(
+        "Judge model (Pass 4)",
+        JUDGE_MODEL_OPTIONS,
+        index=JUDGE_MODEL_OPTIONS.index(JUDGE_MODEL) if JUDGE_MODEL in JUDGE_MODEL_OPTIONS else 0,
+        help="Model used to review and rate detections (Pass 4).",
+    )
+    sel_triage = mc3.selectbox(
+        "Triage model (Pass 0/1/3)",
+        TRIAGE_MODEL_OPTIONS,
+        index=TRIAGE_MODEL_OPTIONS.index(TRIAGE_MODEL) if TRIAGE_MODEL in TRIAGE_MODEL_OPTIONS else 0,
+        help="Small/fast model for paragraph triage and recall probes.",
+    )
 
 # ---------------------------------------------------------------------------
 # Input
@@ -102,7 +130,11 @@ if input_mode == "URL":
             st.session_state["_eval_done"] = False
             st.session_state["_eval_error"] = None
             st.session_state["_eval_running"] = True
-            t = threading.Thread(target=_run_eval_thread, args=(article,), daemon=True)
+            t = threading.Thread(
+                target=_run_eval_thread,
+                args=(article, sel_eval, sel_judge, sel_triage),
+                daemon=True,
+            )
             t.start()
 
         st.rerun()
@@ -133,7 +165,11 @@ else:
             st.session_state["_eval_done"] = False
             st.session_state["_eval_error"] = None
             st.session_state["_eval_running"] = True
-            t = threading.Thread(target=_run_eval_thread, args=(article,), daemon=True)
+            t = threading.Thread(
+                target=_run_eval_thread,
+                args=(article, sel_eval, sel_judge, sel_triage),
+                daemon=True,
+            )
             t.start()
         st.rerun()
 
