@@ -88,7 +88,7 @@ jobs:
       MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
       EVAL_MODEL: ${{ inputs.eval_model || 'deepseek-r1-distill-llama-70b' }}
       JUDGE_MODEL: ${{ inputs.judge_model == 'auto' && '' || inputs.judge_model }}
-      TRIAGE_MODEL: ${{ inputs.triage_model || 'cerebras/qwen3-32b' }}
+      TRIAGE_MODEL: ${{ inputs.triage_model || 'llama-3.1-8b-instant' }}
 
     steps:
       - uses: actions/checkout@v4

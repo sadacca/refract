@@ -102,7 +102,7 @@ def model_abbrev(model: str) -> str:
 EVAL_MODEL = os.getenv("EVAL_MODEL", "deepseek-r1-distill-llama-70b")  # Pass 2 identification
 _judge_env = os.getenv("JUDGE_MODEL", "")
 JUDGE_MODEL = _judge_env if _judge_env else _cross_family_default(EVAL_MODEL)  # Pass 4 judge
-TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/qwen3-32b")  # Pass 0/1/3 triage + probes
+TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "llama-3.1-8b-instant")  # Pass 0/1/3 triage + probes
 
 # Curated model menus for the Streamlit UI — grouped by role suitability.
 # Keys are display labels, values are model IDs passed to the pipeline.
