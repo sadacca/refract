@@ -104,6 +104,50 @@ _judge_env = os.getenv("JUDGE_MODEL", "")
 JUDGE_MODEL = _judge_env if _judge_env else _cross_family_default(EVAL_MODEL)  # Pass 4 judge
 TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "llama-3.1-8b-instant")  # Pass 0/1/3 triage + probes
 
+# Curated model menus for the Streamlit UI — grouped by role suitability.
+# Keys are display labels, values are model IDs passed to the pipeline.
+EVAL_MODEL_OPTIONS = [
+    # Groq — best for Pass 2 identification (large context, strong reasoning)
+    "deepseek-r1-distill-llama-70b",
+    "llama-3.3-70b-versatile",
+    # Cerebras — fast inference, large context
+    "cerebras/gpt-oss-120b",
+    "cerebras/qwen-3-235b",
+    "cerebras/llama-3.3-70b",
+    # Gemini — high quality, generous free tier
+    "gemini-2.5-flash",
+    "gemini-2.5-pro",
+    "gemini-2.0-flash",
+    # Mistral
+    "mistral-large-latest",
+    "mistral-medium-3",
+]
+
+JUDGE_MODEL_OPTIONS = [
+    # Cross-family defaults first
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-2.5-pro",
+    # Groq
+    "llama-3.3-70b-versatile",
+    "deepseek-r1-distill-llama-70b",
+    # Cerebras
+    "cerebras/gpt-oss-120b",
+    # Mistral
+    "mistral-large-latest",
+]
+
+TRIAGE_MODEL_OPTIONS = [
+    # Small/fast models for Pass 0/1/3
+    "llama-3.1-8b-instant",
+    "llama-3.2-3b-preview",
+    "cerebras/llama-3.1-8b",
+    "cerebras/llama-4-scout-17b",
+    "gemini-2.5-flash-lite",
+    "mistral-small-latest",
+    "llama-3.3-70b-versatile",
+]
+
 # API keys
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GUARDIAN_API_KEY = os.getenv("GUARDIAN_API_KEY", "")
