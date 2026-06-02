@@ -160,7 +160,7 @@ def _provider(model: str) -> str:
 
 
 def _call_groq(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
-    return _call_openai_compat(prompt, model, system, expect_json, temperature, GROQ_BASE, GROQ_API_KEY, "groq")
+    return _call_openai_compat(prompt, _bare_model(model), system, expect_json, temperature, GROQ_BASE, GROQ_API_KEY, "groq")
 
 
 def _call_gemini(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
@@ -234,11 +234,11 @@ def _call_openai_compat(
 
 
 def _call_cerebras(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
-    return _call_openai_compat(prompt, model, system, expect_json, temperature, CEREBRAS_BASE, CEREBRAS_API_KEY, "cerebras")
+    return _call_openai_compat(prompt, _bare_model(model), system, expect_json, temperature, CEREBRAS_BASE, CEREBRAS_API_KEY, "cerebras")
 
 
 def _call_mistral(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
-    return _call_openai_compat(prompt, model, system, expect_json, temperature, MISTRAL_BASE, MISTRAL_API_KEY, "mistral")
+    return _call_openai_compat(prompt, _bare_model(model), system, expect_json, temperature, MISTRAL_BASE, MISTRAL_API_KEY, "mistral")
 
 
 def call_llm(
