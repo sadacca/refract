@@ -8,12 +8,49 @@ on:
         default: "data/input/article_urls.txt"
         required: false
       eval_model:
-        description: "Classification model — Pass 2 identification (eval). Groq models: llama-3.3-70b-versatile, llama-3.1-8b-instant. Gemini: gemini-2.0-flash, gemini-1.5-pro."
-        default: "llama-3.3-70b-versatile"
+        description: "Pass 2 identification model"
+        type: choice
+        options:
+          - deepseek-r1-distill-llama-70b
+          - llama-3.3-70b-versatile
+          - cerebras/gpt-oss-120b
+          - cerebras/qwen-3-235b
+          - cerebras/llama-3.3-70b
+          - gemini-2.5-flash
+          - gemini-2.5-pro
+          - gemini-2.0-flash
+          - mistral-large-latest
+          - mistral-medium-3
+        default: "deepseek-r1-distill-llama-70b"
         required: false
       judge_model:
-        description: "Judge model — Pass 4 verdict (judge). Leave empty for auto cross-family: Groq eval → gemini-2.5-flash-lite (15 RPM/1000 RPD free), Gemini eval → llama-3.3-70b-versatile. Override: gemini-2.5-flash, gemini-2.5-pro, etc."
-        default: ""
+        description: "Pass 4 judge model (cross-family recommended)"
+        type: choice
+        options:
+          - auto
+          - gemini-2.5-flash
+          - gemini-2.0-flash
+          - gemini-2.5-pro
+          - llama-3.3-70b-versatile
+          - deepseek-r1-distill-llama-70b
+          - cerebras/gpt-oss-120b
+          - mistral-large-latest
+        default: "auto"
+        required: false
+      triage_model:
+        description: "Pass 0/1/3 triage model"
+        type: choice
+        options:
+          - cerebras/qwen-3-32b
+          - cerebras/deepseek-r1-distill-llama-70b
+          - gemini-2.5-flash-lite
+          - llama-3.1-8b-instant
+          - llama-3.2-3b-preview
+          - cerebras/llama-3.1-8b
+          - cerebras/llama-4-scout-17b
+          - mistral-small-latest
+          - llama-3.3-70b-versatile
+        default: "cerebras/qwen-3-32b"
         required: false
       skip_cached:
         description: "Skip articles already evaluated with this exact eval+judge model combination"
@@ -47,9 +84,11 @@ jobs:
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      EVAL_MODEL: ${{ inputs.eval_model || 'llama-3.3-70b-versatile' }}
-      JUDGE_MODEL: ${{ inputs.judge_model }}
-      TRIAGE_MODEL: llama-3.1-8b-instant
+      CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      EVAL_MODEL: ${{ inputs.eval_model || 'deepseek-r1-distill-llama-70b' }}
+      JUDGE_MODEL: ${{ inputs.judge_model == 'auto' && '' || inputs.judge_model }}
+      TRIAGE_MODEL: ${{ inputs.triage_model || 'cerebras/qwen-3-32b' }}
 
     steps:
       - uses: actions/checkout@v4
