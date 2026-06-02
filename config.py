@@ -153,3 +153,77 @@ EVAL_CHAIN: list[tuple[str, int]] = [
     ("cerebras/qwen-3-32b", 5000),            # Cerebras: best free reasoning, ~14.4k RPD
     ("mistral-small-latest", 20000),          # Mistral: 300 RPM, 1B tokens/month
 ]
+
+# ---------------------------------------------------------------------------
+# Per-model context window limits (in tokens).
+# Used by llm_client to warn when estimated prompt size approaches the limit.
+# Cerebras free tier is capped at 8,192 tokens — the tightest constraint
+# in the pipeline; long Pass 2 article slices or Pass 4 instance lists can
+# approach this. Estimates use ~4 chars/token (conservative for English).
+# ---------------------------------------------------------------------------
+MODEL_CONTEXT_LIMITS: dict[str, int] = {
+    # Cerebras — 8 192 token hard limit on free tier
+    "qwen-3-32b":                              8_192,
+    "cerebras/qwen-3-32b":                     8_192,
+    "cerebras/deepseek-r1-distill-llama-70b":  8_192,
+    "cerebras/llama-3.3-70b":                  8_192,
+    "cerebras/llama-3.1-8b":                   8_192,
+    # Groq
+    "llama-3.3-70b-versatile":                128_000,
+    "llama-3.1-70b-versatile":                128_000,
+    "llama-3.1-8b-instant":                   128_000,
+    "deepseek-r1-distill-llama-70b":           32_000,
+    "mixtral-8x7b-32768":                      32_768,
+    # Gemini / Gemma
+    "gemini-3.1-flash-lite":               1_000_000,
+    "gemini-2.5-flash":                    1_000_000,
+    "gemini-2.5-pro":                      1_000_000,
+    "gemma-4-31b-it":                        128_000,
+    "gemma-4-26b-a4b-it":                    128_000,
+    # Mistral
+    "mistral-small-latest":                  128_000,
+    "mistral-small-2603":                    128_000,
+    "mistral/mistral-small-latest":          128_000,
+    "mistral/mistral-small-2603":            128_000,
+}
+
+# ---------------------------------------------------------------------------
+# Model registry — strongest available free-tier models per provider and role.
+# Indexed by: provider → role → list of model descriptors.
+# Used by the framework dashboard and as documentation for model selection.
+# Limits verified 2026-06; re-check when adding new models.
+# ---------------------------------------------------------------------------
+MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
+    "groq": {
+        "eval": [
+            {"id": "llama-3.3-70b-versatile",       "context": 128_000, "rpm": 30, "rpd": 14_400, "notes": "Primary eval; strong general reasoning"},
+            {"id": "deepseek-r1-distill-llama-70b",  "context": 32_000,  "rpm": 30, "rpd": 14_400, "notes": "Chain-of-thought reasoning distill"},
+        ],
+        "triage": [
+            {"id": "llama-3.1-8b-instant",           "context": 128_000, "rpm": 30, "rpd": 14_400, "notes": "Fast/cheap Pass 0/1/3 triage"},
+        ],
+    },
+    "cerebras": {
+        "eval": [
+            {"id": "cerebras/qwen-3-32b",                      "context": 8_192, "rpm": 30, "rpd": 14_400, "notes": "Best free reasoning; Hybrid CoT; ~2 400 tok/s — 8K ctx limit"},
+            {"id": "cerebras/deepseek-r1-distill-llama-70b",   "context": 8_192, "rpm": 30, "rpd": 14_400, "notes": "R1 reasoning; fastest inference — 8K ctx limit"},
+        ],
+        "triage": [
+            {"id": "cerebras/llama-3.1-8b",                    "context": 8_192, "rpm": 30, "rpd": 14_400, "notes": "Fast triage fallback — 8K ctx limit"},
+        ],
+    },
+    "mistral": {
+        "eval": [
+            {"id": "mistral-small-latest",  "context": 128_000, "rpm": 300, "rpd": None, "notes": "Flexible; 128K ctx; 1B tokens/month free"},
+        ],
+    },
+    "gemini": {
+        "judge": [
+            {"id": "gemini-3.1-flash-lite", "context": 1_000_000, "rpm": 15, "rpd": 500,  "notes": "Primary judge; best free RPD for Gemini"},
+            {"id": "gemma-4-31b-it",        "context": 128_000,   "rpm": 15, "rpd": 1500, "notes": "Fallback judge; highest free RPD"},
+            {"id": "gemma-4-26b-a4b-it",    "context": 128_000,   "rpm": 15, "rpd": 1500, "notes": "MoE fallback; high RPD, lower active params"},
+            {"id": "gemini-2.5-flash",      "context": 1_000_000, "rpm": 10, "rpd": 250,  "notes": "Higher quality; lower free RPD"},
+            {"id": "gemini-2.5-pro",        "context": 1_000_000, "rpm": 5,  "rpd": 100,  "notes": "Highest quality; very low free RPD"},
+        ],
+    },
+}
