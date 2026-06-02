@@ -28,8 +28,11 @@ _GROQ_PREFIXES = ("llama", "mixtral", "gemma", "qwen", "deepseek")
 
 
 def _is_groq_model(model: str) -> bool:
-    if model.lower().startswith("gemma-4"):
-        return False  # Gemma 4 served via Google AI, not Groq
+    # Explicit provider/model prefix takes priority
+    if "/" in model:
+        return model.lower().startswith("groq/")
+    if model.lower().startswith(("gemma-4", "qwen-3")):
+        return False  # Gemma 4 + Qwen 3 are on non-Groq providers
     return any(model.lower().startswith(p) for p in _GROQ_PREFIXES)
 
 
@@ -54,10 +57,21 @@ _MODEL_ABBREVS = {
     "gemini-2.5-flash-lite":   "gem25lite",
     "gemini-2.5-flash":        "gem25flash",
     "gemini-2.5-pro":          "gem25pro",
-    "gemini-3.1-flash-lite":   "gem31lite",
-    "gemma-4-31b-it":          "gemma431b",
-    "gemma-4-26b-a4b-it":      "gemma426b",
-    "mixtral-8x7b-32768":      "mixtral",
+    "gemini-3.1-flash-lite":                    "gem31lite",
+    "gemma-4-31b-it":                           "gemma431b",
+    "gemma-4-26b-a4b-it":                       "gemma426b",
+    "mixtral-8x7b-32768":                       "mixtral",
+    # Cerebras
+    "qwen-3-32b":                               "qwn332b",
+    "cerebras/qwen-3-32b":                      "qwn332b",
+    "cerebras/deepseek-r1-distill-llama-70b":   "cbrdsr170b",
+    "cerebras/llama-3.3-70b":                   "cbrlma70b",
+    "cerebras/llama-3.1-8b":                    "cbrlma8b",
+    # Mistral
+    "mistral-small-latest":                     "mistrsm4",
+    "mistral-small-2603":                       "mistrsm4",
+    "mistral/mistral-small-latest":             "mistrsm4",
+    "mistral/mistral-small-2603":               "mistrsm4",
 }
 
 
@@ -78,6 +92,8 @@ TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "llama-3.1-8b-instant")  # Pass 0/1/3 t
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GUARDIAN_API_KEY = os.getenv("GUARDIAN_API_KEY", "")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+CEREBRAS_API_KEY = os.getenv("CEREBRAS_API_KEY", "")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "")
 
 # Pipeline config
 EVAL_MODE = os.getenv("EVAL_MODE", "deep")  # "deep" or "bulk"
@@ -124,4 +140,16 @@ GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
     ("gemini-3.1-flash-lite", 500),
     ("gemma-4-31b-it", 1500),
     ("gemma-4-26b-a4b-it", 1500),
+]
+
+# Eval model fallback chain for Pass 2 identification.
+# (model_id, approx_free_tier_daily_request_limit)
+# Groq: 30 RPM / ~14.4k RPD per model. Cerebras: 30 RPM / 14.4k RPD / 1M tokens/day.
+# Mistral "Experiment" tier: 300 RPM / 1B tokens per month (very generous).
+# Use provider/model prefix to disambiguate same model names across providers.
+# select_from_chain() picks the first model below 85% of its daily limit.
+EVAL_CHAIN: list[tuple[str, int]] = [
+    ("llama-3.3-70b-versatile", 1000),       # Groq primary
+    ("cerebras/qwen-3-32b", 5000),            # Cerebras: best free reasoning, ~14.4k RPD
+    ("mistral-small-latest", 20000),          # Mistral: 300 RPM, 1B tokens/month
 ]

@@ -39,6 +39,7 @@ from config import (
     COMPRESSION_RATE,
     JUDGE_SWAP_AUGMENTATION,
     GEMINI_JUDGE_CHAIN,
+    EVAL_CHAIN,
     model_abbrev,
 )
 from src.refract.llm_client import call_llm, select_from_chain, provider_for
@@ -534,6 +535,19 @@ def evaluate_article(
     text = article["text"]
     article_id = article["article_id"]
     all_cats = sorted(_all_categories(taxonomy))
+
+    # Proactively select eval model from the chain when the configured model is the
+    # default Groq primary. If the user set a specific EVAL_MODEL env var override
+    # (e.g. cerebras/qwen-3-32b), respect that and skip chain selection.
+    chain_model_ids = {m for m, _ in EVAL_CHAIN}
+    if eval_model in chain_model_ids:
+        actual_eval = select_from_chain(EVAL_CHAIN)
+        if actual_eval != eval_model:
+            logger.info(
+                "Eval chain: switched to %s (configured %s near daily limit)",
+                actual_eval, eval_model,
+            )
+        eval_model = actual_eval
 
     p0: dict = {}
     p1: dict = {}
