@@ -25,6 +25,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+import requests as _requests
+
 from config import (
     PRECOMPUTED_DIR,
     PROCESSED_DIR,
@@ -36,9 +38,11 @@ from config import (
     COMPRESS_PASS2,
     COMPRESSION_RATE,
     JUDGE_SWAP_AUGMENTATION,
+    GEMINI_JUDGE_CHAIN,
+    EVAL_CHAIN,
     model_abbrev,
 )
-from src.refract.llm_client import call_llm
+from src.refract.llm_client import call_llm, select_from_chain, provider_for
 
 logger = logging.getLogger(__name__)
 
@@ -532,6 +536,19 @@ def evaluate_article(
     article_id = article["article_id"]
     all_cats = sorted(_all_categories(taxonomy))
 
+    # Proactively select eval model from the chain when the configured model is the
+    # default Groq primary. If the user set a specific EVAL_MODEL env var override
+    # (e.g. cerebras/qwen-3-32b), respect that and skip chain selection.
+    chain_model_ids = {m for m, _ in EVAL_CHAIN}
+    if eval_model in chain_model_ids:
+        actual_eval = select_from_chain(EVAL_CHAIN)
+        if actual_eval != eval_model:
+            logger.info(
+                "Eval chain: switched to %s (configured %s near daily limit)",
+                actual_eval, eval_model,
+            )
+        eval_model = actual_eval
+
     p0: dict = {}
     p1: dict = {}
     recall_finds = 0
@@ -638,11 +655,44 @@ def evaluate_article(
             bias_instances.extend(found_instances)
             recall_finds += len(found_instances)
 
-    # Pass 4: judge
+    # Pass 4: judge with Gemini chain selection + 429 fallback.
+    # Proactively picks the least-used model below its daily RPD soft limit (85%).
+    # On 429 after retries (RPD exhausted), steps to the next model in the chain.
+    # This prevents tripping Google's free-tier RPD cap, which causes billing-tier
+    # upgrade and 429s across ALL Google API models for the rest of the day.
     judge_result = {}
+    actual_judge = judge_model
     if run_judge and bias_instances:
-        logger.info("Pass 4: LLM judge review")
-        judge_result = pass4_judge(text, bias_instances, judge_model)
+        # Build ordered list to try: proactive selection first, then rest of chain.
+        if provider_for(judge_model) == "gemini":
+            actual_judge = select_from_chain(GEMINI_JUDGE_CHAIN)
+            if actual_judge != judge_model:
+                logger.info(
+                    "Pass 4: chain selected %s (configured %s near daily RPD limit)",
+                    actual_judge, judge_model,
+                )
+            chain_remaining = [m for m, _ in GEMINI_JUDGE_CHAIN if m != actual_judge]
+            judge_order = [actual_judge] + chain_remaining
+        else:
+            judge_order = [actual_judge]
+
+        logger.info("Pass 4: LLM judge review [%s]", actual_judge)
+        for attempt_judge in judge_order:
+            try:
+                judge_result = pass4_judge(text, bias_instances, attempt_judge)
+                actual_judge = attempt_judge
+                break
+            except _requests.HTTPError as e:
+                status = e.response.status_code if e.response is not None else 0
+                if status == 429 and provider_for(attempt_judge) == "gemini":
+                    logger.warning(
+                        "Pass 4: %s returned 429 (RPD likely exhausted), trying next in chain",
+                        attempt_judge,
+                    )
+                    continue
+                raise
+        else:
+            logger.error("Pass 4: all judge models in chain returned 429 — skipping judge")
 
         # Filter instances the judge rejected — they are false positives.
         # TODO: accumulate rejected excerpts as near-miss examples in the taxonomy
@@ -674,9 +724,9 @@ def evaluate_article(
 
     dominant = sorted(by_category, key=by_category.get, reverse=True)[:3]
 
-    # Model signature used in the output filename so evaluations from different
-    # model combinations are stored separately and can be compared or re-run.
-    model_sig = f"{model_abbrev(eval_model)}_{model_abbrev(judge_model)}"
+    # Model signature encodes the actual judge used (may differ from configured
+    # judge_model if the chain stepped to a fallback).
+    model_sig = f"{model_abbrev(eval_model)}_{model_abbrev(actual_judge)}"
 
     evaluation = {
         "article_id": article_id,
@@ -689,7 +739,7 @@ def evaluate_article(
         "models": {
             "triage": triage_model,
             "eval":   eval_model,
-            "judge":  judge_model,
+            "judge":  actual_judge,
         },
         "mode": mode,
         "article_text": text,
