@@ -1,0 +1,7 @@
+Bias to probe: Availability Heuristic
+Definition: The tendency to estimate the frequency or probability of an event based on how easily examples come to mind, rather than on base rates or statistical evidence. Cognitively, retrieval fluency is mistaken for prevalence: what is vivid, recent, or emotionally charged is retrieved faster and therefore judged more common.
+Identification criteria:
+  - Frequency or risk claims are supported by one or a few salient anecdotes rather than base-rate or population-level data
+  - An anecdote is used to imply a trend without any trend data accompanying it
+  - Personal or recent exposure to examples ('everyone I know', 'three stories this week') stands in for systematic evidence
+  - Statistical or epidemiological context that would contradict the anecdote-driven impression is absent or dismissed

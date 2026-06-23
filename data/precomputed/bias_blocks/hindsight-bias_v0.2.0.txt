@@ -1,0 +1,15 @@
+=== Hindsight Bias (id: hindsight-bias) ===
+Definition: After learning an outcome, people retrospectively overestimate how predictable or inevitable that outcome was, often rewriting their prior mental state to align with what actually happened. The original uncertainty is lost from memory; the outcome appears to have been obvious in advance.
+Mechanism: Knowledge of an outcome gets integrated into memory of one's prior beliefs, overwriting the genuine uncertainty that existed before the outcome was known.
+
+Identification criteria:
+  - Outcome-laden certainty language ('obviously', 'inevitably', 'it was only a matter of time') applied to a past event without acknowledgment of contemporaneous uncertainty
+  - No mention of competing hypotheses, dissenting experts, or genuine surprise that existed before the outcome was known
+  - Warning signs are listed as if they were unambiguous in advance, rather than as signals that were ambiguous or contested at the time
+  - Failure to predict the outcome by experts or analysts is framed as incompetence rather than as evidence of genuine ex-ante uncertainty
+
+Linguistic signals:
+  - 'It was always obvious that...' / 'anyone paying attention could see...'
+  - 'The warning signs were everywhere' with no acknowledgment of conflicting signals
+  - 'It's hard to understand why [experts] didn't see it coming'
+  - Inevitability framing: 'bound to happen', 'just a matter of time'

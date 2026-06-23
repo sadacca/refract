@@ -1,0 +1,13 @@
+=== Gambler's Fallacy (id: gamblers-fallacy) ===
+Definition: The belief that in a sequence of independent random events, past outcomes influence the probability of future outcomes, specifically, that a run of one outcome makes the opposite outcome 'due.' This reflects a misapplication of the law of large numbers to short, independent sequences and a misunderstanding of stochastic independence.
+Mechanism: People expect even short random sequences to look representative of the underlying probability distribution, so a streak feels like it must self-correct soon, even though independent events carry no memory of prior outcomes.
+
+Identification criteria:
+  - A streak of outcomes from an independent random process is cited as evidence that the opposite outcome is now more probable
+  - The reasoning explicitly invokes a balancing or 'evening out' mechanism over a short, finite run rather than the long run
+  - No verification is offered that the underlying process is actually independent (as opposed to a process where history legitimately changes future probability)
+
+Linguistic signals:
+  - 'X is definitely due' after a run of the opposite outcome
+  - 'These things even out over time' applied to a short streak
+  - 'The odds have to be in our favor now' framing

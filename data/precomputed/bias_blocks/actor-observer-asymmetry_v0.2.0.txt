@@ -1,0 +1,13 @@
+=== Actor-Observer Asymmetry (id: actor-observer-asymmetry) ===
+Definition: When explaining behavior, people apply systematically different frameworks depending on whether they are the actor or the observer. Actors attribute their own behavior to situational factors; observers attribute the same behavior in others to stable dispositions. In written text, this surfaces as: (1) the writer assuming implausibly high observer attention to their own actions, and (2) dispositional vocabulary applied to others' behavior while situational vocabulary is applied to equivalent self-behavior within the same passage.
+Mechanism: Actors have direct access to their own situational constraints and history, which are perceptually salient to them, while observers lack that access to others and default to dispositional explanation; actors also overestimate how much observers attend to and remember their own actions.
+
+Identification criteria:
+  - The writer's own behavior is explained with extensive situational context while an equivalent behavior by another person is explained dispositionally, within the same passage
+  - The writer assumes their own actions were highly visible or memorable to others without evidence that this attention occurred
+  - The same behavior, described identically, receives different causal vocabulary depending on whether the writer or another person performed it
+
+Linguistic signals:
+  - 'Everyone noticed when I...' / 'I'm sure it affected how they see me' without evidence of others' attention
+  - Situational hedges for the self ('because I was managing three crises') paired with dispositional labels for others ('that's just how she operates') for the same behavior
+  - 'It's a pattern' or trait language applied to another's single instance of behavior that is excused situationally for the self

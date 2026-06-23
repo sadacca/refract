@@ -1,0 +1,6 @@
+Bias to probe: Framing Effect
+Definition: Logically equivalent information presented in different surface forms (gain vs. loss, survival vs. mortality, percentage vs. absolute frequency) produces systematically different judgments and choices. The effect is driven by asymmetric loss aversion: losses loom larger than equivalent gains, so loss-framed descriptions trigger stronger negative responses.
+Identification criteria:
+  - The same underlying fact is presented in only one valence (gain or loss) when the opposite valence is equally available and would produce a different reaction
+  - Emotionally loaded loss language ('lose', 'taken away') is used where a numerically equivalent gain framing exists and is omitted
+  - No accompanying statement of the equivalent alternative frame is offered, leaving the reader unable to recompute the neutral fact

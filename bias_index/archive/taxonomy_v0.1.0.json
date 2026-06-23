@@ -1,0 +1,341 @@
+{
+  "version": "v0.1.0",
+  "updated_at": "2026-05-31",
+  "entry_count": 7,
+  "biases": [
+    {
+      "id": "confirmation-bias",
+      "name": "Confirmation Bias",
+      "aliases": ["myside bias", "confirmatory bias"],
+      "category": "Confirmation & Belief Perseverance",
+      "subcategory": "Selective Information Processing",
+      "definition": "The tendency to search for, interpret, favor, and recall information in a way that confirms or supports one's prior beliefs or values. Contradictory evidence is discounted, ignored, or reinterpreted to fit the existing belief.",
+      "mechanism": "Motivated reasoning — the mind treats belief-consistent information as requiring less scrutiny than belief-inconsistent information. Fluency and cognitive ease make confirming evidence feel more credible.",
+      "literature_description": "Described by Peter Wason (1960) in his 2-4-6 task, where participants consistently tested hypotheses that confirmed their initial guess rather than tried to falsify it. Extensively reviewed by Nickerson (1998, Review of General Psychology) as one of the most robust and consequential cognitive biases. Kahneman (2011, Thinking Fast and Slow) frames it as a feature of System 1 thinking.",
+      "identification_criteria": [
+        "The article presents evidence on one side of a contested question while omitting, burying, or briefly dismissing countervailing evidence",
+        "Sources quoted or cited are overwhelmingly from one viewpoint on a contested issue, with no meaningful engagement with opposing expert views",
+        "The framing of a story presupposes the conclusion (e.g., treating one side's claims as established facts requiring no qualification)",
+        "Counterarguments, when present, are presented as weaker or less credible without evidentiary basis for that assessment",
+        "The article selects anecdotes or case studies that support a predetermined narrative while similar cases on the other side are absent"
+      ],
+      "linguistic_signals": [
+        "One-sided source selection (all quotes from the same perspective on a contested issue)",
+        "Dismissive language toward opposing views without engagement: 'critics claim', 'some argue' followed by no rebuttal space",
+        "Asymmetric hedging: claims on the favored side stated as fact; claims on the unfavored side qualified with 'allegedly', 'reportedly'",
+        "Absence of 'however', 'but', 'on the other hand' constructions in contexts where a counterargument would be expected",
+        "Stacked anecdotes: multiple examples all pointing the same direction with no contrasting case"
+      ],
+      "canonical_example": "A reporter covering a local zoning dispute interviews five neighbors opposed to the development but only one supporter, whose objections are described as 'limited' without elaboration, while each opponent's concerns receive a full paragraph.",
+      "journalism_example": "A financial news piece on rising housing prices quotes four economists predicting further increases and one sentence noting 'some analysts are more cautious,' with no elaboration, before returning to three more bullish forecasts.",
+      "reframing_strategy": "Identify the contested question at the center of the piece. Ensure sources representing each substantive position on that question receive roughly proportional space. Restate opposing claims in their strongest form, not in a strawman or dismissive framing. Add a paragraph explicitly acknowledging the strongest evidence against the article's implicit or explicit thesis.",
+      "reframing_example": "The reframed financial piece would include a full paragraph from a skeptical economist explaining the specific indicators driving their caution — inventory levels, affordability ratios, historical correction patterns — alongside the bullish case, letting readers evaluate both.",
+      "common_confusions": [
+        {
+          "bias": "Framing Effect",
+          "distinction": "Confirmation bias is about selective attention to information; framing effect is about how the presentation of the same information changes interpretation. An article can frame a fact neutrally but still exhibit confirmation bias by which facts it selects to present."
+        },
+        {
+          "bias": "Myside Bias",
+          "distinction": "Myside bias is specifically about evaluating arguments based on agreement with one's own position. Confirmation bias is broader — it affects information search and recall, not just argument evaluation. In practice they often co-occur."
+        }
+      ],
+      "severity_signal": "high",
+      "severity_rationale": "Confirmation bias in journalism shapes which facts readers encounter. A reader who only reads confirmation-biased sources on a topic may never be exposed to the strongest opposing evidence. High severity because it affects the information environment, not just interpretation.",
+      "sources": [
+        {"author": "Nickerson, R.S.", "year": 1998, "title": "Confirmation Bias: A Ubiquitous Phenomenon in Many Guises", "journal": "Review of General Psychology", "doi": "10.1037/1089-2680.2.2.175"},
+        {"author": "Wason, P.C.", "year": 1960, "title": "On the failure to eliminate hypotheses in a conceptual task", "journal": "Quarterly Journal of Experimental Psychology", "doi": "10.1080/17470216008416717"},
+        {"author": "Kahneman, D.", "year": 2011, "title": "Thinking, Fast and Slow", "publisher": "Farrar, Straus and Giroux"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    },
+    {
+      "id": "framing-effect",
+      "name": "Framing Effect",
+      "aliases": ["framing bias", "gain-loss framing"],
+      "category": "Framing & Anchoring",
+      "subcategory": "Presentation Effects",
+      "definition": "Identical information presented in different ways produces systematically different responses. People react differently to information depending on whether it is framed as a gain or a loss, as a percentage or an absolute number, in positive or negative terms.",
+      "mechanism": "Loss aversion amplifies negative frames; the emotional valence of the frame activates System 1 responses before System 2 analysis can apply. Reference point selection determines what counts as 'gain' vs. 'loss'.",
+      "literature_description": "Canonical demonstration by Kahneman and Tversky (1981, Science) — the 'Asian Disease' problem, where respondents chose differently between two identical options depending on whether outcomes were described in terms of lives saved vs. lives lost. Foundational to Prospect Theory. Entman (1993, Journal of Communication) adapted framing to journalism: 'to frame is to select some aspects of a perceived reality and make them more salient.'",
+      "identification_criteria": [
+        "A statistic is presented in a form that emphasizes its magnitude (or minimizes it) compared to a neutral presentation: e.g., '90% survival rate' vs. '10% mortality rate'",
+        "An event is described using gain language ('recovered', 'saved', 'improved') or loss language ('failed', 'lost', 'worsened') when the neutral facts support neither exclusively",
+        "A reference point is implicitly chosen to make the current situation look better or worse than a different reference point would",
+        "The same policy, person, or event is described in terms that carry emotional valence (e.g., 'tax relief' vs. 'tax cut'; 'illegal alien' vs. 'undocumented migrant') that predisposes the reader to a particular interpretation",
+        "Comparisons are made to a selectively chosen baseline that makes the subject look better or worse than alternative baselines would"
+      ],
+      "linguistic_signals": [
+        "Gain/loss framing: 'saved' vs. 'lost', 'recovered' vs. 'failed', 'rose' vs. 'fell'",
+        "Percentage vs. absolute framing: '5%' vs. '1 in 20' vs. '5 million people'",
+        "Loaded terminology without attribution: 'regime', 'crisis', 'surge', 'crisis', 'explosion'",
+        "Baseline selection: 'compared to last year' vs. 'compared to the pre-pandemic peak'",
+        "Relative vs. absolute risk framing: 'doubles your risk' (relative) for a 0.001% → 0.002% change (absolute)"
+      ],
+      "canonical_example": "A study reports that a new drug reduces heart attack risk by 50%. The article leads with the relative risk reduction (50%) rather than the absolute risk reduction (from 2% to 1%), making the effect sound dramatically larger than clinical significance warrants.",
+      "journalism_example": "A headline reads 'Government saves 10,000 jobs with factory deal' for a subsidy that prevented layoffs at one plant, while a parallel story on a similar-sized job loss at another plant runs as 'Plant closure threatens workers.'",
+      "reframing_strategy": "Present both the absolute and relative form of any statistic. Name the reference point being used for comparisons and note that alternative reference points exist. Use terminology that is specific and descriptive rather than evaluatively loaded. Where gain/loss framing is being applied, state the same fact in the opposite frame and let the reader decide which better represents the reality.",
+      "reframing_example": "The drug story reframed: 'The drug reduced heart attack risk from 2% to 1% — a 50% relative reduction, or 1 fewer heart attack per 100 patients over five years. Researchers noted the absolute risk reduction is modest; the clinical significance depends on the patient's individual risk profile.'",
+      "common_confusions": [
+        {
+          "bias": "Anchoring",
+          "distinction": "Anchoring is about the first number mentioned setting a reference point for subsequent estimates. Framing is about how the presentation form of information — gain vs. loss, absolute vs. relative — changes the emotional and cognitive response to it. Anchoring is specifically numerical; framing can apply to any information."
+        }
+      ],
+      "severity_signal": "high",
+      "severity_rationale": "Framing is structural and often invisible — readers rarely recognize that a different presentation of the same fact would produce a different emotional response. High severity because it shapes how readers feel about facts, not just which facts they encounter.",
+      "sources": [
+        {"author": "Kahneman, D. & Tversky, A.", "year": 1981, "title": "The framing of decisions and the psychology of choice", "journal": "Science", "doi": "10.1126/science.7455683"},
+        {"author": "Entman, R.M.", "year": 1993, "title": "Framing: Toward Clarification of a Fractured Paradigm", "journal": "Journal of Communication", "doi": "10.1111/j.1460-2466.1993.tb01304.x"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    },
+    {
+      "id": "availability-heuristic",
+      "name": "Availability Heuristic",
+      "aliases": ["availability bias", "availability cascade"],
+      "category": "Availability & Salience",
+      "subcategory": "Fluency-Based Judgment",
+      "definition": "Judging the likelihood or frequency of an event by how easily examples come to mind. Vivid, recent, emotionally salient, or heavily reported events are overestimated in frequency; boring, distant, or underreported events are underestimated.",
+      "mechanism": "Ease of retrieval from memory is used as a proxy for probability. The brain conflates 'I can think of many examples' with 'this happens often.' Media coverage amplifies availability: repeated exposure to stories about rare events makes those events feel common.",
+      "literature_description": "Introduced by Tversky and Kahneman (1973, Cognitive Psychology) in studies showing that people judged words beginning with 'K' as more common than words with 'K' as the third letter — because the former are easier to retrieve. Sunstein and Zeckhauser (2011) extended the concept to 'probability neglect': availability of a single vivid scenario drives fear responses regardless of base rates. Slovic et al. (1979) documented the availability cascade in public risk perception.",
+      "identification_criteria": [
+        "A rare event is described as representative or prevalent based on recent high-profile cases rather than statistical base rates",
+        "The article's implicit probability estimate for an event is driven by the number of examples cited rather than by population-level statistics",
+        "Anecdotes about vivid individual cases are used to support claims about frequency or typicality without base rate data",
+        "The article covers an event that has recently been heavily in the news and presents it as an escalating trend without trend data",
+        "Risk is described in absolute terms (number of cases) without reference to the denominator (total population, total incidents of similar events)"
+      ],
+      "linguistic_signals": [
+        "Trend claims without trend data: 'increasingly', 'more and more', 'growing number of' without citation",
+        "Anecdote-as-data: using one or two vivid stories to imply broader prevalence",
+        "Denominator neglect: raw counts without rates (e.g., '200 attacks' without 'per 100,000 people')",
+        "Recency anchoring: 'since [recent high-profile event]' as evidence of a pattern",
+        "Typicality language: 'this is what happens when...', 'stories like this are becoming common'"
+      ],
+      "canonical_example": "After a widely-covered shark attack, a news story reports 'shark attacks are on the rise this summer' based on three incidents in the past month, without noting that the long-term annual average is 70–80 attacks globally and this summer's pace is within the historical range.",
+      "journalism_example": "Coverage of a single high-profile plane crash includes expert quotes about aviation safety concerns and phrases like 'as air travel grows, so do the risks' — despite commercial aviation mortality rates being near all-time lows per passenger mile.",
+      "reframing_strategy": "Anchor any frequency or probability claim in base rate data. When using an anecdote, explicitly note that it is illustrative and not representative of the broader pattern. Provide the denominator for any count (rate per population, not raw number). Contextualize recent events against the longer historical trend. Quote risk communication experts who specialize in presenting probability accurately.",
+      "reframing_example": "The plane crash story reframed: 'The crash is the second fatal commercial aviation accident this year. Aviation safety experts note that 2025 commercial aviation fatality rates remain among the lowest on record — approximately 0.07 deaths per billion passenger miles — and that individual accidents, while tragic, do not indicate a systemic trend.'",
+      "common_confusions": [
+        {
+          "bias": "Negativity Bias",
+          "distinction": "Negativity bias is about giving greater weight to negative information than positive information of equal objective magnitude. Availability heuristic is about overestimating frequency based on ease of recall. They often compound each other — negative events are more memorable and thus more available — but are distinct mechanisms."
+        }
+      ],
+      "severity_signal": "high",
+      "severity_rationale": "Availability heuristic in journalism distorts public risk perception at scale. Systematic overcoverage of rare dramatic events (plane crashes, shark attacks, terrorism) and undercoverage of common slow-moving risks (chronic disease, climate-linked mortality) produces systematically distorted public understanding of what is dangerous.",
+      "sources": [
+        {"author": "Tversky, A. & Kahneman, D.", "year": 1973, "title": "Availability: A heuristic for judging frequency and probability", "journal": "Cognitive Psychology", "doi": "10.1016/0010-0285(73)90033-9"},
+        {"author": "Sunstein, C.R. & Zeckhauser, R.", "year": 2011, "title": "Overreaction to Fearsome Risks", "journal": "Environmental and Resource Economics", "doi": "10.1007/s10640-010-9449-3"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    },
+    {
+      "id": "anchoring",
+      "name": "Anchoring",
+      "aliases": ["anchoring bias", "anchoring and adjustment", "focalism"],
+      "category": "Framing & Anchoring",
+      "subcategory": "Numerical Reference Points",
+      "definition": "The first numerical value or piece of information encountered (the 'anchor') has a disproportionate influence on subsequent estimates, judgments, and interpretations. Adjustment from the anchor is typically insufficient.",
+      "mechanism": "Initial information activates a reference point; subsequent processing adjusts from that point but rarely adjusts far enough. The anchor primes semantically related information, making anchor-consistent evidence more accessible. Works even with clearly arbitrary anchors (Ariely et al., 2003).",
+      "literature_description": "First demonstrated by Tversky and Kahneman (1974, Science) in their 'wheel of fortune' experiment: a randomly spun wheel influenced participants' estimates of the percentage of African countries in the UN. Ariely, Loewenstein, and Prelec (2003, Quarterly Journal of Economics) demonstrated 'arbitrary coherence' — even clearly arbitrary anchors (the last two digits of one's social security number) influenced willingness-to-pay estimates.",
+      "identification_criteria": [
+        "The first number mentioned in an article establishes the frame through which all subsequent numbers are interpreted",
+        "A high (or low) initial figure is presented and subsequent discussion is structured as departures from that number rather than from a neutral baseline",
+        "Price, cost, or quantity negotiations are described starting from one party's opening position, which then frames the outcome as a concession or a win relative to that anchor",
+        "A statistic is cited that is technically accurate but selected because it makes a figure seem large (or small) relative to a less prominent alternative representation",
+        "Historical comparison is anchored to a specific prior period that makes the current figure appear unusually high or low"
+      ],
+      "linguistic_signals": [
+        "Opening numbers followed by relative framing: '$10 billion ask' → 'settled for $6 billion' (anchor was $10B)",
+        "Comparisons structured as departures: 'down from', 'up from', 'compared to last year's record'",
+        "Initial framing of magnitude: 'as many as X' or 'at least X' before a more precise figure",
+        "Selective historical reference: 'the highest since [year]' where the comparison year was chosen to maximize apparent magnitude"
+      ],
+      "canonical_example": "A salary negotiation article leads with 'The union asked for a 15% raise.' The final 9% settlement is then described as 'well below the initial demand' — anchored to the union's opening rather than to inflation rates, industry benchmarks, or any neutral baseline.",
+      "journalism_example": "A story about a city budget deficit opens: 'Officials initially projected a $500 million shortfall.' The $200 million revised estimate is then described as 'a relief' — when the $200 million deficit is itself historically large and would require significant cuts.",
+      "reframing_strategy": "State multiple reference points for any numerical claim — not just the anchor but also historical averages, peer comparisons, and base rates. When covering a negotiation, identify whose opening position is functioning as the anchor and note that the anchor was strategically chosen. Present the final number relative to a neutral baseline (e.g., inflation, population growth, peer benchmarks) in addition to relative to the opening position.",
+      "reframing_example": "The budget story reframed: 'The city's revised $200 million deficit, down from an initial projection of $500 million, still represents the largest structural deficit in over a decade and would require cutting approximately 8% of discretionary spending to close, according to city finance officials.'",
+      "common_confusions": [
+        {
+          "bias": "Framing Effect",
+          "distinction": "Anchoring is specifically about numerical reference points distorting estimates. Framing effect is broader — it applies to any information, not just numbers. A gain/loss frame on a non-numerical description is framing, not anchoring."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Anchoring distorts how readers interpret quantities and negotiations. Medium severity: the effect is real but often detectable by a careful reader who considers what baseline is being used.",
+      "sources": [
+        {"author": "Tversky, A. & Kahneman, D.", "year": 1974, "title": "Judgment under Uncertainty: Heuristics and Biases", "journal": "Science", "doi": "10.1126/science.185.4157.1124"},
+        {"author": "Ariely, D., Loewenstein, G. & Prelec, D.", "year": 2003, "title": "Coherent Arbitrariness: Stable Demand Curves without Stable Preferences", "journal": "Quarterly Journal of Economics", "doi": "10.1162/00335530360535153"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    },
+    {
+      "id": "fundamental-attribution-error",
+      "name": "Fundamental Attribution Error",
+      "aliases": ["correspondence bias", "attribution error", "FAE"],
+      "category": "Attribution & Causation",
+      "subcategory": "Person vs. Situation Attribution",
+      "definition": "The tendency to over-attribute behavior to an individual's character, intentions, or disposition, while underweighting situational or structural factors. When someone does something, we explain it in terms of who they are rather than what circumstances they were in.",
+      "mechanism": "The actor's behavior is perceptually salient and easy to see; the situational context is background and easy to miss. We construct explanations from what we observe, and we observe the person more clearly than their environment.",
+      "literature_description": "Named and described by Lee Ross (1977, Advances in Experimental Social Psychology). The 'quizmaster study' (Ross, Amabile, and Steinmetz, 1977) showed that observers rated a quiz host as more knowledgeable than contestants, ignoring that the host selected the questions. Jones and Harris (1967, Journal of Experimental Social Psychology) showed that readers attributed essay positions to writers' beliefs even when told writers were assigned the position.",
+      "identification_criteria": [
+        "Failure, crime, or misconduct is attributed to individual character (bad person, greedy executive, corrupt official) without examination of systemic, structural, or situational factors that may have contributed",
+        "Success is attributed to individual talent or effort without acknowledging structural advantages, timing, or luck",
+        "A policy outcome is explained by the quality of the leader or policymaker rather than by the constraints, incentives, or circumstances they operated within",
+        "A community's condition (poverty, crime rates, health outcomes) is explained by characteristics of that community rather than by historical or structural causes",
+        "Behavior by an outgroup member is explained dispositionally while similar behavior by an ingroup member is explained situationally"
+      ],
+      "linguistic_signals": [
+        "Dispositional language: 'he chose to', 'she decided to', 'they failed to' without situational context",
+        "Character framing: 'the embattled CEO', 'the embattled mayor' — focus on who rather than what system",
+        "Absence of systemic or structural explanation in coverage of social outcomes",
+        "Asymmetric attribution: in-group behavior explained by situation, out-group behavior explained by character",
+        "'Great man' or 'great woman' framing of complex historical events"
+      ],
+      "canonical_example": "A story about a company's bankruptcy focuses entirely on the CEO's poor decisions and personality flaws, without examining that the company operated in a contracting market, faced structural competition from overseas manufacturing, and was carrying debt from a leveraged buyout three years earlier.",
+      "journalism_example": "Coverage of a school district's low test scores focuses on the superintendent's management style and the teachers' union contract, with no examination of the district's funding per pupil relative to state averages, the proportion of students experiencing food insecurity, or the effect of population loss on tax base.",
+      "reframing_strategy": "For any failure or misconduct story, explicitly examine structural and situational factors alongside individual ones. Use a 'what would have happened with a different person in the same situation?' frame. Ensure that systemic causes receive at least as much space as individual causes. Attribute outcomes to the combination of individual agency and contextual constraints rather than to character alone.",
+      "reframing_example": "The school district story reframed to include: per-pupil funding data by district, comparison to state-average funding, research on the relationship between poverty concentration and test performance, and expert context on what superintendents can and cannot change given state funding formulas — alongside the management and contract coverage.",
+      "common_confusions": [
+        {
+          "bias": "In-Group Bias",
+          "distinction": "In-group bias causes the *asymmetric* application of FAE — situational for in-group, dispositional for out-group. FAE itself is the underlying error in either direction. A story can exhibit FAE without in-group bias if it attributes outcomes dispositionally across the board regardless of group membership."
+        }
+      ],
+      "severity_signal": "high",
+      "severity_rationale": "FAE in journalism produces coverage that locates problems in individuals rather than systems, which shapes public policy understanding. If readers believe school failure is caused by bad teachers rather than underfunding, policy support shifts accordingly.",
+      "sources": [
+        {"author": "Ross, L.", "year": 1977, "title": "The Intuitive Psychologist and His Shortcomings", "journal": "Advances in Experimental Social Psychology", "doi": "10.1016/S0065-2601(08)60357-3"},
+        {"author": "Jones, E.E. & Harris, V.A.", "year": 1967, "title": "The attribution of attitudes", "journal": "Journal of Experimental Social Psychology", "doi": "10.1016/0022-1031(67)90034-0"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    },
+    {
+      "id": "negativity-bias",
+      "name": "Negativity Bias",
+      "aliases": ["negativity effect", "bad is stronger than good"],
+      "category": "Affect & Emotional Reasoning",
+      "subcategory": "Asymmetric Valence Weighting",
+      "definition": "Negative events, experiences, and information have greater psychological impact than positive events of equivalent objective magnitude. Bad is processed more deeply, remembered more vividly, and influences judgment more strongly than good.",
+      "mechanism": "Evolutionary selection pressure — threats require faster and more thorough response than opportunities. The amygdala shows greater activation to negative stimuli. Baumeister et al. (2001): 'bad is stronger than good' across a wide range of psychological phenomena.",
+      "literature_description": "Comprehensively reviewed by Baumeister, Bratslavsky, Finkenauer, and Vohs (2001, Review of General Psychology): negative events produce stronger, longer-lasting effects than positive events across domains including relationships, learning, and information processing. Rozin and Royzman (2001) formalized 'negativity bias' as a distinct construct. In media research, Soroka (2014) demonstrated that negativity bias drives news consumption — negative news stories produce stronger physiological arousal and higher reader engagement than positive stories of equivalent factual importance.",
+      "identification_criteria": [
+        "An article gives disproportionate prominence, length, or emotive language to negative outcomes relative to positive ones of comparable scale",
+        "Losses and failures are reported while equivalent gains or successes go unreported or receive significantly less coverage",
+        "The article's emotional register is predominantly negative (alarm, outrage, concern) without proportionate coverage of positive developments in the same domain",
+        "Risk and harm are described in vivid, specific terms while safety and success are described in abstract or statistical terms",
+        "A single negative event is treated as evidence of a broader negative trend while equivalent positive events are not treated as evidence of a positive trend"
+      ],
+      "linguistic_signals": [
+        "Alarm language for routine or moderate events: 'crisis', 'disaster', 'catastrophe', 'spiraling'",
+        "Asymmetric vividness: specific, named victims for negative outcomes; anonymous or statistical representation of positive outcomes",
+        "Loss-frame default: 'failed to', 'missed', 'fell short of', 'lost'",
+        "Trend language applied to negative data but not to positive data in the same domain",
+        "Emotional amplifiers: 'devastating', 'shocking', 'alarming', 'disturbing' for negative events without comparable amplifiers for positive ones"
+      ],
+      "canonical_example": "An economic report showing GDP growth of 2.1% (slightly below a 2.3% forecast) is headlined 'Economy Misses Expectations' with a focus on the shortfall, while an equivalent beat of the same magnitude would receive a headline like 'Economy Grows Solidly.'",
+      "journalism_example": "A city's annual crime report shows violent crime down 8% year-over-year and property crime up 3% year-over-year. The headline reads 'Property Crime Rising in [City]' with three paragraphs on the increase and one sentence on the violent crime decrease.",
+      "reframing_strategy": "Apply equal treatment to positive and negative findings of equivalent scale. If a negative trend receives a headline and multiple paragraphs, an equally-sized positive trend in the same dataset should receive proportional coverage. Describe losses and gains in equivalent terms — if a loss gets vivid language and named examples, a gain of the same magnitude should too. Present rates and magnitudes for negative events alongside positive context.",
+      "reframing_example": "The crime story reframed: 'Crime statistics released today show mixed results: violent crime fell 8% — the largest single-year drop in over a decade — while property crime rose 3%, continuing a trend police attribute to catalytic converter theft. The net effect was a 2% decline in total crimes.'",
+      "common_confusions": [
+        {
+          "bias": "Availability Heuristic",
+          "distinction": "Negativity bias is about the asymmetric weight given to negative vs. positive information. Availability heuristic is about overestimating frequency of events that come easily to mind. Negative events are more memorable and thus more available — the two biases compound each other. But an article can show negativity bias (overweighting a negative finding) without availability heuristic (it may cite accurate frequency data)."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Negativity bias is partly a structural feature of news as a medium — 'if it bleeds, it leads' reflects real reader engagement patterns. Medium severity because it is pervasive and expected; the evaluation should flag it but calibrate against the baseline that some negativity bias is intrinsic to the genre.",
+      "sources": [
+        {"author": "Baumeister, R.F. et al.", "year": 2001, "title": "Bad is Stronger than Good", "journal": "Review of General Psychology", "doi": "10.1037/1089-2680.5.4.323"},
+        {"author": "Soroka, S.N.", "year": 2014, "title": "Negativity in Democratic Politics: Causes and Consequences", "publisher": "Cambridge University Press"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    },
+    {
+      "id": "in-group-bias",
+      "name": "In-Group Bias",
+      "aliases": ["in-group favoritism", "in-group/out-group bias", "us vs. them bias"],
+      "category": "In-Group & Social",
+      "subcategory": "Group Identity Effects",
+      "definition": "The tendency to favor members of one's own group over members of other groups. In journalism, this manifests as asymmetric treatment of in-group and out-group actors — more charitable framing, more humanizing language, more presumption of legitimacy for the in-group.",
+      "mechanism": "Social identity theory (Tajfel and Turner, 1979): people derive self-esteem from group membership and maintain positive group identity by viewing their group favorably relative to outgroups. Even minimal group cues ('red team' vs. 'blue team') activate in-group favoritism.",
+      "literature_description": "Social identity theory established by Tajfel and Turner (1979). The 'minimal group paradigm' (Tajfel et al., 1971, European Journal of Social Psychology) demonstrated in-group bias with groups formed on arbitrary criteria. Applied to journalism by Van Dijk (1998, Discourse and Society): news systematically represents ethnic and national in-groups more favorably, emphasizes positive attributes and contextualizes negative behavior situationally for in-groups, and does the reverse for out-groups.",
+      "identification_criteria": [
+        "Members of one group are described with humanizing detail (names, family context, individual story) while members of another group are described in aggregate or with dehumanizing abstraction",
+        "The same action by an in-group actor is framed as legitimate or contextually justified; the same action by an out-group actor is framed as threatening or illegitimate",
+        "Sources from the in-group are given more space, treated as more authoritative, and quoted with more sympathy than out-group sources on the same contested question",
+        "Casualties, suffering, or hardship of the in-group are described with specificity and emotional weight; casualties of the out-group are described statistically or minimized",
+        "Fundamental attribution error applied asymmetrically: in-group bad behavior explained situationally, out-group bad behavior explained dispositionally"
+      ],
+      "linguistic_signals": [
+        "Humanization asymmetry: named individuals with family context for in-group; 'the militants', 'the migrants', 'the rioters' for out-group",
+        "Verb asymmetry: in-group 'responds' or 'defends'; out-group 'attacks' or 'threatens'",
+        "Quote space asymmetry: in-group sources quoted at length with context; out-group sources quoted briefly or paraphrased",
+        "Attribution asymmetry: in-group behavior described in passive voice or with situational hedging; out-group behavior described in active, agentive voice",
+        "Civilian/combatant framing: in-group deaths are 'civilians'; out-group deaths are 'militants' even when the distinction is contested"
+      ],
+      "canonical_example": "A conflict story describes the in-group country's airstrike as 'a targeted operation against militant infrastructure' that 'resulted in casualties.' The out-group's response is described as 'an attack on civilian areas' with named victim stories and civilian death toll emphasized.",
+      "journalism_example": "A domestic crime story names and humanizes the victim's family, provides community background, and quotes neighbors describing the neighborhood's character. An equivalent crime story about the same city but with a different demographic of victim uses aggregate crime statistics and no named community members.",
+      "reframing_strategy": "Apply equal humanizing detail across groups. If one actor is named and given family context, apply the same treatment to the other. Use parallel verb construction for parallel actions. Ensure equal source space across perspectives. Explicitly name the in-group/out-group structure and note where asymmetric treatment appears. Apply FAE correction symmetrically: explain situational factors for all actors.",
+      "reframing_example": "The conflict story reframed to use parallel framing for both the airstrike and the response: same specificity on casualties, same engagement with civilian/combatant distinctions, same space for sources from both sides to describe their action and its context.",
+      "common_confusions": [
+        {
+          "bias": "Fundamental Attribution Error",
+          "distinction": "FAE is the baseline tendency to over-attribute behavior to character rather than situation. In-group bias is what makes FAE asymmetric: in-group actors get situational explanations, out-group actors get dispositional ones. FAE can occur without in-group bias (dispositional attribution across the board). In-group bias is often detectable precisely by finding FAE applied asymmetrically."
+        }
+      ],
+      "severity_signal": "high",
+      "severity_rationale": "In-group bias in journalism shapes public understanding of conflict, crime, and policy across national, ethnic, and ideological lines. The asymmetric humanization of victims and perpetrators based on group membership has documented downstream effects on public support for policy.",
+      "sources": [
+        {"author": "Tajfel, H. & Turner, J.C.", "year": 1979, "title": "An Integrative Theory of Intergroup Conflict", "book": "The Social Psychology of Intergroup Relations"},
+        {"author": "Tajfel, H. et al.", "year": 1971, "title": "Social categorization and intergroup behaviour", "journal": "European Journal of Social Psychology", "doi": "10.1002/ejsp.2420010202"},
+        {"author": "Van Dijk, T.A.", "year": 1998, "title": "Opinions and Ideologies in the Press", "book": "Approaches to Media Discourse"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {
+        "positive": [],
+        "near_miss": [],
+        "contrast": null
+      }
+    }
+  ]
+}

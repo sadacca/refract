@@ -1,0 +1,6 @@
+Bias to probe: Actor-Observer Asymmetry
+Definition: When explaining behavior, people apply systematically different frameworks depending on whether they are the actor or the observer. Actors attribute their own behavior to situational factors; observers attribute the same behavior in others to stable dispositions. In written text, this surfaces as: (1) the writer assuming implausibly high observer attention to their own actions, and (2) dispositional vocabulary applied to others' behavior while situational vocabulary is applied to equivalent self-behavior within the same passage.
+Identification criteria:
+  - The writer's own behavior is explained with extensive situational context while an equivalent behavior by another person is explained dispositionally, within the same passage
+  - The writer assumes their own actions were highly visible or memorable to others without evidence that this attention occurred
+  - The same behavior, described identically, receives different causal vocabulary depending on whether the writer or another person performed it

@@ -1,0 +1,3 @@
+Category: Memory
+Biases in this category (1):
+  - Hindsight Bias: After learning an outcome, people retrospectively overestimate how predictable or inevitable that outcome was, often rew...

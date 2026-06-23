@@ -1,0 +1,7 @@
+Bias to probe: Anchoring Effect
+Definition: An initial numerical value (the anchor) exerts disproportionate influence on subsequent estimates, even when the anchor is arbitrary, irrelevant, or explicitly random. Adjustment from the anchor is systematically insufficient, leaving estimates biased toward the starting value.
+Identification criteria:
+  - A numerical estimate is preceded by a contextually irrelevant or loosely related figure that has no logical bearing on the quantity being estimated
+  - The subsequent estimate falls suspiciously close to or scaled from the preceding irrelevant figure
+  - No correction or acknowledgment is offered that the preceding figure is unrelated to the quantity being judged
+  - A relevant, directly comparable prior figure used as an explicit reference point does not count — only loosely related or arbitrary anchors are diagnostic

@@ -1,0 +1,13 @@
+=== Dunning-Kruger Effect (Overestimation Variant) (id: dunning-kruger-effect) ===
+Definition: Individuals with limited knowledge or skill in a domain systematically overestimate their competence, partly because the same knowledge deficit that produces poor performance also impairs the metacognitive ability to recognize it. In text, this manifests as confident, definitive claims made alongside content that simultaneously reveals shallow or incomplete domain understanding.
+Mechanism: The same lack of domain expertise that produces poor judgments also removes the metacognitive skill needed to recognize those judgments as poor, so confidence is decoupled from actual competence.
+
+Identification criteria:
+  - Declarative, high-confidence claims about a domain co-occur with content that misuses technical terms, oversimplifies known difficulties, or ignores well-established findings
+  - The writer dismisses domain experts or the field's perceived complexity as overstated, based on minimal personal exposure to the subject
+  - Specific named challenges that practitioners consider central to the field are absent from the writer's account of what the field involves
+
+Linguistic signals:
+  - 'It's really quite simple when you think about it clearly' applied to a field with established technical complexity
+  - Minimal-exposure credentialing ('I've read two articles', 'I've played around with a few models') paired with sweeping confident claims
+  - Dismissal of practitioners as 'overcomplicating' a field, without engaging the specific difficulties they cite

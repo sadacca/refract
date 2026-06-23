@@ -1,8 +1,0 @@
-Bias to probe: Fundamental Attribution Error
-Definition: The tendency to over-attribute behavior to an individual's character, intentions, or disposition, while underweighting situational or structural factors. When someone does something, we explain it in terms of who they are rather than what circumstances they were in.
-Identification criteria:
-  - Failure, crime, or misconduct is attributed to individual character (bad person, greedy executive, corrupt official) without examination of systemic, structural, or situational factors that may have contributed
-  - Success is attributed to individual talent or effort without acknowledging structural advantages, timing, or luck
-  - A policy outcome is explained by the quality of the leader or policymaker rather than by the constraints, incentives, or circumstances they operated within
-  - A community's condition (poverty, crime rates, health outcomes) is explained by characteristics of that community rather than by historical or structural causes
-  - Behavior by an outgroup member is explained dispositionally while similar behavior by an ingroup member is explained situationally

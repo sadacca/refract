@@ -1,58 +1,114 @@
 {
-  "confirmation-bias": {
-    "name": "Confirmation Bias",
-    "category": "Confirmation & Belief Perseverance",
-    "subcategory": "Selective Information Processing",
+  "availability-heuristic": {
+    "name": "Availability Heuristic",
+    "category": "Attention & Memory",
+    "subcategory": "Fluency-Based Judgment",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "high"
+  },
+  "hindsight-bias": {
+    "name": "Hindsight Bias",
+    "category": "Memory",
+    "subcategory": "Retrospective Reconstruction",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "anchoring": {
+    "name": "Anchoring Effect",
+    "category": "Judgment & Decision-Making",
+    "subcategory": "Numerical Reference Points",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "conjunction-fallacy": {
+    "name": "Conjunction Fallacy",
+    "category": "Probability Reasoning",
+    "subcategory": "Representativeness Heuristic",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "base-rate-neglect": {
+    "name": "Base Rate Neglect",
+    "category": "Probability Reasoning",
+    "subcategory": "Prior Probability Weighting",
     "status": "provisional",
     "examples_status": "pending",
     "severity_signal": "high"
   },
   "framing-effect": {
     "name": "Framing Effect",
-    "category": "Framing & Anchoring",
+    "category": "Judgment & Decision-Making",
     "subcategory": "Presentation Effects",
     "status": "provisional",
     "examples_status": "pending",
     "severity_signal": "high"
   },
-  "availability-heuristic": {
-    "name": "Availability Heuristic",
-    "category": "Availability & Salience",
-    "subcategory": "Fluency-Based Judgment",
-    "status": "provisional",
-    "examples_status": "pending",
-    "severity_signal": "high"
-  },
-  "anchoring": {
-    "name": "Anchoring",
-    "category": "Framing & Anchoring",
-    "subcategory": "Numerical Reference Points",
-    "status": "provisional",
-    "examples_status": "pending",
-    "severity_signal": "medium"
-  },
   "fundamental-attribution-error": {
     "name": "Fundamental Attribution Error",
-    "category": "Attribution & Causation",
+    "category": "Social Cognition",
     "subcategory": "Person vs. Situation Attribution",
     "status": "provisional",
     "examples_status": "pending",
     "severity_signal": "high"
   },
-  "negativity-bias": {
-    "name": "Negativity Bias",
-    "category": "Affect & Emotional Reasoning",
-    "subcategory": "Asymmetric Valence Weighting",
+  "sunk-cost-fallacy": {
+    "name": "Sunk Cost Fallacy",
+    "category": "Judgment & Decision-Making",
+    "subcategory": "Irrecoverable Cost Reasoning",
     "status": "provisional",
     "examples_status": "pending",
     "severity_signal": "medium"
   },
-  "in-group-bias": {
-    "name": "In-Group Bias",
-    "category": "In-Group & Social",
-    "subcategory": "Group Identity Effects",
+  "overconfidence-bias": {
+    "name": "Overconfidence Bias",
+    "category": "Judgment & Metacognition",
+    "subcategory": "Confidence Calibration",
     "status": "provisional",
     "examples_status": "pending",
     "severity_signal": "high"
+  },
+  "scope-insensitivity": {
+    "name": "Scope Insensitivity",
+    "category": "Judgment & Moral Reasoning",
+    "subcategory": "Magnitude Insensitivity",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "gamblers-fallacy": {
+    "name": "Gambler's Fallacy",
+    "category": "Probability Reasoning",
+    "subcategory": "Independent Event Reasoning",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "hyperbolic-discounting": {
+    "name": "Hyperbolic Discounting",
+    "category": "Judgment & Decision-Making",
+    "subcategory": "Intertemporal Choice",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "actor-observer-asymmetry": {
+    "name": "Actor-Observer Asymmetry",
+    "category": "Social Cognition",
+    "subcategory": "Self vs. Other Attribution",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
+  },
+  "dunning-kruger-effect": {
+    "name": "Dunning-Kruger Effect (Overestimation Variant)",
+    "category": "Metacognition",
+    "subcategory": "Competence Self-Assessment",
+    "status": "provisional",
+    "examples_status": "pending",
+    "severity_signal": "medium"
   }
 }

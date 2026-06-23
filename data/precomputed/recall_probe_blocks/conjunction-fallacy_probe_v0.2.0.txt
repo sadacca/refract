@@ -1,0 +1,6 @@
+Bias to probe: Conjunction Fallacy
+Definition: The probability of a conjunction of two events (A and B) is judged to be higher than the probability of one of its constituent events (A alone), violating the basic probability rule that P(A∩B) ≤ P(A). This occurs because detailed, coherent narratives feel more representative and therefore more probable.
+Identification criteria:
+  - A specific, detailed scenario (A and B) is judged or asserted to be more likely than a broader scenario (A alone) that logically contains it
+  - The added specificity is justified by narrative coherence or plausibility rather than by evidence that actually raises the conjunction's probability
+  - No acknowledgment that adding conditions to a claim can only decrease, never increase, its probability

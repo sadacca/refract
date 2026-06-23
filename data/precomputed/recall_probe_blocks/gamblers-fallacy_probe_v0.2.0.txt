@@ -1,0 +1,6 @@
+Bias to probe: Gambler's Fallacy
+Definition: The belief that in a sequence of independent random events, past outcomes influence the probability of future outcomes, specifically, that a run of one outcome makes the opposite outcome 'due.' This reflects a misapplication of the law of large numbers to short, independent sequences and a misunderstanding of stochastic independence.
+Identification criteria:
+  - A streak of outcomes from an independent random process is cited as evidence that the opposite outcome is now more probable
+  - The reasoning explicitly invokes a balancing or 'evening out' mechanism over a short, finite run rather than the long run
+  - No verification is offered that the underlying process is actually independent (as opposed to a process where history legitimately changes future probability)

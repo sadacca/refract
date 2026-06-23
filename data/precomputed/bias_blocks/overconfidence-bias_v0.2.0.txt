@@ -1,0 +1,13 @@
+=== Overconfidence Bias (id: overconfidence-bias) ===
+Definition: Systematic miscalibration in which subjective confidence in the accuracy of one's judgments or predictions exceeds objective accuracy rates. Operationally, this appears as the use of high-certainty language for claims that are empirically uncertain, contested, or probabilistic, and as the absence of hedging where hedging is warranted by the actual epistemic situation.
+Mechanism: People rely on the coherence and accessibility of their own reasoning as a proxy for its accuracy, so a fluent, internally consistent argument feels certain even in domains with high genuine forecasting error.
+
+Identification criteria:
+  - High-certainty language ('no question', 'complete certainty', 'simply no other plausible outcome') is applied to a claim in a domain with known high forecasting uncertainty or expert disagreement
+  - No hedging, probability ranges, or acknowledgment of alternative outcomes is offered despite the claim being empirically contested
+  - Disagreement from qualified experts is dismissed as bad faith or incompetence rather than engaged with
+
+Linguistic signals:
+  - 'There is no question that...' / 'anyone who claims otherwise is...'
+  - 'Not a matter of debate among serious [experts]' applied to a genuinely contested empirical claim
+  - Absence of probabilistic hedges ('likely', 'may', 'our best estimate') in domains where they are warranted

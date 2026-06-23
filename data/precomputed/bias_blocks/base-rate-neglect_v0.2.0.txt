@@ -1,0 +1,13 @@
+=== Base Rate Neglect (id: base-rate-neglect) ===
+Definition: When forming probability judgments, people underweight or ignore the prior probability (base rate) of an event in favor of individuating case-specific information that is vivid or descriptively rich. Bayesian reasoning requires integrating both; neglect of the prior systematically biases posterior estimates.
+Mechanism: Vivid, individuating description is more cognitively available and feels more diagnostic than abstract population statistics, so the prior probability gets crowded out of the judgment entirely.
+
+Identification criteria:
+  - A probability or category judgment relies entirely on vivid individuating detail with no mention of the relevant population base rate
+  - Base rate information that is available and relevant is omitted even though it would materially change the conclusion
+  - Confidence in the case-specific conclusion is not adjusted downward despite a base rate that would argue against it
+
+Linguistic signals:
+  - Profile or trait lists used to settle a categorical judgment ('she's meticulous, soft-spoken... she must be a librarian')
+  - Confident category assignment with no statistical caveat
+  - Absence of phrases like 'most people in this situation are actually...' or any population-frequency framing

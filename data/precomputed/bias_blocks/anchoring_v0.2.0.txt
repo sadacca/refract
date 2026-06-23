@@ -1,0 +1,14 @@
+=== Anchoring Effect (id: anchoring) ===
+Definition: An initial numerical value (the anchor) exerts disproportionate influence on subsequent estimates, even when the anchor is arbitrary, irrelevant, or explicitly random. Adjustment from the anchor is systematically insufficient, leaving estimates biased toward the starting value.
+Mechanism: An initial number primes a reference point; subsequent estimation processes adjust from that point but rarely adjust far enough, and the anchor primes semantically related information that makes anchor-consistent values feel more plausible.
+
+Identification criteria:
+  - A numerical estimate is preceded by a contextually irrelevant or loosely related figure that has no logical bearing on the quantity being estimated
+  - The subsequent estimate falls suspiciously close to or scaled from the preceding irrelevant figure
+  - No correction or acknowledgment is offered that the preceding figure is unrelated to the quantity being judged
+  - A relevant, directly comparable prior figure used as an explicit reference point does not count — only loosely related or arbitrary anchors are diagnostic
+
+Linguistic signals:
+  - An unrelated large or small number introduced immediately before an estimate ('I was reading that... anyway, regarding...')
+  - Estimates expressed as a range or figure that tracks the magnitude of the preceding anchor rather than the actual question
+  - Absence of independent justification for the estimate's magnitude
