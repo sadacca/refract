@@ -5,27 +5,27 @@
     "article_count": 8,
     "prevalence_pct": 36.4
   },
-  "anchoring": {
-    "name": "Anchoring",
-    "category": "Framing & Anchoring",
-    "article_count": 5,
-    "prevalence_pct": 22.7
-  },
   "availability-heuristic": {
     "name": "Availability Heuristic",
     "category": "Availability & Salience",
     "article_count": 5,
     "prevalence_pct": 22.7
   },
-  "negativity-bias": {
-    "name": "Negativity Bias",
-    "category": "Affect & Emotional Reasoning",
-    "article_count": 3,
-    "prevalence_pct": 13.6
+  "anchoring": {
+    "name": "Anchoring",
+    "category": "Framing & Anchoring",
+    "article_count": 5,
+    "prevalence_pct": 22.7
   },
   "in-group-bias": {
     "name": "In-Group Bias",
     "category": "In-Group & Social",
+    "article_count": 3,
+    "prevalence_pct": 13.6
+  },
+  "negativity-bias": {
+    "name": "Negativity Bias",
+    "category": "Affect & Emotional Reasoning",
     "article_count": 3,
     "prevalence_pct": 13.6
   },
