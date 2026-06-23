@@ -1,341 +1,546 @@
 {
-  "version": "v0.1.0",
-  "updated_at": "2026-05-31",
-  "entry_count": 7,
+  "version": "v0.2.0",
+  "updated_at": "2026-06-23",
+  "entry_count": 14,
   "biases": [
     {
-      "id": "confirmation-bias",
-      "name": "Confirmation Bias",
-      "aliases": ["myside bias", "confirmatory bias"],
-      "category": "Confirmation & Belief Perseverance",
-      "subcategory": "Selective Information Processing",
-      "definition": "The tendency to search for, interpret, favor, and recall information in a way that confirms or supports one's prior beliefs or values. Contradictory evidence is discounted, ignored, or reinterpreted to fit the existing belief.",
-      "mechanism": "Motivated reasoning — the mind treats belief-consistent information as requiring less scrutiny than belief-inconsistent information. Fluency and cognitive ease make confirming evidence feel more credible.",
-      "literature_description": "Described by Peter Wason (1960) in his 2-4-6 task, where participants consistently tested hypotheses that confirmed their initial guess rather than tried to falsify it. Extensively reviewed by Nickerson (1998, Review of General Psychology) as one of the most robust and consequential cognitive biases. Kahneman (2011, Thinking Fast and Slow) frames it as a feature of System 1 thinking.",
+      "id": "availability-heuristic",
+      "name": "Availability Heuristic",
+      "aliases": ["availability bias", "availability cascade"],
+      "category": "Attention & Memory",
+      "subcategory": "Fluency-Based Judgment",
+      "definition": "The tendency to estimate the frequency or probability of an event based on how easily examples come to mind, rather than on base rates or statistical evidence. Cognitively, retrieval fluency is mistaken for prevalence: what is vivid, recent, or emotionally charged is retrieved faster and therefore judged more common.",
+      "mechanism": "Ease of retrieval from memory is used as a proxy for probability. Vivid, recent, or emotionally charged examples are retrieved faster and that retrieval speed is misread as evidence of how common the event actually is.",
+      "contrast_statement": "Unbiased text grounds probability claims in systematic data (statistics, surveys, epidemiological rates) rather than anecdotal examples. It may include an anecdote but explicitly frames it as illustrative, not as evidence of frequency. The signal of bias is when a single dramatic story does the work that a statistic should do.",
+      "literature_description": "Introduced by Tversky and Kahneman (1973, Cognitive Psychology) in studies showing that people judged words beginning with 'K' as more common than words with 'K' as the third letter, because the former are easier to retrieve.",
       "identification_criteria": [
-        "The article presents evidence on one side of a contested question while omitting, burying, or briefly dismissing countervailing evidence",
-        "Sources quoted or cited are overwhelmingly from one viewpoint on a contested issue, with no meaningful engagement with opposing expert views",
-        "The framing of a story presupposes the conclusion (e.g., treating one side's claims as established facts requiring no qualification)",
-        "Counterarguments, when present, are presented as weaker or less credible without evidentiary basis for that assessment",
-        "The article selects anecdotes or case studies that support a predetermined narrative while similar cases on the other side are absent"
+        "Frequency or risk claims are supported by one or a few salient anecdotes rather than base-rate or population-level data",
+        "An anecdote is used to imply a trend without any trend data accompanying it",
+        "Personal or recent exposure to examples ('everyone I know', 'three stories this week') stands in for systematic evidence",
+        "Statistical or epidemiological context that would contradict the anecdote-driven impression is absent or dismissed"
       ],
       "linguistic_signals": [
-        "One-sided source selection (all quotes from the same perspective on a contested issue)",
-        "Dismissive language toward opposing views without engagement: 'critics claim', 'some argue' followed by no rebuttal space",
-        "Asymmetric hedging: claims on the favored side stated as fact; claims on the unfavored side qualified with 'allegedly', 'reportedly'",
-        "Absence of 'however', 'but', 'on the other hand' constructions in contexts where a counterargument would be expected",
-        "Stacked anecdotes: multiple examples all pointing the same direction with no contrasting case"
+        "'It's clearly become an epidemic' / 'happening all the time' without citation",
+        "Anecdote stacking: multiple personal stories offered as proof of prevalence",
+        "Dismissal of statistics in favor of personal impression: 'I don't care what the data says'",
+        "Recency anchoring: 'this summer', 'lately', 'recently' used as evidence of an ongoing pattern"
       ],
-      "canonical_example": "A reporter covering a local zoning dispute interviews five neighbors opposed to the development but only one supporter, whose objections are described as 'limited' without elaboration, while each opponent's concerns receive a full paragraph.",
-      "journalism_example": "A financial news piece on rising housing prices quotes four economists predicting further increases and one sentence noting 'some analysts are more cautious,' with no elaboration, before returning to three more bullish forecasts.",
-      "reframing_strategy": "Identify the contested question at the center of the piece. Ensure sources representing each substantive position on that question receive roughly proportional space. Restate opposing claims in their strongest form, not in a strawman or dismissive framing. Add a paragraph explicitly acknowledging the strongest evidence against the article's implicit or explicit thesis.",
-      "reframing_example": "The reframed financial piece would include a full paragraph from a skeptical economist explaining the specific indicators driving their caution — inventory levels, affordability ratios, historical correction patterns — alongside the bullish case, letting readers evaluate both.",
+      "canonical_example": "After seeing three news stories about shark attacks this summer, I'm convinced they must be happening all the time—swimming in the ocean feels genuinely dangerous now.",
+      "journalism_example": "Everyone I know has been affected by identity theft recently—my neighbor got hit last month, my coworker the month before. It's clearly become an epidemic. I don't care what the fraud statistics say; based on what I'm seeing, this is the number one financial threat facing families today. We need to treat it like a public health crisis. (The conclusion about epidemic prevalence is driven entirely by salient personal examples rather than population-level incidence data.)",
+      "reframing_strategy": "Anchor any frequency or probability claim in base-rate data. If an anecdote is used, explicitly flag it as illustrative rather than representative, and supply the denominator (rate per population) alongside any raw count.",
       "common_confusions": [
         {
-          "bias": "Framing Effect",
-          "distinction": "Confirmation bias is about selective attention to information; framing effect is about how the presentation of the same information changes interpretation. An article can frame a fact neutrally but still exhibit confirmation bias by which facts it selects to present."
-        },
-        {
-          "bias": "Myside Bias",
-          "distinction": "Myside bias is specifically about evaluating arguments based on agreement with one's own position. Confirmation bias is broader — it affects information search and recall, not just argument evaluation. In practice they often co-occur."
+          "bias": "Hindsight Bias",
+          "distinction": "Availability heuristic distorts forward-looking probability estimates based on retrieval ease; hindsight bias distorts backward-looking judgments of predictability after an outcome is already known."
         }
       ],
       "severity_signal": "high",
-      "severity_rationale": "Confirmation bias in journalism shapes which facts readers encounter. A reader who only reads confirmation-biased sources on a topic may never be exposed to the strongest opposing evidence. High severity because it affects the information environment, not just interpretation.",
+      "severity_rationale": "Distorts public risk perception at scale by overweighting rare, dramatic events over common, statistically larger risks.",
       "sources": [
-        {"author": "Nickerson, R.S.", "year": 1998, "title": "Confirmation Bias: A Ubiquitous Phenomenon in Many Guises", "journal": "Review of General Psychology", "doi": "10.1037/1089-2680.2.2.175"},
-        {"author": "Wason, P.C.", "year": 1960, "title": "On the failure to eliminate hypotheses in a conceptual task", "journal": "Quarterly Journal of Experimental Psychology", "doi": "10.1080/17470216008416717"},
-        {"author": "Kahneman, D.", "year": 2011, "title": "Thinking, Fast and Slow", "publisher": "Farrar, Straus and Giroux"}
+        {"author": "Tversky, A. & Kahneman, D.", "year": 1973, "title": "Availability: A heuristic for judging frequency and probability", "journal": "Cognitive Psychology"}
       ],
       "status": "provisional",
       "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "hindsight-bias",
+      "name": "Hindsight Bias",
+      "aliases": ["the knew-it-all-along effect", "creeping determinism"],
+      "category": "Memory",
+      "subcategory": "Retrospective Reconstruction",
+      "definition": "After learning an outcome, people retrospectively overestimate how predictable or inevitable that outcome was, often rewriting their prior mental state to align with what actually happened. The original uncertainty is lost from memory; the outcome appears to have been obvious in advance.",
+      "mechanism": "Knowledge of an outcome gets integrated into memory of one's prior beliefs, overwriting the genuine uncertainty that existed before the outcome was known.",
+      "contrast_statement": "Unbiased retrospective text preserves the epistemic state that existed before the outcome: it acknowledges competing hypotheses, prior uncertainty, or genuine surprise. Bias is flagged when outcome-laden language ('obviously,' 'inevitably,' 'of course') is applied to past events that were genuinely uncertain at the time, with no acknowledgment of the uncertainty that preceded them.",
+      "literature_description": "Established by Fischhoff (1975, Journal of Experimental Psychology), who showed that after learning an outcome, people misremember having predicted it and rate it as having been more foreseeable than they originally judged.",
+      "identification_criteria": [
+        "Outcome-laden certainty language ('obviously', 'inevitably', 'it was only a matter of time') applied to a past event without acknowledgment of contemporaneous uncertainty",
+        "No mention of competing hypotheses, dissenting experts, or genuine surprise that existed before the outcome was known",
+        "Warning signs are listed as if they were unambiguous in advance, rather than as signals that were ambiguous or contested at the time",
+        "Failure to predict the outcome by experts or analysts is framed as incompetence rather than as evidence of genuine ex-ante uncertainty"
+      ],
+      "linguistic_signals": [
+        "'It was always obvious that...' / 'anyone paying attention could see...'",
+        "'The warning signs were everywhere' with no acknowledgment of conflicting signals",
+        "'It's hard to understand why [experts] didn't see it coming'",
+        "Inevitability framing: 'bound to happen', 'just a matter of time'"
+      ],
+      "canonical_example": "Looking back, it was always obvious that the startup would fail—the product had no clear market fit from day one.",
+      "journalism_example": "The 2008 financial crisis was entirely predictable. Anyone paying attention could see that the housing market was overextended, that mortgage-backed securities were toxic, and that the banks were dangerously overleveraged. The warning signs were everywhere. It's hard to understand why regulators and analysts didn't see it coming—it was really just a matter of time. (This erases the genuine expert disagreement and uncertainty that characterized the pre-2008 period; many careful analysts did not predict the crisis.)",
+      "reframing_strategy": "Reconstruct and state the genuine pre-outcome uncertainty: what competing predictions existed, who disagreed, and why the signals were ambiguous at the time rather than clear in retrospect.",
+      "common_confusions": [
+        {
+          "bias": "Overconfidence Bias",
+          "distinction": "Hindsight bias is specifically retrospective — it rewrites memory of past uncertainty after an outcome is known. Overconfidence bias concerns present-tense miscalibration about claims whose truth is not yet settled or is inherently uncertain."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Erases lessons about genuine uncertainty and can produce false confidence that future events of similar ambiguity are equally foreseeable.",
+      "sources": [
+        {"author": "Fischhoff, B.", "year": 1975, "title": "Hindsight is not equal to foresight: The effect of outcome knowledge on judgment under uncertainty", "journal": "Journal of Experimental Psychology: Human Perception and Performance"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "anchoring",
+      "name": "Anchoring Effect",
+      "aliases": ["anchoring bias", "anchoring and adjustment", "focalism"],
+      "category": "Judgment & Decision-Making",
+      "subcategory": "Numerical Reference Points",
+      "definition": "An initial numerical value (the anchor) exerts disproportionate influence on subsequent estimates, even when the anchor is arbitrary, irrelevant, or explicitly random. Adjustment from the anchor is systematically insufficient, leaving estimates biased toward the starting value.",
+      "mechanism": "An initial number primes a reference point; subsequent estimation processes adjust from that point but rarely adjust far enough, and the anchor primes semantically related information that makes anchor-consistent values feel more plausible.",
+      "contrast_statement": "Unbiased text introduces numerical estimates independently of prior figures, or explicitly corrects for the irrelevance of a preceding number. The distinguishing feature of anchoring is not merely mentioning a number, but using a contextually irrelevant or loosely related number to frame a subsequent estimate. A relevant prior figure (e.g., last year's actual budget) used as a direct reference is not anchoring; an unrelated large number introduced just before an estimate is.",
+      "literature_description": "First demonstrated by Tversky and Kahneman (1974, Science) in their 'wheel of fortune' experiment, where a randomly spun number influenced participants' estimates of the percentage of African countries in the UN.",
+      "identification_criteria": [
+        "A numerical estimate is preceded by a contextually irrelevant or loosely related figure that has no logical bearing on the quantity being estimated",
+        "The subsequent estimate falls suspiciously close to or scaled from the preceding irrelevant figure",
+        "No correction or acknowledgment is offered that the preceding figure is unrelated to the quantity being judged",
+        "A relevant, directly comparable prior figure used as an explicit reference point does not count — only loosely related or arbitrary anchors are diagnostic"
+      ],
+      "linguistic_signals": [
+        "An unrelated large or small number introduced immediately before an estimate ('I was reading that... anyway, regarding...')",
+        "Estimates expressed as a range or figure that tracks the magnitude of the preceding anchor rather than the actual question",
+        "Absence of independent justification for the estimate's magnitude"
+      ],
+      "canonical_example": "Given that the stadium renovation project downtown cost $400 million, I'd estimate repainting our office building will run somewhere around $300,000.",
+      "journalism_example": "I was reading that the federal government's annual defense budget is roughly $850 billion. Anyway, regarding our question of what a fair salary for the new marketing director position should be—I think somewhere in the $95,000 to $110,000 range seems right to me. (The defense budget figure is entirely irrelevant to the salary estimate but, experimentally, would predictably shift estimates upward compared to a baseline condition with no anchor.)",
+      "reframing_strategy": "Strip irrelevant preceding figures before an estimate, or explicitly state multiple independent reference points (historical averages, peer benchmarks) rather than a single arbitrary anchor.",
+      "common_confusions": [
+        {
+          "bias": "Framing Effect",
+          "distinction": "Anchoring is specifically about numerical reference points distorting estimates. Framing effect is broader and applies to any information, numerical or not, by changing how the same content is valenced (gain vs. loss)."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Distorts quantitative estimates and negotiation framing, though often detectable by a careful reader who checks what baseline is implied.",
+      "sources": [
+        {"author": "Tversky, A. & Kahneman, D.", "year": 1974, "title": "Judgment under uncertainty: Heuristics and biases", "journal": "Science"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "conjunction-fallacy",
+      "name": "Conjunction Fallacy",
+      "aliases": ["Linda problem", "representativeness conjunction error"],
+      "category": "Probability Reasoning",
+      "subcategory": "Representativeness Heuristic",
+      "definition": "The probability of a conjunction of two events (A and B) is judged to be higher than the probability of one of its constituent events (A alone), violating the basic probability rule that P(A∩B) ≤ P(A). This occurs because detailed, coherent narratives feel more representative and therefore more probable.",
+      "mechanism": "A richly detailed, internally coherent scenario activates the representativeness heuristic — it 'feels like' a good story — and that narrative fluency is mistaken for higher probability, even though adding specific details can only lower or maintain, never raise, the true probability.",
+      "contrast_statement": "Unbiased probabilistic reasoning respects the set-subset relationship: a more specific description of an event cannot be more probable than a broader one that contains it. Text that assigns higher likelihood to a richly described scenario than to its component parts reveals the fallacy, regardless of how plausible the detailed narrative feels.",
+      "literature_description": "Demonstrated by Tversky and Kahneman (1983, Psychological Review) in the 'Linda problem,' where most participants rated 'Linda is a bank teller and active in the feminist movement' as more probable than 'Linda is a bank teller' alone.",
+      "identification_criteria": [
+        "A specific, detailed scenario (A and B) is judged or asserted to be more likely than a broader scenario (A alone) that logically contains it",
+        "The added specificity is justified by narrative coherence or plausibility rather than by evidence that actually raises the conjunction's probability",
+        "No acknowledgment that adding conditions to a claim can only decrease, never increase, its probability"
+      ],
+      "linguistic_signals": [
+        "'It seems more likely that... [specific narrative]... than that... [broader claim]'",
+        "Causal elaboration presented as increasing likelihood: 'specifically because of X' framed as more probable than the unqualified outcome",
+        "Confidence language attached to the detailed version exceeding confidence in the general version"
+      ],
+      "canonical_example": "It seems more likely that she is an environmental activist who votes in every election than that she simply votes in every election.",
+      "journalism_example": "Thinking about the new candidate, I'm actually pretty confident he's going to underperform in the polls and specifically lose because of weak turnout among suburban voters who feel disconnected from his messaging. That scenario just feels a lot more probable to me than simply saying he's going to underperform. (The specific causal mechanism makes the scenario feel coherent and thus probable, but logically the probability of underperforming for that specific reason must be lower than or equal to the probability of underperforming for any reason.)",
+      "reframing_strategy": "Decompose conjunctive claims into their components and state that the specific version cannot be more probable than the general claim it specifies; report likelihood for the broader claim before adding detail.",
+      "common_confusions": [
+        {
+          "bias": "Base Rate Neglect",
+          "distinction": "Conjunction fallacy is a logical error about how detail affects probability of compound claims. Base rate neglect is about ignoring prior population frequencies in favor of case-specific detail. They often co-occur in the same narrative but are formally distinct errors."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Produces overconfident, narrative-driven probability judgments that can mislead predictions and risk assessments.",
+      "sources": [
+        {"author": "Tversky, A. & Kahneman, D.", "year": 1983, "title": "Extensional versus intuitive reasoning: The conjunction fallacy in probability judgment", "journal": "Psychological Review"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "base-rate-neglect",
+      "name": "Base Rate Neglect",
+      "aliases": ["base rate fallacy"],
+      "category": "Probability Reasoning",
+      "subcategory": "Prior Probability Weighting",
+      "definition": "When forming probability judgments, people underweight or ignore the prior probability (base rate) of an event in favor of individuating case-specific information that is vivid or descriptively rich. Bayesian reasoning requires integrating both; neglect of the prior systematically biases posterior estimates.",
+      "mechanism": "Vivid, individuating description is more cognitively available and feels more diagnostic than abstract population statistics, so the prior probability gets crowded out of the judgment entirely.",
+      "contrast_statement": "Unbiased probabilistic reasoning explicitly anchors on base rates before incorporating case-specific information. The key diagnostic is not what is mentioned but what is absent: base rate neglect is detectable when individuating detail is extensive and compelling while relevant population-level statistics are ignored entirely, even when they would materially change the inference.",
+      "literature_description": "Documented by Kahneman and Tversky (1973, Psychological Review) in studies showing that personality-sketch detail overwhelmed stated base rates when participants judged occupational category membership.",
+      "identification_criteria": [
+        "A probability or category judgment relies entirely on vivid individuating detail with no mention of the relevant population base rate",
+        "Base rate information that is available and relevant is omitted even though it would materially change the conclusion",
+        "Confidence in the case-specific conclusion is not adjusted downward despite a base rate that would argue against it"
+      ],
+      "linguistic_signals": [
+        "Profile or trait lists used to settle a categorical judgment ('she's meticulous, soft-spoken... she must be a librarian')",
+        "Confident category assignment with no statistical caveat",
+        "Absence of phrases like 'most people in this situation are actually...' or any population-frequency framing"
+      ],
+      "canonical_example": "She's meticulous, soft-spoken, wears glasses, and loves puzzles—she must be a librarian rather than a salesperson.",
+      "journalism_example": "The defendant fits the profile remarkably well: he lives near the crime scene, owns a vehicle matching the description, and had a prior altercation with the victim. Given all of this, the prosecution's case is very strong and conviction seems likely. (This analysis is entirely driven by individuating profile information. A rigorous assessment would also require considering base rates: how often do individuals matching this description commit such crimes, and how often are profile matches misleading? The absence of any base rate consideration is the diagnostic marker.)",
+      "reframing_strategy": "State the relevant base rate explicitly before incorporating case-specific detail, and show how the detail updates — rather than replaces — that prior.",
+      "common_confusions": [
+        {
+          "bias": "Fundamental Attribution Error",
+          "distinction": "Base rate neglect is a probability-estimation error about ignoring population priors. Fundamental attribution error is about over-attributing behavior to disposition versus situation. A profile-driven judgment can exhibit base rate neglect without being an attribution error if no character judgment about the individual is made."
+        }
+      ],
+      "severity_signal": "high",
+      "severity_rationale": "In high-stakes contexts like legal or medical judgments, neglecting base rates can produce materially wrong probability estimates and unjust conclusions.",
+      "sources": [
+        {"author": "Kahneman, D. & Tversky, A.", "year": 1973, "title": "On the psychology of prediction", "journal": "Psychological Review"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
     },
     {
       "id": "framing-effect",
       "name": "Framing Effect",
       "aliases": ["framing bias", "gain-loss framing"],
-      "category": "Framing & Anchoring",
+      "category": "Judgment & Decision-Making",
       "subcategory": "Presentation Effects",
-      "definition": "Identical information presented in different ways produces systematically different responses. People react differently to information depending on whether it is framed as a gain or a loss, as a percentage or an absolute number, in positive or negative terms.",
-      "mechanism": "Loss aversion amplifies negative frames; the emotional valence of the frame activates System 1 responses before System 2 analysis can apply. Reference point selection determines what counts as 'gain' vs. 'loss'.",
-      "literature_description": "Canonical demonstration by Kahneman and Tversky (1981, Science) — the 'Asian Disease' problem, where respondents chose differently between two identical options depending on whether outcomes were described in terms of lives saved vs. lives lost. Foundational to Prospect Theory. Entman (1993, Journal of Communication) adapted framing to journalism: 'to frame is to select some aspects of a perceived reality and make them more salient.'",
+      "definition": "Logically equivalent information presented in different surface forms (gain vs. loss, survival vs. mortality, percentage vs. absolute frequency) produces systematically different judgments and choices. The effect is driven by asymmetric loss aversion: losses loom larger than equivalent gains, so loss-framed descriptions trigger stronger negative responses.",
+      "mechanism": "Loss aversion makes loss-framed descriptions of identical facts feel more aversive than gain-framed descriptions of the same facts, so the choice of frame — not any new information — shifts judgment.",
+      "contrast_statement": "Unbiased presentation either uses both frames explicitly ('90% survival rate, equivalently a 10% mortality rate') or chooses framing based on communicative convention, not persuasive intent. The hallmark of the bias is selecting the frame that predictably exploits asymmetric loss aversion — describing the same policy, treatment, or outcome in whichever valence (gain or loss) nudges the audience toward a predetermined conclusion.",
+      "literature_description": "Canonical demonstration by Kahneman and Tversky (1981, Science) — the 'Asian Disease' problem, where respondents chose differently between two identical options depending on whether outcomes were described in terms of lives saved versus lives lost. Foundational to Prospect Theory.",
       "identification_criteria": [
-        "A statistic is presented in a form that emphasizes its magnitude (or minimizes it) compared to a neutral presentation: e.g., '90% survival rate' vs. '10% mortality rate'",
-        "An event is described using gain language ('recovered', 'saved', 'improved') or loss language ('failed', 'lost', 'worsened') when the neutral facts support neither exclusively",
-        "A reference point is implicitly chosen to make the current situation look better or worse than a different reference point would",
-        "The same policy, person, or event is described in terms that carry emotional valence (e.g., 'tax relief' vs. 'tax cut'; 'illegal alien' vs. 'undocumented migrant') that predisposes the reader to a particular interpretation",
-        "Comparisons are made to a selectively chosen baseline that makes the subject look better or worse than alternative baselines would"
+        "The same underlying fact is presented in only one valence (gain or loss) when the opposite valence is equally available and would produce a different reaction",
+        "Emotionally loaded loss language ('lose', 'taken away') is used where a numerically equivalent gain framing exists and is omitted",
+        "No accompanying statement of the equivalent alternative frame is offered, leaving the reader unable to recompute the neutral fact"
       ],
       "linguistic_signals": [
-        "Gain/loss framing: 'saved' vs. 'lost', 'recovered' vs. 'failed', 'rose' vs. 'fell'",
-        "Percentage vs. absolute framing: '5%' vs. '1 in 20' vs. '5 million people'",
-        "Loaded terminology without attribution: 'regime', 'crisis', 'surge', 'crisis', 'explosion'",
-        "Baseline selection: 'compared to last year' vs. 'compared to the pre-pandemic peak'",
-        "Relative vs. absolute risk framing: 'doubles your risk' (relative) for a 0.001% → 0.002% change (absolute)"
+        "Loss-frame vocabulary: 'lose', 'taken away', 'stripped of' applied to a statistic that could equally be framed as a retention rate",
+        "Single-direction statistic with no companion frame ('34 out of 100 will lose benefits' with no '66 out of 100 will retain benefits')",
+        "Valenced terminology choices ('tax relief' vs. 'tax cut') applied to a single side of a neutral fact"
       ],
-      "canonical_example": "A study reports that a new drug reduces heart attack risk by 50%. The article leads with the relative risk reduction (50%) rather than the absolute risk reduction (from 2% to 1%), making the effect sound dramatically larger than clinical significance warrants.",
-      "journalism_example": "A headline reads 'Government saves 10,000 jobs with factory deal' for a subsidy that prevented layoffs at one plant, while a parallel story on a similar-sized job loss at another plant runs as 'Plant closure threatens workers.'",
-      "reframing_strategy": "Present both the absolute and relative form of any statistic. Name the reference point being used for comparisons and note that alternative reference points exist. Use terminology that is specific and descriptive rather than evaluatively loaded. Where gain/loss framing is being applied, state the same fact in the opposite frame and let the reader decide which better represents the reality.",
-      "reframing_example": "The drug story reframed: 'The drug reduced heart attack risk from 2% to 1% — a 50% relative reduction, or 1 fewer heart attack per 100 patients over five years. Researchers noted the absolute risk reduction is modest; the clinical significance depends on the patient's individual risk profile.'",
+      "canonical_example": "Would you accept a medical treatment that carries a 15% chance of death? versus the equivalent: Would you accept a treatment with an 85% survival rate?",
+      "journalism_example": "This policy reform has been tried in comparable countries and the data are clear. Under the current system, 34 out of every 100 affected citizens will lose their benefits. We cannot accept a policy that takes away support from a third of vulnerable people. (The statistic is accurate, but the loss frame is selected specifically for its emotional salience. The identical fact could be framed as '66 out of 100 people will retain their benefits,' which experimentally produces substantially less opposition.)",
+      "reframing_strategy": "Present both the gain and loss frame of any statistic side by side, and name the reference point being used so the reader can recompute the fact under either valence.",
       "common_confusions": [
         {
-          "bias": "Anchoring",
-          "distinction": "Anchoring is about the first number mentioned setting a reference point for subsequent estimates. Framing is about how the presentation form of information — gain vs. loss, absolute vs. relative — changes the emotional and cognitive response to it. Anchoring is specifically numerical; framing can apply to any information."
+          "bias": "Anchoring Effect",
+          "distinction": "Anchoring is about a preceding number setting a reference point for subsequent numerical estimates. Framing is about how the presentation valence of the same fact — gain vs. loss — changes emotional and cognitive response, independent of any preceding anchor."
         }
       ],
       "severity_signal": "high",
-      "severity_rationale": "Framing is structural and often invisible — readers rarely recognize that a different presentation of the same fact would produce a different emotional response. High severity because it shapes how readers feel about facts, not just which facts they encounter.",
+      "severity_rationale": "Framing is structural and often invisible to readers, shaping how they feel about facts rather than which facts they encounter.",
       "sources": [
-        {"author": "Kahneman, D. & Tversky, A.", "year": 1981, "title": "The framing of decisions and the psychology of choice", "journal": "Science", "doi": "10.1126/science.7455683"},
-        {"author": "Entman, R.M.", "year": 1993, "title": "Framing: Toward Clarification of a Fractured Paradigm", "journal": "Journal of Communication", "doi": "10.1111/j.1460-2466.1993.tb01304.x"}
+        {"author": "Kahneman, D. & Tversky, A.", "year": 1981, "title": "The framing of decisions and the psychology of choice", "journal": "Science"}
       ],
       "status": "provisional",
       "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
-    },
-    {
-      "id": "availability-heuristic",
-      "name": "Availability Heuristic",
-      "aliases": ["availability bias", "availability cascade"],
-      "category": "Availability & Salience",
-      "subcategory": "Fluency-Based Judgment",
-      "definition": "Judging the likelihood or frequency of an event by how easily examples come to mind. Vivid, recent, emotionally salient, or heavily reported events are overestimated in frequency; boring, distant, or underreported events are underestimated.",
-      "mechanism": "Ease of retrieval from memory is used as a proxy for probability. The brain conflates 'I can think of many examples' with 'this happens often.' Media coverage amplifies availability: repeated exposure to stories about rare events makes those events feel common.",
-      "literature_description": "Introduced by Tversky and Kahneman (1973, Cognitive Psychology) in studies showing that people judged words beginning with 'K' as more common than words with 'K' as the third letter — because the former are easier to retrieve. Sunstein and Zeckhauser (2011) extended the concept to 'probability neglect': availability of a single vivid scenario drives fear responses regardless of base rates. Slovic et al. (1979) documented the availability cascade in public risk perception.",
-      "identification_criteria": [
-        "A rare event is described as representative or prevalent based on recent high-profile cases rather than statistical base rates",
-        "The article's implicit probability estimate for an event is driven by the number of examples cited rather than by population-level statistics",
-        "Anecdotes about vivid individual cases are used to support claims about frequency or typicality without base rate data",
-        "The article covers an event that has recently been heavily in the news and presents it as an escalating trend without trend data",
-        "Risk is described in absolute terms (number of cases) without reference to the denominator (total population, total incidents of similar events)"
-      ],
-      "linguistic_signals": [
-        "Trend claims without trend data: 'increasingly', 'more and more', 'growing number of' without citation",
-        "Anecdote-as-data: using one or two vivid stories to imply broader prevalence",
-        "Denominator neglect: raw counts without rates (e.g., '200 attacks' without 'per 100,000 people')",
-        "Recency anchoring: 'since [recent high-profile event]' as evidence of a pattern",
-        "Typicality language: 'this is what happens when...', 'stories like this are becoming common'"
-      ],
-      "canonical_example": "After a widely-covered shark attack, a news story reports 'shark attacks are on the rise this summer' based on three incidents in the past month, without noting that the long-term annual average is 70–80 attacks globally and this summer's pace is within the historical range.",
-      "journalism_example": "Coverage of a single high-profile plane crash includes expert quotes about aviation safety concerns and phrases like 'as air travel grows, so do the risks' — despite commercial aviation mortality rates being near all-time lows per passenger mile.",
-      "reframing_strategy": "Anchor any frequency or probability claim in base rate data. When using an anecdote, explicitly note that it is illustrative and not representative of the broader pattern. Provide the denominator for any count (rate per population, not raw number). Contextualize recent events against the longer historical trend. Quote risk communication experts who specialize in presenting probability accurately.",
-      "reframing_example": "The plane crash story reframed: 'The crash is the second fatal commercial aviation accident this year. Aviation safety experts note that 2025 commercial aviation fatality rates remain among the lowest on record — approximately 0.07 deaths per billion passenger miles — and that individual accidents, while tragic, do not indicate a systemic trend.'",
-      "common_confusions": [
-        {
-          "bias": "Negativity Bias",
-          "distinction": "Negativity bias is about giving greater weight to negative information than positive information of equal objective magnitude. Availability heuristic is about overestimating frequency based on ease of recall. They often compound each other — negative events are more memorable and thus more available — but are distinct mechanisms."
-        }
-      ],
-      "severity_signal": "high",
-      "severity_rationale": "Availability heuristic in journalism distorts public risk perception at scale. Systematic overcoverage of rare dramatic events (plane crashes, shark attacks, terrorism) and undercoverage of common slow-moving risks (chronic disease, climate-linked mortality) produces systematically distorted public understanding of what is dangerous.",
-      "sources": [
-        {"author": "Tversky, A. & Kahneman, D.", "year": 1973, "title": "Availability: A heuristic for judging frequency and probability", "journal": "Cognitive Psychology", "doi": "10.1016/0010-0285(73)90033-9"},
-        {"author": "Sunstein, C.R. & Zeckhauser, R.", "year": 2011, "title": "Overreaction to Fearsome Risks", "journal": "Environmental and Resource Economics", "doi": "10.1007/s10640-010-9449-3"}
-      ],
-      "status": "provisional",
-      "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
-    },
-    {
-      "id": "anchoring",
-      "name": "Anchoring",
-      "aliases": ["anchoring bias", "anchoring and adjustment", "focalism"],
-      "category": "Framing & Anchoring",
-      "subcategory": "Numerical Reference Points",
-      "definition": "The first numerical value or piece of information encountered (the 'anchor') has a disproportionate influence on subsequent estimates, judgments, and interpretations. Adjustment from the anchor is typically insufficient.",
-      "mechanism": "Initial information activates a reference point; subsequent processing adjusts from that point but rarely adjusts far enough. The anchor primes semantically related information, making anchor-consistent evidence more accessible. Works even with clearly arbitrary anchors (Ariely et al., 2003).",
-      "literature_description": "First demonstrated by Tversky and Kahneman (1974, Science) in their 'wheel of fortune' experiment: a randomly spun wheel influenced participants' estimates of the percentage of African countries in the UN. Ariely, Loewenstein, and Prelec (2003, Quarterly Journal of Economics) demonstrated 'arbitrary coherence' — even clearly arbitrary anchors (the last two digits of one's social security number) influenced willingness-to-pay estimates.",
-      "identification_criteria": [
-        "The first number mentioned in an article establishes the frame through which all subsequent numbers are interpreted",
-        "A high (or low) initial figure is presented and subsequent discussion is structured as departures from that number rather than from a neutral baseline",
-        "Price, cost, or quantity negotiations are described starting from one party's opening position, which then frames the outcome as a concession or a win relative to that anchor",
-        "A statistic is cited that is technically accurate but selected because it makes a figure seem large (or small) relative to a less prominent alternative representation",
-        "Historical comparison is anchored to a specific prior period that makes the current figure appear unusually high or low"
-      ],
-      "linguistic_signals": [
-        "Opening numbers followed by relative framing: '$10 billion ask' → 'settled for $6 billion' (anchor was $10B)",
-        "Comparisons structured as departures: 'down from', 'up from', 'compared to last year's record'",
-        "Initial framing of magnitude: 'as many as X' or 'at least X' before a more precise figure",
-        "Selective historical reference: 'the highest since [year]' where the comparison year was chosen to maximize apparent magnitude"
-      ],
-      "canonical_example": "A salary negotiation article leads with 'The union asked for a 15% raise.' The final 9% settlement is then described as 'well below the initial demand' — anchored to the union's opening rather than to inflation rates, industry benchmarks, or any neutral baseline.",
-      "journalism_example": "A story about a city budget deficit opens: 'Officials initially projected a $500 million shortfall.' The $200 million revised estimate is then described as 'a relief' — when the $200 million deficit is itself historically large and would require significant cuts.",
-      "reframing_strategy": "State multiple reference points for any numerical claim — not just the anchor but also historical averages, peer comparisons, and base rates. When covering a negotiation, identify whose opening position is functioning as the anchor and note that the anchor was strategically chosen. Present the final number relative to a neutral baseline (e.g., inflation, population growth, peer benchmarks) in addition to relative to the opening position.",
-      "reframing_example": "The budget story reframed: 'The city's revised $200 million deficit, down from an initial projection of $500 million, still represents the largest structural deficit in over a decade and would require cutting approximately 8% of discretionary spending to close, according to city finance officials.'",
-      "common_confusions": [
-        {
-          "bias": "Framing Effect",
-          "distinction": "Anchoring is specifically about numerical reference points distorting estimates. Framing effect is broader — it applies to any information, not just numbers. A gain/loss frame on a non-numerical description is framing, not anchoring."
-        }
-      ],
-      "severity_signal": "medium",
-      "severity_rationale": "Anchoring distorts how readers interpret quantities and negotiations. Medium severity: the effect is real but often detectable by a careful reader who considers what baseline is being used.",
-      "sources": [
-        {"author": "Tversky, A. & Kahneman, D.", "year": 1974, "title": "Judgment under Uncertainty: Heuristics and Biases", "journal": "Science", "doi": "10.1126/science.185.4157.1124"},
-        {"author": "Ariely, D., Loewenstein, G. & Prelec, D.", "year": 2003, "title": "Coherent Arbitrariness: Stable Demand Curves without Stable Preferences", "journal": "Quarterly Journal of Economics", "doi": "10.1162/00335530360535153"}
-      ],
-      "status": "provisional",
-      "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
     },
     {
       "id": "fundamental-attribution-error",
       "name": "Fundamental Attribution Error",
       "aliases": ["correspondence bias", "attribution error", "FAE"],
-      "category": "Attribution & Causation",
+      "category": "Social Cognition",
       "subcategory": "Person vs. Situation Attribution",
-      "definition": "The tendency to over-attribute behavior to an individual's character, intentions, or disposition, while underweighting situational or structural factors. When someone does something, we explain it in terms of who they are rather than what circumstances they were in.",
-      "mechanism": "The actor's behavior is perceptually salient and easy to see; the situational context is background and easy to miss. We construct explanations from what we observe, and we observe the person more clearly than their environment.",
-      "literature_description": "Named and described by Lee Ross (1977, Advances in Experimental Social Psychology). The 'quizmaster study' (Ross, Amabile, and Steinmetz, 1977) showed that observers rated a quiz host as more knowledgeable than contestants, ignoring that the host selected the questions. Jones and Harris (1967, Journal of Experimental Social Psychology) showed that readers attributed essay positions to writers' beliefs even when told writers were assigned the position.",
+      "definition": "The systematic tendency to explain other people's behavior by attributing it to their stable internal dispositions (character, personality, ability, intent) while underweighting situational, contextual, or structural factors that could explain the same behavior. The error is in the asymmetric explanatory framework applied to others versus the recognition of context applied to one's own behavior.",
+      "mechanism": "An actor's behavior is perceptually salient and easy to observe directly, while the situational context surrounding that behavior is comparatively invisible, so explanations default to what is observed: the person.",
+      "contrast_statement": "Unbiased attribution weighs both dispositional and situational explanations before concluding. The diagnostic is asymmetry: when identical behaviors across different individuals are explained dispositionally for some and situationally for others, or when situational factors that would obviously explain behavior are not mentioned alongside character attributions.",
+      "literature_description": "Named and described by Lee Ross (1977, Advances in Experimental Social Psychology). The 'quizmaster study' showed that observers rated a quiz host as more knowledgeable than contestants, ignoring that the host selected the questions.",
       "identification_criteria": [
-        "Failure, crime, or misconduct is attributed to individual character (bad person, greedy executive, corrupt official) without examination of systemic, structural, or situational factors that may have contributed",
-        "Success is attributed to individual talent or effort without acknowledging structural advantages, timing, or luck",
-        "A policy outcome is explained by the quality of the leader or policymaker rather than by the constraints, incentives, or circumstances they operated within",
-        "A community's condition (poverty, crime rates, health outcomes) is explained by characteristics of that community rather than by historical or structural causes",
-        "Behavior by an outgroup member is explained dispositionally while similar behavior by an ingroup member is explained situationally"
+        "Failure, misconduct, or underperformance is attributed to individual character without examination of structural or situational factors that could explain the same outcome",
+        "Success is attributed to individual talent or effort without acknowledging structural advantage, timing, or luck",
+        "Situational factors that would obviously bear on the outcome (resources, constraints, incentives) are absent from an otherwise dispositional account"
       ],
       "linguistic_signals": [
-        "Dispositional language: 'he chose to', 'she decided to', 'they failed to' without situational context",
-        "Character framing: 'the embattled CEO', 'the embattled mayor' — focus on who rather than what system",
-        "Absence of systemic or structural explanation in coverage of social outcomes",
-        "Asymmetric attribution: in-group behavior explained by situation, out-group behavior explained by character",
-        "'Great man' or 'great woman' framing of complex historical events"
+        "Dispositional verbs: 'he is disorganized', 'doesn't take his work seriously' applied without situational context",
+        "Character framing of organizations or groups ('poor work ethic', 'wrong people') in place of structural diagnosis",
+        "Absence of any mention of management, resourcing, or incentive structure in an account of group-level outcomes"
       ],
-      "canonical_example": "A story about a company's bankruptcy focuses entirely on the CEO's poor decisions and personality flaws, without examining that the company operated in a contracting market, faced structural competition from overseas manufacturing, and was carrying debt from a leveraged buyout three years earlier.",
-      "journalism_example": "Coverage of a school district's low test scores focuses on the superintendent's management style and the teachers' union contract, with no examination of the district's funding per pupil relative to state averages, the proportion of students experiencing food insecurity, or the effect of population loss on tax base.",
-      "reframing_strategy": "For any failure or misconduct story, explicitly examine structural and situational factors alongside individual ones. Use a 'what would have happened with a different person in the same situation?' frame. Ensure that systemic causes receive at least as much space as individual causes. Attribute outcomes to the combination of individual agency and contextual constraints rather than to character alone.",
-      "reframing_example": "The school district story reframed to include: per-pupil funding data by district, comparison to state-average funding, research on the relationship between poverty concentration and test performance, and expert context on what superintendents can and cannot change given state funding formulas — alongside the management and contract coverage.",
+      "canonical_example": "He keeps missing deadlines because he's disorganized and doesn't take his work seriously.",
+      "journalism_example": "The employees in that department have consistently underperformed for two years running. The numbers speak for themselves: this is a team with poor work ethic and a fundamental lack of motivation. Leadership has been patient, but at some point you have to conclude that you simply have the wrong people. (The analysis attributes persistent underperformance entirely to the dispositions of team members. A balanced assessment would examine situational factors: management clarity, resource constraints, role ambiguity, organizational incentives — all of which are absent from this account.)",
+      "reframing_strategy": "For any failure or success story, explicitly examine structural and situational factors alongside individual ones, asking what would have happened with a different person in the same situation.",
       "common_confusions": [
         {
-          "bias": "In-Group Bias",
-          "distinction": "In-group bias causes the *asymmetric* application of FAE — situational for in-group, dispositional for out-group. FAE itself is the underlying error in either direction. A story can exhibit FAE without in-group bias if it attributes outcomes dispositionally across the board regardless of group membership."
+          "bias": "Actor-Observer Asymmetry",
+          "distinction": "Fundamental attribution error is the general tendency to over-attribute others' behavior to disposition. Actor-observer asymmetry is the specific pattern where the same person explains their own behavior situationally while explaining identical behavior in others dispositionally — it is FAE applied asymmetrically across self versus other."
         }
       ],
       "severity_signal": "high",
-      "severity_rationale": "FAE in journalism produces coverage that locates problems in individuals rather than systems, which shapes public policy understanding. If readers believe school failure is caused by bad teachers rather than underfunding, policy support shifts accordingly.",
+      "severity_rationale": "Locates problems in individuals rather than systems, which shapes public and organizational understanding of root causes and policy responses.",
       "sources": [
-        {"author": "Ross, L.", "year": 1977, "title": "The Intuitive Psychologist and His Shortcomings", "journal": "Advances in Experimental Social Psychology", "doi": "10.1016/S0065-2601(08)60357-3"},
-        {"author": "Jones, E.E. & Harris, V.A.", "year": 1967, "title": "The attribution of attitudes", "journal": "Journal of Experimental Social Psychology", "doi": "10.1016/0022-1031(67)90034-0"}
+        {"author": "Ross, L.", "year": 1977, "title": "The intuitive psychologist and his shortcomings", "journal": "Advances in Experimental Social Psychology"}
       ],
       "status": "provisional",
       "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
     },
     {
-      "id": "negativity-bias",
-      "name": "Negativity Bias",
-      "aliases": ["negativity effect", "bad is stronger than good"],
-      "category": "Affect & Emotional Reasoning",
-      "subcategory": "Asymmetric Valence Weighting",
-      "definition": "Negative events, experiences, and information have greater psychological impact than positive events of equivalent objective magnitude. Bad is processed more deeply, remembered more vividly, and influences judgment more strongly than good.",
-      "mechanism": "Evolutionary selection pressure — threats require faster and more thorough response than opportunities. The amygdala shows greater activation to negative stimuli. Baumeister et al. (2001): 'bad is stronger than good' across a wide range of psychological phenomena.",
-      "literature_description": "Comprehensively reviewed by Baumeister, Bratslavsky, Finkenauer, and Vohs (2001, Review of General Psychology): negative events produce stronger, longer-lasting effects than positive events across domains including relationships, learning, and information processing. Rozin and Royzman (2001) formalized 'negativity bias' as a distinct construct. In media research, Soroka (2014) demonstrated that negativity bias drives news consumption — negative news stories produce stronger physiological arousal and higher reader engagement than positive stories of equivalent factual importance.",
+      "id": "sunk-cost-fallacy",
+      "name": "Sunk Cost Fallacy",
+      "aliases": ["sunk cost effect", "Concorde fallacy"],
+      "category": "Judgment & Decision-Making",
+      "subcategory": "Irrecoverable Cost Reasoning",
+      "definition": "Continuing a course of action based on previously invested resources (time, money, effort) that cannot be recovered, rather than on the expected future value of the action. Rationally, past irrecoverable costs should not influence forward-looking decisions; only marginal future costs and benefits are relevant.",
+      "mechanism": "Past investment creates a felt obligation or aversion to 'wasting' what has already been spent, which gets weighed against future prospects even though sunk costs are, by definition, no longer recoverable under any choice.",
+      "contrast_statement": "Unbiased decision reasoning focuses exclusively on prospective costs and benefits from the current decision point forward. The fallacy is detectable when past investment is invoked as a justification for continuing — phrases like 'we've already put in X' or 'it would be a waste to stop now' are doing causal work in the argument rather than appearing as contextual background.",
+      "literature_description": "Formally analyzed by Arkes and Blumer (1985, Organizational Behavior and Human Decision Processes), who demonstrated that prior investment systematically biased people toward continuing a losing course of action.",
       "identification_criteria": [
-        "An article gives disproportionate prominence, length, or emotive language to negative outcomes relative to positive ones of comparable scale",
-        "Losses and failures are reported while equivalent gains or successes go unreported or receive significantly less coverage",
-        "The article's emotional register is predominantly negative (alarm, outrage, concern) without proportionate coverage of positive developments in the same domain",
-        "Risk and harm are described in vivid, specific terms while safety and success are described in abstract or statistical terms",
-        "A single negative event is treated as evidence of a broader negative trend while equivalent positive events are not treated as evidence of a positive trend"
+        "Past investment (time, money, effort) is cited as a reason to continue a course of action, rather than as neutral background",
+        "Forward-looking costs and benefits are downweighted relative to the size of the past investment already made",
+        "The argument would change if the past investment were removed from consideration — indicating it is doing causal work rather than merely being mentioned"
       ],
       "linguistic_signals": [
-        "Alarm language for routine or moderate events: 'crisis', 'disaster', 'catastrophe', 'spiraling'",
-        "Asymmetric vividness: specific, named victims for negative outcomes; anonymous or statistical representation of positive outcomes",
-        "Loss-frame default: 'failed to', 'missed', 'fell short of', 'lost'",
-        "Trend language applied to negative data but not to positive data in the same domain",
-        "Emotional amplifiers: 'devastating', 'shocking', 'alarming', 'disturbing' for negative events without comparable amplifiers for positive ones"
+        "'We've already spent X, so we have to see it through'",
+        "'It would be a waste to stop now' / 'all of that work would be for nothing'",
+        "'We owe it to the investment/team' framing that substitutes for a forward-looking cost-benefit analysis"
       ],
-      "canonical_example": "An economic report showing GDP growth of 2.1% (slightly below a 2.3% forecast) is headlined 'Economy Misses Expectations' with a focus on the shortfall, while an equivalent beat of the same magnitude would receive a headline like 'Economy Grows Solidly.'",
-      "journalism_example": "A city's annual crime report shows violent crime down 8% year-over-year and property crime up 3% year-over-year. The headline reads 'Property Crime Rising in [City]' with three paragraphs on the increase and one sentence on the violent crime decrease.",
-      "reframing_strategy": "Apply equal treatment to positive and negative findings of equivalent scale. If a negative trend receives a headline and multiple paragraphs, an equally-sized positive trend in the same dataset should receive proportional coverage. Describe losses and gains in equivalent terms — if a loss gets vivid language and named examples, a gain of the same magnitude should too. Present rates and magnitudes for negative events alongside positive context.",
-      "reframing_example": "The crime story reframed: 'Crime statistics released today show mixed results: violent crime fell 8% — the largest single-year drop in over a decade — while property crime rose 3%, continuing a trend police attribute to catalytic converter theft. The net effect was a 2% decline in total crimes.'",
+      "canonical_example": "We've already spent two years and $2 million on this project, so we have to see it through to completion.",
+      "journalism_example": "I know the clinical trial results have been disappointing and the market analysis no longer supports the original projections, but we need to remember that we have invested nearly four years of R&D and $15 million in development costs into this drug. Walking away now would mean that all of that work was for nothing. We owe it to the team—and to the investment—to push through to launch. (The four years and $15 million are sunk and unrecoverable. The rational question is whether expected future revenues justify remaining development and launch costs. The text uses past investment to override that prospective analysis.)",
+      "reframing_strategy": "Strip the sunk cost from the argument entirely and evaluate the decision purely on remaining future costs versus expected future benefits.",
       "common_confusions": [
         {
-          "bias": "Availability Heuristic",
-          "distinction": "Negativity bias is about the asymmetric weight given to negative vs. positive information. Availability heuristic is about overestimating frequency of events that come easily to mind. Negative events are more memorable and thus more available — the two biases compound each other. But an article can show negativity bias (overweighting a negative finding) without availability heuristic (it may cite accurate frequency data)."
+          "bias": "Hyperbolic Discounting",
+          "distinction": "Sunk cost fallacy concerns the backward-looking pull of past, unrecoverable investment. Hyperbolic discounting concerns forward-looking inconsistency in how costs and benefits are weighted depending on their distance in time. Both distort intertemporal decisions but via opposite temporal directions."
         }
       ],
       "severity_signal": "medium",
-      "severity_rationale": "Negativity bias is partly a structural feature of news as a medium — 'if it bleeds, it leads' reflects real reader engagement patterns. Medium severity because it is pervasive and expected; the evaluation should flag it but calibrate against the baseline that some negativity bias is intrinsic to the genre.",
+      "severity_rationale": "Leads to continued investment in failing courses of action, with costs that compound the longer the fallacy persists.",
       "sources": [
-        {"author": "Baumeister, R.F. et al.", "year": 2001, "title": "Bad is Stronger than Good", "journal": "Review of General Psychology", "doi": "10.1037/1089-2680.5.4.323"},
-        {"author": "Soroka, S.N.", "year": 2014, "title": "Negativity in Democratic Politics: Causes and Consequences", "publisher": "Cambridge University Press"}
+        {"author": "Arkes, H.R. & Blumer, C.", "year": 1985, "title": "The psychology of sunk cost", "journal": "Organizational Behavior and Human Decision Processes"}
       ],
       "status": "provisional",
       "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
     },
     {
-      "id": "in-group-bias",
-      "name": "In-Group Bias",
-      "aliases": ["in-group favoritism", "in-group/out-group bias", "us vs. them bias"],
-      "category": "In-Group & Social",
-      "subcategory": "Group Identity Effects",
-      "definition": "The tendency to favor members of one's own group over members of other groups. In journalism, this manifests as asymmetric treatment of in-group and out-group actors — more charitable framing, more humanizing language, more presumption of legitimacy for the in-group.",
-      "mechanism": "Social identity theory (Tajfel and Turner, 1979): people derive self-esteem from group membership and maintain positive group identity by viewing their group favorably relative to outgroups. Even minimal group cues ('red team' vs. 'blue team') activate in-group favoritism.",
-      "literature_description": "Social identity theory established by Tajfel and Turner (1979). The 'minimal group paradigm' (Tajfel et al., 1971, European Journal of Social Psychology) demonstrated in-group bias with groups formed on arbitrary criteria. Applied to journalism by Van Dijk (1998, Discourse and Society): news systematically represents ethnic and national in-groups more favorably, emphasizes positive attributes and contextualizes negative behavior situationally for in-groups, and does the reverse for out-groups.",
+      "id": "overconfidence-bias",
+      "name": "Overconfidence Bias",
+      "aliases": ["miscalibration", "overprecision"],
+      "category": "Judgment & Metacognition",
+      "subcategory": "Confidence Calibration",
+      "definition": "Systematic miscalibration in which subjective confidence in the accuracy of one's judgments or predictions exceeds objective accuracy rates. Operationally, this appears as the use of high-certainty language for claims that are empirically uncertain, contested, or probabilistic, and as the absence of hedging where hedging is warranted by the actual epistemic situation.",
+      "mechanism": "People rely on the coherence and accessibility of their own reasoning as a proxy for its accuracy, so a fluent, internally consistent argument feels certain even in domains with high genuine forecasting error.",
+      "contrast_statement": "Well-calibrated text matches confidence language to the underlying evidence base. Claims grounded in strong evidence warrant strong language; genuinely uncertain or contested claims warrant hedged, probabilistic language. The bias marker is not confidence per se, but confidence that is not proportionate to the available evidence, especially in complex domains where uncertainty is inherent.",
+      "literature_description": "Reviewed extensively by Moore and Healy (2008, Psychological Review), who distinguish overestimation, overplacement, and overprecision as related but distinct forms of miscalibrated confidence.",
       "identification_criteria": [
-        "Members of one group are described with humanizing detail (names, family context, individual story) while members of another group are described in aggregate or with dehumanizing abstraction",
-        "The same action by an in-group actor is framed as legitimate or contextually justified; the same action by an out-group actor is framed as threatening or illegitimate",
-        "Sources from the in-group are given more space, treated as more authoritative, and quoted with more sympathy than out-group sources on the same contested question",
-        "Casualties, suffering, or hardship of the in-group are described with specificity and emotional weight; casualties of the out-group are described statistically or minimized",
-        "Fundamental attribution error applied asymmetrically: in-group bad behavior explained situationally, out-group bad behavior explained dispositionally"
+        "High-certainty language ('no question', 'complete certainty', 'simply no other plausible outcome') is applied to a claim in a domain with known high forecasting uncertainty or expert disagreement",
+        "No hedging, probability ranges, or acknowledgment of alternative outcomes is offered despite the claim being empirically contested",
+        "Disagreement from qualified experts is dismissed as bad faith or incompetence rather than engaged with"
       ],
       "linguistic_signals": [
-        "Humanization asymmetry: named individuals with family context for in-group; 'the militants', 'the migrants', 'the rioters' for out-group",
-        "Verb asymmetry: in-group 'responds' or 'defends'; out-group 'attacks' or 'threatens'",
-        "Quote space asymmetry: in-group sources quoted at length with context; out-group sources quoted briefly or paraphrased",
-        "Attribution asymmetry: in-group behavior described in passive voice or with situational hedging; out-group behavior described in active, agentive voice",
-        "Civilian/combatant framing: in-group deaths are 'civilians'; out-group deaths are 'militants' even when the distinction is contested"
+        "'There is no question that...' / 'anyone who claims otherwise is...'",
+        "'Not a matter of debate among serious [experts]' applied to a genuinely contested empirical claim",
+        "Absence of probabilistic hedges ('likely', 'may', 'our best estimate') in domains where they are warranted"
       ],
-      "canonical_example": "A conflict story describes the in-group country's airstrike as 'a targeted operation against militant infrastructure' that 'resulted in casualties.' The out-group's response is described as 'an attack on civilian areas' with named victim stories and civilian death toll emphasized.",
-      "journalism_example": "A domestic crime story names and humanizes the victim's family, provides community background, and quotes neighbors describing the neighborhood's character. An equivalent crime story about the same city but with a different demographic of victim uses aggregate crime statistics and no named community members.",
-      "reframing_strategy": "Apply equal humanizing detail across groups. If one actor is named and given family context, apply the same treatment to the other. Use parallel verb construction for parallel actions. Ensure equal source space across perspectives. Explicitly name the in-group/out-group structure and note where asymmetric treatment appears. Apply FAE correction symmetrically: explain situational factors for all actors.",
-      "reframing_example": "The conflict story reframed to use parallel framing for both the airstrike and the response: same specificity on casualties, same engagement with civilian/combatant distinctions, same space for sources from both sides to describe their action and its context.",
+      "canonical_example": "I can say with complete certainty that the market will recover strongly by Q3—there's simply no other plausible outcome given the current indicators.",
+      "journalism_example": "After reviewing the economic data, there is no question that the proposed tariff policy will reduce the trade deficit within 18 months. The causal mechanism is straightforward, the historical precedent is clear, and anyone who claims otherwise is either misreading the evidence or arguing in bad faith. This is not a matter of debate among serious economists. (Macroeconomic forecasting is among the most contested and uncertain domains in social science. The certainty language is badly miscalibrated relative to actual expert disagreement and historical forecast accuracy in this domain.)",
+      "reframing_strategy": "Match confidence language to the actual evidence base: use probabilistic hedges for contested or forecast-dependent claims, and reserve high-certainty language for claims with strong, settled evidentiary support.",
       "common_confusions": [
         {
-          "bias": "Fundamental Attribution Error",
-          "distinction": "FAE is the baseline tendency to over-attribute behavior to character rather than situation. In-group bias is what makes FAE asymmetric: in-group actors get situational explanations, out-group actors get dispositional ones. FAE can occur without in-group bias (dispositional attribution across the board). In-group bias is often detectable precisely by finding FAE applied asymmetrically."
+          "bias": "Dunning-Kruger Effect",
+          "distinction": "Overconfidence bias is a general miscalibration between confidence and accuracy that can affect experts and novices alike. Dunning-Kruger specifically requires the co-occurrence of high confidence with demonstrable domain incompetence — the confidence and the knowledge gap must appear together in the same passage."
         }
       ],
       "severity_signal": "high",
-      "severity_rationale": "In-group bias in journalism shapes public understanding of conflict, crime, and policy across national, ethnic, and ideological lines. The asymmetric humanization of victims and perpetrators based on group membership has documented downstream effects on public support for policy.",
+      "severity_rationale": "Overconfident claims in contested domains can mislead readers into treating genuinely uncertain forecasts as settled fact.",
       "sources": [
-        {"author": "Tajfel, H. & Turner, J.C.", "year": 1979, "title": "An Integrative Theory of Intergroup Conflict", "book": "The Social Psychology of Intergroup Relations"},
-        {"author": "Tajfel, H. et al.", "year": 1971, "title": "Social categorization and intergroup behaviour", "journal": "European Journal of Social Psychology", "doi": "10.1002/ejsp.2420010202"},
-        {"author": "Van Dijk, T.A.", "year": 1998, "title": "Opinions and Ideologies in the Press", "book": "Approaches to Media Discourse"}
+        {"author": "Moore, D.A. & Healy, P.J.", "year": 2008, "title": "The trouble with overconfidence", "journal": "Psychological Review"}
       ],
       "status": "provisional",
       "examples_status": "pending",
-      "reference_examples": {
-        "positive": [],
-        "near_miss": [],
-        "contrast": null
-      }
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "scope-insensitivity",
+      "name": "Scope Insensitivity",
+      "aliases": ["psychic numbing", "magnitude insensitivity"],
+      "category": "Judgment & Moral Reasoning",
+      "subcategory": "Magnitude Insensitivity",
+      "definition": "Emotional, moral, or rhetorical responses to large-scale problems do not scale proportionally with the magnitude of the problem. The psychological response to 200,000 casualties is not meaningfully larger than the response to 2,000 casualties; moral weight is anchored to a prototypical image of harm rather than to numerical magnitude.",
+      "mechanism": "Moral and emotional response is generated by a single prototypical image of a victim or harm rather than by a quantitative aggregation across the affected population, so response intensity saturates quickly and stops scaling with magnitude.",
+      "contrast_statement": "Scope-sensitive reasoning explicitly registers and reflects on scale differences when magnitude is relevant to the argument. The bias is detectable when the rhetorical weight, emotional intensity, or urgency of writing is held constant across descriptions that differ by an order of magnitude or more in the quantity of people or harm involved, especially when the argument's conclusion should rationally depend on that magnitude.",
+      "literature_description": "Documented in the 'embedding effect' literature (Desvousges et al., 1992) and analyzed by Kahneman, Ritov, and Schkade (1999) as a feature of affect-based valuation that fails to track quantity. Often referred to as psychic numbing in the work of Paul Slovic.",
+      "identification_criteria": [
+        "Two harms differing by an order of magnitude or more receive identical emotional or rhetorical weight with no acknowledgment of the scale difference",
+        "A conclusion that should rationally depend on magnitude (e.g., resource prioritization) is stated as if scale were irrelevant",
+        "Urgency or moral language is held constant across vastly different quantities of affected people"
+      ],
+      "linguistic_signals": [
+        "'Whether it's X or Y [orders of magnitude apart], what matters is...' used to flatten a scale distinction",
+        "Identical adjectives ('devastating', 'urgent') applied without modification to figures that differ by 6x or more",
+        "No comparative statement registering that one figure represents a qualitatively larger crisis than another"
+      ],
+      "canonical_example": "Whether it's 500 people or 5 million people affected, what matters is that this policy is simply wrong and must be stopped.",
+      "journalism_example": "One estimate puts the annual death toll from indoor air pollution in low-income countries at 3.2 million people. Another study estimates that contaminated drinking water kills approximately 485,000 children under five each year. Both of these are devastating public health crises that demand our urgent attention and moral concern. (While both figures are indeed serious, presenting a toll 6x larger with identical framing and urgency exemplifies scope insensitivity. Proportionate scope-sensitive writing would register that the larger figure represents a qualitatively different scale of crisis.)",
+      "reframing_strategy": "Explicitly state and compare magnitudes when scale differs by an order of magnitude or more, and let urgency or resource-prioritization language track that difference rather than holding it constant.",
+      "common_confusions": [
+        {
+          "bias": "Availability Heuristic",
+          "distinction": "Scope insensitivity is about response intensity failing to scale with magnitude once a harm is salient. Availability heuristic is about whether a harm becomes salient (and judged probable) at all, based on retrieval ease. A harm can be highly available yet still scope-insensitive in how its magnitude is treated."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Can distort resource prioritization and policy debate by treating vastly different magnitudes of harm as rhetorically equivalent.",
+      "sources": [
+        {"author": "Desvousges, W.H. et al.", "year": 1992, "title": "Measuring nonuse damages using contingent valuation: An experimental evaluation of accuracy", "publisher": "Research Triangle Institute"},
+        {"author": "Kahneman, D., Ritov, I. & Schkade, D.", "year": 1999, "title": "Economic preferences or attitude expressions?: An analysis of dollar responses to public issues", "journal": "Journal of Risk and Uncertainty"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "gamblers-fallacy",
+      "name": "Gambler's Fallacy",
+      "aliases": ["negative recency effect", "law of small numbers"],
+      "category": "Probability Reasoning",
+      "subcategory": "Independent Event Reasoning",
+      "definition": "The belief that in a sequence of independent random events, past outcomes influence the probability of future outcomes, specifically, that a run of one outcome makes the opposite outcome 'due.' This reflects a misapplication of the law of large numbers to short, independent sequences and a misunderstanding of stochastic independence.",
+      "mechanism": "People expect even short random sequences to look representative of the underlying probability distribution, so a streak feels like it must self-correct soon, even though independent events carry no memory of prior outcomes.",
+      "contrast_statement": "Unbiased probabilistic reasoning about independent events treats each event as having the same probability regardless of preceding outcomes. The fallacy is clearly operationalized: it appears when prior outcomes of independent processes are explicitly cited as evidence that a particular future outcome is more or less probable. Note that in non-independent processes (e.g., drawing without replacement), updating based on history is correct, not fallacious.",
+      "literature_description": "Analyzed by Tversky and Kahneman (1971, Psychological Bulletin) as the 'belief in the law of small numbers' — the mistaken expectation that small samples of independent events should mirror the long-run probability distribution.",
+      "identification_criteria": [
+        "A streak of outcomes from an independent random process is cited as evidence that the opposite outcome is now more probable",
+        "The reasoning explicitly invokes a balancing or 'evening out' mechanism over a short, finite run rather than the long run",
+        "No verification is offered that the underlying process is actually independent (as opposed to a process where history legitimately changes future probability)"
+      ],
+      "linguistic_signals": [
+        "'X is definitely due' after a run of the opposite outcome",
+        "'These things even out over time' applied to a short streak",
+        "'The odds have to be in our favor now' framing"
+      ],
+      "canonical_example": "The coin has come up heads seven times in a row—tails is definitely due on the next flip.",
+      "journalism_example": "Our sales team has missed its quarterly target three times in a row now, and honestly, I think we're due for a good quarter. Statistically, these things even out over time, and we've had such a rough run lately that the odds have to be in our favor now. (Whether the sales misses reflect a random process or a systematic problem is unclear, but the reasoning — that past negative outcomes increase the probability of a future positive outcome through a balancing mechanism — is the textbook structure of the gambler's fallacy.)",
+      "reframing_strategy": "Establish whether the underlying process is actually independent; if so, state that prior outcomes carry no predictive weight for the next one, and look instead for a non-random causal explanation for any streak.",
+      "common_confusions": [
+        {
+          "bias": "Hot Hand Fallacy",
+          "distinction": "Gambler's fallacy predicts reversal after a streak ('due for a change'); the closely related hot hand fallacy predicts continuation after a streak ('on a roll'). Both misapply pattern detection to independent or near-independent sequences, but in opposite directions."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Leads to mispriced risk and poor decisions in finance, gambling, and any domain where independence is wrongly assumed to imply self-correction.",
+      "sources": [
+        {"author": "Tversky, A. & Kahneman, D.", "year": 1971, "title": "Belief in the law of small numbers", "journal": "Psychological Bulletin"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "hyperbolic-discounting",
+      "name": "Hyperbolic Discounting",
+      "aliases": ["present bias", "dynamic inconsistency"],
+      "category": "Judgment & Decision-Making",
+      "subcategory": "Intertemporal Choice",
+      "definition": "A pattern of time-preference in which the subjective value of costs or benefits declines steeply for near-future events but flattens out for distant ones, producing preference reversals: a cost or sacrifice that seems acceptable when described as spread across a long time horizon would be rejected if the same total were reframed as an equivalent near-term loss. Unlike rational exponential discounting, hyperbolic discounting produces inconsistency — what feels manageable at a distance feels intolerable up close.",
+      "mechanism": "Subjective valuation of costs and benefits is steep near the present and flattens with distance, so identical totals feel very differently sized depending on whether they are framed as a near-term lump sum or a diffuse, amortized long-horizon cost.",
+      "contrast_statement": "Unbiased text about intertemporal tradeoffs presents costs and benefits in consistent temporal units, or explicitly converts between timescales so the reader can apply their own discount rate. The diagnostic marker is asymmetric temporal framing: a cost is described in its most psychologically palatable time unit (spread across years, expressed per-month, or accumulated only over a decade) while the corresponding benefit or counterfactual loss is not offered in the equivalent compressed form. A preference reversal test is the operationalization: would the same person plausibly reject this cost if it were described as a lump sum or near-term equivalent?",
+      "literature_description": "Formalized by Laibson (1997, Quarterly Journal of Economics) building on Thaler's (1981, Economics Letters) early empirical evidence of dynamically inconsistent time preferences, in contrast to the constant-rate exponential discounting assumed by classical economic models.",
+      "identification_criteria": [
+        "A cost or sacrifice is described in its most diffuse temporal unit (per year, per month, amortized over decades) without also stating the lump-sum or near-term equivalent",
+        "The corresponding benefit or counterfactual loss is not offered in the same compressed form, creating an asymmetric comparison",
+        "Restating the cost as a near-term lump sum would plausibly produce a different reaction than the diffuse framing actually used"
+      ],
+      "linguistic_signals": [
+        "'Just $X per year' / 'only a small reduction over a decade' applied to a cost without the lump-sum total stated nearby",
+        "Per-month or per-day framing used to minimize a cost ('the price of a streaming subscription')",
+        "Long repayment or amortization periods cited specifically to shrink the apparent size of a total cost"
+      ],
+      "canonical_example": "The proposed carbon fee would only reduce average household purchasing power by around $400 per year—a manageable adjustment for most families.",
+      "journalism_example": "Critics of the infrastructure bond measure are overstating the fiscal impact. The total borrowing cost over the 30-year repayment period amounts to roughly $1,800 per household—that's just $60 a year, or about the price of a streaming subscription each month. No serious analyst thinks this level of investment is unaffordable. (The $1,800 lump-sum framing would likely produce substantially stronger resistance than '$5 a month.' The argument exploits hyperbolic discounting by presenting the cost in the temporally diffuse form most likely to be accepted, while suppressing the lump-sum equivalent. A neutrally framed version would present both: 'a total cost of $1,800 per household, or approximately $60 annually over 30 years.')",
+      "reframing_strategy": "State both the lump-sum total and the amortized per-period figure together for any intertemporal cost or benefit, so the reader can apply a consistent discount rate rather than reacting to whichever framing was chosen.",
+      "common_confusions": [
+        {
+          "bias": "Sunk Cost Fallacy",
+          "distinction": "Hyperbolic discounting concerns forward-looking inconsistency in valuing future costs depending on their temporal framing. Sunk cost fallacy concerns the backward-looking pull of past investment on a current decision. Both distort decisions over time but in opposite temporal directions."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Used persuasively, asymmetric temporal framing can materially shift public support for policies by manipulating which time unit a cost is perceived in.",
+      "sources": [
+        {"author": "Laibson, D.", "year": 1997, "title": "Golden eggs and hyperbolic discounting", "journal": "Quarterly Journal of Economics"},
+        {"author": "Thaler, R.", "year": 1981, "title": "Some empirical evidence on dynamic inconsistency", "journal": "Economics Letters"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "actor-observer-asymmetry",
+      "name": "Actor-Observer Asymmetry",
+      "aliases": ["actor-observer bias", "actor-observer effect"],
+      "category": "Social Cognition",
+      "subcategory": "Self vs. Other Attribution",
+      "definition": "When explaining behavior, people apply systematically different frameworks depending on whether they are the actor or the observer. Actors attribute their own behavior to situational factors; observers attribute the same behavior in others to stable dispositions. In written text, this surfaces as: (1) the writer assuming implausibly high observer attention to their own actions, and (2) dispositional vocabulary applied to others' behavior while situational vocabulary is applied to equivalent self-behavior within the same passage.",
+      "mechanism": "Actors have direct access to their own situational constraints and history, which are perceptually salient to them, while observers lack that access to others and default to dispositional explanation; actors also overestimate how much observers attend to and remember their own actions.",
+      "contrast_statement": "Unbiased text applies consistent explanatory frameworks across self and others: if situational factors are cited to explain the writer's behavior, equivalent situational factors are at least considered for others' behavior, and vice versa. It also calibrates assumed observer attention realistically. The bias is flagged when (a) the writer treats their own actions as conspicuous and widely noticed without evidence, or (b) dispositional and situational attributions are distributed asymmetrically across self and others within the same passage.",
+      "literature_description": "Identified by Jones and Nisbett (1972, in Attribution: Perceiving the Causes of Behavior), who showed that actors and observers systematically diverge in attributing the same behavior to situational versus dispositional causes.",
+      "identification_criteria": [
+        "The writer's own behavior is explained with extensive situational context while an equivalent behavior by another person is explained dispositionally, within the same passage",
+        "The writer assumes their own actions were highly visible or memorable to others without evidence that this attention occurred",
+        "The same behavior, described identically, receives different causal vocabulary depending on whether the writer or another person performed it"
+      ],
+      "linguistic_signals": [
+        "'Everyone noticed when I...' / 'I'm sure it affected how they see me' without evidence of others' attention",
+        "Situational hedges for the self ('because I was managing three crises') paired with dispositional labels for others ('that's just how she operates') for the same behavior",
+        "'It's a pattern' or trait language applied to another's single instance of behavior that is excused situationally for the self"
+      ],
+      "canonical_example": "Everyone in that meeting noticed when I arrived two minutes late, but honestly, the reason Marcus keeps missing deadlines is that he just doesn't respect other people's time.",
+      "journalism_example": "When I snapped at the client last Tuesday, it was because I had been managing three simultaneous crises, hadn't slept properly in days, and was under pressure from leadership that they weren't aware of—context that anyone reasonable would take into account. The whole team definitely noticed, and I'm sure it affected how they see me. But when Sarah does the same thing, it's a pattern. She gets short with people when things don't go her way, and that's just how she operates under pressure. It says something about her temperament. (The writer's identical behavior is explained through an elaborate situational account, while Sarah's is attributed to stable disposition. Simultaneously, the writer assumes the team 'definitely noticed' their single incident, overstating their own salience in others' attention.)",
+      "reframing_strategy": "Apply the same explanatory framework to self and other for equivalent behavior: if situational context is offered for one, offer it for the other; and calibrate claims about how much others noticed the writer's own actions against the more realistic expectation that observers attend less to others than to themselves.",
+      "common_confusions": [
+        {
+          "bias": "Fundamental Attribution Error",
+          "distinction": "Fundamental attribution error is the general over-attribution of others' behavior to disposition. Actor-observer asymmetry is the specific, comparative pattern in which the same writer explains their own behavior situationally while explaining an equivalent behavior in someone else dispositionally — it requires the self/other contrast to be diagnosed."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Distorts interpersonal and workplace narratives by excusing the self while moralizing identical behavior in others.",
+      "sources": [
+        {"author": "Jones, E.E. & Nisbett, R.E.", "year": 1972, "title": "The actor and the observer: Divergent perceptions of the causes of behavior", "book": "Attribution: Perceiving the Causes of Behavior"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
+    },
+    {
+      "id": "dunning-kruger-effect",
+      "name": "Dunning-Kruger Effect (Overestimation Variant)",
+      "aliases": ["unskilled and unaware", "competence-confidence mismatch"],
+      "category": "Metacognition",
+      "subcategory": "Competence Self-Assessment",
+      "definition": "Individuals with limited knowledge or skill in a domain systematically overestimate their competence, partly because the same knowledge deficit that produces poor performance also impairs the metacognitive ability to recognize it. In text, this manifests as confident, definitive claims made alongside content that simultaneously reveals shallow or incomplete domain understanding.",
+      "mechanism": "The same lack of domain expertise that produces poor judgments also removes the metacognitive skill needed to recognize those judgments as poor, so confidence is decoupled from actual competence.",
+      "contrast_statement": "The key diagnostic is the co-occurrence of two features in the same passage: (1) high-confidence, declarative claims about a domain, and (2) content that reveals misunderstanding of basic concepts, misuse of technical vocabulary, or ignorance of well-established findings. Either feature alone is insufficient — confident experts are not demonstrating this bias; the bias requires the pairing of confidence with revealed incompetence.",
+      "literature_description": "Established by Kruger and Dunning (1999, Journal of Personality and Social Psychology) in 'Unskilled and unaware of it,' which showed that participants in the lowest skill quartiles most dramatically overestimated their own performance and ability.",
+      "identification_criteria": [
+        "Declarative, high-confidence claims about a domain co-occur with content that misuses technical terms, oversimplifies known difficulties, or ignores well-established findings",
+        "The writer dismisses domain experts or the field's perceived complexity as overstated, based on minimal personal exposure to the subject",
+        "Specific named challenges that practitioners consider central to the field are absent from the writer's account of what the field involves"
+      ],
+      "linguistic_signals": [
+        "'It's really quite simple when you think about it clearly' applied to a field with established technical complexity",
+        "Minimal-exposure credentialing ('I've read two articles', 'I've played around with a few models') paired with sweeping confident claims",
+        "Dismissal of practitioners as 'overcomplicating' a field, without engaging the specific difficulties they cite"
+      ],
+      "canonical_example": "I've read two articles about quantum mechanics and I can tell you the scientific establishment completely misunderstands entanglement—it's really quite simple when you think about it clearly.",
+      "journalism_example": "Machine learning is really just glorified statistics—it's not complicated at all. You feed data into an algorithm, it finds patterns, and then you use those patterns to predict things. I've played around with a few models in Python and I have to say, the people who treat this as some deep technical field are massively overcomplicating it. I could build a production-grade recommendation system in a weekend if I needed to. (The passage combines high confidence and dismissal of domain complexity with a description of ML that ignores fundamental challenges: model selection, overfitting, generalization, data quality, deployment — concepts that a competent practitioner would know are exactly where the difficulty lies.)",
+      "reframing_strategy": "Calibrate confidence to depth of exposure: state the basis for the claim (hours of study, formal training) and explicitly flag known areas of difficulty in the field rather than dismissing them.",
+      "common_confusions": [
+        {
+          "bias": "Overconfidence Bias",
+          "distinction": "Overconfidence bias is a general mismatch between confidence and accuracy that can occur in any claim, including by genuine experts in uncertain domains. Dunning-Kruger specifically requires evidence of a knowledge or skill deficit co-occurring with the confident claim — it is overconfidence diagnosed via demonstrated incompetence, not merely via an uncertain topic."
+        }
+      ],
+      "severity_signal": "medium",
+      "severity_rationale": "Confidently stated misinformation from non-experts can mislead readers who lack the domain knowledge to evaluate the underlying claims themselves.",
+      "sources": [
+        {"author": "Kruger, J. & Dunning, D.", "year": 1999, "title": "Unskilled and unaware of it: How difficulties in recognizing one's own incompetence lead to inflated self-assessments", "journal": "Journal of Personality and Social Psychology"}
+      ],
+      "status": "provisional",
+      "examples_status": "pending",
+      "reference_examples": {"positive": [], "near_miss": [], "contrast": null}
     }
   ]
 }

@@ -1,0 +1,6 @@
+Bias to probe: Scope Insensitivity
+Definition: Emotional, moral, or rhetorical responses to large-scale problems do not scale proportionally with the magnitude of the problem. The psychological response to 200,000 casualties is not meaningfully larger than the response to 2,000 casualties; moral weight is anchored to a prototypical image of harm rather than to numerical magnitude.
+Identification criteria:
+  - Two harms differing by an order of magnitude or more receive identical emotional or rhetorical weight with no acknowledgment of the scale difference
+  - A conclusion that should rationally depend on magnitude (e.g., resource prioritization) is stated as if scale were irrelevant
+  - Urgency or moral language is held constant across vastly different quantities of affected people

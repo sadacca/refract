@@ -1,0 +1,6 @@
+Bias to probe: Hyperbolic Discounting
+Definition: A pattern of time-preference in which the subjective value of costs or benefits declines steeply for near-future events but flattens out for distant ones, producing preference reversals: a cost or sacrifice that seems acceptable when described as spread across a long time horizon would be rejected if the same total were reframed as an equivalent near-term loss. Unlike rational exponential discounting, hyperbolic discounting produces inconsistency — what feels manageable at a distance feels intolerable up close.
+Identification criteria:
+  - A cost or sacrifice is described in its most diffuse temporal unit (per year, per month, amortized over decades) without also stating the lump-sum or near-term equivalent
+  - The corresponding benefit or counterfactual loss is not offered in the same compressed form, creating an asymmetric comparison
+  - Restating the cost as a near-term lump sum would plausibly produce a different reaction than the diffuse framing actually used

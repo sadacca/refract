@@ -1,0 +1,13 @@
+=== Sunk Cost Fallacy (id: sunk-cost-fallacy) ===
+Definition: Continuing a course of action based on previously invested resources (time, money, effort) that cannot be recovered, rather than on the expected future value of the action. Rationally, past irrecoverable costs should not influence forward-looking decisions; only marginal future costs and benefits are relevant.
+Mechanism: Past investment creates a felt obligation or aversion to 'wasting' what has already been spent, which gets weighed against future prospects even though sunk costs are, by definition, no longer recoverable under any choice.
+
+Identification criteria:
+  - Past investment (time, money, effort) is cited as a reason to continue a course of action, rather than as neutral background
+  - Forward-looking costs and benefits are downweighted relative to the size of the past investment already made
+  - The argument would change if the past investment were removed from consideration — indicating it is doing causal work rather than merely being mentioned
+
+Linguistic signals:
+  - 'We've already spent X, so we have to see it through'
+  - 'It would be a waste to stop now' / 'all of that work would be for nothing'
+  - 'We owe it to the investment/team' framing that substitutes for a forward-looking cost-benefit analysis

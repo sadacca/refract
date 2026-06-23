@@ -1,0 +1,13 @@
+=== Fundamental Attribution Error (id: fundamental-attribution-error) ===
+Definition: The systematic tendency to explain other people's behavior by attributing it to their stable internal dispositions (character, personality, ability, intent) while underweighting situational, contextual, or structural factors that could explain the same behavior. The error is in the asymmetric explanatory framework applied to others versus the recognition of context applied to one's own behavior.
+Mechanism: An actor's behavior is perceptually salient and easy to observe directly, while the situational context surrounding that behavior is comparatively invisible, so explanations default to what is observed: the person.
+
+Identification criteria:
+  - Failure, misconduct, or underperformance is attributed to individual character without examination of structural or situational factors that could explain the same outcome
+  - Success is attributed to individual talent or effort without acknowledging structural advantage, timing, or luck
+  - Situational factors that would obviously bear on the outcome (resources, constraints, incentives) are absent from an otherwise dispositional account
+
+Linguistic signals:
+  - Dispositional verbs: 'he is disorganized', 'doesn't take his work seriously' applied without situational context
+  - Character framing of organizations or groups ('poor work ethic', 'wrong people') in place of structural diagnosis
+  - Absence of any mention of management, resourcing, or incentive structure in an account of group-level outcomes

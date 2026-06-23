@@ -1,0 +1,6 @@
+Bias to probe: Sunk Cost Fallacy
+Definition: Continuing a course of action based on previously invested resources (time, money, effort) that cannot be recovered, rather than on the expected future value of the action. Rationally, past irrecoverable costs should not influence forward-looking decisions; only marginal future costs and benefits are relevant.
+Identification criteria:
+  - Past investment (time, money, effort) is cited as a reason to continue a course of action, rather than as neutral background
+  - Forward-looking costs and benefits are downweighted relative to the size of the past investment already made
+  - The argument would change if the past investment were removed from consideration — indicating it is doing causal work rather than merely being mentioned

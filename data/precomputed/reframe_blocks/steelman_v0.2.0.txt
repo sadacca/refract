@@ -1,0 +1,43 @@
+Reframe mode: steelman
+
+[Availability Heuristic]
+Strategy: Anchor any frequency or probability claim in base-rate data. If an anecdote is used, explicitly flag it as illustrative rather than representative, and supply the denominator (rate per population) alongside any raw count.
+
+[Hindsight Bias]
+Strategy: Reconstruct and state the genuine pre-outcome uncertainty: what competing predictions existed, who disagreed, and why the signals were ambiguous at the time rather than clear in retrospect.
+
+[Anchoring Effect]
+Strategy: Strip irrelevant preceding figures before an estimate, or explicitly state multiple independent reference points (historical averages, peer benchmarks) rather than a single arbitrary anchor.
+
+[Conjunction Fallacy]
+Strategy: Decompose conjunctive claims into their components and state that the specific version cannot be more probable than the general claim it specifies; report likelihood for the broader claim before adding detail.
+
+[Base Rate Neglect]
+Strategy: State the relevant base rate explicitly before incorporating case-specific detail, and show how the detail updates — rather than replaces — that prior.
+
+[Framing Effect]
+Strategy: Present both the gain and loss frame of any statistic side by side, and name the reference point being used so the reader can recompute the fact under either valence.
+
+[Fundamental Attribution Error]
+Strategy: For any failure or success story, explicitly examine structural and situational factors alongside individual ones, asking what would have happened with a different person in the same situation.
+
+[Sunk Cost Fallacy]
+Strategy: Strip the sunk cost from the argument entirely and evaluate the decision purely on remaining future costs versus expected future benefits.
+
+[Overconfidence Bias]
+Strategy: Match confidence language to the actual evidence base: use probabilistic hedges for contested or forecast-dependent claims, and reserve high-certainty language for claims with strong, settled evidentiary support.
+
+[Scope Insensitivity]
+Strategy: Explicitly state and compare magnitudes when scale differs by an order of magnitude or more, and let urgency or resource-prioritization language track that difference rather than holding it constant.
+
+[Gambler's Fallacy]
+Strategy: Establish whether the underlying process is actually independent; if so, state that prior outcomes carry no predictive weight for the next one, and look instead for a non-random causal explanation for any streak.
+
+[Hyperbolic Discounting]
+Strategy: State both the lump-sum total and the amortized per-period figure together for any intertemporal cost or benefit, so the reader can apply a consistent discount rate rather than reacting to whichever framing was chosen.
+
+[Actor-Observer Asymmetry]
+Strategy: Apply the same explanatory framework to self and other for equivalent behavior: if situational context is offered for one, offer it for the other; and calibrate claims about how much others noticed the writer's own actions against the more realistic expectation that observers attend less to others than to themselves.
+
+[Dunning-Kruger Effect (Overestimation Variant)]
+Strategy: Calibrate confidence to depth of exposure: state the basis for the claim (hours of study, formal training) and explicitly flag known areas of difficulty in the field rather than dismissing them.

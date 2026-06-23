@@ -1,0 +1,3 @@
+Category: Attention & Memory
+Biases in this category (1):
+  - Availability Heuristic: The tendency to estimate the frequency or probability of an event based on how easily examples come to mind, rather than...

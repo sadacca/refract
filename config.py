@@ -17,7 +17,7 @@ EVAL_DIR = ROOT / "eval"
 
 # Versions — increment framework_version whenever prompts or taxonomy change
 FRAMEWORK_VERSION = "v0.1.0"
-TAXONOMY_VERSION = "v0.1.0"
+TAXONOMY_VERSION = "v0.2.0"
 
 # Model config — tiered: small model for triage/probes, large for identification/judge
 #

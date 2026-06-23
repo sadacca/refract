@@ -1,0 +1,3 @@
+Category: Metacognition
+Biases in this category (1):
+  - Dunning-Kruger Effect (Overestimation Variant): Individuals with limited knowledge or skill in a domain systematically overestimate their competence, partly because the...
