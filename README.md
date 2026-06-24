@@ -29,7 +29,9 @@ cp .env.example .env   # add your API keys
 
 API keys needed:
 - `GROQ_API_KEY` — primary LLM provider (free tier sufficient for development)
-- `GEMINI_API_KEY` — optional fallback/judge model
+- `GEMINI_API_KEY` — judge model (cross-family default)
+- `CEREBRAS_API_KEY` — optional fallback eval/triage provider
+- `MISTRAL_API_KEY` — optional fallback eval/triage provider; primary for `precompute_examples.py`
 
 ### Precompute taxonomy artifacts
 
@@ -128,11 +130,26 @@ data/processed/<article_id>_<framework_version>.json
 | 0, 1, 3 | `llama-3.1-8b-instant` | Simple classification/yes-no — fast, low token cost |
 | 2, 4 | `llama-3.3-70b-versatile` | Complex identification and judgment |
 
-Both configurable via `TRIAGE_MODEL` and `EVAL_MODEL` / `JUDGE_MODEL` env vars.
+Both configurable via `TRIAGE_MODEL` and `EVAL_MODEL` / `JUDGE_MODEL` env vars. `llm_client.py` is provider-agnostic — Groq, Gemini, Cerebras, and Mistral models can all serve as eval, triage, or judge.
+
+### Model fallback chains
+
+Defined in `config.py`, used by `select_from_chain()` to pick the least-used model under its free-tier daily limit:
+
+| Chain | Order | Used by |
+|---|---|---|
+| `EVAL_CHAIN` | Groq `llama-3.3-70b-versatile` → Cerebras `gpt-oss-120b` → Mistral `mistral-large-latest` | Pass 2 identification (high-volume; Groq-primary for throughput) |
+| `TRIAGE_CHAIN` | Groq `llama-3.1-8b-instant` → Cerebras `llama-3.1-8b` → Mistral `mistral-small-latest` | Pass 0/1/3 (small-model calls) |
+| `PRECOMPUTE_CHAIN` | Mistral `mistral-large-latest` → Groq `llama-3.3-70b-versatile` → Cerebras `gpt-oss-120b` | `precompute_examples.py` (low-volume one-shot generation; Mistral-primary since throughput doesn't matter at this scale) |
+| `GEMINI_JUDGE_CHAIN` | `gemini-3.1-flash-lite` → `gemma-4-31b-it` → `gemma-4-26b-a4b-it` | Pass 4 judge (cross-family default) |
+
+`precompute_examples.py` additionally falls through the chain on a hard failure (HTTP error, decommissioned model, missing key), not just proactive RPD-based selection — if the primary model errors, it retries the next one in order rather than failing the bias entry outright.
+
+Each provider is paced according to its actual free-tier RPM cap (`llm_client._PROVIDER_MIN_INTERVALS`): Groq/Cerebras/Gemini at 6s between calls, Mistral at 31s (its 2 RPM hard limit). Override globally with `LLM_CALL_INTERVAL`.
 
 ### Token efficiency
 
-At current taxonomy size (7 biases, 6 categories) on an 8,000-word article:
+Measured at the original taxonomy size (7 biases, 6 categories; superseded by the current 14-bias/8-category taxonomy) on an 8,000-word article:
 
 | Pipeline | Tokens | Calls |
 |---|---|---|
@@ -160,7 +177,7 @@ refract/
 │
 ├── src/refract/
 │   ├── bias_eval.py                # 4-pass evaluation pipeline
-│   ├── llm_client.py               # Provider-agnostic LLM client (Groq + Gemini)
+│   ├── llm_client.py               # Provider-agnostic LLM client (Groq, Gemini, Cerebras, Mistral)
 │   └── ingest.py                   # Article fetching (trafilatura + requests)
 │
 ├── scripts/
@@ -186,19 +203,26 @@ refract/
 
 ## Taxonomy
 
-Seven Tier 1 biases across six categories (all `status: provisional`):
+Fourteen biases across eight categories (taxonomy `v0.2.0`), sourced from "Cognitive Biases in Written Text: Operationalized Definitions, Diagnostic Criteria, and Examples" — see `bias_index/CHANGELOG.md` for the full revision history:
 
 | Bias | Category |
 |---|---|
-| Confirmation Bias | Confirmation & Belief Perseverance |
-| Framing Effect | Framing & Anchoring |
-| Anchoring | Framing & Anchoring |
-| Availability Heuristic | Availability & Salience |
-| Fundamental Attribution Error | Attribution & Causation |
-| Negativity Bias | Affect & Emotional Reasoning |
-| In-Group Bias | In-Group & Social |
+| Availability Heuristic | Attention & Memory |
+| Hindsight Bias | Memory |
+| Anchoring Effect | Judgment & Decision-Making |
+| Conjunction Fallacy | Probability Reasoning |
+| Base Rate Neglect | Probability Reasoning |
+| Framing Effect | Judgment & Decision-Making |
+| Fundamental Attribution Error | Social Cognition |
+| Sunk Cost Fallacy | Judgment & Decision-Making |
+| Overconfidence Bias | Judgment & Metacognition |
+| Scope Insensitivity | Judgment & Moral Reasoning |
+| Gambler's Fallacy | Probability Reasoning |
+| Hyperbolic Discounting | Judgment & Decision-Making |
+| Actor-Observer Asymmetry | Social Cognition |
+| Dunning-Kruger Effect (Overestimation Variant) | Metacognition |
 
-Each bias entry includes: definition, identification criteria, linguistic signals, and reference examples (positive, near-miss, contrast). Examples are currently pending human review.
+Each bias entry includes: definition, identification criteria, linguistic signals, common confusions, a `contrast_statement`, and reference examples (positive, near-miss, contrast). All entries are currently `examples_status: "pending"` — candidate examples are generated by `scripts/precompute_examples.py` into `data/pending_examples/` and require human review via the Framework Dashboard before being accepted into `taxonomy.json`.
 
 ---
 
@@ -232,9 +256,9 @@ Results from the first batch of 5 news articles (NPR, ABC News, Yahoo Sports):
 - Pass 4 judge verdict quality is untested at scale — "medium" overall quality across all articles may reflect judge calibration issues as much as detection quality
 
 **Taxonomy:**
-- All 7 biases are `status: provisional` — definitions and identification criteria have not been validated against the literature through formal review
-- Reference examples are pending human review; the few-shot anchors used in Pass 2 are placeholder quality
-- The taxonomy covers only Tier 1 biases. Many important biases (selection bias, false balance, source bias) are not yet modeled
+- All 14 biases have `examples_status: "pending"` — reference examples are LLM-generated candidates awaiting human review, not yet verified against the source literature
+- Pass 2 currently falls back to criteria-only detection (no few-shot anchors) until candidate examples are reviewed and accepted into `taxonomy.json`
+- The taxonomy covers only the biases in the source document. Many important biases (selection bias, false balance, source bias) are not yet modeled
 
 **Scope:**
 - Evaluated only on English-language text
@@ -242,5 +266,6 @@ Results from the first batch of 5 news articles (NPR, ABC News, Yahoo Sports):
 - No ground-truth labeled dataset exists for precision/recall measurement — all quality assessment is currently LLM-self-evaluation (Pass 4), which has known limitations
 
 **Infrastructure:**
-- Groq free tier TPM limits constrain batch throughput; the per-model 6-second call interval and tiered model routing mitigate but do not eliminate 429 errors on long articles
+- Groq free tier TPM limits constrain batch throughput; per-provider call pacing and cross-provider fallback chains (`EVAL_CHAIN`, `TRIAGE_CHAIN`, `PRECOMPUTE_CHAIN`) mitigate but do not eliminate 429 errors on long articles
+- Provider model catalogs change without notice — Groq decommissioned `deepseek-r1-distill-llama-70b` (the prior `EVAL_MODEL` default) without a deprecation window; `call_llm` now fails fast on HTTP 400 rather than retrying a request that can't succeed, but model IDs in `config.py` should be spot-checked periodically
 - `data/processed/` results are committed to the repository — appropriate for a small research corpus, not for production scale
