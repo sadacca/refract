@@ -1,5 +1,69 @@
 [
   {
+    "article_id": "2a95ea2acf04cb98",
+    "url": "https://www.yahoo.com/sports/nba/breaking-news/article/stephen-curry-signs-new-shoe-deal-with-chinese-company-li-ning-after-under-armour-split-221435483.html",
+    "title": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split",
+    "source": null,
+    "evaluated_at": "2026-06-24T02:38:41.598736+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "llama-3.3-70b-versatile",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 2,
+    "total_occurrences": 0,
+    "dominant_categories": [
+      "Social Cognition"
+    ],
+    "word_count": 406
+  },
+  {
+    "article_id": "93545597bffa22b5",
+    "url": "https://www.yahoo.com/entertainment/music/articles/growing-number-artists-pull-250th-182851655.html",
+    "title": "Trump to headline 250th celebration on National Mall after several artists back out",
+    "source": null,
+    "evaluated_at": "2026-06-24T02:37:34.752020+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "llama-3.3-70b-versatile",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 1,
+    "total_occurrences": 1,
+    "dominant_categories": [
+      "Judgment & Decision-Making"
+    ],
+    "word_count": 1140
+  },
+  {
+    "article_id": "424bf6e62eebc1d2",
+    "url": "https://travel.yahoo.com/guides/united-states/article/the-best-lake-destinations-in-the-us-for-every-type-of-summer-vacation-183631512.html",
+    "title": "The best lake destinations in the U.S. for every type of summer vacation",
+    "source": null,
+    "evaluated_at": "2026-06-24T02:35:19.435189+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "llama-3.3-70b-versatile",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 2,
+    "total_occurrences": 0,
+    "dominant_categories": [
+      "Judgment & Decision-Making",
+      "Social Cognition"
+    ],
+    "word_count": 1425
+  },
+  {
     "article_id": "4781b11308d276aa",
     "url": "https://health.yahoo.com/wellness/nutrition/vitamins-supplements/article/magnesium-glycinate-172244627.html",
     "title": "Magnesium glycinate is touted for better sleep and less stress \u2014 but does it deliver?",

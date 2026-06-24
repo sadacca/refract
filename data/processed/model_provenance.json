@@ -30,6 +30,12 @@
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T03:19:03.497499+00:00"
     },
+    "2a95ea2acf04cb98": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-24T02:38:41.598736+00:00"
+    },
     "6faa0ce3befb7f8a": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
@@ -96,6 +102,18 @@
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T03:13:18.663768+00:00"
     },
+    "424bf6e62eebc1d2": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-24T02:35:19.435189+00:00"
+    },
+    "93545597bffa22b5": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-24T02:37:34.752020+00:00"
+    },
     "8f463317c4d65b18": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
@@ -106,6 +124,9 @@
   "by_model": {
     "llama-3.3-70b-versatile": {
       "eval_articles": [
+        "2a95ea2acf04cb98",
+        "93545597bffa22b5",
+        "424bf6e62eebc1d2",
         "4781b11308d276aa",
         "5a30674d009c9a9f",
         "50bb550a89bc146e",
@@ -126,13 +147,16 @@
       ],
       "judge_articles": [],
       "triage_articles": [],
-      "eval_count": 17,
+      "eval_count": 20,
       "judge_count": 0,
       "triage_count": 0
     },
     "gemini-3.1-flash-lite": {
       "eval_articles": [],
       "judge_articles": [
+        "2a95ea2acf04cb98",
+        "93545597bffa22b5",
+        "424bf6e62eebc1d2",
         "4781b11308d276aa",
         "5a30674d009c9a9f",
         "50bb550a89bc146e",
@@ -153,7 +177,7 @@
       ],
       "triage_articles": [],
       "eval_count": 0,
-      "judge_count": 17,
+      "judge_count": 20,
       "triage_count": 0
     },
     "llama-3.1-8b-instant": {
@@ -181,6 +205,18 @@
       "eval_count": 0,
       "judge_count": 0,
       "triage_count": 17
+    },
+    "cerebras/gpt-oss-120b": {
+      "eval_articles": [],
+      "judge_articles": [],
+      "triage_articles": [
+        "2a95ea2acf04cb98",
+        "93545597bffa22b5",
+        "424bf6e62eebc1d2"
+      ],
+      "eval_count": 0,
+      "judge_count": 0,
+      "triage_count": 3
     }
   }
 }

@@ -1,38 +1,50 @@
 {
   "framing-effect": {
     "name": "Framing Effect",
-    "category": "Framing & Anchoring",
-    "article_count": 3,
-    "prevalence_pct": 17.6
+    "category": "Judgment & Decision-Making",
+    "article_count": 4,
+    "prevalence_pct": 20.0
+  },
+  "fundamental-attribution-error": {
+    "name": "Fundamental Attribution Error",
+    "category": "Attribution & Causation",
+    "article_count": 2,
+    "prevalence_pct": 10.0
+  },
+  "actor-observer-asymmetry": {
+    "name": "Actor-Observer Asymmetry",
+    "category": "Social Cognition",
+    "article_count": 2,
+    "prevalence_pct": 10.0
   },
   "anchoring": {
     "name": "Anchoring",
     "category": "Framing & Anchoring",
     "article_count": 2,
-    "prevalence_pct": 11.8
+    "prevalence_pct": 10.0
   },
   "negativity-bias": {
     "name": "Negativity Bias",
     "category": "Affect & Emotional Reasoning",
     "article_count": 2,
-    "prevalence_pct": 11.8
+    "prevalence_pct": 10.0
   },
   "confirmation-bias": {
     "name": "Confirmation Bias",
     "category": "Confirmation & Belief Perseverance",
     "article_count": 2,
-    "prevalence_pct": 11.8
+    "prevalence_pct": 10.0
   },
   "availability-heuristic": {
     "name": "Availability Heuristic",
     "category": "Availability & Salience",
     "article_count": 1,
-    "prevalence_pct": 5.9
+    "prevalence_pct": 5.0
   },
-  "fundamental-attribution-error": {
-    "name": "Fundamental Attribution Error",
-    "category": "Attribution & Causation",
+  "sunk-cost-fallacy": {
+    "name": "Sunk Cost Fallacy",
+    "category": "Judgment & Decision-Making",
     "article_count": 1,
-    "prevalence_pct": 5.9
+    "prevalence_pct": 5.0
   }
 }

@@ -1,18 +1,20 @@
 {
-  "total_articles": 17,
-  "total_bias_instances": 24,
-  "total_occurrences": 31,
+  "total_articles": 20,
+  "total_bias_instances": 29,
+  "total_occurrences": 32,
   "sources": {
-    "unknown": 17
+    "unknown": 20
   },
   "framework_versions": {
-    "v0.1.0": 17
+    "v0.1.0": 20
   },
   "category_distribution": {
     "Framing & Anchoring": 12,
     "Affect & Emotional Reasoning": 7,
     "Attribution & Causation": 5,
     "Confirmation & Belief Perseverance": 4,
-    "Availability & Salience": 3
+    "Availability & Salience": 3,
+    "Judgment & Decision-Making": 1,
+    "Social Cognition": 0
   }
 }
