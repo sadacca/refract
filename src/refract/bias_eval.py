@@ -769,9 +769,11 @@ def evaluate_article(
 
     dominant = sorted(by_category, key=by_category.get, reverse=True)[:3]
 
-    # Model signature encodes the actual judge used (may differ from configured
-    # judge_model if the chain stepped to a fallback).
-    model_sig = f"{model_abbrev(eval_model)}_{model_abbrev(actual_judge)}"
+    # Model signature encodes all three pipeline models (triage_eval_judge), in
+    # pipeline order, so runs that differ in any single model land in distinct
+    # files. actual_judge may differ from the configured judge_model if the chain
+    # stepped to a fallback; the signature records what actually ran.
+    model_sig = f"{model_abbrev(triage_model)}_{model_abbrev(eval_model)}_{model_abbrev(actual_judge)}"
 
     evaluation = {
         "article_id": article_id,

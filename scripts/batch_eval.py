@@ -109,10 +109,10 @@ def main() -> None:
     if args.max_articles:
         urls = urls[: args.max_articles]
 
-    model_sig = f"{model_abbrev(args.model)}_{model_abbrev(effective_judge)}"
+    model_sig = f"{model_abbrev(TRIAGE_MODEL)}_{model_abbrev(args.model)}_{model_abbrev(effective_judge)}"
     logger.info(
-        "Loaded %d URLs from %s | eval=%s judge=%s (sig: %s)",
-        len(urls), args.url_file, args.model, effective_judge, model_sig,
+        "Loaded %d URLs from %s | triage=%s eval=%s judge=%s mode=%s (sig: %s)",
+        len(urls), args.url_file, TRIAGE_MODEL, args.model, effective_judge, args.mode, model_sig,
     )
 
     processed = 0
@@ -126,8 +126,8 @@ def main() -> None:
             article = fetch_url(url)
             article_id = article["article_id"]
 
-            if args.skip_cached and _already_evaluated(article_id, FRAMEWORK_VERSION, model_sig):
-                logger.info("  Skipped (already evaluated with %s)", model_sig)
+            if args.skip_cached and _already_evaluated(article_id, FRAMEWORK_VERSION, model_sig, args.mode):
+                logger.info("  Skipped (already evaluated with %s/%s)", model_sig, args.mode)
                 skipped += 1
                 continue
 
