@@ -77,15 +77,17 @@ streamlit run app.py
 
 ### GitHub Actions (automated)
 
-| Workflow | Trigger | Purpose |
-|---|---|---|
-| `smoke_test.yml` | Push to `claude/**`, `main` | Imports, taxonomy schema, artifact counts |
-| `precompute.yml` | Manual | Rebuild `data/precomputed/` from taxonomy |
-| `batch_eval.yml` | Manual | Evaluate articles from `article_urls.txt` |
-| `build_index.yml` | Manual | Rebuild index/stats from processed results |
-| `precompute_examples.yml` | Manual | Generate candidate reference examples for review |
+Workflows are numbered by dependency order — run them in order for a first-time setup, or jump straight to the one you need once `data/precomputed/` is current.
 
-The `batch_eval` workflow exposes inputs for `eval_mode` (deep/flat), `skip_cached`, and `max_articles`.
+| # | Workflow | Trigger | Purpose | Depends on |
+|---|---|---|---|---|
+| 0 | `0_smoke_test.yml` | Push to `claude/**`, `main`, or manual | Imports, taxonomy schema, artifact counts | none |
+| 1 | `1_precompute.yml` | Push to `bias_index/taxonomy.json`, or manual | Rebuild `data/precomputed/` from taxonomy | none |
+| 2 | `2_batch_eval.yml` | Manual | Evaluate articles from `article_urls.txt` | 1 (fails fast if stale) |
+| 3 | `3_build_index.yml` | Manual | Rebuild index/stats from processed results | none (already run by 2 automatically) |
+| 4 | `4_precompute_examples.yml` | Manual | Generate candidate reference examples for review | none |
+
+The `2_batch_eval.yml` workflow exposes inputs for `eval_mode` (deep/flat), `skip_cached`, and `max_articles`, and calls `3_build_index.yml`'s logic internally as its last step — you only need to trigger `3_build_index.yml` directly if you've manually edited `data/processed/` and need to reconcile the index.
 
 ---
 

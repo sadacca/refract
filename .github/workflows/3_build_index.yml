@@ -1,4 +1,6 @@
-name: Rebuild Index
+# Already run automatically at the end of 2. Batch Article Evaluation — trigger this
+# manually only to reconcile data/processed/index.json after manual edits to processed results.
+name: "3. Rebuild Index"
 
 on:
   workflow_dispatch:

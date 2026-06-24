@@ -1,4 +1,6 @@
-name: Precompute Taxonomy Artifacts
+# Run this first whenever bias_index/taxonomy.json changes — 2. Batch Article Evaluation
+# depends on the artifacts this workflow produces and will fail fast if they're stale.
+name: "1. Precompute Taxonomy Artifacts"
 
 on:
   push:

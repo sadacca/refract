@@ -1,4 +1,7 @@
-name: Batch Article Evaluation
+# Requires 1. Precompute Taxonomy Artifacts to have run first against the current
+# taxonomy version — this workflow verifies that and fails fast if it's missing/stale.
+# Calls 3. Rebuild Index internally as its last step, so you don't need to run it separately.
+name: "2. Batch Article Evaluation"
 
 on:
   workflow_dispatch:

@@ -1,4 +1,5 @@
-name: Smoke Test
+# No dependencies — runs automatically on push, or manually as a standalone sanity check.
+name: "0. Smoke Test"
 
 on:
   workflow_dispatch:

@@ -5,10 +5,12 @@ Updated: 2026-05-31
 Pipeline architecture note: GitHub Actions workflows are composite (ingest + eval
 in one job). The data layer already provides logical separation via hash-based
 dedup and cached article text. Separate workflows exist only where triggers differ:
-  - precompute.yml     → triggers on taxonomy.json changes
-  - batch_eval.yml     → composite ingest+eval; triggers on article_urls.txt push or manual dispatch
-  - build_index.yml    → called at end of batch_eval, or manual dispatch
-  - precompute_examples.yml → manual only; human review required before output is used
+  Workflows are numbered by dependency order (0-4):
+  - 1_precompute.yml     → triggers on taxonomy.json changes; must run before 2_batch_eval.yml
+  - 2_batch_eval.yml     → composite ingest+eval; triggers on article_urls.txt push or manual dispatch
+  - 3_build_index.yml    → called at end of 2_batch_eval.yml, or manual dispatch
+  - 4_precompute_examples.yml → manual only; human review required before output is used
+  - 0_smoke_test.yml     → no dependencies; CI sanity check on push or manual dispatch
 
 ==========================
 PHASE 0 — REPO SCAFFOLDING  [COMPLETE]

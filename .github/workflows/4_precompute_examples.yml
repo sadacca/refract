@@ -1,4 +1,6 @@
-name: Generate Candidate Reference Examples
+# Independent of the other workflows — reads taxonomy.json directly and can be run any
+# time to generate candidate examples for human review. Not part of the eval pipeline.
+name: "4. Generate Candidate Reference Examples"
 
 on:
   workflow_dispatch:

@@ -623,7 +623,9 @@ The hash-based dedup in `batch_eval.py` means articles already in `data/processe
 
 ---
 
-### Workflow 1: `batch_eval.yml` — Run Pipeline on Article Set
+Workflow files are numbered by dependency order in `.github/workflows/` (`0_smoke_test.yml`, `1_precompute.yml`, `2_batch_eval.yml`, `3_build_index.yml`, `4_precompute_examples.yml`) — see the README for the run-order table. The descriptions below are grouped by user-facing purpose rather than that numeric order, starting with the main evaluation pipeline.
+
+### Workflow 2: `2_batch_eval.yml` — Run Pipeline on Article Set
 
 **Trigger:** `workflow_dispatch` (manual, with inputs) or on push to `data/input/article_urls.txt`
 
@@ -658,7 +660,7 @@ The hash-based dedup in `batch_eval.py` means articles already in `data/processe
 
 ---
 
-### Workflow 2: `precompute.yml` — Regenerate Precomputed Artifacts
+### Workflow 1: `1_precompute.yml` — Regenerate Precomputed Artifacts
 
 **Trigger:** On push to `bias_index/taxonomy.json` or any file in `src/refract/prompts/`
 
@@ -677,13 +679,13 @@ The hash-based dedup in `batch_eval.py` means articles already in `data/processe
 7. git push origin main
 ```
 
-**Important:** The `batch_eval.yml` workflow checks that `data/precomputed/` is current before running. This ensures the pipeline always uses artifacts that match the current taxonomy — never a stale version.
+**Important:** The `2_batch_eval.yml` workflow checks that `data/precomputed/` is current before running. This ensures the pipeline always uses artifacts that match the current taxonomy — never a stale version.
 
 ---
 
-### Workflow 3: `build_index.yml` — Rebuild Index and Stats
+### Workflow 3: `3_build_index.yml` — Rebuild Index and Stats
 
-**Trigger:** Called by `batch_eval.yml` as a final step (not a separate dispatch) or manually via `workflow_dispatch` for reconciliation.
+**Trigger:** Called by `2_batch_eval.yml` as a final step (not a separate dispatch) or manually via `workflow_dispatch` for reconciliation.
 
 **Steps:**
 ```yaml
@@ -700,7 +702,7 @@ The hash-based dedup in `batch_eval.py` means articles already in `data/processe
 
 ---
 
-### Workflow 4: `precompute_examples.yml` — Generate Candidate Reference Examples
+### Workflow 4: `4_precompute_examples.yml` — Generate Candidate Reference Examples
 
 **Trigger:** `workflow_dispatch` only (manual; human review required before results are used)
 
