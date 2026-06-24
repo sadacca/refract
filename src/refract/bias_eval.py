@@ -115,15 +115,25 @@ def _biases_for_category(taxonomy: dict, category: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def _chunk_paragraphs(text: str) -> list[dict]:
-    """Split text into paragraphs, preserving original char offsets."""
+    """Split text into paragraphs, preserving original char offsets.
+
+    trafilatura.extract() joins paragraphs with a single newline, so splitting
+    on the conventional blank-line separator ("\\n\\n") collapses almost every
+    article into one block — which starves Pass 0's paragraph triage of any
+    structure to differentiate. Fall back to single-newline splitting whenever
+    the blank-line split yields one block or fewer.
+    """
+    blocks = [b for b in text.split("\n\n") if b.strip()]
+    if len(blocks) <= 1:
+        blocks = [b for b in text.split("\n") if b.strip()]
+
     paragraphs = []
     pos = 0
-    for block in text.split("\n\n"):
+    for block in blocks:
         block = block.strip()
-        if not block:
-            pos = text.find("\n\n", pos) + 2
-            continue
         start = text.find(block, pos)
+        if start == -1:  # block not found from pos (e.g. duplicate text) — search from start
+            start = text.find(block)
         end = start + len(block)
         paragraphs.append({"idx": len(paragraphs), "char_start": start, "char_end": end, "text": block})
         pos = end
@@ -585,10 +595,10 @@ def evaluate_article(
         logger.info("Mode=flat: running Pass 2 on all %d categories [%s]", len(all_cats), eval_model)
         for category in all_cats:
             indices = category_paragraphs.get(category, [])
-            if not indices:
-                logger.info("Pass 2: skipping '%s' — Pass 0 found 0 relevant paragraphs", category)
-                continue
-            article_slice = _paragraphs_for_pass2(paragraphs, indices)
+            # Fail open: when Pass 0 mapped no paragraphs (e.g. single-paragraph
+            # article), evaluate the full article rather than skipping the category
+            # entirely — flat mode has no Pass 3 net to catch what gets dropped here.
+            article_slice = _paragraphs_for_pass2(paragraphs, indices) if indices else text
             if COMPRESS_PASS2 and article_slice:
                 orig_len = len(article_slice)
                 article_slice = _compress_text(article_slice, COMPRESSION_RATE)
@@ -597,8 +607,9 @@ def evaluate_article(
                     orig_len, len(article_slice), orig_len / max(len(article_slice), 1), category,
                 )
             logger.info(
-                "Pass 2: category '%s' — %d/%d paragraphs selected",
-                category, len(indices), len(paragraphs),
+                "Pass 2: category '%s' — %s",
+                category,
+                f"{len(indices)}/{len(paragraphs)} paragraphs selected" if indices else "full article (Pass 0 mapped 0)",
             )
             instances = pass2_identify(article_slice, category, taxonomy, eval_model)
             for inst in instances:
@@ -613,6 +624,25 @@ def evaluate_article(
         # and prevents those categories from being incorrectly flagged or missed.
         cats_with_paragraphs = sorted(c for c in all_cats if category_paragraphs.get(c))
         cats_without_paragraphs = sorted(c for c in all_cats if not category_paragraphs.get(c))
+
+        # Fail open: the "0 Pass 0 paragraphs → straight to Pass 3" bypass is only
+        # trustworthy when Pass 0 actually differentiated paragraphs. If Pass 0 had
+        # nothing to differentiate (a single paragraph) or mapped paragraphs to no
+        # category at all, then "0 paragraphs" is no evidence a category is absent —
+        # and routing every category to the low-precision Pass 3 net would gut both
+        # recall and precision in one move. In that case, run Pass 1 (cheap, inclusive)
+        # on every category instead of bypassing it.
+        pass0_has_signal = len(paragraphs) > 1 and bool(cats_with_paragraphs)
+        if not pass0_has_signal:
+            if cats_without_paragraphs:
+                logger.info(
+                    "Pass 0 gave no usable paragraph signal (%d paragraph(s), %d categor(ies) mapped) "
+                    "— routing all %d categories through Pass 1 instead of the Pass 3 bypass",
+                    len(paragraphs), len(cats_with_paragraphs), len(all_cats),
+                )
+            cats_with_paragraphs = list(all_cats)
+            cats_without_paragraphs = []
+
         if cats_without_paragraphs:
             logger.info(
                 "Pass 1: bypassing %d category(ies) with 0 Pass 0 paragraphs → Pass 3: %s",
@@ -631,12 +661,11 @@ def evaluate_article(
 
         for category in sorted(flagged):
             indices = category_paragraphs.get(category, [])
-            if not indices:
-                # Shouldn't happen after the short-circuit above, but guard defensively.
-                logger.info("Pass 2: skipping '%s' — no paragraphs (should have been short-circuited)", category)
-                unflagged.add(category)
-                continue
-            article_slice = _paragraphs_for_pass2(paragraphs, indices)
+            # A flagged category with no Pass 0 paragraphs (single-paragraph article,
+            # or Pass 0 under-selection) falls back to the full article rather than
+            # being demoted to the low-precision Pass 3 probe — the whole value of
+            # Pass 2 is its anchored reference block, so keep it on the rich path.
+            article_slice = _paragraphs_for_pass2(paragraphs, indices) if indices else text
             if COMPRESS_PASS2 and article_slice:
                 orig_len = len(article_slice)
                 article_slice = _compress_text(article_slice, COMPRESSION_RATE)
@@ -645,8 +674,10 @@ def evaluate_article(
                     orig_len, len(article_slice), orig_len / max(len(article_slice), 1), category,
                 )
             logger.info(
-                "Pass 2: category '%s' — %d/%d paragraphs [%s]",
-                category, len(indices), len(paragraphs), eval_model,
+                "Pass 2: category '%s' — %s [%s]",
+                category,
+                f"{len(indices)}/{len(paragraphs)} paragraphs" if indices else "full article (Pass 0 mapped 0)",
+                eval_model,
             )
             instances = pass2_identify(article_slice, category, taxonomy, eval_model)
             for inst in instances:
