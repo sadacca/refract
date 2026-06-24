@@ -166,7 +166,7 @@ def pass0_paragraph_triage(
     paragraphs: list[dict], categories: list[str], model: str
 ) -> dict[str, list[int]]:
     para_list = "\n".join(
-        f"[{p['idx']}] chars {p['char_start']}-{p['char_end']}: {p['text'][:120].replace(chr(10), ' ')}..."
+        f"[{p['idx']}] chars {p['char_start']}-{p['char_end']}: {p['text'][:240].replace(chr(10), ' ')}..."
         for p in paragraphs
     )
     prompt = PASS0_PROMPT.format(
