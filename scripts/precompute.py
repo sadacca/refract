@@ -54,15 +54,25 @@ def build_bias_blocks(taxonomy: dict) -> None:
             f"=== {b['name']} (id: {b['id']}) ===",
             f"Definition: {b['definition']}",
             f"Mechanism: {b.get('mechanism', '')}",
-            "",
-            "Identification criteria:",
         ]
+        contrast_statement = b.get("contrast_statement")
+        if contrast_statement:
+            lines.append(f"Distinguishing biased from unbiased text: {contrast_statement}")
+        lines.append("")
+        lines.append("Identification criteria:")
         for c in b.get("identification_criteria", []):
             lines.append(f"  - {c}")
         lines.append("")
         lines.append("Linguistic signals:")
         for s in b.get("linguistic_signals", []):
             lines.append(f"  - {s}")
+
+        common_confusions = b.get("common_confusions", [])
+        if common_confusions:
+            lines.append("")
+            lines.append("Commonly confused with:")
+            for cf in common_confusions:
+                lines.append(f"  - {cf.get('bias', '')}: {cf.get('distinction', '')}")
 
         ref = b.get("reference_examples", {})
         positives = ref.get("positive", [])
