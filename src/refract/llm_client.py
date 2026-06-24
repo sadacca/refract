@@ -288,6 +288,11 @@ def call_llm(
         except requests.HTTPError as e:
             status = e.response.status_code if e.response is not None else 0
             logger.warning("HTTP %d on attempt %d: %s", status, attempt, e)
+            if status == 400:
+                # 400s (e.g. decommissioned model, malformed request) won't
+                # change on retry — fail immediately instead of burning the
+                # full backoff schedule.
+                raise
             if attempt == MAX_RETRIES:
                 raise
             wait = 65 if status == 429 else RETRY_BASE_DELAY * (2 ** (attempt - 1))

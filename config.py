@@ -89,7 +89,7 @@ def model_abbrev(model: str) -> str:
     return clean[:12]
 
 
-EVAL_MODEL = os.getenv("EVAL_MODEL", "deepseek-r1-distill-llama-70b")  # Pass 2 identification
+EVAL_MODEL = os.getenv("EVAL_MODEL", "llama-3.3-70b-versatile")  # Pass 2 identification
 _judge_env = os.getenv("JUDGE_MODEL", "")
 JUDGE_MODEL = _judge_env if _judge_env else _cross_family_default(EVAL_MODEL)  # Pass 4 judge
 TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/gpt-oss-120b")  # Pass 0/1/3 triage + probes
@@ -98,7 +98,6 @@ TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/gpt-oss-120b")  # Pass 0/1/3 
 # Keys are display labels, values are model IDs passed to the pipeline.
 EVAL_MODEL_OPTIONS = [
     # Groq
-    "deepseek-r1-distill-llama-70b",
     "llama-3.3-70b-versatile",
     # Cerebras (verified available: gpt-oss-120b, zai-glm-4.7)
     "cerebras/gpt-oss-120b",
@@ -117,7 +116,6 @@ JUDGE_MODEL_OPTIONS = [
     "gemini-2.0-flash",
     "gemini-2.5-pro",
     "llama-3.3-70b-versatile",
-    "deepseek-r1-distill-llama-70b",
     "cerebras/gpt-oss-120b",
     "mistral-large-latest",
 ]
@@ -191,9 +189,11 @@ GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
 # Chains cross provider boundaries only — Cerebras and Mistral have account-wide
 # RPD (not per-model), so switching within those providers yields no benefit.
 # Cross-provider order: Groq (highest RPD) → Cerebras → Mistral (last resort).
-# Benchmark-ranked best models: DeepSeek-R1 (AIME 86.7%) → GPT-OSS-120B (~85%)
+# Benchmark-ranked best models: Llama-3.3-70B (MMLU 86.0%) → GPT-OSS-120B (~85%)
 # → Mistral Large (~81%). GPT-OSS-120B chosen over Qwen3-235B despite lower
 # benchmark because it has 131K context (avoids Cerebras 8K free-tier limit).
+# DeepSeek-R1-Distill-70B was removed from this chain — Groq decommissioned it
+# (see https://console.groq.com/docs/deprecations).
 # Provider RPD reality check (as of 2026-06):
 #   Groq:     30 RPM / 14,400 RPD per-model / 6K TPM  (high-volume primary)
 #   Cerebras: 30 RPM / ~1,000 RPD ACCOUNT-WIDE / 1M tokens-per-day / 8K context
@@ -202,7 +202,7 @@ GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
 #             (2 RPM × 60 × 24 = 2,880 RPD theoretical max — slow, last resort)
 # ---------------------------------------------------------------------------
 EVAL_CHAIN: list[tuple[str, int]] = [
-    ("deepseek-r1-distill-llama-70b", 14_400),  # Groq: 14,400 RPD per-model; AIME 86.7%
+    ("llama-3.3-70b-versatile",       14_400),  # Groq: 14,400 RPD per-model; MMLU 86.0%
     ("cerebras/gpt-oss-120b",           500),   # Cerebras: ~1,000 RPD account-wide; 131K ctx
     ("mistral-large-latest",           2_800),  # Mistral: 2 RPM free ≈ 2,880 RPD; last resort
 ]
@@ -244,7 +244,6 @@ MODEL_CONTEXT_LIMITS: dict[str, int] = {
     "zai-glm-4.7":                             131_072,
     "cerebras/zai-glm-4.7":                    131_072,
     # Groq
-    "deepseek-r1-distill-llama-70b":            32_000,
     "llama-3.3-70b-versatile":                128_000,
     "llama-3.1-70b-versatile":                128_000,
     "llama-3.1-8b-instant":                   128_000,
@@ -281,18 +280,14 @@ MODEL_CONTEXT_LIMITS: dict[str, int] = {
 MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
     "groq": {
         # Per-model RPD; 6K TPM is the tighter real-world constraint on long prompts.
+        # NOTE: deepseek-r1-distill-llama-70b was decommissioned by Groq
+        # (https://console.groq.com/docs/deprecations) — removed from this list.
         "eval": [
-            {
-                "id": "deepseek-r1-distill-llama-70b",
-                "context": 32_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000,
-                "benchmark": {"aime_2024": 86.7, "math_500": 94.5},
-                "notes": "Best Groq reasoning; AIME 86.7%; 32K context",
-            },
             {
                 "id": "llama-3.3-70b-versatile",
                 "context": 128_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000,
                 "benchmark": {"mmlu": 86.0},
-                "notes": "Strong general; 128K context; fallback when 32K is tight",
+                "notes": "Best Groq eval; 128K context; MMLU 86.0%",
             },
             {
                 "id": "mixtral-8x7b-32768",
