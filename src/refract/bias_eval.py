@@ -812,10 +812,11 @@ def evaluate_article(
         },
     }
 
-    # Persist — filename encodes both eval and judge model so re-scoring with a
-    # different model combination lands in a new file, not overwriting the old one.
+    # Persist — filename encodes eval+judge model and mode so re-scoring with a
+    # different model combination, or the same article in a different mode (deep
+    # vs flat), lands in a new file rather than overwriting the old one.
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = PROCESSED_DIR / f"{article_id}_{FRAMEWORK_VERSION}_{model_sig}.json"
+    out_path = PROCESSED_DIR / f"{article_id}_{FRAMEWORK_VERSION}_{model_sig}_{mode}.json"
     out_path.write_text(json.dumps(evaluation, indent=2))
     logger.info("Evaluation written to %s", out_path)
 
