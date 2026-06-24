@@ -1,0 +1,145 @@
+{
+  "article_id": "2a95ea2acf04cb98",
+  "source_url": "https://www.yahoo.com/sports/nba/breaking-news/article/stephen-curry-signs-new-shoe-deal-with-chinese-company-li-ning-after-under-armour-split-221435483.html",
+  "title": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split",
+  "evaluated_at": "2026-06-24T02:38:41.598736+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split\nStephen Curry finally has his new shoe deal.\nCurry signed a massive 10-year shoe endorsement contract with Chinese company Li-Ning on Monday, according to ESPN\u2019s Shams Charania. Curry\u2019s deal will include basketball products, athleisure, a full golf line and the ability for him to sign other athletes under his brand in the future.\nAccording to Charania, the deal is worth over $400 million. He had at least one other offer that was more lucrative, too, but he opted to go with Li-Ning instead.\nThe Golden State Warriors star confirmed the partnership on Instagram, too, but did not disclose details of the deal.\nCurry has been a sneaker free agent since his shocking split with Under Armour last year. The two sides split in November, ending a 12-year partnership that saw Curry quickly become one of the main faces of the company. Curry was previously at Nike before he joined Under Armour in 2013.\nCurry and Under Armour launched the Curry Brand in 2020, and Curry eventually took over as president of that brand, which was later separated from the company in their split. Curry received significant Under Armour stock when he signed a new long-term deal with the company in 2023, too. Curry was one of just a handful of NBA players with lifetime shoe deals. Both LeBron James and Kevin Durant have lifetime contracts with Nike, and Damian Lillard has a similar deal with Adidas.\nCurry just wrapped up his 17th season in the league. The 12-time All-Star averaged 26.6 points and 4.7 assists per game last season, though he appeared in just 43 games while dealing with a lengthy right knee injury. The Warriors went 37-45 and missed the playoffs for the second time in three years.\nLi-Ning was founded in 1990 by former Olympic gymnast Li Ning. The company has signed several NBA players in the past, including former Cleveland Cavaliers guard Damon Jones back in 2006. Jimmy Butler, Dwyane Wade, Fred VanVleet, D\u2019Angelo Russell and CJ McCollum all have had deals with the company, too.\nWhile Curry is undoubtedly nearing the end of his playing career \u2014 he signed a one-year, $62.5 million extension to remain with the organization through the end of next season, when he\u2019ll be 39 years old \u2014 his brand now has a new home for the foreseeable future.",
+  "pass0_result": {
+    "paragraph_count": 10,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        0,
+        5
+      ],
+      "Judgment & Decision-Making": [
+        0,
+        2,
+        3,
+        9
+      ],
+      "Judgment & Metacognition": [
+        6
+      ],
+      "Judgment & Moral Reasoning": [],
+      "Memory": [
+        0,
+        5
+      ],
+      "Metacognition": [
+        6
+      ],
+      "Probability Reasoning": [
+        3,
+        7,
+        9
+      ],
+      "Social Cognition": [
+        0,
+        4,
+        8
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Social Cognition"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The article discusses Curry's choice between lucrative endorsement offers and the valuation of the deal, which may involve biases in evaluating options and outcomes.",
+      "Social Cognition": "The piece frames Curry's brand moves and public perception, potentially reflecting biases in how athletes and their endorsements are socially interpreted."
+    }
+  },
+  "bias_instances": [
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [],
+      "severity": "low",
+      "author_exhibiting": false,
+      "source_reporting": false,
+      "category": "Social Cognition"
+    },
+    {
+      "bias_id": "actor-observer-asymmetry",
+      "bias_name": "Actor-Observer Asymmetry",
+      "occurrences": [],
+      "severity": "low",
+      "author_exhibiting": false,
+      "source_reporting": false,
+      "category": "Social Cognition"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "anchoring",
+        "rationale": "The excerpt reports a factual financial figure provided by a source. Reporting a specific dollar amount is standard journalistic practice and does not constitute a cognitive bias in the author's reasoning.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "sunk-cost-fallacy",
+        "rationale": "The explanation provided is speculative and does not demonstrate that the author or the subject is making a decision based on past unrecoverable costs. The excerpt simply reports a contract extension.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "No occurrences were provided for this instance, and the article does not exhibit this bias.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "rejected",
+          "reversed": "confirmed"
+        }
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "actor-observer-asymmetry",
+        "rationale": "No occurrences were provided for this instance, and the article does not exhibit this bias.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "rejected",
+          "reversed": "confirmed"
+        }
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 2/4 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [
+      "Social Cognition"
+    ],
+    "bias_type_count": 2,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {
+      "Social Cognition": 0
+    },
+    "pass0_paragraph_count": 10,
+    "pass0_avg_paragraphs_per_category": 2.0
+  }
+}
