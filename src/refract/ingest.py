@@ -36,19 +36,22 @@ def _already_evaluated(
     article_id: str,
     framework_version: str,
     model_sig: str = "",
+    mode: str = "",
 ) -> Optional[dict]:
     """
     Return an existing evaluation record if one exists, else None.
 
     When model_sig is provided (batch eval path): checks the exact file for
-    that model combination — enabling re-scoring with a new model without
-    overwriting the previous result.
+    that model combination and mode — enabling re-scoring with a new model or
+    in a different mode without overwriting the previous result. The mode is
+    part of the filename, so it must be supplied to match an exact run.
 
     When model_sig is omitted (UI / get_article path): returns the most recent
-    evaluation for this article+version across any model combination.
+    evaluation for this article+version across any model combination or mode.
     """
     if model_sig:
-        path = PROCESSED_DIR / f"{article_id}_{framework_version}_{model_sig}.json"
+        stem = f"{article_id}_{framework_version}_{model_sig}"
+        path = PROCESSED_DIR / (f"{stem}_{mode}.json" if mode else f"{stem}.json")
         return json.loads(path.read_text()) if path.exists() else None
 
     # No model_sig: find the most recent evaluation for this article+version.

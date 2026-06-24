@@ -30,6 +30,7 @@ from config import (
     FRAMEWORK_VERSION, TAXONOMY_VERSION, PROCESSED_DIR,
     EVAL_MODEL, JUDGE_MODEL, TRIAGE_MODEL,
     EVAL_MODEL_OPTIONS, JUDGE_MODEL_OPTIONS, TRIAGE_MODEL_OPTIONS,
+    model_abbrev,
 )
 from src.refract.ingest import fetch_url, get_article
 from src.refract.bias_eval import evaluate_article
@@ -46,24 +47,52 @@ st.caption(f"Framework {FRAMEWORK_VERSION} · Taxonomy {TAXONOMY_VERSION}")
 POLL_INTERVAL = 3  # seconds between result-file checks
 
 
-def _load_results_by_mode(article_id: str) -> dict[str, dict]:
-    """Return {mode: result_dict} across every stored run of this article+version.
+# A run is identified by its full signature: (mode, triage, eval, judge). This is
+# what the filename encodes ({article_id}_{version}_{triage}_{eval}_{judge}_{mode}),
+# so two runs that differ in any single axis coexist on disk and in the toggle.
+RunSig = tuple[str, str, str, str]
 
-    The pipeline names files {article_id}_{version}_{model_sig}_{mode}.json, so a
-    deep run and a flat run coexist on disk. Keyed by mode (latest wins) to drive
-    the comparison toggle. Legacy files without a mode tag are treated as "deep".
-    """
-    out: dict[str, dict] = {}
-    for p in sorted(
+
+def _run_files(article_id: str) -> list:
+    return sorted(
         PROCESSED_DIR.glob(f"{article_id}_{FRAMEWORK_VERSION}_*.json"),
         key=lambda p: p.stat().st_mtime,
-    ):
+    )
+
+
+def _run_sig(result: dict) -> RunSig:
+    m = result.get("models", {})
+    return (
+        result.get("mode") or "deep",
+        m.get("triage") or "?",
+        m.get("eval") or result.get("model") or "?",
+        m.get("judge") or "?",
+    )
+
+
+def _load_runs(article_id: str) -> dict[RunSig, dict]:
+    """Return {full_signature: result_dict} for every stored run of this article+
+    version, deduped by signature (latest file wins). Drives the comparison
+    dropdown so the user can switch across modes and model chains."""
+    out: dict[RunSig, dict] = {}
+    for p in _run_files(article_id):
         try:
             r = json.loads(p.read_text())
         except Exception:
             continue
-        out[r.get("mode") or "deep"] = r
+        out[_run_sig(r)] = r
     return out
+
+
+def _run_label(sig: RunSig) -> str:
+    mode, triage, eval_m, judge = sig
+    return f"{mode}  ·  triage={triage}  ·  eval={eval_m}  ·  judge={judge}"
+
+
+def _run_slug(sig: RunSig) -> str:
+    """Filename-safe slug for a run, matching the on-disk naming (triage_eval_judge_mode)."""
+    mode, triage, eval_m, judge = sig
+    return f"{model_abbrev(triage)}_{model_abbrev(eval_m)}_{model_abbrev(judge)}_{mode}"
 
 
 def _run_eval_thread(
@@ -88,18 +117,26 @@ def _run_eval_thread(
 
 
 def _start_eval(article: dict, modes: list[str], eval_model: str, judge_model: str, triage_model: str) -> None:
-    """Set up session state and launch evaluation for any modes not already on disk."""
+    """Set up session state and launch evaluation for any (mode, models) signatures
+    not already on disk — so changing any model re-runs rather than being skipped."""
     article_id = article["article_id"]
-    existing = _load_results_by_mode(article_id)
-    missing = [m for m in modes if m not in existing]
+    existing_files = _run_files(article_id)
+    existing_sigs = set(_load_runs(article_id).keys())
+
+    # Intended signature uses the selected models. If the eval chain switches a
+    # model at runtime (near a rate limit), the actual stored signature may differ
+    # and the run won't be deduped against — re-running is safe, just recomputed.
+    intended = {m: (m, triage_model, eval_model, judge_model) for m in modes}
+    missing = [m for m in modes if intended[m] not in existing_sigs]
 
     st.session_state["eval_article_id"] = article_id
     st.session_state["eval_article"] = article
-    st.session_state["_eval_expected_modes"] = modes
+    st.session_state["_eval_baseline_count"] = len(existing_files)
+    st.session_state["_eval_target_count"] = len(existing_files) + len(missing)
     st.session_state["_eval_error"] = None
 
     if not missing:
-        # Every requested mode is already cached — skip straight to display.
+        # Every requested run already exists — skip straight to display.
         st.session_state["_eval_done"] = True
         st.session_state["_eval_running"] = False
         return
@@ -187,21 +224,24 @@ else:
 # Polling / progress display
 # ---------------------------------------------------------------------------
 article_id = st.session_state.get("eval_article_id")
-expected_modes = st.session_state.get("_eval_expected_modes", [])
+baseline_count = st.session_state.get("_eval_baseline_count", 0)
+target_count = st.session_state.get("_eval_target_count", 0)
 
 if article_id and not st.session_state.get("_eval_done"):
-    results = _load_results_by_mode(article_id)
-    # Done when every requested mode has a result file (covers the case where the
-    # thread's session flag was lost across a reconnect).
-    if expected_modes and all(m in results for m in expected_modes):
+    n_files = len(_run_files(article_id))
+    # Reconnect-safe fallback: a new result file appears per launched run, so the
+    # run-file count reaching the target means all requested runs finished. (The
+    # in-session thread flag is the primary signal; this covers a lost session.)
+    if target_count and n_files >= target_count:
         st.session_state["_eval_done"] = True
         st.session_state["_eval_running"] = False
         st.rerun()
     else:
-        done_n = sum(1 for m in expected_modes if m in results)
-        suffix = f" ({done_n}/{len(expected_modes)} modes complete)" if len(expected_modes) > 1 else ""
+        done_n = max(0, n_files - baseline_count)
+        total_n = max(1, target_count - baseline_count)
+        suffix = f" ({done_n}/{total_n} runs complete)" if total_n > 1 else ""
         st.info(
-            "⏳ **Evaluation running** — this takes 60–180 seconds per mode depending on article "
+            "⏳ **Evaluation running** — this takes 60–180 seconds per run depending on article "
             f"length.{suffix} You can switch tabs and come back; the result will be here when complete."
         )
         st.caption("Checking for results every 3 seconds…")
@@ -214,7 +254,7 @@ if article_id and not st.session_state.get("_eval_done"):
 if st.session_state.get("_eval_error"):
     st.error(f"Evaluation failed: {st.session_state['_eval_error']}")
     if st.button("Clear and retry"):
-        for k in ["eval_article_id", "eval_article", "_eval_done", "_eval_error", "_eval_running", "_eval_expected_modes"]:
+        for k in ["eval_article_id", "eval_article", "_eval_done", "_eval_error", "_eval_running", "_eval_baseline_count", "_eval_target_count"]:
             st.session_state.pop(k, None)
         st.rerun()
     st.stop()
@@ -223,25 +263,27 @@ if st.session_state.get("_eval_error"):
 # Results display
 # ---------------------------------------------------------------------------
 if article_id and st.session_state.get("_eval_done"):
-    results_by_mode = _load_results_by_mode(article_id)
-    if not results_by_mode:
+    runs = _load_runs(article_id)
+    if not runs:
         st.error("Evaluation completed but result file not found. Try re-evaluating.")
         st.stop()
 
-    # Mode toggle — only shown when more than one mode is available for this article.
-    available_modes = sorted(results_by_mode.keys())
-    if len(available_modes) > 1:
-        sel_view_mode = st.radio(
-            "View mode",
-            available_modes,
-            horizontal=True,
-            format_func=lambda m: m.capitalize(),
-            help="Switch between the deep and flat evaluations of this article.",
+    # Run picker — every stored (mode, triage, eval, judge) combination for this
+    # article is selectable by its full signature, so the user can compare any
+    # mode and any model chain via the dropdown.
+    run_sigs = sorted(runs.keys())
+    if len(run_sigs) > 1:
+        sel_sig = st.selectbox(
+            "Run to view",
+            run_sigs,
+            format_func=_run_label,
+            help="Each option is a distinct run: mode + triage/eval/judge models. "
+                 "Switch to compare runs side by side.",
         )
     else:
-        sel_view_mode = available_modes[0]
+        sel_sig = run_sigs[0]
 
-    result = results_by_mode[sel_view_mode]
+    result = runs[sel_sig]
 
     article = st.session_state.get("eval_article", {})
     bias_instances = result.get("bias_instances", [])
@@ -297,7 +339,7 @@ if article_id and st.session_state.get("_eval_done"):
         st.download_button(
             "Download full evaluation JSON",
             data=json.dumps(result, indent=2),
-            file_name=f"{article_id}_{sel_view_mode}.json",
+            file_name=f"{article_id}_{_run_slug(sel_sig)}.json",
             mime="application/json",
         )
     with col2:
@@ -314,7 +356,7 @@ if article_id and st.session_state.get("_eval_done"):
         st.download_button(
             "Download summary markdown",
             data=md,
-            file_name=f"{article_id}_{sel_view_mode}.md",
+            file_name=f"{article_id}_{_run_slug(sel_sig)}.md",
             mime="text/markdown",
         )
 
@@ -322,6 +364,6 @@ if article_id and st.session_state.get("_eval_done"):
         st.info("Evaluation complete. Go to **Article Reframe** in the sidebar to generate a reframed version.")
 
     if st.button("Evaluate another article"):
-        for k in ["eval_article_id", "eval_article", "_eval_done", "_eval_error", "_eval_running", "_eval_expected_modes"]:
+        for k in ["eval_article_id", "eval_article", "_eval_done", "_eval_error", "_eval_running", "_eval_baseline_count", "_eval_target_count"]:
             st.session_state.pop(k, None)
         st.rerun()
