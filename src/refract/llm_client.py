@@ -179,6 +179,36 @@ def _call_groq(prompt: str, model: str, system: str = "", expect_json: bool = Tr
     return _call_openai_compat(prompt, _bare_model(model), system, expect_json, temperature, GROQ_BASE, GROQ_API_KEY, "groq")
 
 
+def _parse_json_response(raw: str) -> Any:
+    """Parse a model's JSON response, tolerating code fences, leading prose, and
+    trailing data after the first complete JSON value.
+
+    Models occasionally emit a valid JSON object followed by extra content — a
+    second object, a trailing note, or a stray fence — even when asked for pure
+    JSON (e.g. via responseMimeType). A plain json.loads then raises
+    'Extra data: ...'. Because the eval calls run at temperature 0, that bad
+    output is deterministic and every retry reproduces it, so the article fails.
+    We strip fences, skip to the first '{'/'[', and use raw_decode so trailing
+    bytes after the first complete value are ignored. Genuinely malformed output
+    still raises json.JSONDecodeError for the caller's retry loop to handle.
+    """
+    text = raw.strip()
+    if text.startswith("```"):
+        text = text[3:]
+        if text[:4].lower() == "json":
+            text = text[4:]
+        fence = text.rfind("```")
+        if fence != -1:
+            text = text[:fence]
+        text = text.strip()
+
+    start = next((i for i, ch in enumerate(text) if ch in "{["), -1)
+    if start == -1:
+        return json.loads(text)  # no JSON object/array found — raise clear error
+    obj, _end = json.JSONDecoder().raw_decode(text[start:])
+    return obj
+
+
 def _call_gemini(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> dict | str:
     if not GEMINI_API_KEY:
         raise RuntimeError("GEMINI_API_KEY not set")
@@ -202,11 +232,7 @@ def _call_gemini(prompt: str, model: str, system: str = "", expect_json: bool = 
 
     raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
     if expect_json:
-        if raw.startswith("```"):
-            raw = raw.split("```")[1]
-            if raw.startswith("json"):
-                raw = raw[4:]
-        return json.loads(raw)
+        return _parse_json_response(raw)
     return raw
 
 
@@ -241,11 +267,7 @@ def _call_openai_compat(
     raw = resp.json()["choices"][0]["message"]["content"].strip()
 
     if expect_json:
-        if raw.startswith("```"):
-            raw = raw.split("```")[1]
-            if raw.startswith("json"):
-                raw = raw[4:]
-        return json.loads(raw)
+        return _parse_json_response(raw)
     return raw
 
 
