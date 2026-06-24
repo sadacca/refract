@@ -26,10 +26,26 @@ CEREBRAS_BASE = "https://api.cerebras.ai/v1/chat/completions"
 MISTRAL_BASE = "https://api.mistral.ai/v1/chat/completions"
 
 # Minimum seconds between calls, tracked per model to avoid cross-model interference.
-# Groq free: 30 RPM / model. TPM limits (not just RPM) cause most 429s on long articles.
-# 6s per call = ~10 RPM, leaving headroom for token bursts.
-_CALL_MIN_INTERVAL = float(os.getenv("LLM_CALL_INTERVAL", "6"))
+# Per-provider defaults reflect each free tier's actual RPM cap:
+#   Groq/Cerebras: 30 RPM -> 6s leaves headroom for token bursts (~10 RPM effective).
+#   Mistral: 2 RPM hard cap -> 31s (30s minimum + 1s buffer) to avoid 429s.
+#   Gemini: paced via GEMINI_JUDGE_CHAIN RPD tracking; 6s is a safe default.
+# LLM_CALL_INTERVAL overrides this for ALL providers (e.g. local testing).
+_PROVIDER_MIN_INTERVALS = {
+    "groq": 6.0,
+    "cerebras": 6.0,
+    "mistral": 31.0,
+    "gemini": 6.0,
+}
 _last_call_time: dict[str, float] = {}
+
+
+def _min_interval_for(model: str) -> float:
+    override = os.getenv("LLM_CALL_INTERVAL")
+    if override:
+        return float(override)
+    return _PROVIDER_MIN_INTERVALS.get(_provider(model), 6.0)
+
 
 # ---------------------------------------------------------------------------
 # Daily call tracking — prevents tripping Google's free-tier RPD limit, which
@@ -257,8 +273,9 @@ def call_llm(
     global _last_call_time
     last = _last_call_time.get(model, 0.0)
     elapsed = time.time() - last
-    if elapsed < _CALL_MIN_INTERVAL:
-        time.sleep(_CALL_MIN_INTERVAL - elapsed)
+    min_interval = _min_interval_for(model)
+    if elapsed < min_interval:
+        time.sleep(min_interval - elapsed)
 
     provider = _provider(model)
     caller = {
@@ -288,6 +305,11 @@ def call_llm(
         except requests.HTTPError as e:
             status = e.response.status_code if e.response is not None else 0
             logger.warning("HTTP %d on attempt %d: %s", status, attempt, e)
+            if status == 400:
+                # 400s (e.g. decommissioned model, malformed request) won't
+                # change on retry — fail immediately instead of burning the
+                # full backoff schedule.
+                raise
             if attempt == MAX_RETRIES:
                 raise
             wait = 65 if status == 429 else RETRY_BASE_DELAY * (2 ** (attempt - 1))
