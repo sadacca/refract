@@ -15,8 +15,11 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-from config import GEMINI_API_KEY, EVAL_MODEL, PENDING_EXAMPLES_DIR
-from src.refract.llm_client import call_llm
+from config import (
+    GEMINI_API_KEY, GROQ_API_KEY, CEREBRAS_API_KEY, MISTRAL_API_KEY,
+    PRECOMPUTE_CHAIN, PENDING_EXAMPLES_DIR,
+)
+from src.refract.llm_client import call_llm, select_from_chain
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -86,14 +89,31 @@ def generate_examples(bias: dict, model: str) -> dict:
     return call_llm(prompt, model, system=EXAMPLES_SYSTEM)
 
 
+def generate_examples_with_fallback(bias: dict, chain: list[tuple[str, int]]) -> dict:
+    """Try each model in `chain`, starting with the RPD-aware pick, falling
+    through to the rest on failure (HTTP error, decommissioned model, etc.)."""
+    chain_models = [m for m, _ in chain]
+    primary = select_from_chain(chain)
+    ordered = [primary] + [m for m in chain_models if m != primary]
+
+    last_err: Exception | None = None
+    for model in ordered:
+        try:
+            return generate_examples(bias, model)
+        except Exception as e:
+            logger.warning("    %s failed: %s — trying next model in chain", model, e)
+            last_err = e
+    raise last_err
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--status", default="pending", help="Only process entries with this examples_status")
     parser.add_argument("--bias-id", default=None, help="Process only this bias ID")
     args = parser.parse_args()
 
-    if not GEMINI_API_KEY:
-        logger.error("GEMINI_API_KEY not set")
+    if not any([GEMINI_API_KEY, GROQ_API_KEY, CEREBRAS_API_KEY, MISTRAL_API_KEY]):
+        logger.error("No LLM API key set (GEMINI/GROQ/CEREBRAS/MISTRAL_API_KEY)")
         sys.exit(1)
 
     taxonomy = json.loads(TAXONOMY_PATH.read_text())
@@ -114,7 +134,7 @@ def main() -> None:
     for bias in biases:
         logger.info("  Generating: %s", bias["name"])
         try:
-            result = generate_examples(bias, EVAL_MODEL)
+            result = generate_examples_with_fallback(bias, PRECOMPUTE_CHAIN)
             out_path = PENDING_EXAMPLES_DIR / f"{bias['id']}.json"
             out_path.write_text(json.dumps(result, indent=2))
             logger.info("  Written: %s", out_path)

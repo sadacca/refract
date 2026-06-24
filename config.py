@@ -208,6 +208,21 @@ EVAL_CHAIN: list[tuple[str, int]] = [
 ]
 
 # ---------------------------------------------------------------------------
+# Eval model fallback chain for one-shot/low-volume generation (e.g.
+# scripts/precompute_examples.py — ~14 calls per run). Distinct from EVAL_CHAIN
+# because throughput doesn't matter at this volume, so the chain is ordered by
+# quality/fit for generating few-shot reference examples rather than by RPD.
+# Mistral Large is primary despite its 2 RPM cap — at this call volume the
+# pacing cost is negligible, and it's a strong general-purpose model for this
+# task. Falls through to Groq/Cerebras on failure (see precompute_examples.py).
+# ---------------------------------------------------------------------------
+PRECOMPUTE_CHAIN: list[tuple[str, int]] = [
+    ("mistral-large-latest",           2_800),  # Primary: quality over throughput at this volume
+    ("llama-3.3-70b-versatile",       14_400),  # Fallback: fast, high RPD
+    ("cerebras/gpt-oss-120b",           500),   # Last resort: account-wide pool
+]
+
+# ---------------------------------------------------------------------------
 # Triage model fallback chain for Pass 0 / 1 / 3 (small-model calls).
 # Cross-provider: Groq → Cerebras → Mistral. Same RPD budgeting logic as EVAL_CHAIN.
 # Cerebras RPD here and in EVAL_CHAIN draw from the same account-wide pool (~500 each).
