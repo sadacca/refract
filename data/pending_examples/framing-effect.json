@@ -2,34 +2,34 @@
   "bias_id": "framing-effect",
   "positive": [
     {
-      "excerpt": "The new tax reform has saved American families over $1 billion in taxes last year, with the average family seeing a reduction of $500. This significant tax relief is expected to boost economic growth. The reform has been hailed as a major success by economists and policymakers alike. As a result, consumer spending has risen by 5%.",
-      "mechanism": "Gain/loss framing: 'saved' vs. 'lost'",
-      "domain": "economics"
-    },
-    {
-      "excerpt": "A recent study found that 90% of patients who underwent the new treatment showed significant improvement in their condition. This is a substantial increase from the 50% success rate of the previous treatment. The study's findings have been met with enthusiasm from the medical community. The treatment has been shown to reduce the risk of complications by 20%.",
-      "mechanism": "Percentage vs. absolute framing: '90% success rate' vs. '9 out of 10 patients'",
+      "excerpt": "Under the new healthcare proposal, seniors will lose access to critical prescription drug coverage, with 45% of Medicare beneficiaries facing higher out-of-pocket costs. The plan strips away benefits that millions have relied on for years, leaving many to choose between medication and groceries.",
+      "mechanism": "Loss-frame vocabulary ('lose', 'stripped away') applied to a statistic that could equally be framed as a retention rate, with no companion gain frame provided.",
       "domain": "health"
     },
     {
-      "excerpt": "The city has seen a surge in crime over the past year, with a 10% increase in reported incidents. However, the police department has implemented new strategies that have led to a 5% reduction in crime rates compared to the previous quarter. The department's efforts have been praised by community leaders. The crime rate is still lower than the national average.",
-      "mechanism": "Loaded terminology without attribution: 'surge' in crime",
-      "domain": "crime"
+      "excerpt": "The city's new education policy will result in 3,200 students being denied access to advanced placement courses next year. Officials argue the cuts are necessary to balance the budget, but critics say it will leave a generation of high-achievers without the tools they need to succeed.",
+      "mechanism": "Single-direction statistic with no companion frame ('3,200 students denied' with no mention of the 12,800 who retain access).",
+      "domain": "education"
+    },
+    {
+      "excerpt": "The tax relief package passed by Congress today delivers $1.9 trillion in savings to American families, providing much-needed financial breathing room. Proponents say the cuts will stimulate economic growth and put more money back in the pockets of hardworking citizens.",
+      "mechanism": "Valenced terminology ('tax relief' vs. the equally valid 'tax cut' or 'revenue reduction') applied to a single side of a neutral fact, omitting potential loss frames like 'reduced public services.'",
+      "domain": "economics"
     }
   ],
   "near_miss": [
     {
-      "excerpt": "The company's sales have increased by 10% over the past year, with a total revenue of $1 million. This is a significant achievement, considering the current market trends. The company's success can be attributed to its innovative marketing strategies. The revenue growth is expected to continue in the coming year.",
-      "why_not": "This excerpt does not exhibit framing effect because it presents a neutral and factual representation of the company's sales without using loaded language or selective framing."
+      "excerpt": "A recent study found that 60% of patients experienced improved mobility after six weeks of physical therapy, while 40% saw no significant change. Researchers noted that the results highlight the therapy's effectiveness for the majority, though not all participants benefited equally.",
+      "why_not": "Both gain and neutral frames are presented, offering a balanced view of the data without omitting the alternative valence."
     },
     {
-      "excerpt": "The new policy has been met with both support and criticism from the community. Some argue that it will lead to significant economic growth, while others claim it will have a negative impact on the environment. The policy's effects are still being debated by experts. A thorough analysis of the policy's pros and cons is necessary to make an informed decision.",
-      "why_not": "This excerpt does not exhibit framing effect because it presents a balanced view of the policy, acknowledging both positive and negative perspectives without using selective framing or loaded language."
+      "excerpt": "The unemployment rate dropped to 4.2% last month, the lowest in three years, as 350,000 new jobs were added to the economy. Economists caution, however, that wage growth remains stagnant, limiting the benefits for many workers.",
+      "why_not": "The excerpt provides both a positive frame (job growth) and a qualifying negative frame (stagnant wages), avoiding a single-valence presentation of the data."
     }
   ],
   "contrast": {
-    "bias": "Anchoring",
-    "excerpt": "The price of the new smartphone is $999, which is a significant reduction from the initial price of $1,200. However, when compared to the price of the previous model, which was $800, the new price seems relatively high. The price reduction is still a good deal, considering the improved features of the new model.",
-    "distinction": "This excerpt exhibits anchoring bias, where the initial price of $1,200 serves as an anchor, making the reduced price of $999 seem more reasonable, whereas framing effect would involve presenting the price reduction in a way that influences the reader's perception, such as 'save $201' or 'get 17% off'."
+    "bias": "Anchoring Effect",
+    "excerpt": "The defense attorney opened his argument by stating that the victim's medical bills totaled $1.2 million, a figure far exceeding the $250,000 sought in damages. Legal experts say this high initial number may anchor jurors' expectations, making the requested amount seem more reasonable by comparison.",
+    "distinction": "The excerpt demonstrates reliance on an initial reference point ($1.2 million) to influence subsequent judgments, rather than presenting equivalent information in different valences (e.g., gain vs. loss)."
   }
 }

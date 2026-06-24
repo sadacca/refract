@@ -1,0 +1,35 @@
+{
+  "bias_id": "gamblers-fallacy",
+  "positive": [
+    {
+      "excerpt": "After losing the last five coin tosses to decide the starting side, the team captain insisted, 'Heads is definitely due this time\u2014these things even out over the match.' The referee, amused but unpersuaded, prepared to flip again.",
+      "mechanism": "'X is definitely due' after a run of the opposite outcome",
+      "domain": "sport"
+    },
+    {
+      "excerpt": "With the stock market closing lower for the seventh consecutive session, analysts on financial networks are now predicting a rebound. 'The odds have to be in our favor now,' one commentator argued, 'because the market can't keep falling forever.'",
+      "mechanism": "'The odds have to be in our favor now' framing",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "Following three consecutive weeks of Republican victories in special elections, pundits are now declaring that a Democratic win is inevitable. 'History shows these things balance out,' said one political strategist, 'so the pendulum is bound to swing back soon.'",
+      "mechanism": "'These things even out over time' applied to a short streak",
+      "domain": "politics"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "After a string of five consecutive wins, the basketball team's coach attributed their success to improved defensive strategies and player conditioning. 'We're not just lucky\u2014we've worked hard to turn things around,' he said.",
+      "why_not": "The excerpt attributes the streak to causal factors (strategy, conditioning) rather than assuming future outcomes are influenced by past randomness."
+    },
+    {
+      "excerpt": "The city has seen a 20% drop in burglaries over the past year, following the implementation of new community policing initiatives. Officials caution that this trend may not continue if funding for these programs is cut.",
+      "why_not": "The excerpt explains the streak as a result of a non-random, dependent process (policing initiatives) and does not assume future outcomes are 'due' to balance past ones."
+    }
+  ],
+  "contrast": {
+    "bias": "Hot Hand Fallacy",
+    "excerpt": "The basketball player has made his last ten three-point shots in a row, and the commentator excitedly declared, 'He's on fire! There's no way he misses this next one\u2014he's got the hot hand tonight.' The crowd roared in agreement as the player prepared for another attempt.",
+    "distinction": "The Hot Hand Fallacy assumes a streak of success increases the probability of future success (perceived dependence), whereas the Gambler's Fallacy assumes a streak of one outcome makes the opposite outcome more likely."
+  }
+}

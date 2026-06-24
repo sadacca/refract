@@ -1,0 +1,35 @@
+{
+  "bias_id": "overconfidence-bias",
+  "positive": [
+    {
+      "excerpt": "There is no question that the new tax reform package will deliver a 4% boost to GDP within the next fiscal year. Economists who argue otherwise are either misinformed or deliberately ignoring the clear data, which shows a direct correlation between corporate tax cuts and economic growth.",
+      "mechanism": "'There is no question that...' / 'anyone who claims otherwise is...'",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "The prosecution\u2019s case is airtight, and there simply is no other plausible outcome than a guilty verdict for the defendant. Legal experts who suggest the evidence is circumstantial are not serious analysts but rather apologists for criminal behavior.",
+      "mechanism": "'Not a matter of debate among serious [experts]' applied to a genuinely contested empirical claim",
+      "domain": "crime"
+    },
+    {
+      "excerpt": "The science is settled: this new Alzheimer\u2019s drug will halt cognitive decline in 90% of patients. Critics claiming the clinical trials were flawed are merely peddling skepticism to undermine a breakthrough that will transform treatment for millions.",
+      "mechanism": "Absence of probabilistic hedges in domains where they are warranted",
+      "domain": "health"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "While most analysts predict the central bank will raise interest rates next month, a minority of economists argue that inflation may have already peaked, suggesting a pause could be warranted.",
+      "why_not": "The excerpt acknowledges alternative outcomes and uses hedging language ('may have'), which aligns with the actual epistemic uncertainty."
+    },
+    {
+      "excerpt": "The team\u2019s manager stated with absolute certainty that the new signing would lead them to the championship, citing his unmatched track record in similar leagues.",
+      "why_not": "The high-certainty language reflects the manager\u2019s personal belief or rhetoric, not a journalist\u2019s unhedged claim about an empirically contested outcome."
+    }
+  ],
+  "contrast": {
+    "bias": "Dunning-Kruger Effect",
+    "excerpt": "A local blogger with no formal training in epidemiology confidently declared that the pandemic was a hoax, dismissing decades of virology research as 'fearmongering by elites.' His posts, filled with misinterpreted data, gained traction among followers who praised his 'common-sense' approach.",
+    "distinction": "This excerpt demonstrates a lack of competence leading to inflated self-assessment (Dunning-Kruger), whereas Overconfidence Bias involves miscalibrated certainty in judgments despite expertise or evidence."
+  }
+}

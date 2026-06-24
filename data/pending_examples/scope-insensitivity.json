@@ -1,0 +1,35 @@
+{
+  "bias_id": "scope-insensitivity",
+  "positive": [
+    {
+      "excerpt": "Whether it's 2,000 or 200,000 refugees fleeing the conflict, the human suffering is equally heartbreaking. What matters is that we extend a helping hand to those in need, regardless of the numbers involved.",
+      "mechanism": "'Whether it's X or Y [orders of magnitude apart], what matters is...' used to flatten a scale distinction",
+      "domain": "politics"
+    },
+    {
+      "excerpt": "The economic downturn has been devastating, with job losses reaching 50,000 in the region. Meanwhile, in the neighboring state, a staggering 500,000 workers have been left unemployed\u2014yet the despair felt by families is just as profound.",
+      "mechanism": "Identical adjectives ('devastating') applied without modification to figures that differ by 10x or more",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "The urgent call for medical supplies is the same whether the outbreak has infected 300 or 30,000 people. Lives are at stake, and the response must be swift and uncompromising in either case.",
+      "mechanism": "Urgency or moral language held constant across vastly different quantities of affected people",
+      "domain": "health"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The death toll from the earthquake has risen to 2,000, a tragedy that has shocked the nation. However, experts warn that if the rescue efforts fail, the final count could exceed 20,000\u2014a catastrophe of unimaginable proportions.",
+      "why_not": "The excerpt explicitly acknowledges the scale difference and its qualitative impact, avoiding the flattening of magnitude."
+    },
+    {
+      "excerpt": "While 500 cases of the disease may seem manageable, health officials caution that a surge to 5,000 would overwhelm the healthcare system, requiring a fundamentally different response strategy.",
+      "why_not": "The excerpt directly compares the two scales and implies a rational dependence on magnitude for resource prioritization."
+    }
+  ],
+  "contrast": {
+    "bias": "Availability Heuristic",
+    "excerpt": "After a recent spate of high-profile shark attacks, beachgoers are canceling their vacations in droves, despite statistics showing that the annual risk of a shark-related fatality remains below one in a million.",
+    "distinction": "This excerpt reflects the Availability Heuristic, where recent or vivid events disproportionately influence perception, rather than flattening the emotional response to differing magnitudes of harm."
+  }
+}

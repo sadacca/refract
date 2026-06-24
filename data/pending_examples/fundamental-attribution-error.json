@@ -2,34 +2,34 @@
   "bias_id": "fundamental-attribution-error",
   "positive": [
     {
-      "excerpt": "The recent scandal involving the CEO of XYZ Corporation is a clear example of corporate greed. He chose to prioritize profits over people, and now the company is facing severe consequences. This decision has led to widespread outrage and calls for his resignation. The CEO's actions are a stark reminder of the dangers of unchecked ambition.",
-      "mechanism": "Dispositional language: 'he chose to'",
+      "excerpt": "The city's public transit system has been plagued by delays and cancellations for months, a clear sign of the agency's chronic mismanagement and the employees' lack of dedication. Commuters are left stranded daily, a direct result of the transit workers' poor work ethic and resistance to modernizing their practices.",
+      "mechanism": "Character framing of organizations or groups in place of structural diagnosis",
       "domain": "economics"
     },
     {
-      "excerpt": "The embattled mayor of New York City has been under fire for her handling of the recent crime wave. Critics argue that she has failed to effectively address the root causes of the problem, instead opting for superficial solutions. The mayor's inability to lead has led to a surge in crime, leaving many to wonder if she is truly fit for the job. Her leadership style has been described as 'ineffective' and 'out of touch'.",
-      "mechanism": "Character framing: 'the embattled mayor'",
-      "domain": "politics"
+      "excerpt": "Dr. Emily Carter's research on Alzheimer's has stalled, with her latest paper retracted due to methodological flaws. Colleagues describe her as careless and overly ambitious, traits that have finally caught up with her after years of cutting corners in pursuit of tenure.",
+      "mechanism": "Dispositional verbs applied without situational context",
+      "domain": "science"
     },
     {
-      "excerpt": "The latest study on the genetics of athletic performance has sparked controversy, with some arguing that it perpetuates the idea that certain groups are naturally more talented than others. However, the truth is that some people are just born to be great athletes. Take, for example, the incredible career of Michael Jordan, who dominated the basketball court with his unparalleled skill and dedication. His success is a testament to the power of individual talent and hard work.",
-      "mechanism": "'Great man' or 'great woman' framing of complex events",
+      "excerpt": "The national team's dismal performance in the World Cup qualifiers reflects the players' complacency and lack of hunger for victory. Despite being handed favorable draws, they crumbled under pressure, proving that talent alone cannot compensate for a weak mental game.",
+      "mechanism": "Success attributed to individual talent or effort without acknowledging structural advantage or luck",
       "domain": "sport"
     }
   ],
   "near_miss": [
     {
-      "excerpt": "The new policy has been met with widespread criticism, with many arguing that it does not go far enough to address the underlying issues. However, the policymakers were operating under severe budget constraints and had to make difficult decisions. While the policy is not perfect, it is a step in the right direction and demonstrates a willingness to tackle the problem. Further analysis is needed to fully understand the implications of the policy.",
-      "why_not": "This excerpt acknowledges the situational constraints and does not solely attribute the policy outcome to the quality of the leader or policymaker."
+      "excerpt": "The hospital's high infection rates are not just a result of negligent staff but also stem from chronic underfunding and outdated facilities. Administrators acknowledge that budget cuts have left nurses overworked and unable to maintain proper hygiene protocols.",
+      "why_not": "Structural and situational factors are explicitly examined alongside individual behavior, avoiding dispositional attribution."
     },
     {
-      "excerpt": "The community has been plagued by poverty and crime for decades, but recent efforts to address the root causes of these issues have shown promise. While there is still much work to be done, the progress made so far is a testament to the resilience and determination of the community. However, more needs to be done to address the systemic issues that have led to these problems, such as lack of access to education and job opportunities.",
-      "why_not": "This excerpt acknowledges the historical and structural causes of the community's condition, rather than solely attributing it to the characteristics of the community."
+      "excerpt": "While the CEO's aggressive cost-cutting measures initially boosted profits, they also led to mass layoffs and a decline in product quality. Industry analysts argue that the strategy was unsustainable, given the company's reliance on skilled labor and long-term customer relationships.",
+      "why_not": "The excerpt balances individual decisions with contextual and structural constraints, rather than attributing outcomes solely to character or intent."
     }
   ],
   "contrast": {
-    "bias": "In-Group Bias",
-    "excerpt": "Our team's success is due to our unique approach and innovative thinking, while the other team's failure is a result of their lack of effort and poor strategy. We have always been a cohesive unit, working together towards a common goal, and our results reflect that. In contrast, the other team has struggled with internal conflicts and a lack of direction.",
-    "distinction": "This excerpt exhibits In-Group Bias, as it favors the ingroup and attributes their success to internal factors, while attributing the outgroup's failure to internal factors as well, rather than solely focusing on individual character or disposition as in Fundamental Attribution Error."
+    "bias": "Actor-Observer Asymmetry",
+    "excerpt": "When I failed to meet the project deadline, it was because the client kept changing requirements and my team was understaffed. But when my colleague missed her deadline, it was clearly because she's disorganized and doesn't plan ahead.",
+    "distinction": "Actor-Observer Asymmetry involves differing explanations for one's own vs. others' behavior, while Fundamental Attribution Error is the general tendency to overattribute others' behavior to disposition without considering context."
   }
 }

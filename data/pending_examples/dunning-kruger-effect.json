@@ -1,0 +1,35 @@
+{
+  "bias_id": "dunning-kruger-effect",
+  "positive": [
+    {
+      "excerpt": "After spending a weekend tinkering with a few open-source AI tools, I can confidently say that the so-called 'experts' warning about the dangers of artificial intelligence are just fear-mongering. It's really quite simple when you think about it clearly: these systems are just pattern recognizers, and if you understand basic statistics, you can see there's nothing mysterious or unpredictable about them. The field has been overcomplicated by academics who need to justify their research grants.",
+      "mechanism": "'It's really quite simple when you think about it clearly' applied to a field with established technical complexity",
+      "domain": "science/technology"
+    },
+    {
+      "excerpt": "I've read two articles on monetary policy, and it's obvious that central bankers are making things far more complicated than they need to be. The solution to inflation is straightforward: just stop printing money and let the market correct itself. All this talk about 'soft landings' and 'forward guidance' is just jargon to make economists seem smarter than they are. If you ask me, we don't need PhDs to run the economy\u2014just some common sense and a basic understanding of supply and demand.",
+      "mechanism": "Minimal-exposure credentialing paired with sweeping confident claims",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "As someone who's covered a few local crime stories, I can tell you that criminal profiling is vastly overrated. The FBI's Behavioral Analysis Unit acts like they're doing some kind of dark magic, but it's not that hard to predict how a criminal will behave\u2014you just need to think like them. All this talk about 'signature behaviors' and 'organized vs. disorganized offenders' is just a way to make police work seem more scientific than it really is. Most criminals are opportunistic, and if you understand basic human nature, you can solve cases without all the fancy terminology.",
+      "mechanism": "Dismissal of practitioners as 'overcomplicating' a field, without engaging the specific difficulties they cite",
+      "domain": "crime"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "While I'm not an epidemiologist, my extensive research into vaccine studies leads me to believe that the risks of certain rare side effects may be underreported. I've reviewed dozens of peer-reviewed papers and spoken with several immunologists, and the data isn't as clear-cut as public health officials suggest. This isn't to say vaccines are unsafe, but we should acknowledge the complexities in the science rather than dismissing concerns outright.",
+      "why_not": "The writer demonstrates awareness of their knowledge limits and engages with domain-specific complexities, rather than dismissing them."
+    },
+    {
+      "excerpt": "As a former high school math teacher with a decade of experience, I can say that the new 'discovery-based' math curricula are failing our students. While I appreciate the intent behind these methods, the execution often leaves kids without the foundational skills they need. Standardized test scores in my district have dropped since we adopted this approach, and many of my colleagues share my concerns about its effectiveness.",
+      "why_not": "The writer grounds their critique in substantial experience and specific evidence, rather than minimal exposure and overgeneralization."
+    }
+  ],
+  "contrast": {
+    "bias": "Overconfidence Bias",
+    "excerpt": "As a Nobel laureate in economics, I can state with absolute certainty that this new trade policy will lead to a 15% increase in GDP within two years. My models have accounted for every possible variable, and the historical data aligns perfectly with my projections. While some of my colleagues express caution, their concerns are based on outdated frameworks that don't incorporate the latest advances in econometric analysis.",
+    "distinction": "The writer exhibits overconfidence based on genuine expertise and high competence, rather than a knowledge deficit that impairs metacognitive recognition of their limitations."
+  }
+}

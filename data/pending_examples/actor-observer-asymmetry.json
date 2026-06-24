@@ -1,0 +1,35 @@
+{
+  "bias_id": "actor-observer-asymmetry",
+  "positive": [
+    {
+      "excerpt": "When I arrived 20 minutes late to the press briefing, I\u2019m sure everyone noticed and assumed it reflected my work ethic. The traffic jam on the Beltway and my daughter\u2019s sudden fever that morning left me no choice. Yet when Senator Harris strolled in half an hour behind schedule last week, colleagues whispered that she\u2019s chronically disorganized\u2014no one considered she might have been delayed by the same Metro derailment that snarled the entire city.",
+      "mechanism": "Situational hedges for the self paired with dispositional labels for others for the same behavior",
+      "domain": "politics"
+    },
+    {
+      "excerpt": "I interrupted the CEO mid-sentence during yesterday\u2019s earnings call because the fire alarm had just blared and I needed to confirm the evacuation protocol. Investors probably thought I was rude, but the situation demanded it. When analyst Priya Chen cut off the CFO last quarter, however, the board privately concluded she\u2019s power-hungry\u2014no one mentioned the fact that the webcast audio had glitched for three full minutes before she spoke.",
+      "mechanism": "'Everyone noticed when I...' without evidence of others' attention",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "I snapped at the referee after he called a foul on me in the final minute of the championship game. The exhaustion from playing every minute of the tournament and the pressure of the moment made it impossible to stay composed. When teammate Marcus yelled at the same official earlier in the season, though, the coach benched him for two games, saying it\u2019s just how he reacts under stress\u2014no one acknowledged the fact that Marcus had been playing with a sprained ankle that day.",
+      "mechanism": "'It's a pattern' or trait language applied to another's single instance of behavior that is excused situationally for the self",
+      "domain": "sport"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The mayor canceled her appearance at the ribbon-cutting ceremony because her flight was delayed by a snowstorm. Critics immediately accused her of being unreliable, ignoring the weather reports that grounded all flights in the region.",
+      "why_not": "The excerpt describes only the mayor\u2019s behavior, not the writer\u2019s own equivalent behavior, so it lacks the actor-observer asymmetry."
+    },
+    {
+      "excerpt": "I was late to the meeting because my car broke down, but I know my colleagues think I\u2019m irresponsible. When John was late last week, I assumed it was because he oversleeps\u2014he\u2019s always hitting snooze.",
+      "why_not": "The writer attributes dispositional causes to another\u2019s behavior but does not describe an equivalent behavior of their own, so the asymmetry is not demonstrated."
+    }
+  ],
+  "contrast": {
+    "bias": "Fundamental Attribution Error",
+    "excerpt": "The governor vetoed the education bill because he\u2019s ideologically opposed to public school funding. No one considered that his own child attends a private academy, which might have influenced his decision.",
+    "distinction": "The excerpt attributes the governor\u2019s behavior solely to dispositional factors without situational context, but it does not contrast this with the writer\u2019s own equivalent behavior, so it is Fundamental Attribution Error, not Actor-Observer Asymmetry."
+  }
+}

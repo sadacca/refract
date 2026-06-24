@@ -1,0 +1,35 @@
+{
+  "bias_id": "conjunction-fallacy",
+  "positive": [
+    {
+      "excerpt": "Analysts suggest it seems more likely that the senator will resign specifically because of the ethics investigation and mounting public pressure than that he will simply resign without such a clear catalyst. The detailed scenario paints a more compelling picture of his potential downfall.",
+      "mechanism": "'It seems more likely that... [specific narrative]... than that... [broader claim]'",
+      "domain": "politics"
+    },
+    {
+      "excerpt": "Market watchers are increasingly convinced that the tech giant will not only miss its quarterly earnings target but will do so specifically because of supply chain disruptions in Southeast Asia, a combination they deem more probable than a generic earnings miss.",
+      "mechanism": "Causal elaboration presented as increasing likelihood: 'specifically because of X' framed as more probable than the unqualified outcome",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "Police sources indicate they are highly confident the suspect is a local resident with a history of burglary and ties to the victim, a profile they believe is far more likely than the possibility he is merely a local resident with no further connections.",
+      "mechanism": "Confidence language attached to the detailed version exceeding confidence in the general version",
+      "domain": "crime"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "Epidemiologists warn that the new variant is more likely to cause severe illness in elderly patients with pre-existing conditions than in the general population, citing emerging clinical data.",
+      "why_not": "The added specificity is supported by evidence (clinical data) rather than narrative coherence alone."
+    },
+    {
+      "excerpt": "The coach believes the team is more likely to win the championship if they secure a top draft pick this offseason, as it would address their most glaring weakness.",
+      "why_not": "The scenario describes a conditional probability (if X, then Y) rather than asserting a conjunction is more likely than its constituent event."
+    }
+  ],
+  "contrast": {
+    "bias": "Base Rate Neglect",
+    "excerpt": "A recent study claims that 80% of people who test positive for the rare disease are actually healthy, yet doctors insist the test is highly reliable because it correctly identifies 95% of true cases.",
+    "distinction": "Base Rate Neglect ignores the low prior probability of the disease, whereas Conjunction Fallacy involves judging a specific conjunction as more likely than a broader event."
+  }
+}

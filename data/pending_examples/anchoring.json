@@ -2,34 +2,34 @@
   "bias_id": "anchoring",
   "positive": [
     {
-      "excerpt": "The new stadium deal was initially valued at $2.5 billion, but after negotiations, the final cost came in at $2.2 billion, a savings of $300 million. This is a significant reduction from the initial ask. The city council is hailing this as a major victory. The deal includes a mix of public and private funding.",
-      "mechanism": "Opening numbers followed by relative framing",
-      "domain": "sports"
+      "excerpt": "While discussing the proposed infrastructure bill, a senior aide noted that the country spends over $2 trillion annually on healthcare. When asked about the expected cost of the new rail system, the aide estimated it would likely run between $1.8 and $2.2 trillion over a decade.",
+      "mechanism": "An unrelated large number introduced immediately before an estimate, with the subsequent estimate tracking the magnitude of the preceding anchor.",
+      "domain": "politics"
     },
     {
-      "excerpt": "As many as 500,000 people are expected to attend the music festival this year, with organizers anticipating a crowd similar to last year's record attendance. Compared to last year's event, which drew 475,000, this year's festival is expected to be even bigger. The festival will feature performances by top artists and include a variety of food and drink options.",
-      "mechanism": "Initial framing of magnitude",
-      "domain": "entertainment"
+      "excerpt": "A recent study on urban crime rates revealed that the city's police force has 3,500 officers. When asked to predict the number of burglaries expected this year, a local criminologist suggested a figure of around 3,200, citing 'recent trends and staffing levels.'",
+      "mechanism": "Estimate expressed as a figure that tracks the magnitude of the preceding anchor rather than the actual question, with no independent justification.",
+      "domain": "crime"
     },
     {
-      "excerpt": "The company's stock price has risen by 20% since the beginning of the year, up from a low of $50 per share in January. This is the highest the stock has been since 2018. Analysts attribute the increase to the company's strong quarterly earnings report. The stock is expected to continue to rise in the coming months.",
-      "mechanism": "Comparisons structured as departures",
-      "domain": "economics"
+      "excerpt": "During a segment on climate change, the host mentioned that the Arctic ice cap has lost 13% of its mass since 1980. Later, when discussing the potential rise in global temperatures, a guest expert predicted a 10-15% increase in extreme weather events over the next two decades.",
+      "mechanism": "Estimate expressed as a range that tracks the magnitude of the preceding anchor, despite the anchor being contextually irrelevant to the subsequent estimate.",
+      "domain": "science"
     }
   ],
   "near_miss": [
     {
-      "excerpt": "The average temperature in July was 85 degrees, which is 5 degrees higher than the average temperature in June. This increase in temperature is due to the changing seasons. The warmer weather is expected to continue into August.",
-      "why_not": "This example does not exhibit anchoring bias because it presents a neutral comparison between two months, without using an initial value to frame subsequent interpretations."
+      "excerpt": "Last year, the city recorded 450 traffic fatalities. This year, officials project the number will drop to around 400, thanks to new safety measures.",
+      "why_not": "The prior figure is a directly comparable reference point for the estimate, not an arbitrary or loosely related anchor."
     },
     {
-      "excerpt": "The new policy aims to reduce carbon emissions by 10% over the next 5 years. This goal is based on current emission levels and is considered ambitious by environmental experts. The policy includes a variety of initiatives to reduce emissions.",
-      "why_not": "This example does not exhibit anchoring bias because it presents a specific, absolute goal, rather than framing it as a departure from an initial value or using a selective historical reference."
+      "excerpt": "A 2018 study found that 60% of adults in the region lacked access to dental care. When asked about current figures, a health department spokesperson said the number is now closer to 55%.",
+      "why_not": "The earlier figure is a relevant, directly comparable baseline for the updated estimate, not an irrelevant anchor."
     }
   ],
   "contrast": {
     "bias": "Framing Effect",
-    "excerpt": "The new medical treatment has a 90% success rate, with only 10% of patients experiencing side effects. This is a significant improvement over the previous treatment, which had a 50% success rate. The new treatment is considered a major breakthrough in the field of medicine.",
-    "distinction": "This example exhibits the Framing Effect, which is distinct from anchoring bias because it involves presenting information in a way that influences the reader's perception, rather than using an initial value to frame subsequent interpretations."
+    "excerpt": "The new drug trial results show that 70% of patients experienced no side effects. However, critics argue that the same data can be framed differently: 30% of patients did suffer adverse reactions.",
+    "distinction": "This excerpt demonstrates how the same information is presented in different ways to influence perception, rather than an irrelevant numerical anchor biasing a subsequent estimate."
   }
 }

@@ -1,0 +1,35 @@
+{
+  "bias_id": "sunk-cost-fallacy",
+  "positive": [
+    {
+      "excerpt": "After pouring $12 billion and a decade of research into the troubled F-35 fighter jet program, Pentagon officials insist the project must continue, arguing that abandoning it now would render years of effort and taxpayer dollars meaningless. Critics counter that the plane's persistent technical flaws and ballooning costs make it a poor investment, regardless of past expenditures.",
+      "mechanism": "'It would be a waste to stop now' / 'all of that work would be for nothing'",
+      "domain": "politics/economics"
+    },
+    {
+      "excerpt": "City council members voted unanimously to extend the struggling downtown revitalization initiative, with Mayor Thompson stating, 'We've already invested $50 million in this project, and we can't let that money go to waste. The community deserves to see it through to completion, no matter the additional costs.'",
+      "mechanism": "'We've already spent X, so we have to see it through'",
+      "domain": "urban development"
+    },
+    {
+      "excerpt": "Despite mounting evidence that the experimental Alzheimer's drug shows little efficacy in recent trials, the pharmaceutical company announced it will proceed with Phase III testing. 'We owe it to the patients who have participated in our studies and the scientists who have dedicated their careers to this research to see this through,' the CEO declared in a press conference.",
+      "mechanism": "'We owe it to the investment/team' framing that substitutes for a forward-looking cost-benefit analysis",
+      "domain": "health/science"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The government decided to halt construction of the new highway after discovering the projected costs had doubled, making the project financially unviable. Officials acknowledged the $200 million already spent but emphasized that future expenses would outweigh any potential benefits.",
+      "why_not": "The past investment is mentioned as neutral background, but the decision is based on forward-looking costs and benefits, not the sunk cost."
+    },
+    {
+      "excerpt": "After three consecutive losing seasons, the football team's management opted to fire the head coach, despite his five-year, $25 million contract. 'We can't keep throwing good money after bad,' the owner stated, 'and we need to prioritize the team's future success over past commitments.'",
+      "why_not": "The decision is framed around avoiding further losses (future costs), not justifying continuation due to past investments."
+    }
+  ],
+  "contrast": {
+    "bias": "Hyperbolic Discounting",
+    "excerpt": "Despite warnings from economists about long-term debt risks, lawmakers passed a stimulus package offering immediate tax rebates, with one senator arguing, 'People need relief now, and we can worry about the budget consequences later.' The bill prioritized short-term economic boosts over sustained fiscal responsibility.",
+    "distinction": "Hyperbolic discounting involves overvaluing immediate rewards over future consequences, whereas sunk cost fallacy focuses on justifying continuation due to irrecoverable past investments."
+  }
+}

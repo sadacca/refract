@@ -2,34 +2,34 @@
   "bias_id": "availability-heuristic",
   "positive": [
     {
-      "excerpt": "The number of cyberattacks on major corporations is increasingly becoming a concern, with high-profile cases like the recent hack of a large tech firm making headlines. This growing number of attacks highlights the need for better cybersecurity measures. Since the attack on the tech firm, there have been numerous reports of similar incidents, indicating a trend. Companies must take immediate action to protect themselves.",
-      "mechanism": "Trend claims without trend data",
-      "domain": "crime"
+      "excerpt": "This summer, it seems like every other day brings another story of a flight delayed for hours on the tarmac. Just last week, a family of four was stranded for six hours on a sweltering plane in Phoenix, and two days later, a business traveler tweeted about his nine-hour ordeal in Chicago. It's clearly become an epidemic\u2014airlines can't keep getting away with this.",
+      "mechanism": "Anecdote stacking: multiple personal stories offered as proof of prevalence",
+      "domain": "transportation"
     },
     {
-      "excerpt": "A recent study found that a new diet has been linked to several cases of severe weight loss. Stories like this are becoming common, with many people reporting similar experiences after trying the diet. This is what happens when you follow a diet that is not properly regulated, and it's a warning sign that something needs to be done. The diet's popularity is a recipe for disaster.",
-      "mechanism": "Anecdote-as-data",
-      "domain": "health"
+      "excerpt": "Lately, it feels like everyone I know has been laid off. My neighbor, a marketing manager with 15 years of experience, was let go last month, and my cousin, a software engineer, just got the news yesterday. The job market is in freefall, and no one is safe\u2014despite what the unemployment numbers might say.",
+      "mechanism": "Personal or recent exposure to examples stands in for systematic evidence",
+      "domain": "economics"
     },
     {
-      "excerpt": "There have been 200 reported cases of players suffering from concussions in the league this season. This is a staggering number and highlights the need for better safety protocols. The risk of concussion is very real, and it's essential that the league takes steps to mitigate it. The number of concussions is a clear indication that something needs to be done.",
-      "mechanism": "Denominator neglect",
-      "domain": "sport"
+      "excerpt": "Parents in our community are up in arms after three children were bitten by dogs this week alone. One incident left a five-year-old with 12 stitches, and another required emergency surgery. It's happening all the time now\u2014something has to be done about these dangerous breeds before it's too late.",
+      "mechanism": "'It's clearly become an epidemic' / 'happening all the time' without citation",
+      "domain": "public safety"
     }
   ],
   "near_miss": [
     {
-      "excerpt": "According to a recent study, the number of people affected by climate change has increased by 20% over the past year. This trend is expected to continue, with more frequent natural disasters and rising temperatures. The study provides a comprehensive analysis of the data, including statistics on the number of people affected per region. The findings are based on a thorough examination of the available data.",
-      "why_not": "This excerpt does not exhibit the Availability Heuristic bias because it provides statistical evidence and context to support the claims."
+      "excerpt": "A recent study published in *The Lancet* analyzed 10 years of data and found that dog bite incidents in urban areas have increased by 40% since 2010. Researchers attribute the rise to higher pet ownership and inadequate leash laws, citing hospital records from 50 major cities.",
+      "why_not": "Uses systematic, population-level data rather than anecdotes to support claims of prevalence."
     },
     {
-      "excerpt": "A new policy has been implemented to reduce the number of accidents on the road. The policy has been successful, with a significant decrease in the number of accidents reported. The data shows that the number of accidents has decreased by 15% since the policy was introduced. This is a positive trend, and it's essential to continue monitoring the situation to ensure the policy remains effective.",
-      "why_not": "This excerpt does not exhibit the Availability Heuristic bias because it provides specific data and statistics to support the claims, rather than relying on anecdotes or vivid examples."
+      "excerpt": "After interviewing 20 local business owners, half reported a noticeable drop in foot traffic this quarter. While this aligns with the city's 3% rise in unemployment, economists caution that seasonal trends may also play a role.",
+      "why_not": "Anecdotes are contextualized with broader data and caveats, not used as standalone evidence of a trend."
     }
   ],
   "contrast": {
-    "bias": "Negativity Bias",
-    "excerpt": "The latest economic reports indicate that the country is on the brink of a recession, with rising unemployment and decreasing economic growth. The situation is dire, and it's essential to take immediate action to mitigate the effects. The prospects for the future look bleak, and it's unlikely that the economy will recover anytime soon. The outlook is grim, and it's time to prepare for the worst.",
-    "distinction": "This excerpt exhibits Negativity Bias, which is distinct from the Availability Heuristic because it involves an overall pessimistic outlook and emphasis on negative aspects, rather than overestimating the frequency of an event based on vivid examples."
+    "bias": "Hindsight Bias",
+    "excerpt": "Looking back, it's obvious the housing bubble was about to burst. In 2006, home prices had skyrocketed, mortgage defaults were creeping up, and even casual observers could see the market was unsustainable. How did regulators and investors miss the warning signs?",
+    "distinction": "Hindsight Bias involves perceiving past events as predictable after they occur, whereas Availability Heuristic involves judging current prevalence based on easily recalled examples."
   }
 }

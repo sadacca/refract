@@ -1,0 +1,35 @@
+{
+  "bias_id": "hyperbolic-discounting",
+  "positive": [
+    {
+      "excerpt": "The government's new carbon tax will add just \u00a31.50 a week to the average household's energy bill, a small price to pay for securing a greener future for our children. Critics argue the policy doesn't go far enough, but ministers insist the gradual increase will be barely noticeable in family budgets.",
+      "mechanism": "Per-week framing used to minimize a cost ('just \u00a31.50 a week') without stating the annual or lifetime total",
+      "domain": "politics/environment"
+    },
+    {
+      "excerpt": "Health officials today announced a decade-long plan to reduce sugar consumption, cutting just 5% from the national diet each year. The incremental approach means families won't feel the pinch at the checkout, while still reaping long-term benefits for public health.",
+      "mechanism": "'Only a small reduction over a decade' applied to a cost without lump-sum equivalent stated",
+      "domain": "health"
+    },
+    {
+      "excerpt": "The stadium's $1.2 billion renovation will cost taxpayers just $20 per year over the next 30 years, city officials announced today. 'That's less than the price of a single game ticket,' said the mayor, emphasizing how affordable the project will be for local residents.",
+      "mechanism": "Long amortization period cited to shrink apparent size of total cost ('$20 per year over 30 years')",
+      "domain": "sport/economics"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "The new highway project will cost $500 million, or about $100 per resident when spread across the state's five million taxpayers. Officials note this is comparable to the cost of a monthly gym membership for each household.",
+      "why_not": "The lump-sum total is stated alongside the diffuse framing, preventing asymmetric comparison."
+    },
+    {
+      "excerpt": "Doctors recommend patients take a 10mg daily dose of the medication, which works out to just $30 per month. The treatment's benefits are immediate, with most patients reporting symptom relief within days.",
+      "why_not": "The cost and benefit are both presented in near-term frames, maintaining temporal symmetry."
+    }
+  ],
+  "contrast": {
+    "bias": "Sunk Cost Fallacy",
+    "excerpt": "Despite mounting evidence that the light rail project is over budget and behind schedule, city councilors voted to allocate another $200 million today. 'We've already invested too much to turn back now,' said the transportation commissioner, citing the $800 million spent to date.",
+    "distinction": "Focuses on past investments already made (sunk costs) rather than reframing future costs in diffuse temporal terms."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "bias_id": "hindsight-bias",
+  "positive": [
+    {
+      "excerpt": "In the wake of the 2008 financial crisis, it was always obvious that the housing bubble would burst. The warning signs were everywhere\u2014skyrocketing home prices, predatory lending practices, and Wall Street\u2019s reckless gambling with mortgage-backed securities. It\u2019s hard to understand why regulators didn\u2019t see the collapse coming sooner, given how inevitable it now seems in hindsight.",
+      "mechanism": "'It was always obvious that...' / inevitability framing ('inevitable', 'hard to understand why [experts] didn\u2019t see it coming')",
+      "domain": "economics"
+    },
+    {
+      "excerpt": "The fall of the Berlin Wall in 1989 was just a matter of time, as anyone paying attention could see. The economic stagnation of the Eastern Bloc, the growing dissent among its citizens, and the unsustainable military spending all pointed to the regime\u2019s inevitable demise. Historians now wonder why Western intelligence agencies failed to predict the speed of the collapse, given how clear the signs appear today.",
+      "mechanism": "'anyone paying attention could see...' / inevitability framing ('just a matter of time', 'how clear the signs appear today')",
+      "domain": "politics"
+    },
+    {
+      "excerpt": "The 2016 Chicago Cubs\u2019 World Series victory was bound to happen, with the team\u2019s young talent and deep roster. Analysts who dismissed their chances that season clearly overlooked the obvious\u2014strong pitching, clutch hitting, and a manager who knew how to harness the team\u2019s potential. In retrospect, it\u2019s surprising more people didn\u2019t see the championship coming.",
+      "mechanism": "Inevitability framing ('bound to happen', 'it\u2019s surprising more people didn\u2019t see it coming')",
+      "domain": "sport"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "Before the 2020 pandemic, epidemiologists warned that a global outbreak was a matter of when, not if. Their models showed that rising zoonotic spillovers and inadequate healthcare infrastructure made such a crisis highly probable. While the timing was uncertain, the risk was well-documented in scientific literature.",
+      "why_not": "Acknowledges contemporaneous uncertainty and competing hypotheses (e.g., timing), avoiding retrospective certainty."
+    },
+    {
+      "excerpt": "Critics argue that the 2003 Iraq War was based on flawed intelligence, but at the time, many policymakers genuinely believed Saddam Hussein possessed weapons of mass destruction. The evidence was ambiguous, and dissenting voices were sidelined in the rush to war.",
+      "why_not": "Explicitly notes the ambiguity and dissent that existed at the time, rather than rewriting history with outcome-laden certainty."
+    }
+  ],
+  "contrast": {
+    "bias": "Overconfidence Bias",
+    "excerpt": "Financial analysts on Wall Street were unanimous in their predictions for 2021: the stock market would continue its upward trajectory, with no signs of a correction in sight. 'This bull run is unstoppable,' one expert declared, dismissing concerns about inflation or geopolitical risks as minor blips.",
+    "distinction": "Overconfidence Bias reflects excessive certainty *before* an outcome is known, whereas Hindsight Bias rewrites uncertainty *after* the outcome is known."
+  }
+}

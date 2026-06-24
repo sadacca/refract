@@ -1,0 +1,35 @@
+{
+  "bias_id": "base-rate-neglect",
+  "positive": [
+    {
+      "excerpt": "After interviewing neighbors, it's clear that John Smith is the kind of man who would commit this crime. He has a short temper, a history of bar fights, and was seen near the scene that night. Police are confident they have their suspect.",
+      "mechanism": "Confident category assignment with no statistical caveat",
+      "domain": "crime"
+    },
+    {
+      "excerpt": "Dr. Emily Carter's groundbreaking research on Alzheimer's has earned her accolades from peers worldwide. Her meticulous attention to detail, quiet demeanor, and love for books make it no surprise she's a leading neuroscientist at Harvard.",
+      "mechanism": "Profile or trait lists used to settle a categorical judgment",
+      "domain": "science"
+    },
+    {
+      "excerpt": "The local soccer team's new signing, Marcus Oliveira, is poised to be their star player this season. His impressive dribbling skills, agility, and goal-scoring record in the lower leagues leave no doubt he'll dominate the Premier League.",
+      "mechanism": "Absence of phrases like 'most people in this situation are actually...'",
+      "domain": "sport"
+    }
+  ],
+  "near_miss": [
+    {
+      "excerpt": "While most startups fail within the first five years, TechNova's innovative product and experienced leadership team suggest it has a strong chance of success in the competitive tech market.",
+      "why_not": "The excerpt acknowledges the base rate (most startups fail) and adjusts the judgment accordingly."
+    },
+    {
+      "excerpt": "Although only 5% of people with this rare genetic mutation develop the disease, Sarah's family history and early symptoms indicate she is likely to be among that small percentage.",
+      "why_not": "The excerpt explicitly references the base rate and integrates it into the probability judgment."
+    }
+  ],
+  "contrast": {
+    "bias": "Fundamental Attribution Error",
+    "excerpt": "The CEO's decision to lay off 20% of the workforce was cold and heartless. It shows he cares more about profits than people, regardless of the economic pressures the company was facing.",
+    "distinction": "This excerpt attributes behavior to internal disposition (cold, heartless) while ignoring situational factors (economic pressures), unlike Base Rate Neglect, which involves ignoring statistical priors in probability judgments."
+  }
+}
