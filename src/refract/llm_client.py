@@ -234,6 +234,16 @@ def _bare_model(model: str) -> str:
     return model.split("/", 1)[1] if "/" in model else model
 
 
+# Groq's catalog namespaces some hosted models under the upstream provider
+# (e.g. "openai/gpt-oss-120b"), which collides with this codebase's own
+# "groq/" routing prefix used to disambiguate from Cerebras's identically
+# named "gpt-oss-120b". Map our routing alias to Groq's real model id before
+# calling the API — otherwise the bare-stripped "gpt-oss-120b" 404s.
+_GROQ_MODEL_ALIASES = {
+    "gpt-oss-120b": "openai/gpt-oss-120b",
+}
+
+
 def _provider(model: str) -> str:
     """
     Infer API provider from model name.
@@ -256,7 +266,9 @@ def _provider(model: str) -> str:
 
 
 def _call_groq(prompt: str, model: str, system: str = "", expect_json: bool = True, temperature: float = 0.0) -> tuple[dict | str, int]:
-    return _call_openai_compat(prompt, _bare_model(model), system, expect_json, temperature, GROQ_BASE, GROQ_API_KEY, "groq")
+    bare = _bare_model(model)
+    real_model = _GROQ_MODEL_ALIASES.get(bare, bare)
+    return _call_openai_compat(prompt, real_model, system, expect_json, temperature, GROQ_BASE, GROQ_API_KEY, "groq")
 
 
 def _parse_json_response(raw: str) -> Any:
@@ -331,7 +343,7 @@ def _call_openai_compat(
     messages.append({"role": "user", "content": prompt})
 
     body: dict[str, Any] = {
-        "model": _bare_model(model),
+        "model": model,
         "messages": messages,
         "temperature": temperature,
     }
