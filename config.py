@@ -35,19 +35,23 @@ def _cross_family_default(eval_model: str) -> str:
         is_gemini = m.split("/")[0] == "gemini"
     else:
         is_gemini = m.startswith(("gemini", "gemma"))
-    return "llama-3.3-70b-versatile" if is_gemini else "gemini-3.1-flash-lite"
+    return "groq/gpt-oss-120b" if is_gemini else "gemini-3.1-flash-lite"
 
 
 # Short filename-safe abbreviations — used in output filenames so parallel model
 # runs don't overwrite each other: {article_id}_{fw_version}_{eval}_{judge}.json
 _MODEL_ABBREVS = {
-    # Groq (per-model RPD: 14,400 / 30 RPM / 6K TPM)
+    # Groq free tier tightened significantly as of 2026-06: per-model RPD now
+    # 1,000 (not the legacy 14,400), TPM/TPD vary by model — see MODEL_TPD_LIMITS.
+    # llama-3.3-70b-versatile was deprecated for free/dev tier on 2026-06-17;
+    # groq/gpt-oss-120b is Groq's recommended replacement (see EVAL_CHAIN).
     "deepseek-r1-distill-llama-70b":             "dsr170b",
     "llama-3.3-70b-versatile":                   "llama70b",
     "llama-3.1-70b-versatile":                   "llama70b",
     "llama-3.1-8b-instant":                      "llama8b",
     "llama-3.2-3b-preview":                      "llama3b",
     "mixtral-8x7b-32768":                        "mixtral",
+    "groq/gpt-oss-120b":                         "ggptoss120",
     # Gemini / Google
     "gemini-2.0-flash":                          "gemflash",
     "gemini-2.0-flash-exp":                      "gemflash",
@@ -89,7 +93,7 @@ def model_abbrev(model: str) -> str:
     return clean[:12]
 
 
-EVAL_MODEL = os.getenv("EVAL_MODEL", "llama-3.3-70b-versatile")  # Pass 2 identification
+EVAL_MODEL = os.getenv("EVAL_MODEL", "groq/gpt-oss-120b")  # Pass 2 identification
 _judge_env = os.getenv("JUDGE_MODEL", "")
 JUDGE_MODEL = _judge_env if _judge_env else _cross_family_default(EVAL_MODEL)  # Pass 4 judge
 TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/gpt-oss-120b")  # Pass 0/1/3 triage + probes
@@ -98,7 +102,8 @@ TRIAGE_MODEL = os.getenv("TRIAGE_MODEL", "cerebras/gpt-oss-120b")  # Pass 0/1/3 
 # Keys are display labels, values are model IDs passed to the pipeline.
 EVAL_MODEL_OPTIONS = [
     # Groq
-    "llama-3.3-70b-versatile",
+    "groq/gpt-oss-120b",
+    "llama-3.3-70b-versatile",  # deprecated 2026-06-17 free/dev tier; kept for compatibility
     # Cerebras (verified available: gpt-oss-120b, zai-glm-4.7)
     "cerebras/gpt-oss-120b",
     "cerebras/zai-glm-4.7",
@@ -188,24 +193,48 @@ GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
 # Eval model fallback chain for Pass 2 identification.
 # Chains cross provider boundaries only — Cerebras and Mistral have account-wide
 # RPD (not per-model), so switching within those providers yields no benefit.
-# Cross-provider order: Groq (highest RPD) → Cerebras → Mistral (last resort).
-# Benchmark-ranked best models: Llama-3.3-70B (MMLU 86.0%) → GPT-OSS-120B (~85%)
-# → Mistral Large (~81%). GPT-OSS-120B chosen over Qwen3-235B despite lower
-# benchmark because it has 131K context (avoids Cerebras 8K free-tier limit).
-# DeepSeek-R1-Distill-70B was removed from this chain — Groq decommissioned it
-# (see https://console.groq.com/docs/deprecations).
-# Provider RPD reality check (as of 2026-06):
-#   Groq:     30 RPM / 14,400 RPD per-model / 6K TPM  (high-volume primary)
-#   Cerebras: 30 RPM / ~1,000 RPD ACCOUNT-WIDE / 1M tokens-per-day / 8K context
-#             (gpt-oss-120b and zai-glm-4.7 are exceptions with 131K context)
-#   Mistral:  2 RPM free "Experiment" / 1B tokens/month / no hard RPD cap
-#             (2 RPM × 60 × 24 = 2,880 RPD theoretical max — slow, last resort)
+# Cross-provider order: Groq (gpt-oss-120b) → Groq (llama-3.3-70b, legacy) →
+# Cerebras → Mistral (last resort).
+#
+# IMPORTANT (2026-06-17): Groq emailed users announcing the deprecation of
+# llama-3.3-70b-versatile and llama-3.1-8b-instant on the free/dev tier, and
+# tightened free-tier limits across the board. The RPD figures this codebase
+# previously used (14,400/model) are stale — Groq's free tier is now ~1,000
+# RPD per model. Worse, Pass 2 prompts include full article text, so the
+# *tokens-per-day* (TPD) cap is what actually gets tripped first — sometimes
+# after only a handful of articles. RPD-only tracking can't see this; see
+# MODEL_TPD_LIMITS below and the token tracking in llm_client.py.
+#   groq/gpt-oss-120b:         1,000 RPD / 8K TPM  / 200K TPD — Groq's recommended
+#                               replacement for llama-3.3-70b-versatile.
+#   llama-3.3-70b-versatile:   1,000 RPD / 12K TPM / 100K TPD — deprecated; kept
+#                               as a secondary fallback, not primary.
+#   cerebras/gpt-oss-120b:     ~1,000 RPD account-wide / 1M tokens-per-day; 131K ctx.
+#   mistral-large-latest:      2 RPM free ≈ 2,880 RPD theoretical max; last resort.
+# Source for Groq figures: https://console.groq.com/docs/rate-limits and
+# https://console.groq.com/docs/deprecations (console.groq.com returns 403 to
+# automated fetches from this environment; cross-checked via third-party
+# trackers on 2026-06-24 — re-verify in the Groq console if these drift).
+# DeepSeek-R1-Distill-70B was removed from this chain — Groq decommissioned it.
 # ---------------------------------------------------------------------------
 EVAL_CHAIN: list[tuple[str, int]] = [
-    ("llama-3.3-70b-versatile",       14_400),  # Groq: 14,400 RPD per-model; MMLU 86.0%
-    ("cerebras/gpt-oss-120b",           500),   # Cerebras: ~1,000 RPD account-wide; 131K ctx
+    ("groq/gpt-oss-120b",              1_000),  # Groq: recommended replacement; 200K TPD
+    ("llama-3.3-70b-versatile",        1_000),  # Groq: deprecated 2026-06-17; only 100K TPD
+    ("cerebras/gpt-oss-120b",            500),  # Cerebras: ~1,000 RPD account-wide; 131K ctx
     ("mistral-large-latest",           2_800),  # Mistral: 2 RPM free ≈ 2,880 RPD; last resort
 ]
+
+# ---------------------------------------------------------------------------
+# Per-model tokens-per-day (TPD) limits for models whose free-tier TPD is
+# tighter than RPD x typical-call-size would suggest. Pass 2 sends full
+# article text, so this is checked alongside RPD in select_from_chain() —
+# RPD alone misses exhaustion that happens well before the request count
+# looks high. Models not listed here have no TPD check applied.
+# ---------------------------------------------------------------------------
+MODEL_TPD_LIMITS: dict[str, int] = {
+    "groq/gpt-oss-120b":            200_000,
+    "llama-3.3-70b-versatile":      100_000,
+    "llama-3.1-8b-instant":         500_000,
+}
 
 # ---------------------------------------------------------------------------
 # Eval model fallback chain for one-shot/low-volume generation (e.g.
@@ -259,6 +288,7 @@ MODEL_CONTEXT_LIMITS: dict[str, int] = {
     "zai-glm-4.7":                             131_072,
     "cerebras/zai-glm-4.7":                    131_072,
     # Groq
+    "groq/gpt-oss-120b":                      131_072,
     "llama-3.3-70b-versatile":                128_000,
     "llama-3.1-70b-versatile":                128_000,
     "llama-3.1-8b-instant":                   128_000,
@@ -294,27 +324,35 @@ MODEL_CONTEXT_LIMITS: dict[str, int] = {
 # ---------------------------------------------------------------------------
 MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
     "groq": {
-        # Per-model RPD; 6K TPM is the tighter real-world constraint on long prompts.
-        # NOTE: deepseek-r1-distill-llama-70b was decommissioned by Groq
-        # (https://console.groq.com/docs/deprecations) — removed from this list.
+        # Free tier tightened as of 2026-06: ~1,000 RPD per model (not the legacy
+        # 14,400), with TPD (tokens/day) as the binding constraint for Pass 2's
+        # full-article prompts. llama-3.3-70b-versatile and llama-3.1-8b-instant
+        # were deprecated for free/dev tier on 2026-06-17
+        # (https://console.groq.com/docs/deprecations); deepseek-r1-distill-llama-70b
+        # was removed earlier for the same reason.
         "eval": [
             {
+                "id": "groq/gpt-oss-120b",
+                "context": 131_072, "rpm": 30, "rpd": 1_000, "tpm": 8_000, "tpd": 200_000,
+                "notes": "Groq's recommended replacement for deprecated llama-3.3-70b-versatile",
+            },
+            {
                 "id": "llama-3.3-70b-versatile",
-                "context": 128_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000,
+                "context": 128_000, "rpm": 30, "rpd": 1_000, "tpm": 12_000, "tpd": 100_000,
                 "benchmark": {"mmlu": 86.0},
-                "notes": "Best Groq eval; 128K context; MMLU 86.0%",
+                "notes": "Deprecated 2026-06-17 (free/dev tier); MMLU 86.0%; kept as fallback only",
             },
             {
                 "id": "mixtral-8x7b-32768",
-                "context": 32_768, "rpm": 30, "rpd": 14_400, "tpm": 6_000,
+                "context": 32_768, "rpm": 30, "rpd": 1_000, "tpm": 6_000,
                 "notes": "MoE architecture; 32K context; legacy option",
             },
         ],
         "triage": [
             {
                 "id": "llama-3.1-8b-instant",
-                "context": 128_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000,
-                "notes": "Fast/cheap triage; highest Groq RPD per model",
+                "context": 128_000, "rpm": 30, "rpd": 14_400, "tpm": 6_000, "tpd": 500_000,
+                "notes": "Deprecated 2026-06-17 (free/dev tier) but still highest Groq RPD/TPD per model",
             },
         ],
     },

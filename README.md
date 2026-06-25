@@ -128,22 +128,24 @@ data/processed/<article_id>_<framework_version>.json
 | Pass | Model | Rationale |
 |---|---|---|
 | 0, 1, 3 | `llama-3.1-8b-instant` | Simple classification/yes-no — fast, low token cost |
-| 2, 4 | `llama-3.3-70b-versatile` | Complex identification and judgment |
+| 2, 4 | `groq/gpt-oss-120b` | Complex identification and judgment |
+
+`llama-3.3-70b-versatile` and `llama-3.1-8b-instant` were deprecated by Groq on the free/dev tier on 2026-06-17; `groq/gpt-oss-120b` is Groq's recommended replacement and is now the `EVAL_CHAIN` primary (see below). Groq's free tier is also tighter than it used to be — per-model RPD dropped from 14,400 to ~1,000, and tokens-per-day (TPD) is the binding constraint for Pass 2's full-article prompts (`MODEL_TPD_LIMITS` in `config.py`).
 
 Both configurable via `TRIAGE_MODEL` and `EVAL_MODEL` / `JUDGE_MODEL` env vars. `llm_client.py` is provider-agnostic — Groq, Gemini, Cerebras, and Mistral models can all serve as eval, triage, or judge.
 
 ### Model fallback chains
 
-Defined in `config.py`, used by `select_from_chain()` to pick the least-used model under its free-tier daily limit:
+Defined in `config.py`, used by `select_from_chain()` to pick the least-used model under its free-tier daily RPD *and* TPD limit (the latter via `MODEL_TPD_LIMITS`, where listed):
 
 | Chain | Order | Used by |
 |---|---|---|
-| `EVAL_CHAIN` | Groq `llama-3.3-70b-versatile` → Cerebras `gpt-oss-120b` → Mistral `mistral-large-latest` | Pass 2 identification (high-volume; Groq-primary for throughput) |
+| `EVAL_CHAIN` | Groq `gpt-oss-120b` → Groq `llama-3.3-70b-versatile` (deprecated, fallback only) → Cerebras `gpt-oss-120b` → Mistral `mistral-large-latest` | Pass 2 identification (high-volume; Groq-primary for throughput) |
 | `TRIAGE_CHAIN` | Groq `llama-3.1-8b-instant` → Cerebras `llama-3.1-8b` → Mistral `mistral-small-latest` | Pass 0/1/3 (small-model calls) |
 | `PRECOMPUTE_CHAIN` | Mistral `mistral-large-latest` → Groq `llama-3.3-70b-versatile` → Cerebras `gpt-oss-120b` | `precompute_examples.py` (low-volume one-shot generation; Mistral-primary since throughput doesn't matter at this scale) |
 | `GEMINI_JUDGE_CHAIN` | `gemini-3.1-flash-lite` → `gemma-4-31b-it` → `gemma-4-26b-a4b-it` | Pass 4 judge (cross-family default) |
 
-`precompute_examples.py` additionally falls through the chain on a hard failure (HTTP error, decommissioned model, missing key), not just proactive RPD-based selection — if the primary model errors, it retries the next one in order rather than failing the bias entry outright.
+`precompute_examples.py` additionally falls through the chain on a hard failure (HTTP error, decommissioned model, missing key), not just proactive RPD-based selection — if the primary model errors, it retries the next one in order rather than failing the bias entry outright. Pass 2 (`evaluate_article`) does the same: a 429 mid-article switches to the next `EVAL_CHAIN` model for the rest of that article instead of failing it outright, and `call_llm` distinguishes a transient per-minute throttle (short `Retry-After`, worth a short sleep-and-retry) from a daily cap (long or missing `Retry-After`, fails fast so the chain fallback can act immediately).
 
 Each provider is paced according to its actual free-tier RPM cap (`llm_client._PROVIDER_MIN_INTERVALS`): Groq/Cerebras/Gemini at 6s between calls, Mistral at 31s (its 2 RPM hard limit). Override globally with `LLM_CALL_INTERVAL`.
 
@@ -266,6 +268,6 @@ Results from the first batch of 5 news articles (NPR, ABC News, Yahoo Sports):
 - No ground-truth labeled dataset exists for precision/recall measurement — all quality assessment is currently LLM-self-evaluation (Pass 4), which has known limitations
 
 **Infrastructure:**
-- Groq free tier TPM limits constrain batch throughput; per-provider call pacing and cross-provider fallback chains (`EVAL_CHAIN`, `TRIAGE_CHAIN`, `PRECOMPUTE_CHAIN`) mitigate but do not eliminate 429 errors on long articles
-- Provider model catalogs change without notice — Groq decommissioned `deepseek-r1-distill-llama-70b` (the prior `EVAL_MODEL` default) without a deprecation window; `call_llm` now fails fast on HTTP 400 rather than retrying a request that can't succeed, but model IDs in `config.py` should be spot-checked periodically
+- Groq free tier TPM/TPD limits constrain batch throughput — as of 2026-06 these are tighter than this codebase originally assumed (per-model RPD dropped from 14,400 to ~1,000), and Pass 2's full-article prompts can trip the tokens-per-day cap after only a handful of articles, well before the request count looks high. `MODEL_TPD_LIMITS` (`config.py`) and per-call token tracking (`llm_client.get_daily_tokens`) make this visible to `select_from_chain()`; per-provider call pacing and cross-provider fallback chains (`EVAL_CHAIN`, `TRIAGE_CHAIN`, `PRECOMPUTE_CHAIN`) mitigate but do not eliminate 429 errors on long articles
+- Provider model catalogs change without notice — Groq decommissioned `deepseek-r1-distill-llama-70b` (a prior `EVAL_MODEL` default) without a deprecation window, and deprecated `llama-3.3-70b-versatile`/`llama-3.1-8b-instant` on the free/dev tier on 2026-06-17; `call_llm` now fails fast on HTTP 400 (unrecoverable) and on HTTP 429 with a long/missing `Retry-After` (daily cap, not worth retrying the same model), so callers can fail over to the next chain model instead of burning the retry budget — but model IDs in `config.py` should still be spot-checked periodically
 - `data/processed/` results are committed to the repository — appropriate for a small research corpus, not for production scale

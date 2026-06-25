@@ -348,6 +348,40 @@ def pass2_identify(
     return result.get("bias_instances", [])
 
 
+def _pass2_with_fallback(
+    article_slice: str, category: str, taxonomy: dict, model: str
+) -> tuple[list[dict], str]:
+    """
+    Run Pass 2 with cross-model failover, mirroring the Pass 4 judge chain
+    fallback below. Groq's free tier is now far tighter than this codebase
+    originally assumed (per-model RPD dropped from 14,400 to ~1,000, and Pass 2's
+    full-article prompts can trip the tokens-per-day cap after only a handful of
+    articles). If `model` is part of EVAL_CHAIN and returns a 429, step to the
+    next model instead of failing the whole article. Returns the model actually
+    used so the caller can keep using it for subsequent categories rather than
+    retrying a model already known to be exhausted for the rest of the day.
+    """
+    chain_ids = {m for m, _ in EVAL_CHAIN}
+    if model not in chain_ids:
+        return pass2_identify(article_slice, category, taxonomy, model), model
+
+    order = [model] + [m for m, _ in EVAL_CHAIN if m != model]
+    for candidate in order:
+        try:
+            return pass2_identify(article_slice, category, taxonomy, candidate), candidate
+        except _requests.HTTPError as e:
+            status = e.response.status_code if e.response is not None else 0
+            if status == 429:
+                logger.warning(
+                    "Pass 2: %s returned 429 (RPD/TPD likely exhausted), trying next in chain",
+                    candidate,
+                )
+                continue
+            raise
+    logger.error("Pass 2: all eval models in chain returned 429 — skipping category '%s'", category)
+    return [], model
+
+
 # ---------------------------------------------------------------------------
 # Pass 3: Recall probes for unflagged categories
 # ---------------------------------------------------------------------------
@@ -611,7 +645,7 @@ def evaluate_article(
                 category,
                 f"{len(indices)}/{len(paragraphs)} paragraphs selected" if indices else "full article (Pass 0 mapped 0)",
             )
-            instances = pass2_identify(article_slice, category, taxonomy, eval_model)
+            instances, eval_model = _pass2_with_fallback(article_slice, category, taxonomy, eval_model)
             for inst in instances:
                 inst["category"] = category
             bias_instances.extend(instances)
@@ -679,7 +713,7 @@ def evaluate_article(
                 f"{len(indices)}/{len(paragraphs)} paragraphs" if indices else "full article (Pass 0 mapped 0)",
                 eval_model,
             )
-            instances = pass2_identify(article_slice, category, taxonomy, eval_model)
+            instances, eval_model = _pass2_with_fallback(article_slice, category, taxonomy, eval_model)
             for inst in instances:
                 inst["category"] = category
             bias_instances.extend(instances)
