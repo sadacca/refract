@@ -73,6 +73,10 @@ def fetch_url(url: str) -> dict:
     """
     Fetch and extract article text from a URL using trafilatura.
     Returns a record dict with url, title, text, word_count, article_id.
+
+    No retries: a failed fetch (timeout, 404, dead link) is usually a stale
+    URL, not a transient blip, so retrying just burns time before the
+    per-article failure batch_eval.py already handles by moving on.
     """
     headers = {
         "User-Agent": (
@@ -81,43 +85,35 @@ def fetch_url(url: str) -> dict:
         )
     }
 
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            downloaded = trafilatura.fetch_url(url)
-            if not downloaded:
-                # trafilatura fetch failed — try requests with browser UA
-                resp = requests.get(url, headers=headers, timeout=20)
-                if resp.status_code == 404:
-                    raise ValueError(f"404 Not Found: {url}")
-                resp.raise_for_status()
-                downloaded = resp.text
-            if not downloaded:
-                raise ValueError(f"empty response from {url}")
+    downloaded = trafilatura.fetch_url(url)
+    if not downloaded:
+        # trafilatura fetch failed — try requests with browser UA
+        resp = requests.get(url, headers=headers, timeout=20)
+        if resp.status_code == 404:
+            raise ValueError(f"404 Not Found: {url}")
+        resp.raise_for_status()
+        downloaded = resp.text
+    if not downloaded:
+        raise ValueError(f"empty response from {url}")
 
-            text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
-            if not text:
-                raise ValueError(f"trafilatura extracted empty text from {url}")
+    text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
+    if not text:
+        raise ValueError(f"trafilatura extracted empty text from {url}")
 
-            meta = trafilatura.extract_metadata(downloaded)
-            title = meta.title if meta and meta.title else ""
+    meta = trafilatura.extract_metadata(downloaded)
+    title = meta.title if meta and meta.title else ""
 
-            article_id = _sha256(url, text)
-            record = {
-                "article_id": article_id,
-                "url": url,
-                "title": title,
-                "source": _source_from_url(url),
-                "text": text,
-                "word_count": len(text.split()),
-            }
-            _write_cache(article_id, record)
-            return record
-
-        except Exception as e:
-            logger.warning("fetch_url attempt %d failed for %s: %s", attempt, url, e)
-            if attempt == MAX_RETRIES:
-                raise
-            time.sleep(RETRY_BASE_DELAY * (2 ** (attempt - 1)))
+    article_id = _sha256(url, text)
+    record = {
+        "article_id": article_id,
+        "url": url,
+        "title": title,
+        "source": _source_from_url(url),
+        "text": text,
+        "word_count": len(text.split()),
+    }
+    _write_cache(article_id, record)
+    return record
 
 
 def fetch_guardian(query: str, page_size: int = 10, section: str = "") -> list[dict]:
