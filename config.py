@@ -42,7 +42,7 @@ def _cross_family_default(eval_model: str) -> str:
 # runs don't overwrite each other: {article_id}_{fw_version}_{eval}_{judge}.json
 _MODEL_ABBREVS = {
     # Groq free tier tightened significantly as of 2026-06: per-model RPD now
-    # 1,000 (not the legacy 14,400), TPM/TPD vary by model — see MODEL_TPD_LIMITS.
+    # 1,000 (not the legacy 14,400), TPM/TPD vary by model — see MODEL_LIMITS.
     # llama-3.3-70b-versatile was deprecated for free/dev tier on 2026-06-17;
     # groq/gpt-oss-120b is Groq's recommended replacement (see EVAL_CHAIN).
     "deepseek-r1-distill-llama-70b":             "dsr170b",
@@ -203,7 +203,7 @@ GEMINI_JUDGE_CHAIN: list[tuple[str, int]] = [
 # RPD per model. Worse, Pass 2 prompts include full article text, so the
 # *tokens-per-day* (TPD) cap is what actually gets tripped first — sometimes
 # after only a handful of articles. RPD-only tracking can't see this; see
-# MODEL_TPD_LIMITS below and the token tracking in llm_client.py.
+# MODEL_LIMITS below and the token tracking in llm_client.py.
 #   groq/gpt-oss-120b:         1,000 RPD / 8K TPM  / 200K TPD — Groq's recommended
 #                               replacement for llama-3.3-70b-versatile.
 #   llama-3.3-70b-versatile:   1,000 RPD / 12K TPM / 100K TPD — deprecated; kept
@@ -222,19 +222,6 @@ EVAL_CHAIN: list[tuple[str, int]] = [
     ("cerebras/gpt-oss-120b",            500),  # Cerebras: ~1,000 RPD account-wide; 131K ctx
     ("mistral-large-latest",           2_800),  # Mistral: 2 RPM free ≈ 2,880 RPD; last resort
 ]
-
-# ---------------------------------------------------------------------------
-# Per-model tokens-per-day (TPD) limits for models whose free-tier TPD is
-# tighter than RPD x typical-call-size would suggest. Pass 2 sends full
-# article text, so this is checked alongside RPD in select_from_chain() —
-# RPD alone misses exhaustion that happens well before the request count
-# looks high. Models not listed here have no TPD check applied.
-# ---------------------------------------------------------------------------
-MODEL_TPD_LIMITS: dict[str, int] = {
-    "groq/gpt-oss-120b":            200_000,
-    "llama-3.3-70b-versatile":      100_000,
-    "llama-3.1-8b-instant":         500_000,
-}
 
 # ---------------------------------------------------------------------------
 # Eval model fallback chain for one-shot/low-volume generation (e.g.
@@ -364,46 +351,46 @@ MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
         "eval": [
             {
                 "id": "cerebras/gpt-oss-120b",
-                "context": 131_072, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 131_072, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "benchmark": {"aime_2024": 85.0},
                 "notes": "Best Cerebras eval; 131K context; avoids 8K free-tier limit",
             },
             {
                 "id": "cerebras/qwen-3-235b",
-                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "benchmark": {"aime_2024": 92.3},
                 "notes": "Highest benchmark (AIME 92.3%); Hybrid CoT; 8K context limits long articles",
             },
             {
                 "id": "cerebras/deepseek-r1-distill-llama-70b",
-                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "benchmark": {"aime_2024": 72.6},
                 "notes": "R1 reasoning; fastest 70B inference; 8K context",
             },
             {
                 "id": "cerebras/zai-glm-4.7",
-                "context": 131_072, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 131_072, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "notes": "131K context; GLM architecture; large-context alternative",
             },
             {
                 "id": "cerebras/llama-3.1-70b",
-                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "notes": "Llama 3.1 70B; 8K context; lower priority than R1/Qwen3",
             },
             {
                 "id": "cerebras/llama-4-scout-17b",
-                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "notes": "Llama 4 Scout 17B MoE; 8K context",
             },
             {
                 "id": "cerebras/qwen-3-32b",
-                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "notes": "Smaller Qwen 3; Hybrid CoT; ~2,400 tok/s; 8K context",
             },
@@ -411,7 +398,7 @@ MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
         "triage": [
             {
                 "id": "cerebras/llama-3.1-8b",
-                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000,
+                "context": 8_192, "rpm": 30, "rpd": 1_000, "tpm": 60_000, "tpd": 1_000_000,
                 "rpd_scope": "account",
                 "notes": "Fast triage; shares account-wide pool with eval models",
             },
@@ -423,32 +410,32 @@ MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
         "eval": [
             {
                 "id": "mistral-large-latest",
-                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000,
+                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "tpd": 33_000_000,
                 "rpd_scope": "account",
                 "benchmark": {"mmlu": 81.0},
                 "notes": "Best Mistral reasoning; 128K ctx; 1B tokens/month; 2 RPM free",
             },
             {
                 "id": "mistral-medium-3",
-                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000,
+                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "tpd": 33_000_000,
                 "rpd_scope": "account",
                 "notes": "Newer mid-tier Mistral; 128K ctx; 2 RPM free",
             },
             {
                 "id": "mistral-small-latest",
-                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000,
+                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "tpd": 33_000_000,
                 "rpd_scope": "account",
                 "notes": "Efficient; 128K ctx; good for cost-sensitive runs",
             },
             {
                 "id": "pixtral-12b",
-                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000,
+                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "tpd": 33_000_000,
                 "rpd_scope": "account",
                 "notes": "Multimodal; 128K ctx; viable for text bias eval",
             },
             {
                 "id": "codestral-latest",
-                "context": 32_768, "rpm": 2, "rpd": 2_880, "tpm": 500_000,
+                "context": 32_768, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "tpd": 33_000_000,
                 "rpd_scope": "account",
                 "notes": "Code-focused; 32K ctx; not optimal for text bias analysis",
             },
@@ -456,7 +443,7 @@ MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
         "triage": [
             {
                 "id": "mistral-small-latest",
-                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000,
+                "context": 128_000, "rpm": 2, "rpd": 2_880, "tpm": 500_000, "tpd": 33_000_000,
                 "rpd_scope": "account",
                 "notes": "Overkill for triage; available as last-resort fallback",
             },
@@ -510,3 +497,34 @@ MODEL_REGISTRY: dict[str, dict[str, list[dict]]] = {
         ],
     },
 }
+
+
+# ---------------------------------------------------------------------------
+# Flattened per-model-id limits, derived from MODEL_REGISTRY so RPM/RPD/TPD
+# tracking in llm_client.py has one source of truth instead of duplicating
+# numbers across separate dicts. For models with "rpd_scope": "account"
+# (Cerebras, Mistral), scope_key points to a shared per-provider key so usage
+# trackers pool calls/tokens across every model on that account rather than
+# per model id — Cerebras and Mistral's free tiers cap the whole account, not
+# each model individually.
+# ---------------------------------------------------------------------------
+def _flatten_model_registry() -> dict[str, dict]:
+    flat: dict[str, dict] = {}
+    for provider, roles in MODEL_REGISTRY.items():
+        for entries in roles.values():
+            for entry in entries:
+                model_id = entry["id"]
+                scope = entry.get("rpd_scope")
+                scope_key = f"{provider}:account" if scope == "account" else model_id
+                flat[model_id] = {
+                    "provider": provider,
+                    "rpm": entry.get("rpm"),
+                    "rpd": entry.get("rpd"),
+                    "tpm": entry.get("tpm"),
+                    "tpd": entry.get("tpd"),
+                    "scope_key": scope_key,
+                }
+    return flat
+
+
+MODEL_LIMITS: dict[str, dict] = _flatten_model_registry()
