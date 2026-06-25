@@ -1,23 +1,24 @@
 {
-  "total_articles": 38,
-  "total_bias_instances": 39,
-  "total_occurrences": 47,
+  "total_articles": 54,
+  "total_bias_instances": 50,
+  "total_occurrences": 50,
   "sources": {
-    "unknown": 38
+    "unknown": 54
   },
   "framework_versions": {
-    "v0.1.0": 38
+    "v0.1.0": 54
   },
   "category_distribution": {
     "Framing & Anchoring": 12,
     "Affect & Emotional Reasoning": 7,
+    "Judgment & Metacognition": 5,
+    "Social Cognition": 5,
     "Attribution & Causation": 5,
     "Probability Reasoning": 4,
-    "Social Cognition": 4,
     "Confirmation & Belief Perseverance": 4,
-    "Judgment & Metacognition": 3,
     "Judgment & Decision-Making": 3,
     "Availability & Salience": 3,
-    "Attention & Memory": 2
+    "Attention & Memory": 2,
+    "Metacognition": 0
   }
 }

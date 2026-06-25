@@ -1,0 +1,84 @@
+{
+  "article_id": "f0f2e7e0e98b21f7",
+  "source_url": "https://health.yahoo.com/conditions/infectious/article/norovirus-hits-californias-pacific-crest-trail-sickening-hikers--and-is-in-more-wastewater-what-to-know-about-the-stomach-bug-170134758.html",
+  "title": "Norovirus hits California's Pacific Crest Trail, sickening hikers \u2014 and is in more wastewater: What to know about the stomach bug",
+  "evaluated_at": "2026-06-25T02:30:01.955096+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "cerebras/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "cerebras/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "flat",
+  "article_text": "At least seven hikers on California's Pacific Crest Trail have come down with norovirus, a gastrointestinal infection often referred to as stomach flu. In total, dozens of people who hiked the trail in May have had symptoms of the viral illness, which include vomiting and diarrhea. Roughly two dozen hikers have reported symptoms over the past two weeks, with at least seven confirmed cases by medical professionals, according to SFGate and the Newsweek-cited Reddit thread tracking the outbreak. The suspected source: a shared water cache in Swarthout Valley, between Cajon Pass and Mount Baden-Powell, where ill hikers had been seen refilling their bottles.\nThe Pacific Crest Trail Association (PCTA) said in a May 20 statement that it was \"aware of reports of gastrointestinal illness in the Wrightwood area\" and was working with the San Bernardino County Department of Public Health as it assessed the situation. Trail volunteers later removed the shared containers and replaced them with sealed water bottles, asking hikers to keep used bottles separate from clean supplies, SFGate reported. No public health agency has officially confirmed the water cache as the outbreak's source.\nLimited clean water along hiking trails can increase the risks of norovirus infections, and the recent outbreak isn't the first time the PCT has been hit with a gastrointestinal illness outbreak: In the summer of 2022, dozens of hikers on the trail also came down with symptoms like vomiting and diarrhea linked to a log cabin used for bathroom breaks.\nBut norovirus isn't only a PCT problem. While the Centers for Disease Control and Prevention says that rates of the viral illness are not unusually high for this time of year, wastewater monitoring data now shows norovirus activity climbing to \"high\" levels nationally, with concentrations continuing to increase in the Northeast in particular, NBC News reports.\nAccording to the CDC, norovirus \u2014 the so-called stomach flu or stomach bug \u2014 causes an average of 19 million to 21 million illnesses in the United States each year. It leads to 465,000 emergency department visits. Annually, there are about 2,500 reported norovirus outbreaks in the country alone.\nReducing your risks of getting norovirus is important, especially for people 65 and older, who are particularly vulnerable to severe illness from the infection. But how can you prevent norovirus, and what should you do if you get it? Here's what experts want you to know.\nWhat is norovirus? How is it different from the flu?\nAlthough norovirus is often referred to as \"stomach flu,\" it's totally unrelated to influenza. In fact, the informal name \"stomach flu\" really refers to viral gastroenteritis, an inflammation of the stomach or intestines. And norovirus \"is a type of virus that causes gastroenteritis,\" Dr. Nipunie Rajapakse, a pediatric infectious diseases physician with the Mayo Clinic Children's Center, tells Yahoo.\n\"Norovirus is also known as the cruise ship virus because of its frequent outbreaks on cruise ships and military bases \u2014 and it's circulating everywhere,\" Dr. Craig Wilen, associate professor in laboratory medicine and immunobiology at the Yale School of Medicine, tells Yahoo Life. \"We have no drugs or vaccines for it, so it's a major public health burden.\"\nUnlike the flu, which often includes respiratory symptoms like a cough, gastroenteritis attacks your intestines, says Rajapakse, causing inflammation. This causes symptoms such as:\n- Watery, usually non-bloody diarrhea \n- Nausea \n- Vomiting \n- Stomach cramps and pain \n- Occasional muscle aches \n- Headache \n- A low-grade fever \nNausea and vomiting are two big signs that you have norovirus, and these symptoms typically last one to two days. One of the risks of these symptoms is dehydration, which is a concern if a person is not hydrating properly or keeping down fluids. This is particularly dangerous for young children, the elderly and those who are immunosuppressed, Wilen says.\n- House Democrats\u2019 anxiety rises after wins by Mamdani-backed candidates: \u2018Are we going to let them take over the party?\u2019\n- Experts Say This Workout Is The Fountain Of Youth. Here\u2019s How to Get Started at Any Age\n- As a plus-size swimsuit model, I'm not worried about GLP-1 drugs. I'm uneasy about what we celebrate when women get smaller.\nIf you have norovirus, there's typically no reason to see a doctor unless you find yourself suffering from dehydration, signs of which include urinating less often, dry mouth and dizziness in adults, according to the CDC. \"Fluids and electrolytes is what you need, as well as trying your best not to spread the illness to household contacts, which is more difficult than one might think,\" Wilen says. Over-the-counter antidiarrheal medications can also help.\n\"We don't have many tools in the toolbox to avoid spread, unfortunately,\" says Wilen, \"but the good news is that most cases will clear up in a few days.\"\nHow can you avoid getting norovirus?\nNorovirus is \"largely spread through the fecal-oral route,\" Wilen says. \"Virus that's either in the stool or in the vomit will either get on someone's hands or a food product and then get into the mouth or gastrointestinal tract of the recipient.\"\nKeeping your hands clean is key. While spraying your hands with sanitizer may be a go-to move since the pandemic started, it's not going to do much when it comes to avoiding the norovirus, says Wilen. That's because \"the virus is relatively resistant to ethanol-based cleaners, like hand sanitizer,\" he says. Instead, washing your hands with soap and warm water, particularly after using the bathroom or before preparing food, is your best move for avoiding transferring the virus from your hands. You should also make sure to avoid sharing any food with someone who may be infected.\nIn order to kill the virus on surfaces in the home, Wilen suggests using bleach-based cleaning products. Or you can make your own using a mixture of 5 to 25 tablespoons of household bleach to 1 gallon of water, according to the Mayo Clinic.\nAlso, according to the Mayo Clinic, you can follow these tips to avoid spreading or catching norovirus:\n- Wash hands with soap and water for at least 20 seconds. \n- Clean fruits and vegetables before eating. \n- Cook food thoroughly. (Foodsafety.gov provides an internal food temperature chart for cooking.) \n- If you're sick, stay home and avoid others. \n- Avoid preparing food for others if you are sick with vomiting/diarrhea. \n- Disinfect surfaces and counters that may be contaminated. \nA version of this story was originally published in February 2024.",
+  "pass0_result": {
+    "paragraph_count": 35,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        1,
+        28,
+        31
+      ],
+      "Judgment & Decision-Making": [
+        5,
+        21,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "Judgment & Metacognition": [
+        22,
+        3
+      ],
+      "Judgment & Moral Reasoning": [
+        18,
+        20
+      ],
+      "Memory": [],
+      "Metacognition": [
+        22,
+        3,
+        4
+      ],
+      "Probability Reasoning": [
+        3,
+        4
+      ],
+      "Social Cognition": [
+        18,
+        20,
+        31,
+        32,
+        33
+      ]
+    }
+  },
+  "pass1_result": {},
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 35,
+    "pass0_avg_paragraphs_per_category": 3.6
+  }
+}

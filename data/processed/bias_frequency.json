@@ -3,60 +3,78 @@
     "name": "Framing Effect",
     "category": "Framing & Anchoring",
     "article_count": 6,
-    "prevalence_pct": 15.8
+    "prevalence_pct": 11.1
   },
   "fundamental-attribution-error": {
     "name": "Fundamental Attribution Error",
     "category": "Social Cognition",
+    "article_count": 5,
+    "prevalence_pct": 9.3
+  },
+  "actor-observer-asymmetry": {
+    "name": "Actor-Observer Asymmetry",
+    "category": "Social Cognition",
+    "article_count": 5,
+    "prevalence_pct": 9.3
+  },
+  "overconfidence-bias": {
+    "name": "Overconfidence Bias",
+    "category": "Judgment & Metacognition",
     "article_count": 4,
-    "prevalence_pct": 10.5
+    "prevalence_pct": 7.4
   },
   "availability-heuristic": {
     "name": "Availability Heuristic",
     "category": "Availability & Salience",
     "article_count": 3,
-    "prevalence_pct": 7.9
-  },
-  "overconfidence-bias": {
-    "name": "Overconfidence Bias",
-    "category": "Judgment & Metacognition",
-    "article_count": 2,
-    "prevalence_pct": 5.3
+    "prevalence_pct": 5.6
   },
   "base-rate-neglect": {
     "name": "Base Rate Neglect",
     "category": "Probability Reasoning",
     "article_count": 2,
-    "prevalence_pct": 5.3
+    "prevalence_pct": 3.7
+  },
+  "dunning-kruger-effect": {
+    "name": "Dunning-Kruger Effect (Overestimation Variant)",
+    "category": "Metacognition",
+    "article_count": 2,
+    "prevalence_pct": 3.7
   },
   "anchoring": {
     "name": "Anchoring",
     "category": "Framing & Anchoring",
     "article_count": 2,
-    "prevalence_pct": 5.3
+    "prevalence_pct": 3.7
   },
   "negativity-bias": {
     "name": "Negativity Bias",
     "category": "Affect & Emotional Reasoning",
     "article_count": 2,
-    "prevalence_pct": 5.3
+    "prevalence_pct": 3.7
   },
   "confirmation-bias": {
     "name": "Confirmation Bias",
     "category": "Confirmation & Belief Perseverance",
     "article_count": 2,
-    "prevalence_pct": 5.3
-  },
-  "actor-observer-asymmetry": {
-    "name": "Actor-Observer Asymmetry",
-    "category": "Social Cognition",
-    "article_count": 2,
-    "prevalence_pct": 5.3
+    "prevalence_pct": 3.7
   },
   "sunk-cost-fallacy": {
     "name": "Sunk Cost Fallacy",
     "category": "Judgment & Decision-Making",
+    "article_count": 2,
+    "prevalence_pct": 3.7
+  },
+  "conjunction-fallacy": {
+    "name": "Conjunction Fallacy",
+    "category": "Probability Reasoning",
     "article_count": 1,
-    "prevalence_pct": 2.6
+    "prevalence_pct": 1.9
+  },
+  "gambler's-fallacy": {
+    "name": "Gambler's Fallacy",
+    "category": "Probability Reasoning",
+    "article_count": 1,
+    "prevalence_pct": 1.9
   }
 }

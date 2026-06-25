@@ -1,0 +1,130 @@
+{
+  "article_id": "5a30674d009c9a9f",
+  "source_url": "https://www.yahoo.com/news/world/articles/aid-cuts-climate-change-drive-021855706.html",
+  "title": "Aid cuts and climate change drive deadly malaria surge in Zimbabwe",
+  "evaluated_at": "2026-06-25T02:28:14.170634+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "cerebras/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "cerebras/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "flat",
+  "article_text": "Aid cuts and climate change drive deadly malaria surge in Zimbabwe\nHarare, Zimbabwe \u2013 Precious Mvundura woke up with joint pain, a high fever and a pounding headache on a chilly autumn morning in eastern Zimbabwe.\nThe 37-year-old initially thought it was just the flu. But when the headache persisted for three days, she became worried.\nHer five-year-old son had also fallen ill and was sweating heavily.\nIn early May, the pair sought help from a village health worker in Chishakwe, a rural farming community outside Zimbabwe\u2019s third-largest city, Mutare. Both tested positive for malaria.\n\u201cI felt relieved,\u201d Mvundura told Al Jazeera.\n\u201cFrom the moment I took that medication, I started getting better.\u201d\nHer son has also recovered and is back in school.\nTheir ordeal comes as malaria cases and deaths surge across Zimbabwe after US funding cuts disrupted key malaria control programmes.\nShortly after returning to office for a second term in 2025, US President Donald Trump slashed foreign aid funding, including programmes backed by the United States Agency for International Development (USAID). In Zimbabwe, the cuts disrupted tuberculosis, HIV/AIDS and malaria research, prevention and treatment programmes.\nAmong the affected initiatives were the Zimbabwe Entomological Support Programme in Malaria (ZENTO) at Africa University in Mutare, which provided scientific research to support the country\u2019s National Malaria Control Programme, and the Zimbabwe Assistance Programme in Malaria II (ZAPIM II), which helped strengthen malaria diagnosis, treatment and prevention in high-burden districts.\nUSAID had disbursed $270m for health and agriculture programmes in Zimbabwe in 2024.\nMalaria cases jumped to 65,399 between January and April 2026, up from 36,000 recorded during the same period in 2025 and 17,000 in 2024, according to Zimbabwe\u2019s Ministry of Health National Malaria Control Programme weekly surveillance report.\nDeaths have also risen sharply, reaching 174 between January and April 2026, compared with 85 during the same period last year and 34 in 2024.\nMvundura and her son survived because they sought treatment early. In many other cases, the disease has been fatal.\nShortages of mosquito nets, test kits\nThomas Chuchu, the health programme lead at Save the Children Zimbabwe, said several malaria elimination activities previously supported by ZAPIM II had been disrupted.\n\u201cIn practice, elimination has continued through government and other partners, but with weaker operational capacity and slower implementation,\u201d Chuchu told Al Jazeera.\nThe ZAPIM II programme ran through Zimbabwe\u2019s Ministry of Health system in 11 districts across the provinces of Central and East Mashonaland and the province of Matabeleland North.\nBefore falling ill, Mvundura said she had not been using mosquito nets or repellents.\n\u201cI only started using a mosquito net a friend shared when I fell sick,\u201d she said.\nIn December 2025, Caroline Mawombedzi was diagnosed with malaria while living in Burma Valley, a farming community about an hour\u2019s drive from Mutare.\nShe had last contracted the disease in the late 2000s while still a child.\nIn mid-May, her five-year-old daughter was also diagnosed with malaria by a village health worker in Chishakwe after suffering severe headaches and stomach problems.\nAlthough her daughter received treatment, Mawombedzi said she could not afford preventive measures such as mosquito nets.\n\u201cI am unemployed. I cannot afford to buy a mosquito net. We have not been sleeping under a mosquito net for years,\u201d she said.\nVirginia Chakandinakira, a village health worker serving Chishakwe, said malaria diagnostic kits and drugs are now in short supply.\n\u201cI used to get plenty of malaria test kits and drugs. But in 2025, they did not give me. I referred everyone showing malaria to a nearby Chitakatira clinic,\u201d she said. Chitakatira is a rural settlement about an hour\u2019s drive from Chishakwe.\n\u201cI only received test kits and drugs in February. However, the supplies are limited. The authorities told us they were only distributing them to hotspot communities.\u201d\nResearch programmes crippled\nProfessor Sungano Mharakurwa, the director of Africa University\u2019s Malaria Institute, said the abrupt withdrawal of US support had worsened the malaria outbreak by affecting the programme.\nZENTO was contributing data from the surveillance of malaria-carrying mosquitoes, which guided strategies employed by the National Malaria Control Programme to control malaria transmission, he said.\nThe Trump administration\u2019s funding cuts have also effectively put a stop to the US President\u2019s Malaria Initiative (PMI), launched in 2005 by former President George W Bush to control and eliminate malaria worldwide. Mharakurwa said the PMI had played a major role in funding malaria medications, and communities had been left exposed without it.\nHe said the Malaria Institute later secured funding from the United Methodist Church General Board of Global Ministry, but it fell far short of previous US assistance.\nZimbabwe\u2019s dependence on donor funding for essential medicines, diagnostic kits and mosquito-control supplies has left the country vulnerable.\nItai Rusike, the director of Zimbabwe\u2019s Community Working Group on Health, said the government needed to strengthen domestic health financing to reduce dependence on foreign donors.\n\u201cIt is risky for a country to depend substantially on external partners, as donors can withdraw financial support anytime should their interests shift,\u201d he said.\nClimate change fuels spread\nExperts say climate change is also driving the spread of malaria and other vector-borne diseases across Africa.\nRising temperatures are allowing malaria to spread into higher-altitude areas, which were once less vulnerable to outbreaks.\nZimbabwe experienced El Ni\u00f1o between 2023 and 2024, a climate phenomenon marked by unusually warm temperatures in the Pacific Ocean, which typically disrupts rainfall patterns across Southern Africa.\nHeavy rainfall followed in 2025 and 2026, creating ideal breeding conditions for mosquitoes.\nChuchu, from Save the Children Zimbabwe, said that the current spike in malaria cases was closely linked to the heavy rains during the 2025\u20132026 season.\n\u201cThe rains created favourable breeding conditions for mosquitoes, particularly in already endemic provinces such as Mashonaland Central, Manicaland, Mashonaland East and Mashonaland West,\u201d he said.\n\u201cThe effect of heavy rains is likely being amplified by weakened prevention systems, including reduced mosquito-net coverage, delayed vector-control activities, reduced community surveillance, and challenges with timely testing and treatment following the discontinuation of ZAPIM,\u201d he added.\nProfessor Mharakurwa, meanwhile, said that above-normal rainfall required equally strong preparation and resources to contain malaria transmission.\nGovernment efforts\nZimbabwe aims to eliminate malaria by 2030, in line with the target set by the African Union.\nOver the years, the government, working with international donors and aid organisations, has relied on indoor residual spraying, mosquito-net distribution, mass testing and public awareness campaigns to contain outbreaks, particularly in rural communities.\nHealth workers continue to carry out indoor spraying campaigns in malaria-prone areas, while village health educators use community meetings and radio programmes to encourage early testing and treatment. Authorities have also expanded surveillance and rapid-response systems in high-risk districts.\nBut some of these efforts have weakened following the disruption of donor-funded programmes. Key malaria elimination activities previously supported by ZAPIM II included active case tracking, targeted distribution of long-lasting insecticidal nets and district rapid-response systems.\nFor years, the government and aid organisations distributed mosquito nets annually to vulnerable communities, such as Chishakwe. But since the US funding cuts, shortages have become increasingly common.\nVillage health workers say malaria diagnostic kits and treatment drugs are also running low in some rural areas, forcing suspected malaria patients to travel long distances to clinics for testing and treatment.\nHealth experts warn that unless funding gaps are urgently addressed, Zimbabwe risks losing years of progress made in reducing malaria infections and deaths.\nFor Mvundura and her son, surviving malaria still feels like escaping death.\n\u201cWe cheated death,\u201d she said. \u201cIt was so bad.\u201d",
+  "pass0_result": {
+    "paragraph_count": 56,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        1,
+        2,
+        19,
+        20
+      ],
+      "Memory": [
+        1,
+        2,
+        19,
+        20
+      ],
+      "Judgment & Decision-Making": [
+        4,
+        8,
+        9,
+        14,
+        19,
+        20,
+        36,
+        48,
+        49,
+        50
+      ],
+      "Judgment & Metacognition": [
+        1,
+        2,
+        5,
+        6,
+        14,
+        54,
+        55
+      ],
+      "Judgment & Moral Reasoning": [
+        8,
+        9,
+        24,
+        25,
+        30,
+        31,
+        32,
+        33,
+        34,
+        36,
+        45
+      ],
+      "Metacognition": [
+        1,
+        2,
+        5,
+        6,
+        14,
+        54,
+        55
+      ],
+      "Probability Reasoning": [
+        12,
+        13,
+        30,
+        31,
+        32,
+        33,
+        36,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "Social Cognition": [
+        8,
+        14,
+        16,
+        24,
+        25,
+        26,
+        27,
+        28,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ]
+    }
+  },
+  "pass1_result": {},
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 56,
+    "pass0_avg_paragraphs_per_category": 9.2
+  }
+}

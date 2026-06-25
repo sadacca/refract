@@ -1,0 +1,66 @@
+{
+  "article_id": "68916677e2694999",
+  "source_url": "https://sports.yahoo.com/college-sports/article/no-1-overall-seed-ucla-eliminated-in-baseball-regionals-after-saint-marys-walks-it-off-in-extras-004141511.html",
+  "title": "No. 1 overall seed UCLA eliminated in baseball regionals after Saint Mary's walks it off in extras",
+  "evaluated_at": "2026-06-25T02:12:57.874607+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "flat",
+  "article_text": "No. 1 overall seed UCLA eliminated in baseball regionals after Saint Mary's walks it off in extras\nFor the second straight year, the No. 1 overall seed has crashed out of the NCAA baseball regionals. UCLA\u2019s season came to a close after a 6-5 loss to Saint Mary\u2019s in extra innings.\nThe Gaels picked up the one-run win after sending the game to extras with a game-tying run in the bottom of the ninth. Then, Saint Mary\u2019s stunned the Bruins in the 10th inning with Makoa Sniffen\u2019s walk-off base hit that sent Cody Kashimoto home for the win. Both of those high-stakes RBIs came with two outs on the board.\nIt\u2019s the second time in three days that UCLA has been upset by Saint Mary\u2019s. The Gaels shocked the Bruins in the regionals\u2019 opener on Friday. Jacob Johnson gave his team the lead with a solo homer in the top of the ninth, and Cam Staton closed it out on the mound to give Saint Mary\u2019s a 3-2 win.\nPrior to 2025, no No. 1 seed had ever failed to at least make the regional final, per ESPN. Now, UCLA joins Vanderbilt, which fell to Wright State last year, as the second straight No. 1 seed to stumble early.\nSaint Mary\u2019s will now face Cal Poly for a chance to stay alive, in a rematch of the Gaels\u2019 14-1 loss to the Mustangs on Saturday. Because this stage of the tournament is double elimination, Saint Mary\u2019s will have to beat Cal Poly twice (once on Sunday and once on Monday) in order to advance.\nUCLA, meanwhile, will be heading home. The Bruins\u2019 early exit also marks another poor showing from the Big Ten, baseball-wise, leaving Oregon and USC as the only teams left in the conference \u2014 for now.",
+  "pass0_result": {
+    "paragraph_count": 7,
+    "category_paragraphs": {
+      "Attention & Memory": [],
+      "Judgment & Decision-Making": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "Judgment & Metacognition": [],
+      "Judgment & Moral Reasoning": [],
+      "Memory": [
+        1,
+        4
+      ],
+      "Metacognition": [],
+      "Probability Reasoning": [
+        0,
+        1,
+        4
+      ],
+      "Social Cognition": [
+        0,
+        3,
+        5,
+        6
+      ]
+    }
+  },
+  "pass1_result": {},
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 7,
+    "pass0_avg_paragraphs_per_category": 1.8
+  }
+}

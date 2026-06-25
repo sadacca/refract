@@ -1,0 +1,196 @@
+{
+  "article_id": "933902690df22973",
+  "source_url": "https://finance.yahoo.com/news/a-jobs-report-more-big-chip-earnings-and-sticky-inflation-what-to-watch-this-week-105149903.html",
+  "title": "A jobs report, more big chip earnings, and sticky inflation: What to watch this week",
+  "evaluated_at": "2026-06-25T02:14:56.165571+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "llama-3.3-70b-versatile",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "llama-3.3-70b-versatile",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "flat",
+  "article_text": "Investors step into what one analyst calls a \"delicate position\" this week. Hopes are high for real diplomatic progress in the Middle East, and optimism on Wall Street driven by a strong earnings season and AI exuberance is still holding strong.\nBut the tech trade has cooled over the past week, and negotiating an end to the war that has roiled the global economy will be no easy thing for leaders in Washington. All of that leaves investors with a lot to puzzle over.\nThe Dow Jones Industrial Average (^DJI) closed Friday up 0.7% for a weekly gain of 1.5%. The S&P 500 (^GSPC) and tech-heavy Nasdaq Composite (^IXIC) each picked up 0.2% on Friday to end the five-day stretch up 1.8% and 2.6%, respectively.\nThings to circle on the calendar\nFriday's jobs report leads the week's calendar and is set to give investors another critical read on the state of the labor market and where AI disruptions may or may not be showing up.\nPreviewing those headline figures will be Tuesday's JOLTS job report, along with Thursday's jobless claims data from the BLS and layoff figures from the outplacement firm Challenger, Gray, and Christmas \u2014 a big week for labor market data.\nMore from Yahoo Scout\nIn the corporate world, we'll get second quarter results from semiconductor designer Broadcom (AVGO), another key bellwether for the state of the AI and chips trade, and see just how strongly demand is holding up.\nNumbers from the data network provider Ciena (CIEN) on Thursday will contribute to the AI view as well.\nElsewhere on the corporate calendar, cybersecurity leaders Palo Alto Networks (PANW) and CrowdStrike (CRWD) will report earnings on Tuesday and Wednesday, respectively, while retail giants Dollar General (DG), Five Below (FIVE), and Macy's (M) report throughout the week.\nAI and the labor market\nThe monthly jobs report has always been a critical check on the economy. But since the AI boom took off \u2014 and especially since it has spurred several rounds of high-profile layoffs at major companies \u2014 it's become even more crucial for answering one question: Is AI displacing the American worker?\nAccording to Apollo chief economist Torsten Sl\u00f8k, the answer is still no. (Disclosure: Yahoo is a portfolio company of funds managed by affiliates of Apollo Global Management.)\nCiting weekly payroll data from the provider ADP, Sl\u00f8k argued that \"There is zero evidence of job losses because of AI,\" with firms instead hiring implementation experts and raising salaries.\nAs a result, Sl\u00f8k argued, this Friday's report, expected to show 93,000 jobs added in May, could print far above consensus: \"It is Jevons paradox playing out in real time: cheaper technology is creating more demand and more jobs,\" Sl\u00f8k wrote.\nBNP Paribas US economist Andrew Husby made a similar argument on Friday, writing in a client note that while the spread of AI tools \"looks set to displace employees in some industries,\" AI optimism is likely to push the other way, heightening demand for labor.\n\"We don't dismiss the risks \u2013 for example, cyclical sensitivity also entails worse outcomes if the economy disappoints, and there is high uncertainty about AI's effects,\" Husby wrote. \"But in our base case, growth's resilience plus demographic tightness in the US labor market pushes the unemployment rate lower over time.\"\nBoth growth and inflation are going in the wrong directions\nFor market watchers looking for a bit of reprieve from months of sticky inflation, a ream of data on Thursday painted a complex picture.\nThe monthly PCE index, the Fed's preferred gauge of inflation, may have looked OK. Prices rose 0.4% month on month in April and 0.2% on a \"core\" basis, excluding food and energy, better than expected.\nBut the 12-month change figures \u2014 3.8% on a headline basis and 3.3% on a core basis \u2014 both marked their biggest gains in more than two years. At the same time, first quarter GDP growth was revised down to 1.6%, against initial readings of 2% growth.\n\"We are far from stagflation, but rising inflation coupled with slowing growth is the opposite of what we want in both dimensions,\" Chris Zaccarelli, chief investment officer for Northlight Asset Management, wrote in a note to clients.\nThis is, of course, going to complicate things for newly confirmed chair of the Federal Reserve Kevin Warsh, especially as President Trump looks for rate cuts from his appointee.\n\"We need to get inflation back under control and ideally do that in a way that preserves or improves growth,\" Zaccarelli said. \"For those that are counting on a rate cut in the second half of this year, they can forget it, because this kind of data makes it increasingly unlikely that we will get one in 2026 or even for all of next year.\"\nWatching for more Musk mergers\nAs SpaceX prepares to go public in what is set to be the far and away the largest IPO on record, CEO Elon Musk seems to be looking at another merger for his suite of companies.\nThe tech visionary has already completed a roll-up of SpaceX, which focuses on rocketry and connectivity technology, with his startup xAI, which manages the Grok AI platform. Now, Musk is musing about combining SpaceX \u2014 expected to go public in June \u2014 and the long-public Tesla (TSLA).\nThat might not be great for shareholders, our own Pras Subramanian reported. By bringing Tesla under the SpaceX umbrella, where Musk controls a roughly 85% stake, the tech leader could consolidate his control over the merged corporation and leave investors less room to push back on plans with which they disagree.\nThat said, given concerns over Musk splitting his time too thinly, some investors may welcome such an idea, Ann Lipton, University of Colorado law professor and expert in corporate governance, told Yahoo Finance.\n\"Shareholders \u2026 would not have to worry about him allocating resources between the two. They would lose their control, but investors in Musk companies do not seem to value that much.\"\nEconomic and earnings calendar\nMonday\nEconomic data: S&P Global manufacturing PMI, May final reading (55.3 expected, 55.3 previously); ISM manufacturing, May (53.2 expected, 52.7 previously); ISM prices paid, May (85 expected, 84.6 previously); ISM new orders, May (54.5 expected, 54.1 previously); ISM employment, May (48.5 expected, 46.4 previously)\nEarnings calendar: Hewlett Packard Enterprise Company (HPE), Credo Technology Group (CRDO), Trip.com Group (TCOM)\nTuesday\nEconomic data: JOLTS job openings, April (6.89 million expected, 6.87 million previously); JOLTS quits rate, April (+2% previously); JOLTS layoffs rate, April (+1.2% previously); Wards total vehicle sales, May (16 million expected, 15.92 million previously)\nEarnings calendar: Palo Alto Networks (PANW), Dollar General (DG), Ulta Beauty (ULTA), Victoria's Secret (VSCO)\nWednesday\nEconomic data: ADP employment change, May (120,000 expected, 109,000 previously); MBA mortgage applications, week ended May 29 (-8.5% previously); S&P Global US services PMI, May final reading (50.9 previously); S&P Global US composite PMI, May final reading (51.7 previously); Factory orders, April (+4.3% expected, +1.5% previously); ISM services index, May (53.7 expected, 53.6 previously); ISM services, prices paid, May (71 expected, 70.7 previously); ISM services, new orders, May (53 expected, 53.5 previously); ISM services, employment, May (48.5 expected, 48 previously); Durable goods orders, April final reading (+7.9% previously)\nEarnings calendar: Broadcom (AVGO), CrowdStrike Holdings (CRWD), Medtronic (MDT), Veeva Systems (VEEV), Five Below (FIVE), Uranium Energy Corp. (UEC), Macy's Inc. (M)\nThursday\nEconomic data: Challenger job cuts, year-on-year, May (-20.9% previously); Nonfarm productivity, first quarter final reading (+0.7% expected, +0.8% previously); Initial jobless claims, week ended May 30 (215,000 previously); Continuing claims, week ended May 23 (1.786 million previously)",
+  "pass0_result": {
+    "paragraph_count": 42,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        0,
+        1,
+        2,
+        4,
+        11,
+        19
+      ],
+      "Judgment & Decision-Making": [
+        0,
+        1,
+        4,
+        10,
+        11,
+        13,
+        14,
+        15,
+        16,
+        27,
+        28
+      ],
+      "Judgment & Metacognition": [
+        1,
+        11,
+        14,
+        15,
+        16
+      ],
+      "Judgment & Moral Reasoning": [
+        27
+      ],
+      "Memory": [
+        2,
+        19,
+        20
+      ],
+      "Metacognition": [
+        11,
+        14,
+        15,
+        16
+      ],
+      "Probability Reasoning": [
+        4,
+        13,
+        14,
+        15,
+        16,
+        19,
+        20
+      ],
+      "Social Cognition": [
+        0,
+        1,
+        4,
+        27,
+        28
+      ]
+    }
+  },
+  "pass1_result": {},
+  "bias_instances": [
+    {
+      "bias_id": "overconfidence-bias",
+      "bias_name": "Overconfidence Bias",
+      "occurrences": [
+        {
+          "excerpt": "\"It is Jevons paradox playing out in real time: cheaper technology is creating more demand and more jobs,\"",
+          "char_start": 2470,
+          "char_end": 2575,
+          "paragraph_index": 2,
+          "text_region": "body",
+          "explanation": "The statement uses absolute, high\u2011certainty language ('It is ... playing out in real time') to assert a causal relationship between cheaper technology and job creation. The impact of AI on employment is a contested, highly uncertain domain, yet the claim offers no hedging, probability qualifiers, or acknowledgment of alternative outcomes, matching the identification criteria for overconfidence bias.",
+          "confidence": "high"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Judgment & Metacognition"
+    },
+    {
+      "bias_id": "dunning-kruger-effect",
+      "bias_name": "Dunning-Kruger Effect (Overestimation Variant)",
+      "occurrences": [],
+      "severity": "low",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "Metacognition"
+    },
+    {
+      "bias_id": "actor-observer-asymmetry",
+      "bias_name": "Actor-Observer Asymmetry",
+      "occurrences": [],
+      "severity": "low",
+      "author_exhibiting": false,
+      "source_reporting": false,
+      "category": "Social Cognition"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "overconfidence-bias",
+        "rationale": "The excerpt is a direct quote from an economist, not the author's own assertion. While the quote itself is confident, attributing 'overconfidence bias' to the author for reporting a source's perspective is a misclassification of journalistic attribution.",
+        "verdict": "suspect",
+        "swap_agreement": false,
+        "swap_verdicts": {
+          "forward": "rejected",
+          "reversed": "confirmed"
+        }
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "dunning-kruger-effect",
+        "rationale": "No occurrences were identified for this instance, and the evaluation correctly notes the absence of evidence.",
+        "verdict": "confirmed",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_002",
+        "bias_id": "conjunction-fallacy",
+        "rationale": "The explanation misapplies the conjunction fallacy; the excerpt describes a causal mechanism (Jevons paradox) rather than assigning a higher probability to a specific subset than a general set. It is a theoretical argument, not a probabilistic error.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_003",
+        "bias_id": "base-rate-neglect",
+        "rationale": "The excerpt provides a macroeconomic forecast based on specific variables. Failing to explicitly cite historical base rates in a short news summary does not constitute a cognitive bias, as the analysis is focused on current trend drivers.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_004",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The excerpt refers to a widely discussed situational constraint (time management across multiple CEO roles), which is a legitimate business concern rather than an internal character flaw. The attribution is situational, not dispositional.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_005",
+        "bias_id": "actor-observer-asymmetry",
+        "rationale": "No occurrences were identified for this instance, and the evaluation correctly notes the absence of evidence.",
+        "verdict": "confirmed",
+        "swap_agreement": true
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 1/6 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [
+      "Judgment & Metacognition",
+      "Metacognition",
+      "Social Cognition"
+    ],
+    "bias_type_count": 3,
+    "total_occurrences": 1,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 1,
+      "closing": 0
+    },
+    "by_category": {
+      "Judgment & Metacognition": 1,
+      "Metacognition": 0,
+      "Social Cognition": 0
+    },
+    "pass0_paragraph_count": 42,
+    "pass0_avg_paragraphs_per_category": 5.2
+  }
+}

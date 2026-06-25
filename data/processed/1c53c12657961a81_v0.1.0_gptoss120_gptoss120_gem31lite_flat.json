@@ -1,0 +1,125 @@
+{
+  "article_id": "1c53c12657961a81",
+  "source_url": "https://www.yahoo.com/entertainment/tv/articles/60-minutes-correspondent-scott-pelley-163916832.html",
+  "title": "60 Minutes correspondent Scott Pelley accuses Bari Weiss of \u2018murdering\u2019 show",
+  "evaluated_at": "2026-06-25T02:21:25.786683+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "cerebras/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "cerebras/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "flat",
+  "article_text": "60 Minutes correspondent Scott Pelley accuses Bari Weiss of \u2018murdering\u2019 show\nScott Pelley, a veteran 60 Minutes correspondent, called out CBS News management in a heated meeting on Monday morning, attacking the network\u2019s decision on Thursday to fire the show\u2019s executive producer, executive editor, and two fellow correspondents, Sharyn Alfonsi and Cecilia Vega, as part of a broader overhaul of the show, sources tell the Guardian.\nDuring a meeting of the show\u2019s staff and Nick Bilton, its newly appointed executive producer, along with the CBS News managing editor Charles Forelle, Pelley took direct aim at Bari Weiss, the network\u2019s controversial editor-in-chief.\n\u201cShe\u2019s murdering 60 Minutes,\u201d Pelley said, according to sources with knowledge of the situation. \u201cShe does not love this place. She was brought in to kill it and is doing exactly that.\u201d\nForelle accused Pelley of being rude, and Pelley countered by saying that the network had been rude by the way it treated Tanya Simon, the show\u2019s executive producer who was fired on Thursday.\nBilton conveyed to Pelley that he would not be \u201cintimidated\u201d by his remarks.\n60 Minutes staff who were present for the meeting showed strong support for Pelley, giving him a standing ovation, sources said.\nA CBS News spokesperson declined comment on the meeting. A source with knowledge of the situation said that overtures have been made to Pelley, who is seen as an important part of the show. (Pelley has also been contacted for comment.)\nRelated: CBS News shakes up 60 Minutes as ousted correspondents \u2018fear what comes next\u2019\nStill, the exchange on Monday raises questions about Pelley\u2019s long-term future at the show.\nLast Wednesday, hours after Alfonsi announced that the network had opted not to renew her contract for the show\u2019s 59th season, Pelley gave her a shoutout at the News & Documentary Emmy awards. \u201cThere have been many great 60 Minutes correspondents over the years. I see Sharyn Alfonsi in the audience,\u201d he said.\nPelley was also effusive in praising Santiago Campos, an 18-year-old high school senior who called out the network\u2019s direction under Weiss, saying that it \u201cstains the legacy of Mike Wallace\u201d, the namesake of the award that Campos received.\n\u201cI know that Mike Wallace is looking down on you with pride at this very moment,\u201d Pelley said.\nOn Wednesday, Alfonsi \u2013 who had reported a December 2025 segment about a notorious prison in El Salvador that got shelved by Weiss \u2013 released a blistering statement, saying: \u201cThe wall between editorial independence and corporate interest at CBS is being methodically torn down.\u201d She added: \u201cJournalists willing to challenge authority are being pushed aside in favor of those who will not. If this continues, the result will be a broadcast that looks like 60 Minutes but lacks the courage and character to produce journalism that matters.\u201d\nIn her own statement on Thursday, Vega, who joined the show in 2023, suggested that political bias was at play at the network.\n\u201cIn recent months, my producing teams and I have experienced efforts to insert political bias into our stories,\u201d she said. \u201cReporting teams have held back on submitting story pitches about important news topics out of fear of the internal repercussions. Let\u2019s call this what it is: censorship, both imposed and self-driven. It is dangerous for the show and dangerous for democracy.\u201d The network released a statement contesting Vega\u2019s characterization.",
+  "pass0_result": {
+    "paragraph_count": 16,
+    "category_paragraphs": {
+      "Attention & Memory": [],
+      "Judgment & Decision-Making": [
+        1,
+        9,
+        13,
+        14,
+        15
+      ],
+      "Judgment & Metacognition": [
+        13,
+        14,
+        15
+      ],
+      "Judgment & Moral Reasoning": [
+        0,
+        3,
+        4,
+        13,
+        14,
+        15
+      ],
+      "Memory": [],
+      "Metacognition": [
+        13,
+        14,
+        15
+      ],
+      "Probability Reasoning": [],
+      "Social Cognition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        13,
+        14,
+        15
+      ]
+    }
+  },
+  "pass1_result": {},
+  "bias_instances": [
+    {
+      "bias_id": "fundamental-attribution-error",
+      "bias_name": "Fundamental Attribution Error",
+      "occurrences": [
+        {
+          "excerpt": "\u201cShe\u2019s murdering 60 Minutes,\u201d Pelley said, according to sources with knowledge of the situation. \u201cShe does not love this place. She was brought in to kill it and is doing exactly that.\u201d",
+          "char_start": 667,
+          "char_end": 852,
+          "paragraph_index": 3,
+          "text_region": "body",
+          "explanation": "The passage attributes the problems of the show entirely to Bari Weiss\u2019s personal disposition (murdering, not loving, brought in to kill) without mentioning any situational, structural, or organizational factors that could also explain the outcome (e.g., management decisions, corporate strategy, resource constraints). This matches the identification criteria for the fundamental attribution error.",
+          "confidence": "high"
+        }
+      ],
+      "severity": "high",
+      "author_exhibiting": false,
+      "source_reporting": true,
+      "category": "Social Cognition"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "overconfidence-bias",
+        "rationale": "The instances identified are direct quotes from subjects (Alfonsi and Vega) expressing their personal opinions. Attributing 'overconfidence bias' to the author for reporting these quotes is incorrect, as the author is accurately documenting the subjective, high-certainty claims made by the interviewees.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The author is accurately reporting a direct quote from Scott Pelley. While Pelley's statement exhibits the fundamental attribution error by focusing on Weiss's character rather than situational factors, the author is merely acting as a neutral reporter of this event.",
+        "verdict": "confirmed",
+        "swap_agreement": true
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "Swap augmentation: 0/2 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [
+      "Social Cognition"
+    ],
+    "bias_type_count": 1,
+    "total_occurrences": 1,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 1,
+      "closing": 0
+    },
+    "by_category": {
+      "Social Cognition": 1
+    },
+    "pass0_paragraph_count": 16,
+    "pass0_avg_paragraphs_per_category": 3.5
+  }
+}

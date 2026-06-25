@@ -6,6 +6,12 @@
       "triage": "cerebras/gpt-oss-120b",
       "evaluated_at": "2026-06-25T01:50:45.496272+00:00"
     },
+    "2c004a0212bba67c": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T02:53:03.749081+00:00"
+    },
     "50bb550a89bc146e": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
@@ -24,6 +30,12 @@
       "triage": "cerebras/gpt-oss-120b",
       "evaluated_at": "2026-06-25T01:45:15.803091+00:00"
     },
+    "f0f2e7e0e98b21f7": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:04:52.941404+00:00"
+    },
     "8f463317c4d65b18": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
@@ -35,6 +47,12 @@
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
       "evaluated_at": "2026-06-25T01:42:27.239901+00:00"
+    },
+    "424bf6e62eebc1d2": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T01:54:55.898771+00:00"
     },
     "5a30674d009c9a9f": {
       "eval": "llama-3.3-70b-versatile",
@@ -54,6 +72,12 @@
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T02:55:39.885441+00:00"
     },
+    "933902690df22973": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:14:56.165571+00:00"
+    },
     "68916677e2694999": {
       "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
@@ -61,10 +85,10 @@
       "evaluated_at": "2026-06-25T01:47:14.250771+00:00"
     },
     "46e376ad0435bba4": {
-      "eval": "groq/gpt-oss-120b",
+      "eval": "cerebras/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-25T02:06:24.718939+00:00"
+      "evaluated_at": "2026-06-25T02:31:55.554738+00:00"
     },
     "1c53c12657961a81": {
       "eval": "groq/gpt-oss-120b",
@@ -75,20 +99,14 @@
     "322928e4fad47e5f": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:02:35.267136+00:00"
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:15:59.514307+00:00"
     },
     "4781b11308d276aa": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T03:26:47.893890+00:00"
-    },
-    "2c004a0212bba67c": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T02:53:03.749081+00:00"
     },
     "eb5e38259c8ba188": {
       "eval": "llama-3.3-70b-versatile",
@@ -108,35 +126,23 @@
       "triage": "cerebras/gpt-oss-120b",
       "evaluated_at": "2026-06-25T02:01:55.429118+00:00"
     },
-    "424bf6e62eebc1d2": {
-      "eval": "groq/gpt-oss-120b",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-25T01:54:55.898771+00:00"
-    },
-    "383f6fc63950f06a": {
-      "eval": "groq/gpt-oss-120b",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-25T01:53:42.675631+00:00"
-    },
-    "5b18469580b6a1fe": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:05:41.872935+00:00"
-    },
     "7d7034c48f081aa2": {
       "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
       "evaluated_at": "2026-06-25T02:00:45.076646+00:00"
     },
-    "f0f2e7e0e98b21f7": {
-      "eval": "groq/gpt-oss-120b",
+    "383f6fc63950f06a": {
+      "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-25T02:04:52.941404+00:00"
+      "evaluated_at": "2026-06-25T02:17:04.910048+00:00"
+    },
+    "5b18469580b6a1fe": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T03:05:41.872935+00:00"
     },
     "fc10f16d2a10787d": {
       "eval": "llama-3.3-70b-versatile",
@@ -155,12 +161,13 @@
     "groq/gpt-oss-120b": {
       "eval_articles": [
         "46e376ad0435bba4",
+        "383f6fc63950f06a",
+        "322928e4fad47e5f",
         "f0f2e7e0e98b21f7",
         "f2e07c0253d5e01c",
         "7d7034c48f081aa2",
         "1c53c12657961a81",
         "424bf6e62eebc1d2",
-        "383f6fc63950f06a",
         "c3354c403995fc13",
         "68916677e2694999",
         "6b84de0e8f29e514",
@@ -169,7 +176,6 @@
         "5a30674d009c9a9f",
         "50bb550a89bc146e",
         "eb5e38259c8ba188",
-        "322928e4fad47e5f",
         "f8bb3a503afdd2b5",
         "2c004a0212bba67c"
       ],
@@ -183,12 +189,14 @@
       "eval_articles": [],
       "judge_articles": [
         "46e376ad0435bba4",
+        "383f6fc63950f06a",
+        "322928e4fad47e5f",
+        "933902690df22973",
         "f0f2e7e0e98b21f7",
         "f2e07c0253d5e01c",
         "7d7034c48f081aa2",
         "1c53c12657961a81",
         "424bf6e62eebc1d2",
-        "383f6fc63950f06a",
         "c3354c403995fc13",
         "68916677e2694999",
         "6b84de0e8f29e514",
@@ -202,7 +210,6 @@
         "eb5e38259c8ba188",
         "6faa0ce3befb7f8a",
         "5b18469580b6a1fe",
-        "322928e4fad47e5f",
         "fc10f16d2a10787d",
         "f8bb3a503afdd2b5",
         "687b5920cd76edbe",
@@ -210,20 +217,31 @@
       ],
       "triage_articles": [],
       "eval_count": 0,
-      "judge_count": 25,
+      "judge_count": 26,
       "triage_count": 0
     },
     "cerebras/gpt-oss-120b": {
-      "eval_articles": [],
-      "judge_articles": [],
-      "triage_articles": [
+      "eval_articles": [
         "46e376ad0435bba4",
         "f0f2e7e0e98b21f7",
         "f2e07c0253d5e01c",
         "7d7034c48f081aa2",
         "1c53c12657961a81",
-        "424bf6e62eebc1d2",
+        "93545597bffa22b5",
+        "5a30674d009c9a9f",
+        "50bb550a89bc146e"
+      ],
+      "judge_articles": [],
+      "triage_articles": [
+        "46e376ad0435bba4",
         "383f6fc63950f06a",
+        "322928e4fad47e5f",
+        "933902690df22973",
+        "f0f2e7e0e98b21f7",
+        "f2e07c0253d5e01c",
+        "7d7034c48f081aa2",
+        "1c53c12657961a81",
+        "424bf6e62eebc1d2",
         "c3354c403995fc13",
         "68916677e2694999",
         "6b84de0e8f29e514",
@@ -233,16 +251,18 @@
         "5a30674d009c9a9f",
         "50bb550a89bc146e",
         "eb5e38259c8ba188",
-        "322928e4fad47e5f",
         "f8bb3a503afdd2b5",
         "2c004a0212bba67c"
       ],
-      "eval_count": 0,
+      "eval_count": 8,
       "judge_count": 0,
-      "triage_count": 19
+      "triage_count": 20
     },
     "llama-3.3-70b-versatile": {
       "eval_articles": [
+        "383f6fc63950f06a",
+        "322928e4fad47e5f",
+        "933902690df22973",
         "f2e07c0253d5e01c",
         "1c53c12657961a81",
         "424bf6e62eebc1d2",
@@ -258,7 +278,6 @@
         "eb5e38259c8ba188",
         "6faa0ce3befb7f8a",
         "5b18469580b6a1fe",
-        "322928e4fad47e5f",
         "fc10f16d2a10787d",
         "f8bb3a503afdd2b5",
         "687b5920cd76edbe",
@@ -266,7 +285,7 @@
       ],
       "judge_articles": [],
       "triage_articles": [],
-      "eval_count": 20,
+      "eval_count": 22,
       "judge_count": 0,
       "triage_count": 0
     },
@@ -274,6 +293,7 @@
       "eval_articles": [],
       "judge_articles": [],
       "triage_articles": [
+        "322928e4fad47e5f",
         "f2e07c0253d5e01c",
         "1c53c12657961a81",
         "68916677e2694999",
@@ -286,7 +306,6 @@
         "eb5e38259c8ba188",
         "6faa0ce3befb7f8a",
         "5b18469580b6a1fe",
-        "322928e4fad47e5f",
         "fc10f16d2a10787d",
         "f8bb3a503afdd2b5",
         "687b5920cd76edbe",
