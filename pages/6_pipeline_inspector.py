@@ -29,14 +29,32 @@ with col_refresh:
 
 
 # ---------------------------------------------------------------------------
-# Data loading
+# Data loading — group by article_id so multiple runs per article (different
+# mode/model signatures) are all retained instead of one overwriting another.
 # ---------------------------------------------------------------------------
-results = {
-    (d.get("title") or d.get("source_url") or d["article_id"])[:70]: d
-    for d in load_corpus(FRAMEWORK_VERSION)
-}
+def _run_sig(result: dict) -> tuple[str, str, str, str]:
+    m = result.get("models", {})
+    return (
+        result.get("mode") or "deep",
+        m.get("triage") or "?",
+        m.get("eval") or result.get("model") or "?",
+        m.get("judge") or "?",
+    )
 
-if not results:
+
+def _run_label(sig: tuple[str, str, str, str]) -> str:
+    mode, triage, eval_m, judge = sig
+    return f"{mode}  ·  triage={triage}  ·  eval={eval_m}  ·  judge={judge}"
+
+
+articles: dict[str, dict] = {}  # article_id -> {"title": str, "runs": {sig: record}}
+for d in load_corpus(FRAMEWORK_VERSION):
+    aid = d.get("article_id") or d.get("source_url") or d.get("title")
+    title = (d.get("title") or d.get("source_url") or aid)[:70]
+    entry = articles.setdefault(aid, {"title": title, "runs": {}})
+    entry["runs"][_run_sig(d)] = d
+
+if not articles:
     st.warning("No evaluated articles found. Run the batch_eval workflow first.")
     st.stop()
 
@@ -44,15 +62,38 @@ if not results:
 # Article selector  ("All Articles" aggregates across the full corpus)
 # ---------------------------------------------------------------------------
 ALL_LABEL = "📊 All Articles (aggregate)"
-options = [ALL_LABEL] + list(results.keys())
-selected_label = st.selectbox("Select article", options)
-aggregate_mode = selected_label == ALL_LABEL
+article_ids = sorted(articles.keys(), key=lambda a: articles[a]["title"])
+options = [ALL_LABEL] + article_ids
+selected = st.selectbox(
+    "Select article", options,
+    format_func=lambda a: a if a == ALL_LABEL else articles[a]["title"],
+)
+aggregate_mode = selected == ALL_LABEL
 
 if aggregate_mode:
-    all_results = list(results.values())
-    st.caption(f"{len(all_results)} articles · aggregate view")
+    available_modes = sorted({sig[0] for a in articles.values() for sig in a["runs"]})
+    mode_filter = st.radio(
+        "Mode", available_modes, horizontal=True,
+        index=available_modes.index("deep") if "deep" in available_modes else 0,
+        help="Aggregate stats are computed over one run per article, matching this mode.",
+    )
+    all_results = []
+    for a in articles.values():
+        match = next((rec for sig, rec in a["runs"].items() if sig[0] == mode_filter), None)
+        if match:
+            all_results.append(match)
+    st.caption(f"{len(all_results)} articles (mode={mode_filter}) · aggregate view")
 else:
-    r = results[selected_label]
+    runs = articles[selected]["runs"]
+    run_sigs = sorted(runs.keys())
+    if len(run_sigs) > 1:
+        sel_sig = st.selectbox(
+            "Run to view", run_sigs, format_func=_run_label,
+            help="Each option is a distinct stored run for this article: mode + triage/eval/judge models.",
+        )
+    else:
+        sel_sig = run_sigs[0]
+    r = runs[sel_sig]
     all_results = [r]
     col1, col2, col3 = st.columns(3)
     col1.caption(f"Mode: {r.get('mode', '—')}")
