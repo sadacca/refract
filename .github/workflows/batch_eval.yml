@@ -11,6 +11,7 @@ on:
         description: "Pass 2 identification model"
         type: choice
         options:
+          - groq/gpt-oss-120b
           - llama-3.3-70b-versatile
           - cerebras/gpt-oss-120b
           - cerebras/zai-glm-4.7
@@ -19,7 +20,7 @@ on:
           - gemini-2.0-flash
           - mistral-large-latest
           - mistral-medium-3
-        default: "llama-3.3-70b-versatile"
+        default: "groq/gpt-oss-120b"
         required: false
       judge_model:
         description: "Pass 4 judge model (cross-family recommended)"
@@ -29,6 +30,7 @@ on:
           - gemini-2.5-flash
           - gemini-2.0-flash
           - gemini-2.5-pro
+          - groq/gpt-oss-120b
           - llama-3.3-70b-versatile
           - cerebras/gpt-oss-120b
           - mistral-large-latest
@@ -81,7 +83,7 @@ jobs:
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
       MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
-      EVAL_MODEL: ${{ inputs.eval_model || 'llama-3.3-70b-versatile' }}
+      EVAL_MODEL: ${{ inputs.eval_model || 'groq/gpt-oss-120b' }}
       JUDGE_MODEL: ${{ inputs.judge_model == 'auto' && '' || inputs.judge_model }}
       TRIAGE_MODEL: ${{ inputs.triage_model || 'cerebras/gpt-oss-120b' }}
 
