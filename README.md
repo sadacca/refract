@@ -149,6 +149,12 @@ Defined in `config.py`, used by `select_from_chain()` to pick the least-used mod
 
 Each provider is paced according to its actual free-tier RPM cap (`llm_client._PROVIDER_MIN_INTERVALS`): Groq/Cerebras/Gemini at 6s between calls, Mistral at 31s (its 2 RPM hard limit). Override globally with `LLM_CALL_INTERVAL`.
 
+### Rate-limit tracking
+
+`config.MODEL_LIMITS` flattens `MODEL_REGISTRY` into a per-model RPM/RPD/TPM/TPD lookup — single source of truth, no duplicated numbers across dicts. Cerebras and Mistral cap usage at the account level (not per model), so every model on those providers maps to a shared `scope_key` (`"cerebras:account"`, `"mistral:account"`); `llm_client.py`'s daily usage tracking and `select_from_chain()`'s TPD checks key off this `scope_key`, so switching between e.g. `cerebras/gpt-oss-120b` and `cerebras/qwen-3-32b` correctly pools against one shared daily budget instead of two independent ones. Groq and Gemini remain per-model.
+
+On top of the static per-call pacing (`_min_interval_for`), `llm_client._wait_for_rpm()` enforces each model's actual RPM cap with a sliding 60s window keyed by `scope_key` — this catches bursts that static pacing alone would miss when multiple models share an account-wide RPM limit (e.g. Mistral's 2 RPM applies across all five Mistral models, not five separate 2 RPM allowances).
+
 ### Token efficiency
 
 Measured at the original taxonomy size (7 biases, 6 categories; superseded by the current 14-bias/8-category taxonomy) on an 8,000-word article:

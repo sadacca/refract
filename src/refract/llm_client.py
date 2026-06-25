@@ -15,7 +15,7 @@ import requests
 from config import (
     GEMINI_API_KEY, GROQ_API_KEY, CEREBRAS_API_KEY, MISTRAL_API_KEY,
     MAX_RETRIES, RETRY_BASE_DELAY, POST_CALL_DELAY, CACHE_DIR,
-    MODEL_CONTEXT_LIMITS, MODEL_TPD_LIMITS,
+    MODEL_CONTEXT_LIMITS, MODEL_LIMITS,
 )
 
 logger = logging.getLogger(__name__)
@@ -45,6 +45,53 @@ def _min_interval_for(model: str) -> float:
     if override:
         return float(override)
     return _PROVIDER_MIN_INTERVALS.get(_provider(model), 6.0)
+
+
+def _usage_key(model: str) -> str:
+    """Resolve a model id to its usage-tracking key. Cerebras and Mistral cap
+    RPD/TPD/RPM at the account level, not per model, so every model on those
+    providers shares one key (MODEL_LIMITS[model]["scope_key"]) and usage
+    pools correctly across model switches within the same provider."""
+    return MODEL_LIMITS.get(model, {}).get("scope_key", model)
+
+
+# ---------------------------------------------------------------------------
+# RPM tracking — sliding 60s window per usage key, in addition to the static
+# per-call pacing above. The static interval prevents back-to-back bursts;
+# this catches the case where several different models share an account-wide
+# RPM cap (Cerebras, Mistral) and would otherwise each pace independently.
+# ---------------------------------------------------------------------------
+_call_timestamps: dict[str, list[float]] = {}
+
+
+def get_current_rpm(model: str) -> int:
+    """Calls made in the trailing 60s for this model's usage key."""
+    key = _usage_key(model)
+    now = time.time()
+    window = _call_timestamps.get(key, [])
+    return len([t for t in window if now - t < 60])
+
+
+def _wait_for_rpm(model: str) -> None:
+    """Block until issuing a call would not exceed the model's free-tier RPM."""
+    rpm_limit = MODEL_LIMITS.get(model, {}).get("rpm")
+    if not rpm_limit:
+        return
+    key = _usage_key(model)
+    now = time.time()
+    window = _call_timestamps.setdefault(key, [])
+    window[:] = [t for t in window if now - t < 60]
+    if len(window) >= rpm_limit:
+        sleep_for = 60 - (now - window[0]) + 0.1
+        if sleep_for > 0:
+            logger.info(
+                "RPM limit reached for %s (%d/%d calls in last 60s) — sleeping %.1fs",
+                key, len(window), rpm_limit, sleep_for,
+            )
+            time.sleep(sleep_for)
+        now = time.time()
+        window[:] = [t for t in window if now - t < 60]
+    window.append(now)
 
 
 # ---------------------------------------------------------------------------
@@ -77,26 +124,29 @@ def _save_daily_usage(data: dict) -> None:
 
 def _increment_daily_calls(model: str, tokens: int = 0) -> None:
     today = _today()
+    key = _usage_key(model)
     data = _load_daily_usage()
     day = data.get(today, {})
-    entry = day.get(model, {})
+    entry = day.get(key, {})
     if not isinstance(entry, dict):  # legacy format: bare call-count int
         entry = {"calls": entry, "tokens": 0}
     entry["calls"] = entry.get("calls", 0) + 1
     entry["tokens"] = entry.get("tokens", 0) + tokens
-    day[model] = entry
+    day[key] = entry
     _save_daily_usage({today: day})
 
 
 def get_daily_calls(model: str) -> int:
-    """Return successful LLM calls made today for this model."""
-    entry = _load_daily_usage().get(_today(), {}).get(model, 0)
+    """Return successful LLM calls made today against this model's usage key
+    (account-wide for Cerebras/Mistral, per-model for Groq/Gemini)."""
+    entry = _load_daily_usage().get(_today(), {}).get(_usage_key(model), 0)
     return entry.get("calls", 0) if isinstance(entry, dict) else entry
 
 
 def get_daily_tokens(model: str) -> int:
-    """Return total tokens (prompt + completion) consumed today for this model."""
-    entry = _load_daily_usage().get(_today(), {}).get(model, 0)
+    """Return total tokens (prompt + completion) consumed today against this
+    model's usage key (account-wide for Cerebras/Mistral, per-model otherwise)."""
+    entry = _load_daily_usage().get(_today(), {}).get(_usage_key(model), 0)
     return entry.get("tokens", 0) if isinstance(entry, dict) else 0
 
 
@@ -121,7 +171,7 @@ def _is_near_daily_token_limit(model: str, tpd_limit: int, soft_pct: float = 0.8
 def select_from_chain(model_chain: list[tuple[str, int]]) -> str:
     """
     Return the first model in the chain below its daily RPD soft limit (85%)
-    and, where MODEL_TPD_LIMITS has an entry, below its TPD soft limit too.
+    and, where MODEL_LIMITS has a "tpd" entry, below its TPD soft limit too.
     TPD matters because Pass 2 sends full article text — token budgets can be
     exhausted well before the request count looks high. Logs which models are
     skipped. Falls back to the last model if all are near a limit.
@@ -130,7 +180,7 @@ def select_from_chain(model_chain: list[tuple[str, int]]) -> str:
         calls = get_daily_calls(model)
         soft_rpd = int(rpd * 0.85)
         rpd_ok = calls < soft_rpd
-        tpd_limit = MODEL_TPD_LIMITS.get(model)
+        tpd_limit = MODEL_LIMITS.get(model, {}).get("tpd")
         tpd_ok = tpd_limit is None or not _is_near_daily_token_limit(model, tpd_limit)
         if rpd_ok and tpd_ok:
             logger.debug("Chain: selected %s (%d/%d calls, %d tokens today)", model, calls, rpd, get_daily_tokens(model))
@@ -343,6 +393,7 @@ def call_llm(
     min_interval = _min_interval_for(model)
     if elapsed < min_interval:
         time.sleep(min_interval - elapsed)
+    _wait_for_rpm(model)
 
     provider = _provider(model)
     caller = {
