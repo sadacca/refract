@@ -1,28 +1,10 @@
 {
   "by_article": {
-    "f2e07c0253d5e01c": {
-      "eval": "llama-3.3-70b-versatile",
+    "c3354c403995fc13": {
+      "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:17:03.120456+00:00"
-    },
-    "5a30674d009c9a9f": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:22:09.715376+00:00"
-    },
-    "68916677e2694999": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T02:56:33.103481+00:00"
-    },
-    "687b5920cd76edbe": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T02:55:39.885441+00:00"
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T01:50:45.496272+00:00"
     },
     "50bb550a89bc146e": {
       "eval": "llama-3.3-70b-versatile",
@@ -30,59 +12,35 @@
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T03:19:03.497499+00:00"
     },
-    "2a95ea2acf04cb98": {
+    "93545597bffa22b5": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-24T02:38:41.598736+00:00"
-    },
-    "6faa0ce3befb7f8a": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:07:44.278947+00:00"
+      "evaluated_at": "2026-06-24T02:37:34.752020+00:00"
     },
     "6b84de0e8f29e514": {
-      "eval": "llama-3.3-70b-versatile",
+      "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T02:53:50.121311+00:00"
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T01:45:15.803091+00:00"
     },
-    "5b18469580b6a1fe": {
+    "8f463317c4d65b18": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:05:41.872935+00:00"
-    },
-    "2c004a0212bba67c": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T02:53:03.749081+00:00"
-    },
-    "322928e4fad47e5f": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:02:35.267136+00:00"
+      "evaluated_at": "2026-06-02T03:15:00.582369+00:00"
     },
     "79e314d552cce19b": {
-      "eval": "llama-3.3-70b-versatile",
+      "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T02:52:10.421726+00:00"
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T01:42:27.239901+00:00"
     },
-    "eb5e38259c8ba188": {
+    "5a30674d009c9a9f": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:14:13.228997+00:00"
-    },
-    "fc10f16d2a10787d": {
-      "eval": "llama-3.3-70b-versatile",
-      "judge": "gemini-3.1-flash-lite",
-      "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:00:36.002334+00:00"
+      "evaluated_at": "2026-06-02T03:22:09.715376+00:00"
     },
     "f8bb3a503afdd2b5": {
       "eval": "llama-3.3-70b-versatile",
@@ -90,60 +48,221 @@
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T02:58:34.259637+00:00"
     },
+    "687b5920cd76edbe": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T02:55:39.885441+00:00"
+    },
+    "68916677e2694999": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T01:47:14.250771+00:00"
+    },
+    "46e376ad0435bba4": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:06:24.718939+00:00"
+    },
+    "1c53c12657961a81": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T01:57:48.442501+00:00"
+    },
+    "322928e4fad47e5f": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T03:02:35.267136+00:00"
+    },
     "4781b11308d276aa": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "llama-3.1-8b-instant",
       "evaluated_at": "2026-06-02T03:26:47.893890+00:00"
     },
-    "1c53c12657961a81": {
+    "2c004a0212bba67c": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:13:18.663768+00:00"
+      "evaluated_at": "2026-06-02T02:53:03.749081+00:00"
+    },
+    "eb5e38259c8ba188": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T03:14:13.228997+00:00"
+    },
+    "6faa0ce3befb7f8a": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T03:07:44.278947+00:00"
+    },
+    "f2e07c0253d5e01c": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:01:55.429118+00:00"
     },
     "424bf6e62eebc1d2": {
-      "eval": "llama-3.3-70b-versatile",
+      "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-24T02:35:19.435189+00:00"
+      "evaluated_at": "2026-06-25T01:54:55.898771+00:00"
     },
-    "93545597bffa22b5": {
-      "eval": "llama-3.3-70b-versatile",
+    "383f6fc63950f06a": {
+      "eval": "groq/gpt-oss-120b",
       "judge": "gemini-3.1-flash-lite",
       "triage": "cerebras/gpt-oss-120b",
-      "evaluated_at": "2026-06-24T02:37:34.752020+00:00"
+      "evaluated_at": "2026-06-25T01:53:42.675631+00:00"
     },
-    "8f463317c4d65b18": {
+    "5b18469580b6a1fe": {
       "eval": "llama-3.3-70b-versatile",
       "judge": "gemini-3.1-flash-lite",
       "triage": "llama-3.1-8b-instant",
-      "evaluated_at": "2026-06-02T03:15:00.582369+00:00"
+      "evaluated_at": "2026-06-02T03:05:41.872935+00:00"
+    },
+    "7d7034c48f081aa2": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:00:45.076646+00:00"
+    },
+    "f0f2e7e0e98b21f7": {
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-25T02:04:52.941404+00:00"
+    },
+    "fc10f16d2a10787d": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "llama-3.1-8b-instant",
+      "evaluated_at": "2026-06-02T03:00:36.002334+00:00"
+    },
+    "2a95ea2acf04cb98": {
+      "eval": "llama-3.3-70b-versatile",
+      "judge": "gemini-3.1-flash-lite",
+      "triage": "cerebras/gpt-oss-120b",
+      "evaluated_at": "2026-06-24T02:38:41.598736+00:00"
     }
   },
   "by_model": {
-    "llama-3.3-70b-versatile": {
+    "groq/gpt-oss-120b": {
       "eval_articles": [
+        "46e376ad0435bba4",
+        "f0f2e7e0e98b21f7",
+        "f2e07c0253d5e01c",
+        "7d7034c48f081aa2",
+        "1c53c12657961a81",
+        "424bf6e62eebc1d2",
+        "383f6fc63950f06a",
+        "c3354c403995fc13",
+        "68916677e2694999",
+        "6b84de0e8f29e514",
+        "79e314d552cce19b",
+        "93545597bffa22b5",
+        "5a30674d009c9a9f",
+        "50bb550a89bc146e",
+        "eb5e38259c8ba188",
+        "322928e4fad47e5f",
+        "f8bb3a503afdd2b5",
+        "2c004a0212bba67c"
+      ],
+      "judge_articles": [],
+      "triage_articles": [],
+      "eval_count": 18,
+      "judge_count": 0,
+      "triage_count": 0
+    },
+    "gemini-3.1-flash-lite": {
+      "eval_articles": [],
+      "judge_articles": [
+        "46e376ad0435bba4",
+        "f0f2e7e0e98b21f7",
+        "f2e07c0253d5e01c",
+        "7d7034c48f081aa2",
+        "1c53c12657961a81",
+        "424bf6e62eebc1d2",
+        "383f6fc63950f06a",
+        "c3354c403995fc13",
+        "68916677e2694999",
+        "6b84de0e8f29e514",
+        "79e314d552cce19b",
         "2a95ea2acf04cb98",
         "93545597bffa22b5",
-        "424bf6e62eebc1d2",
         "4781b11308d276aa",
         "5a30674d009c9a9f",
         "50bb550a89bc146e",
-        "f2e07c0253d5e01c",
         "8f463317c4d65b18",
         "eb5e38259c8ba188",
-        "1c53c12657961a81",
         "6faa0ce3befb7f8a",
         "5b18469580b6a1fe",
         "322928e4fad47e5f",
         "fc10f16d2a10787d",
         "f8bb3a503afdd2b5",
-        "68916677e2694999",
         "687b5920cd76edbe",
+        "2c004a0212bba67c"
+      ],
+      "triage_articles": [],
+      "eval_count": 0,
+      "judge_count": 25,
+      "triage_count": 0
+    },
+    "cerebras/gpt-oss-120b": {
+      "eval_articles": [],
+      "judge_articles": [],
+      "triage_articles": [
+        "46e376ad0435bba4",
+        "f0f2e7e0e98b21f7",
+        "f2e07c0253d5e01c",
+        "7d7034c48f081aa2",
+        "1c53c12657961a81",
+        "424bf6e62eebc1d2",
+        "383f6fc63950f06a",
+        "c3354c403995fc13",
+        "68916677e2694999",
         "6b84de0e8f29e514",
-        "2c004a0212bba67c",
-        "79e314d552cce19b"
+        "79e314d552cce19b",
+        "2a95ea2acf04cb98",
+        "93545597bffa22b5",
+        "5a30674d009c9a9f",
+        "50bb550a89bc146e",
+        "eb5e38259c8ba188",
+        "322928e4fad47e5f",
+        "f8bb3a503afdd2b5",
+        "2c004a0212bba67c"
+      ],
+      "eval_count": 0,
+      "judge_count": 0,
+      "triage_count": 19
+    },
+    "llama-3.3-70b-versatile": {
+      "eval_articles": [
+        "f2e07c0253d5e01c",
+        "1c53c12657961a81",
+        "424bf6e62eebc1d2",
+        "68916677e2694999",
+        "6b84de0e8f29e514",
+        "79e314d552cce19b",
+        "2a95ea2acf04cb98",
+        "93545597bffa22b5",
+        "4781b11308d276aa",
+        "5a30674d009c9a9f",
+        "50bb550a89bc146e",
+        "8f463317c4d65b18",
+        "eb5e38259c8ba188",
+        "6faa0ce3befb7f8a",
+        "5b18469580b6a1fe",
+        "322928e4fad47e5f",
+        "fc10f16d2a10787d",
+        "f8bb3a503afdd2b5",
+        "687b5920cd76edbe",
+        "2c004a0212bba67c"
       ],
       "judge_articles": [],
       "triage_articles": [],
@@ -151,72 +270,31 @@
       "judge_count": 0,
       "triage_count": 0
     },
-    "gemini-3.1-flash-lite": {
-      "eval_articles": [],
-      "judge_articles": [
-        "2a95ea2acf04cb98",
-        "93545597bffa22b5",
-        "424bf6e62eebc1d2",
-        "4781b11308d276aa",
-        "5a30674d009c9a9f",
-        "50bb550a89bc146e",
-        "f2e07c0253d5e01c",
-        "8f463317c4d65b18",
-        "eb5e38259c8ba188",
-        "1c53c12657961a81",
-        "6faa0ce3befb7f8a",
-        "5b18469580b6a1fe",
-        "322928e4fad47e5f",
-        "fc10f16d2a10787d",
-        "f8bb3a503afdd2b5",
-        "68916677e2694999",
-        "687b5920cd76edbe",
-        "6b84de0e8f29e514",
-        "2c004a0212bba67c",
-        "79e314d552cce19b"
-      ],
-      "triage_articles": [],
-      "eval_count": 0,
-      "judge_count": 20,
-      "triage_count": 0
-    },
     "llama-3.1-8b-instant": {
       "eval_articles": [],
       "judge_articles": [],
       "triage_articles": [
+        "f2e07c0253d5e01c",
+        "1c53c12657961a81",
+        "68916677e2694999",
+        "6b84de0e8f29e514",
+        "79e314d552cce19b",
         "4781b11308d276aa",
         "5a30674d009c9a9f",
         "50bb550a89bc146e",
-        "f2e07c0253d5e01c",
         "8f463317c4d65b18",
         "eb5e38259c8ba188",
-        "1c53c12657961a81",
         "6faa0ce3befb7f8a",
         "5b18469580b6a1fe",
         "322928e4fad47e5f",
         "fc10f16d2a10787d",
         "f8bb3a503afdd2b5",
-        "68916677e2694999",
         "687b5920cd76edbe",
-        "6b84de0e8f29e514",
-        "2c004a0212bba67c",
-        "79e314d552cce19b"
+        "2c004a0212bba67c"
       ],
       "eval_count": 0,
       "judge_count": 0,
       "triage_count": 17
-    },
-    "cerebras/gpt-oss-120b": {
-      "eval_articles": [],
-      "judge_articles": [],
-      "triage_articles": [
-        "2a95ea2acf04cb98",
-        "93545597bffa22b5",
-        "424bf6e62eebc1d2"
-      ],
-      "eval_count": 0,
-      "judge_count": 0,
-      "triage_count": 3
     }
   }
 }

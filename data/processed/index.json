@@ -1,5 +1,361 @@
 [
   {
+    "article_id": "46e376ad0435bba4",
+    "url": "https://health.yahoo.com/wellness/nutrition/vitamins-supplements/article/magnesium-glycinate-172244627.html",
+    "title": "Magnesium glycinate is touted for better sleep and less stress \u2014 but does it deliver?",
+    "source": null,
+    "evaluated_at": "2026-06-25T02:06:24.718939+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 2,
+    "total_occurrences": 2,
+    "dominant_categories": [
+      "Judgment & Metacognition",
+      "Attention & Memory"
+    ],
+    "word_count": 1899
+  },
+  {
+    "article_id": "f0f2e7e0e98b21f7",
+    "url": "https://health.yahoo.com/conditions/infectious/article/norovirus-hits-californias-pacific-crest-trail-sickening-hikers--and-is-in-more-wastewater-what-to-know-about-the-stomach-bug-170134758.html",
+    "title": "Norovirus hits California's Pacific Crest Trail, sickening hikers \u2014 and is in more wastewater: What to know about the stomach bug",
+    "source": null,
+    "evaluated_at": "2026-06-25T02:04:52.941404+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 1073
+  },
+  {
+    "article_id": "5a30674d009c9a9f",
+    "url": "https://www.yahoo.com/news/world/articles/aid-cuts-climate-change-drive-021855706.html",
+    "title": "Aid cuts and climate change drive deadly malaria surge in Zimbabwe",
+    "source": null,
+    "evaluated_at": "2026-06-25T02:03:57.073148+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 1251
+  },
+  {
+    "article_id": "50bb550a89bc146e",
+    "url": "https://www.yahoo.com/news/science/articles/moderna-partners-global-health-coalition-094349755.html",
+    "title": "Moderna and other groups get $60 million to develop Ebola vaccine",
+    "source": null,
+    "evaluated_at": "2026-06-25T02:02:50.879884+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 720
+  },
+  {
+    "article_id": "f2e07c0253d5e01c",
+    "url": "https://www.yahoo.com/news/science/articles/microplastics-may-weakening-ocean-ability-180700899.html",
+    "title": "Microplastics may be weakening the ocean\u2019s ability to fight climate change",
+    "source": null,
+    "evaluated_at": "2026-06-25T02:01:55.429118+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 1356
+  },
+  {
+    "article_id": "7d7034c48f081aa2",
+    "url": "https://www.yahoo.com/sports/nba/breaking-news/article/stephen-curry-signs-new-shoe-deal-with-chinese-company-li-ning-after-under-armour-split-221435483.html",
+    "title": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split",
+    "source": null,
+    "evaluated_at": "2026-06-25T02:00:45.076646+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 1,
+    "total_occurrences": 1,
+    "dominant_categories": [
+      "Judgment & Decision-Making"
+    ],
+    "word_count": 409
+  },
+  {
+    "article_id": "eb5e38259c8ba188",
+    "url": "https://www.yahoo.com/news/politics/articles/pete-hegseth-blocked-navy-promotions-195254261.html",
+    "title": "Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:58:51.726819+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 313
+  },
+  {
+    "article_id": "1c53c12657961a81",
+    "url": "https://www.yahoo.com/entertainment/tv/articles/60-minutes-correspondent-scott-pelley-163916832.html",
+    "title": "60 Minutes correspondent Scott Pelley accuses Bari Weiss of \u2018murdering\u2019 show",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:57:48.442501+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 1,
+    "total_occurrences": 3,
+    "dominant_categories": [
+      "Social Cognition"
+    ],
+    "word_count": 557
+  },
+  {
+    "article_id": "93545597bffa22b5",
+    "url": "https://www.yahoo.com/entertainment/music/articles/growing-number-artists-pull-250th-182851655.html",
+    "title": "Trump to headline 250th celebration on National Mall after several artists back out",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:55:55.366621+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 1140
+  },
+  {
+    "article_id": "424bf6e62eebc1d2",
+    "url": "https://travel.yahoo.com/guides/united-states/article/the-best-lake-destinations-in-the-us-for-every-type-of-summer-vacation-183631512.html",
+    "title": "The best lake destinations in the U.S. for every type of summer vacation",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:54:55.898771+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 1425
+  },
+  {
+    "article_id": "383f6fc63950f06a",
+    "url": "https://health.yahoo.com/your-body/dermatology/sun-protection/article/how-much-sunscreen-do-you-actually-need-your-summer-sun-protection-guide-100048474.html",
+    "title": "How much sunscreen do you actually need? Your summer sun protection guide.",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:53:42.675631+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 1823
+  },
+  {
+    "article_id": "322928e4fad47e5f",
+    "url": "https://www.goodhousekeeping.com/about/a2223/inside-the-good-housekeeping-test-kitchen/",
+    "title": "Inside the Good Housekeeping Test Kitchen: How We Create Our Triple-Tested Recipes",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:51:41.092664+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 684
+  },
+  {
+    "article_id": "c3354c403995fc13",
+    "url": "https://finance.yahoo.com/news/a-jobs-report-more-big-chip-earnings-and-sticky-inflation-what-to-watch-this-week-105149903.html",
+    "title": "A jobs report, more big chip earnings, and sticky inflation: What to watch this week",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:50:45.496272+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 2,
+    "total_occurrences": 4,
+    "dominant_categories": [
+      "Judgment & Metacognition",
+      "Probability Reasoning"
+    ],
+    "word_count": 1255
+  },
+  {
+    "article_id": "f8bb3a503afdd2b5",
+    "url": "https://wolfstreet.com/2026/05/27/micron-the-wtf-ai-mania-chart-of-the-year/",
+    "title": "Micron, the WTF AI Mania Chart of the Year",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:48:39.322397+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 4,
+    "total_occurrences": 5,
+    "dominant_categories": [
+      "Probability Reasoning",
+      "Judgment & Decision-Making",
+      "Social Cognition"
+    ],
+    "word_count": 600
+  },
+  {
+    "article_id": "68916677e2694999",
+    "url": "https://sports.yahoo.com/college-sports/article/no-1-overall-seed-ucla-eliminated-in-baseball-regionals-after-saint-marys-walks-it-off-in-extras-004141511.html",
+    "title": "No. 1 overall seed UCLA eliminated in baseball regionals after Saint Mary's walks it off in extras",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:47:14.250771+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 299
+  },
+  {
+    "article_id": "6b84de0e8f29e514",
+    "url": "https://www.npr.org/2026/05/30/nx-s1-5839921/timmy-humpback-whale-autopsy",
+    "title": "Carcass of Timmy the humpback whale brought to shore in Denmark",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:45:15.803091+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 260
+  },
+  {
+    "article_id": "2c004a0212bba67c",
+    "url": "https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean",
+    "title": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:44:21.332982+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 215
+  },
+  {
+    "article_id": "79e314d552cce19b",
+    "url": "https://www.npr.org/2026/05/31/g-s1-125047/wembanyama-san-antonio-spurs-win-west-oklahoma-thunder-nba",
+    "title": "San Antonio Spurs win the West, beating Oklahoma City Thunder to head to NBA Finals",
+    "source": null,
+    "evaluated_at": "2026-06-25T01:42:27.239901+00:00",
+    "framework_version": "v0.1.0",
+    "taxonomy_version": "v0.2.0",
+    "model": "groq/gpt-oss-120b",
+    "models": {
+      "triage": "cerebras/gpt-oss-120b",
+      "eval": "groq/gpt-oss-120b",
+      "judge": "gemini-3.1-flash-lite"
+    },
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "dominant_categories": [],
+    "word_count": 562
+  },
+  {
     "article_id": "2a95ea2acf04cb98",
     "url": "https://www.yahoo.com/sports/nba/breaking-news/article/stephen-curry-signs-new-shoe-deal-with-chinese-company-li-ning-after-under-armour-split-221435483.html",
     "title": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split",

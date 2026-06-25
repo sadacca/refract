@@ -1,0 +1,106 @@
+{
+  "article_id": "eb5e38259c8ba188",
+  "source_url": "https://www.yahoo.com/news/politics/articles/pete-hegseth-blocked-navy-promotions-195254261.html",
+  "title": "Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report",
+  "evaluated_at": "2026-06-25T01:58:51.726819+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report\n(AP Photo/Alex Brandon, File)\nDefense Secretary Pete Hegseth reportedly blocked more armed services promotions in a move that notably affected Black and female Navy officers.\nIn recent months, Hegseth has faced scrutiny for major shake-ups within the Defense Department. The secretary has fired multiple high-ranking officials amid the ongoing war in Iran, and has also intervened in countless promotions across all the branches of the U.S. armed forces. In an April report from NBC News, nine sources claimed that Hegseth blocked the promotions based on race, gender, and possible ties to the administration of former President Joe Biden.\nOn Monday, The New York Times published a report revealing that a new round of promotions had been blocked by the secretary. According to the report, most of the officers affected were Black or female.\nThe report continued:\nThe net result of Mr. Hegseth\u2019s intervention is a slate of 22 nominees to be one-star admirals that bears little resemblance to the broader force these officers will help lead.\nAt least two of the officers removed by Mr. Hegseth from the promotion list are women and two are Black men. An additional three are white men.\nMr. Hegseth\u2019s actions, which appear to violate the rules governing a promotion system that is supposed to be apolitical and merit-based, were described by four current and former defense officials who spoke on the condition of anonymity to discuss sensitive personnel matters.\nAdditionally, sources characterized Hegseth\u2019s removal of the officers as \u201chighly unusual.\u201d\nA Pentagon spokesperson told The New York Times that promotions were given to those \u201cwho have earned them\u201d and refuted the notion that race or gender would factor into the decision.\nThe post Pete Hegseth Blocked Navy Promotions in Move That \u2018Disproportionately\u2019 Target Black and Female Officers: Report first appeared on Mediaite.",
+  "pass0_result": {
+    "paragraph_count": 12,
+    "category_paragraphs": {
+      "Attention & Memory": [],
+      "Judgment & Decision-Making": [
+        0,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "Judgment & Metacognition": [],
+      "Judgment & Moral Reasoning": [
+        0,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "Memory": [],
+      "Metacognition": [],
+      "Probability Reasoning": [
+        0,
+        2,
+        4,
+        6,
+        7
+      ],
+      "Social Cognition": [
+        0,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Judgment & Moral Reasoning",
+      "Social Cognition"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The article describes a decision by the secretary that may involve biases such as authority bias or confirmation bias in promotion selections.",
+      "Judgment & Moral Reasoning": "The narrative frames the actions as potentially unjust and discriminatory, invoking moral judgments about fairness and equity.",
+      "Social Cognition": "The piece discusses race and gender dynamics, suggesting possible in\u2011group/out\u2011group bias, stereotypes, and discrimination."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The Fundamental Attribution Error involves overemphasizing dispositional factors over situational ones. In this context, the article is reporting on allegations regarding a specific official's actions; attributing these actions to the official's intent is the core of the report, not a cognitive error. The article includes the Pentagon's rebuttal, which provides the necessary situational/institutional context, thereby negating the claim of bias.",
+        "verdict": "rejected"
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "The evaluation incorrectly labels standard journalistic reporting of allegations as a cognitive bias. Reporting on an individual's actions within a professional capacity is not an instance of the Fundamental Attribution Error, especially when the article includes the subject's defense or alternative explanations."
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 12,
+    "pass0_avg_paragraphs_per_category": 4.0
+  }
+}

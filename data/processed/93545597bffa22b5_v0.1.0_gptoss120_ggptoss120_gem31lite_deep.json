@@ -1,0 +1,140 @@
+{
+  "article_id": "93545597bffa22b5",
+  "source_url": "https://www.yahoo.com/entertainment/music/articles/growing-number-artists-pull-250th-182851655.html",
+  "title": "Trump to headline 250th celebration on National Mall after several artists back out",
+  "evaluated_at": "2026-06-25T01:55:55.366621+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Trump to headline 250th celebration on National Mall after several artists back out\nDays after several artists said they wouldn't participate in the entertainment lineup for the \"Great American State Fair\" in Washington, D.C., President Donald Trump said he's working to hold a rally instead.\nFreedom250, the organization behind the Great American State Fair, told ABC News Saturday evening that Trump will headline the opening ceremony of the fair on Wednesday, June 24.\n\"As the visionary behind the Great American State Fair, we are excited to announce that President Trump will personally kick off this historic celebration on Wednesday, June 24 in an opening ceremony celebrating America's 250th birthday,\" Freedom250 spokeswoman Danielle Alvarez said in a statement.\nEarlier Saturday, Trump announced in a social media post that he was working on holding a rally on Wednesday \"to take the place of these highly paid, Third Rate 'Artists.'\"\nThe president said he would \"give a major speech, rallying the Country forward like I have done ever since being President!\"\nIn a later post on his social media platform, Trump suggested a \"giant MAKE AMERICA GREAT AGAIN RALLY\" for the event, instead of what he called \"overpriced singers, who nobody wants to hear, whose music is boring, and yet who do nothing but complain.\"\nTrump also suggested canceling the event, likening it to his reaction to the judge's decision blocking his overhaul of the Kennedy Center performing arts center.\n\"Cancel it, just like I canceled my involvement with the failing and unsafe to be in Kennedy Center,\" Trump posted.\nOn Sunday, a spokesperson for the Great American State Fair said that the event is not being cancelled, and that organizers are now planning to add an \"opening ceremony\" at which President Trump can speak.\n\"It was never a concert, it is a world\u2019s fair,\" the spokesperson said in a statement to ABC News. \"We aren\u2019t scrapping anything. We are adding an opening ceremony. The fair was set to run June 25-July 10. Now we are adding a kick-off event on June 24.\"\nMartina McBride, Bret Michaels, Young MC, Morris Day and The Time and The Commodores were all announced to be part of the show but by Friday evening they all said they would no longer perform. Several of the artists alleged they were misled about the nature of the event.\nThe event is scheduled to take place on the National Mall as part of America's 250th anniversary celebrations.\nWhat appears to be driving the backlash is a perception that Freedom 250 is more closely aligned with the Trump's administration and political movement than the artists initially understood. Freedom 250 is separate from the congressionally established U.S. Semiquincentennial Commission, which operates as America 250.\nIt's not clear what information the artists were given originally by Freedom 250 organizers.\nTreasury pushing plans for $250 bill with Trump's portrait and signature, sources say\nFreedom 250 pushed back Friday against claims that its Great American State Fair is partisan, defending the National Mall event.\n\"The Great American State Fair is a celebration of all Americans, and Freedom 250 remains fully committed to delivering a once-in-a-lifetime experience that brings every corner of this country together on the National Mall,\" Freedom 250 spokeswoman Rachel Reisner said in a statement.\n\"We respect the rights of any artist to make their own decisions, and our doors remain open to any performer who wants to be part of honoring 250 years of American freedom, culture, and unity,\" Reisner added.\nMcBride pulled out of the event earlier this week, saying she was misled about it.\n\"I was presented with an opportunity to perform at a nonpartisan event but that turned out to be misleading. I asked lots of questions and was assured this was a nonpartisan event that was meant to celebrate ALL 50 states,\" McBride said in a statement.\nYoung MC echoed McBride's concerns on social media.\n\"The artists were never told about any political involvement with the event. And despite the claims by the organizers that the event is non-partisan, SPIN magazine describes it as 'Trump-backed.' I hope to perform in D.C. in the near future at an event that is not so politically charged,\" Young MC wrote in a post.\nIn a statement on Friday morning, Michaels said his understanding of the event changed after it was announced.\n\"When this opportunity was originally presented to my team, it was described as a celebration of our country through music and a chance to honor our veterans, active military, first responders, teachers and hardworking Americans from all walks of life,\" Michaels said.\n\"Unfortunately, what was presented to us as a celebration of our country has evolved into something much more divisive than what I agreed to be a part of. Concerns have also been raised regarding the safety of my fans, band, crew, family and myself, including threats that are completely unfounded and unforgivable,\" Michaels added, not offering an explanation about what he felt made the event divisive.\nThe Commodores also cited a desire to avoid partisan affiliations.\n\"Our music has always been our voice and we choose not to publicly affiliate with any single political party,\" the group said in a statement. \"We support the betterment of all Americans.\"\nThe status of C+C Music Factory remains unclear. Freedom Williams, who has performed under the group's name, posted a profanity-filled video to social media while on a toilet criticizing the event and suggesting he would participate. However, C+C Music Factory co-founder Robert Clivill\u00e9s, who was not expected to perform at this event, publicly distanced the group from Williams' comments, saying Williams does not represent the group's views and the group would not be performing.\nMilli Vanilli, the pop group famously stripped of its Grammy Award after a lip-syncing scandal, is also disputing the group's performance. One of the original vocalists told ABC News they were not contacted to participate in the event, accusing Fab Morvan -- the surviving member of the lip-syncing pop duo -- of using the Milli Vanilli name for a performance they say does not represent the original group, sound or singers.\nMorvan, in a statement, said he would perform at the event and was \"looking forward\" to \"finally sing Milli Vanilli songs live in person.\"\nConstruction underway on UFC Octagon at White House for Flag Day fights\nNot all performers have backed out of the event.\nRepresentatives for Vanilla Ice told ABC News the rapper still plans to perform.\n\"Vanilla Ice is contracted and will perform at the Great American Fair at the National Mall on Friday, June 26. He is proud to help celebrate America's 250th Anniversary. Everyone is welcome to attend and celebrate USA's Birthday and our Freedom!\"\nAs of Saturday, rapper and singer Flo Rida has not publicly announced whether he still plans to perform.\n-ABC News' Ivan Pereira contributed to this report.",
+  "pass0_result": {
+    "paragraph_count": 37,
+    "category_paragraphs": {
+      "Attention & Memory": [],
+      "Judgment & Decision-Making": [
+        1,
+        4,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        14,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "Judgment & Metacognition": [
+        11,
+        13,
+        14,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "Judgment & Moral Reasoning": [
+        4,
+        7,
+        8,
+        13,
+        14,
+        16,
+        20,
+        25,
+        26,
+        27,
+        28
+      ],
+      "Memory": [
+        7,
+        8
+      ],
+      "Metacognition": [
+        11,
+        13,
+        14,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "Probability Reasoning": [],
+      "Social Cognition": [
+        1,
+        11,
+        13,
+        16,
+        20,
+        22,
+        25,
+        28
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Judgment & Moral Reasoning",
+      "Social Cognition"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The article describes choices by artists, organizers, and Trump that may be influenced by framing, confirmation, and escalation biases.",
+      "Judgment & Moral Reasoning": "It contains moral evaluations of political affiliation, labeling the event as 'partisan' or 'non\u2011partisan', which can reflect moral reasoning biases.",
+      "Social Cognition": "The text discusses group identities, in\u2011group/out\u2011group dynamics, and stereotypes about political alignment, indicating potential social cognition biases."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "dunning-kruger-effect",
+        "rationale": "The Dunning-Kruger effect refers to a cognitive bias where individuals with low ability in a specific domain overestimate their competence. While Trump's comments are disparaging and subjective, they represent personal opinion and political rhetoric rather than a demonstrated lack of metacognitive awareness regarding his own musical expertise.",
+        "verdict": "rejected"
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "The detection incorrectly labels aggressive political rhetoric as a cognitive bias. The Dunning-Kruger effect requires evidence of a subject's inability to recognize their own incompetence in a specific skill set, whereas this excerpt reflects standard ad hominem attacks."
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 1,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 37,
+    "pass0_avg_paragraphs_per_category": 8.0
+  }
+}

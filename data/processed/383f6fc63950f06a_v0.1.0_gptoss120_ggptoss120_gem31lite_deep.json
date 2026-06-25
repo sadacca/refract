@@ -1,0 +1,208 @@
+{
+  "article_id": "383f6fc63950f06a",
+  "source_url": "https://health.yahoo.com/your-body/dermatology/sun-protection/article/how-much-sunscreen-do-you-actually-need-your-summer-sun-protection-guide-100048474.html",
+  "title": "How much sunscreen do you actually need? Your summer sun protection guide.",
+  "evaluated_at": "2026-06-25T01:53:42.675631+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "We know more about the risks of skin cancer than ever before \u2014 but that doesn't mean everyone's applying sunscreen. While it may feel like you only need sunblock when you're poolside or at the beach, you're exposed to the sun's harmful ultraviolet rays whenever you're soaking up the warmer weather \u2014 even when driving in your car or sitting next to a window.\nOne in five Americans will get skin cancer by the age of 70, according to the Skin Cancer Foundation \u2014 and those rates are only increasing. Fortunately, there's one super simple preventive measure that will simultaneously protect against premature aging. Yep, it's sunscreen.\nBut decoding sunscreen labels isn't always easy. Understanding which SPF level to use and when to reapply, plus knowing whether sunscreen-infused makeup counts as sun protection, is something few of us want to research. Fortunately, we've done the legwork for you and asked dermatologists the most common sun care questions so you can enjoy your time outdoors, guilt-free.\nWhat SPF should you use?\nThe SPF, or sun protection factor, measures how well sunscreen protects against sunburn, according to the American Academy of Dermatology (AAD). So how do the different SPF levels measure up? According to the MD Anderson Cancer Center, an SPF 15 sunscreen blocks 93% of the sun's harmful UVB rays, and SPF 30 blocks 97%. Once you get higher than that, you're only getting a small boost in protection. For example, SPF 50 stops 98% of UVB rays, while SPF 100 blocks 99% of them. No sunscreen provides 100% protection from damaging UV rays.\nThe AAD recommends using a broad-spectrum sunscreen \u2014 meaning it protects against both UVA rays (which prematurely age skin) and UVB rays (which cause sunburn) \u2014 with SPF 30 or higher. \"Above that can be helpful, but the really profound cancer protection starts at SPF 30,\" Dr. Daniel Butler, a dermatologist in Tucson, Ariz., tells Yahoo Life.\nWhat's the difference between mineral and chemical sunscreen?\nThe main differences are their ingredients and how they protect against the sun's rays. \"Chemical sunscreens,\" such as avobenzone, oxybenzone and octinoxate, \"absorb UV rays, while mineral sunscreens \u2014 zinc oxide or titanium dioxide \u2014 act as a physical barrier preventing UV rays from hitting the skin,\" Dr. Jason Miller, a dermatologist at Schweiger Dermatology Group in Freehold, N.J., tells Yahoo Life. \"Both offer good protection.\"\nHowever, chemical sunscreens can cause allergic reactions in some people. \"There is an increased chance of irritation and stinging due to the combination of multiple ingredients in order to provide both UVA and UVB protections,\" Dr. Cula Svidzinski, a cosmetic dermatologist at Sadick Dermatology in New York City, tells Yahoo Life. Mineral (also known as physical) sunscreens, on the other hand, are naturally broad spectrum, blocking both UVA and UVB rays as well as blue light, says Svidzinski. While these sunscreens can leave a white cast \u2014 the minerals themselves are white and sit on top of the skin \u2014 the formulations have come a long way.\nWhere and when should you wear sunscreen?\nExperts say that sunscreen should be an everyday habit. \"I recommend people use sunscreen daily in the morning and then reapply if they're deliberately out in the sun,\" says Butler. But it's worth noting that even on overcast days, you're still exposed to some harmful UV rays. That's why Dr. Vicky Zhen Ren, assistant professor of dermatology at Baylor College of Medicine, tells Yahoo Life that sunscreen should be worn \"even on cold or cloudy days\" and \"especially near reflective surfaces such as water, snow or sand.\"\nEven if you're indoors, it's still a good idea to wear sunscreen since UV rays, specifically UVA, can penetrate windows, Dr. Marisa Garshick, a dermatologist in New York City and Englewood, N.J., tells Yahoo Life. \"It is also important to note that blue light may be emitted from computer screens and phones and can contribute to skin changes, and using sunscreen may help to protect the skin,\" she says.\nButler agrees, adding: \"While indoor and computer light are unlikely to cause cancerous changes, photoaging can still occur when indoors or when in front of a computer screen. Because of this, I recommend wearing sunscreen on the face if indoors or in front of a computer for extended periods of time.\"\nHow much sunscreen should you put on?\n\"In order to achieve the SPF on the label, you need about one shot glass of sunscreen \u2014 most people tend to use less,\" says Miller.\nRen adds that sunscreen should also be applied 15 minutes before going outside. And remember to slather it on commonly forgotten areas, such as the back of your ears, the back of your hands and the top of your feet, along with wearing lip balm with SPF 30 or higher. As one expert put it: \"Lip gloss that doesn't contain [sunscreen] is like applying baby oil to your lips.\"\nHow long does sunscreen protection last?\nIn general, sunscreen lasts about two hours. If you're staying cool and dry indoors and aren't near any windows, you can stretch that to four to six hours, according to the Skin Cancer Foundation.\nBut sunscreen should be reapplied about every two hours if you're outdoors, more often if you're swimming or sweating. Water-resistant sunscreens can protect your skin, even when wet, for 40-80 minutes tops and then they need to be reapplied. (There's no such thing as waterproof or sweat-proof sunscreen so manufacturers are not allowed to make those claims, according to the Food and Drug Administration.)\n\"Even if you go for a high SPF sunscreen, you're not reaping the full benefits of that high SPF sunscreen unless you're thoroughly covering the sun-exposed areas and reapplying,\" says Ren.\nDoes sunscreen expire?\nSunscreen doesn't last forever, so it's worth checking your cabinets and beach bags for expired products. FDA regulations require all nonprescription drugs, including sunscreen, to have an expiration date, though there's an exception to that rule if a manufacturer's stability testing shows the product will remain stable for at least three years.\n\"Many sunscreens include an expiration date,\" says Svidzinski. \"If the sunscreen doesn't have an expiration date, write the date you bought it on the bottle and discard it three years later.\" Not sure how old your sunscreen is? Discard it, according to the FDA.\nAvoid leaving sunscreen in hot cars or in direct sunlight, as Garshick says this can affect its effectiveness. \"Leaving sunscreen in a hot car can make the preservatives break down, which can lead to colonization with bacteria or yeast,\" says Butler. You should also keep an eye out for changes in sunscreen color, smell or consistency. \"Signs that should make you throw it away is if it smells bad or if it's extra watery when it comes out,\" he says.\nHow to choose the right sunscreen for you\nThe most important factor in choosing the \"right\" sunscreen is selecting the recommended SPF of 30, says Svidzinski. \"After that, the 'right sunscreen' is the one that you are going to use,\" she says. Butler tells his patients to try three or four different options before deciding on an everyday sunscreen that they're happy with.\nFor those with sensitive skin, Garshick says it's best to opt for a mineral sunscreen \"as they tend to be less irritating and less likely to cause an allergic reaction.\" Those with acne-prone skin \"should look for sunscreens that are noncomedogenic or oil-free to help minimize any potential for breakouts,\" she says.\nFor those with darker skin, Garshick says that chemical sunscreens may be preferred \"as they tend to absorb in easily without leaving a white cast.\" However, Svidzinski says that with the improved formulation of mineral sunscreens, \"there are a lot more options for skin of color.\"\nGarshick adds that tinted sunscreens are also an option to best match a specific skin tone.\nLotions, sticks and sprays: Do they all offer the same amount of protection?\n\"Sunscreen sprays and sticks can offer the same amount of protection as lotions if a proper amount is applied,\" says Garshick. \"The issue for most sprays and sticks is people do not typically apply enough or do not apply an even coat so there are skip areas that may be at risk of burn. Sunscreen sprays are not bad for you, but it is important to use them properly. Ultimately, some sunscreen is better than no sunscreen, but either way it is important to ensure enough sunscreen is applied.\"\nHowever, some dermatologists recommend caution when using spray sunscreen. \"Sprays are popular due to their ease of use; however, little is known about the effects of inhaling particles of sunscreen into the lungs, making it difficult to recommend their use,\" Miller says. Butler adds that \"regarding spray sunscreens, if aerosolized, they may contain benzenes, which at high levels can cause negative health impacts.\"\nBut if you're determined to use them, Svidzinski says it's \"essential to rub spray sunscreen in to ensure even coverage.\" Given concerns about inhalation, she recommends applying them in a well-ventilated area and avoiding spraying directly onto the face.\nIs a daily moisturizer or foundation with sunscreen enough?\nDermatologists are mixed as to whether makeup and facial moisturizers with sunscreen offer enough protection. (Also worth noting: They only help protect your face \u2014 any other exposed skin needs sunscreen too.)\n\"These are great for everyday sun protection,\" says Butler. \"Ideally, they would be SPF 30 or greater to ensure the cancer protection impact as well as the benefits of aging prevention.\"\nHowever, Garshick says that even though a daily moisturizer or foundation with sunscreen may indicate that it provides sun protection, \"it is not typically considered enough because most often people do not apply a sufficient amount of moisturizer or foundation to get the amount of protection as indicated on the label.\"\nSvidzinski agrees. \"SPF makeup is not a substitute for a stand-alone sunscreen,\" she says. \"Daily moisturizer with a minimum SPF of 30 may be OK if your day consists of very little time outdoors.\" But, she says, along with not putting on enough to provide full protection, you likely won't reapply sunscreen-infused makeup or moisturizer throughout the day. \"This is why I recommend using a dedicated physical sunscreen SPF 30 in addition to your moisturizer or makeup with [added sunscreen].\"\nWhat else can you do to protect yourself from the sun?\nAlthough sunscreen typically gets the most attention, it isn't the only way to avoid harmful UV rays. There are other steps you can and should take, say experts \u2014 namely, seeking shade when the sun's rays are strongest. Typically, that's between 10 a.m. and 2 p.m. \"But of course this may vary depending on your location,\" says Ren, \"so more importantly, seek shade whenever your shadow is shorter than you.\" Also, wear sun-protective clothing. This includes tightly woven, long-sleeved shirts and pants with ultraviolet protection factor (UPF), wide-brimmed hats and large-framed sunglasses with UV protection, says Ren.",
+  "pass0_result": {
+    "paragraph_count": 40,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        15
+      ],
+      "Judgment & Decision-Making": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "Judgment & Metacognition": [
+        0,
+        15,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "Judgment & Moral Reasoning": [],
+      "Memory": [
+        15,
+        21,
+        22
+      ],
+      "Metacognition": [
+        0,
+        15,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "Probability Reasoning": [
+        1,
+        4
+      ],
+      "Social Cognition": [
+        0,
+        2,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14,
+        15,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Attention & Memory",
+      "Judgment & Decision-Making",
+      "Judgment & Metacognition",
+      "Memory",
+      "Metacognition",
+      "Probability Reasoning",
+      "Social Cognition"
+    ],
+    "rationale": {
+      "Attention & Memory": "The text highlights common forgetfulness (e.g., missing areas, reapplication) suggesting potential attentional and memory lapses.",
+      "Judgment & Decision-Making": "Recommendations about SPF choice, reapplication frequency, and indoor vs. outdoor use involve risk judgments and decision heuristics.",
+      "Judgment & Metacognition": "The article prompts readers to assess their own sunscreen habits and knowledge, invoking metacognitive evaluation of decisions.",
+      "Memory": "References to recalling sunscreen expiration dates and remembering to apply sufficient amounts point to memory processes.",
+      "Metacognition": "Calls for self\u2011reflection on sun\u2011exposure habits and understanding of sunscreen labels engage metacognitive monitoring.",
+      "Probability Reasoning": "Provides statistical claims (e.g., 1 in 5 risk, SPF protection percentages) that may be misinterpreted or oversimplified.",
+      "Social Cognition": "Cites expert opinions and social norms about sunscreen use, influencing attitudes through authority and peer influence."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "overconfidence-bias",
+        "rationale": "The excerpt provided in the detection does not exist in the source text, making the assessment of bias impossible. Furthermore, the article consistently cites dermatologists as experts, and quoting an expert's professional recommendation is not an example of overconfidence bias.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      },
+      {
+        "instance_id": "inst_001",
+        "bias_id": "fundamental-attribution-error",
+        "rationale": "The instances cited describe common behavioral observations in public health contexts rather than making character judgments. Attributing the failure to apply enough sunscreen to human behavior is a factual observation of usage patterns, not a psychological error in attributing behavior to disposition over situation.",
+        "verdict": "rejected",
+        "swap_agreement": true
+      }
+    ],
+    "overall_quality": "low",
+    "notes": "Swap augmentation: 0/2 instance(s) showed position-dependent verdicts and were downgraded to 'suspect'.",
+    "swap_augmentation": true
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 40,
+    "pass0_avg_paragraphs_per_category": 14.2
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "article_id": "2c004a0212bba67c",
+  "source_url": "https://www.npr.org/2026/05/31/nx-s1-5841876/us-strike-drug-boat-kills-3-pacific-ocean",
+  "title": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week",
+  "evaluated_at": "2026-06-25T01:44:21.332982+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "U.S. strike on alleged drug boat kills 3 in Pacific Ocean, in fourth attack this week\nWASHINGTON \u2014 The U.S. military said it carried out another strike Saturday on a boat accused of smuggling drugs in the eastern Pacific Ocean, killing three men in the fourth attack this week and putting the total death toll at 205.\nU.S. Southern Command announced the strike with its usual language that the vessel was \"engaged in narco-trafficking operations\" and operated by a designated terrorist organization. It provided no evidence for the allegation.\nIt's the latest in a monthslong campaign against alleged drug boats traversing the Caribbean Sea and eastern Pacific.\nVideo released by the military on social media shows a small vessel floating in the ocean before it's hit and engulfed in a fireball.\nThe attack brings the death toll to 205 in a series of U.S. strikes that began in early September, with other attacks announced on Tuesday, Wednesday and Friday. The Trump administration has declared that the U.S. is at armed conflict with Latin American drug cartels, saying they are behind the flow of drugs into American communities.\nU.S. Southern Command said in its post on X that the strike came at the direction of Gen. Francis L. Donovan, the top U.S. commander in Latin America.",
+  "pass0_result": {
+    "paragraph_count": 7,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        0,
+        3,
+        4
+      ],
+      "Judgment & Decision-Making": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "Judgment & Metacognition": [
+        2,
+        5
+      ],
+      "Judgment & Moral Reasoning": [
+        1,
+        2,
+        5
+      ],
+      "Memory": [
+        3,
+        5
+      ],
+      "Metacognition": [
+        2,
+        6
+      ],
+      "Probability Reasoning": [
+        2,
+        5
+      ],
+      "Social Cognition": [
+        1,
+        2,
+        4,
+        5
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Judgment & Moral Reasoning",
+      "Probability Reasoning",
+      "Social Cognition"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The article describes policy choices to conduct lethal strikes based on unverified allegations, suggesting potential decision\u2011making biases.",
+      "Judgment & Moral Reasoning": "It presents the killing of individuals as justified without evidence, raising questions about moral reasoning and ethical bias.",
+      "Probability Reasoning": "Claims of a widespread terrorist\u2011linked drug threat may involve overestimation of risk and misjudgment of probabilities.",
+      "Social Cognition": "The narrative frames Latin American drug cartels as a monolithic enemy, reflecting possible stereotyping and out\u2011group bias."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "availability-heuristic",
+        "rationale": "The excerpt reports factual data points (frequency and death toll) provided by the military; while these figures are vivid, reporting them does not constitute a cognitive bias by the author, as they are standard journalistic practice for establishing the scale of an ongoing event.",
+        "verdict": "rejected"
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "The detection conflates the reporting of high-impact statistics with the psychological mechanism of the availability heuristic. The author is providing context for the frequency of the strikes rather than attempting to manipulate the reader's perception through anecdotal evidence."
+  },
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 1,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 7,
+    "pass0_avg_paragraphs_per_category": 2.8
+  }
+}

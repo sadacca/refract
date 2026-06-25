@@ -1,0 +1,99 @@
+{
+  "article_id": "322928e4fad47e5f",
+  "source_url": "https://www.goodhousekeeping.com/about/a2223/inside-the-good-housekeeping-test-kitchen/",
+  "title": "Inside the Good Housekeeping Test Kitchen: How We Create Our Triple-Tested Recipes",
+  "evaluated_at": "2026-06-25T01:51:41.092664+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Whether you're looking for easy weeknight dinners, quick breakfast ideas, or planning an extravagant holiday feast, you want recipes that are simultaneously stunning, delicious and reliable. (No one wants to spend time and money on a recipe that won't work!) That's where the Good Housekeeping Test Kitchen comes in.\nOur team of food and culinary experts \u2014 including chefs, cooks, bakers, recipe editors, culinary producers, registered dietitians and food stylists \u2014 work together to create the thousands of tested-til-perfect recipes you find in our magazines, cookbooks and online. We aim to make sure that every recipe that comes from our kitchen will work in yours, with whatever tools, equipment and ingredients you have.\nWhy You Should Trust Us\nIn our mission to create dishes that are both tasty and achievable for the average home cook, we actually make each recipe at least three times in our professional test kitchen. Located in the heart of the Good Housekeeping Institute, the Good Housekeeping Test Kitchen consists of four complete kitchens, each equipped with different appliances and cookware \u2014 think gas, electric and induction ranges; nonstick, cast-iron and stainless steel pans. Led by Chief Food Director Kate Merker, the team works to test each recipe until perfect (more on that below), as well as conduct blind side-by-side taste tests and evaluate new grocery store products plus wine and spirits.\nHow We Develop Recipes\nOur team of culinary pros get inspiration from everywhere. The Good Housekeeping Test Kitchen team is constantly thinking \u2014 and talking! \u2014 about food. You will find at least one of us at the grocery store almost every single day. We lean into comfort and familiarity, sharing dishes from our childhoods and recipes from our own weekly rotations. We also love to experiment and learn. We\u2019re always tasting new cuisines and embracing a range of flavor combinations and ingredients, whether we\u2019re on vacation, diving into new cookbooks or out to dinner with friends. Our recipe developers leverage what they learned while attending culinary school and working in restaurants. We\u2019re also constantly asking ourselves: Is there a better (easier, tastier, simpler) way of making this?\nWe work closely with the folks in the Good Housekeeping Institute Kitchen Appliances Lab, which features a team of cooks and analysts who work tirelessly to identify the latest kitchen innovations and share useful tips for getting the best results with any kitchen tool, as well as the registered dietitians in our Good Housekeeping Institute Nutrition Lab, who provide insights on how to create the healthiest options without sacrificing flavor. We put our heads and stomachs together to come up with recipes that are delicious, innovative, smart and that resonate with our audiences.\nHow We Test Recipes\nAfter a recipe developer creates a brand-new recipe, it is tasted by the entire team, then adjusted based on tasting notes and technique fixes (sometimes it takes multiple times to get the formula exactly right). The recipe is then written and edited as it will appear in the magazine. Then, a recipe tester follows and cooks the recipe, while using a different set of appliances and ingredients. Recipe testers will flag if there\u2019s an easier way to make the dish, whether that\u2019s introducing a shortcut or identifying a way to eliminate using an extra pan. The recipe is then sometimes adjusted even further and cooked another time. At last, it\u2019s cooked again by a food stylist for a photo shoot.\nDozens of people taste each dish along the way and we\u2019ll make adjustments based on feedback, whether that\u2019s adding more salt or acid or dialing down the spice level. Throughout the entire process, a recipe editor tweaks the language of the recipe along the way \u2014 to make sure it\u2019s easy to read (and follow along!).\nMeet Our Team of Experts\nEveryone on the team brings a unique set of experiences and taste buds to the table. Some attended culinary school, while others studied food science, nutrition and food policy and/or spent time working in cafes and restaurants. One thing unites us all: a love of eating, drinking, cooking and thinking about food.",
+  "pass0_result": {
+    "paragraph_count": 12,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        0,
+        8,
+        9
+      ],
+      "Judgment & Decision-Making": [
+        0,
+        1,
+        3,
+        5,
+        8,
+        9
+      ],
+      "Judgment & Metacognition": [
+        3,
+        5,
+        8,
+        9
+      ],
+      "Judgment & Moral Reasoning": [
+        2
+      ],
+      "Memory": [
+        0,
+        8,
+        9
+      ],
+      "Metacognition": [
+        3,
+        5,
+        8,
+        9
+      ],
+      "Probability Reasoning": [
+        1,
+        3,
+        8,
+        9
+      ],
+      "Social Cognition": [
+        1,
+        5,
+        6,
+        9,
+        11
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Social Cognition",
+      "Metacognition",
+      "Attention & Memory"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The text relies on authority cues (experts, test kitchen) to influence readers' choices about which recipes to trust.",
+      "Social Cognition": "It emphasizes the collective expertise and teamwork, using social proof to shape attitudes toward the brand.",
+      "Metacognition": "The article highlights self\u2011assessment of the team\u2019s competence and the iterative testing process, suggesting overconfidence or self\u2011validation biases.",
+      "Attention & Memory": "References to childhood recipes and repeated testing aim to make the information more memorable and salient, potentially biasing recall."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 12,
+    "pass0_avg_paragraphs_per_category": 3.8
+  }
+}

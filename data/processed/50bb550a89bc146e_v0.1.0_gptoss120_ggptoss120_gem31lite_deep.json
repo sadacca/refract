@@ -1,0 +1,128 @@
+{
+  "article_id": "50bb550a89bc146e",
+  "source_url": "https://www.yahoo.com/news/science/articles/moderna-partners-global-health-coalition-094349755.html",
+  "title": "Moderna and other groups get $60 million to develop Ebola vaccine",
+  "evaluated_at": "2026-06-25T02:02:50.879884+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Moderna and other groups get $60 million to develop Ebola vaccine\nBy Jennifer Rigby, Mariam Sunny and Julie Steenhuysen\nJune 1 (Reuters) - Global health organisation CEPI will give roughly $60 million to Moderna and two other groups to accelerate the development of shots against Ebola Bundibugyo, the deadly virus that has swept through eastern Democratic Republic of Congo.\nThe Coalition for Epidemic Preparedness Innovations was one of the early investors that helped to develop a vaccine at the height of the COVID-19 pandemic.\nRichard Hatchett, head of CEPI, told Reuters on Monday it was possible to get Ebola Bundibugyo (BDBV) vaccines ready for trials within a couple of months.\nThere are currently no approved BDBV vaccines or treatments.\nHatchett said the promise of vaccines on \"a not infinitely distant horizon\" should help to start conversations about who would buy them and fund any roll-out.\nBut he cautioned that vaccine development can be unpredictable and the challenging security situation in eastern Congo would make trials complex.\nThere have been 282 confirmed cases in Congo, including 42 deaths, and around 1,100 suspected cases, according to the Africa Centres for Disease Control and Prevention and the World Health Organization.\nAnother nine cases have been confirmed in Uganda, including one death.\nGlobal health agencies have declared the outbreak a public health emergency.\nEARLY CLINICAL TESTING OF MODERNA VACCINE CANDIDATE\nCEPI has committed up to $50 million to support preclinical and early clinical development of Moderna's investigational BDBV vaccine candidate.\nThe funding would also support manufacturing and progression to later-stage trials if early data are positive, Moderna said.\n\"We have worked on Ebola in preclinical models showing great results,\" Moderna Chief Executive Stephane Bancel said in a telephone interview.\nGiven the lethality of Ebola, the aim would be to create a vaccine that prevents disease while attempting to simplify the dosing strategy, he said.\nAt this point, it's not clear whether the vaccine could be given in one or two doses. That would be ironed out in the phase 1 trial before moving into larger trials, which he said would need to be done in Africa.\n\"Our goal is to move as fast as we can without compromising safety, and to be as helpful as we can,\" he said.\nCEPI said it would also invest up to $8.6 million for a shot developed by the University of Oxford and manufactured by the Serum Institute of India, and an initial $3.2 million for a vaccine developed by the International AIDS Vaccine Initiative.\nIAVI's single-dose Bundibugyo vaccine candidate uses the same technology as Merck's approved vaccine Ervebo for the Zaire strain, the first strain of Ebola to be discovered in what was then Zaire and is now Democratic Republic of Congo.\nIt has shown survival benefit in animal studies.\nIAVI CEO Mark Feinberg said in a press briefing it remains unclear which partners would be responsible for organising or conducting clinical trials for the vaccine candidate.\nHe noted that multiple studies were carried out during the 2014-2016 West African Ebola outbreak, backed by U.S. agencies and the World Health Organization.\n\"We understand from the WHO more recently that they won't be assuming that role in the future,\" Feinberg said, adding it would require \"tens of millions of dollars until we're in a position to enter the clinic\".\nThe WHO did not immediately clarify its stance on sponsoring or conducting trials.\nOxford's candidate, ChAdOx1 Bundibugyo, uses the same technology as that of the Oxford/AstraZeneca COVID-19 vaccine.\nHatchett said Oxford and Serum had demonstrated in a different outbreak last year - Rift Valley Fever in Mauritania and Senegal - that they could make doses ready for trial in around six weeks, far quicker than typical timescales that have in the past run to years.\nOnce a vaccine is developed, Hatchett said the next challenge was ensuring access to the shots where they are needed. He said 300,000 doses of Ervebo were needed to bring the 2018-2020 Ebola Zaire outbreak under control in a similar region of Congo.\nSeparately, global vaccine alliance Gavi on Friday committed up to $50 million to the Ebola response, and the World Bank's Pandemic Fund announced up to $220.6 million in grants.\n(Reporting by Mariam Sunny and Siddhi Mahatole in Bengaluru; Editing by Mrigank Dhaniwala, Vijay Kishore, Devika Syamnath, Barbara Lewis and Joe Bavier)",
+  "pass0_result": {
+    "paragraph_count": 30,
+    "category_paragraphs": {
+      "Attention & Memory": [
+        8,
+        9,
+        10
+      ],
+      "Judgment & Decision-Making": [
+        0,
+        2,
+        3,
+        4,
+        6,
+        7,
+        12,
+        13,
+        16,
+        21,
+        23,
+        26,
+        27,
+        28
+      ],
+      "Judgment & Metacognition": [
+        4,
+        7,
+        14,
+        16,
+        21,
+        23
+      ],
+      "Judgment & Moral Reasoning": [
+        0,
+        6,
+        10,
+        27,
+        28
+      ],
+      "Memory": [
+        22,
+        23,
+        26
+      ],
+      "Metacognition": [
+        4,
+        7,
+        14,
+        16,
+        21,
+        23
+      ],
+      "Probability Reasoning": [
+        5,
+        8,
+        9,
+        10,
+        13,
+        14,
+        20,
+        26
+      ],
+      "Social Cognition": [
+        2,
+        4,
+        6,
+        7,
+        10,
+        21,
+        23,
+        24,
+        27,
+        28
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Judgment & Metacognition",
+      "Judgment & Moral Reasoning",
+      "Probability Reasoning",
+      "Social Cognition",
+      "Attention & Memory"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The article discusses funding allocations and trial planning, which may involve optimism or overconfidence biases in decision making.",
+      "Judgment & Metacognition": "Quotes from CEOs and CEPI officials reflect self\u2011assessment of progress and may reveal metacognitive biases about the certainty of vaccine development.",
+      "Judgment & Moral Reasoning": "The piece touches on equitable access to vaccines and who should bear costs, raising potential moral reasoning biases.",
+      "Probability Reasoning": "Statements about the likelihood of rapid vaccine readiness and uncertain efficacy invite scrutiny of probabilistic reasoning biases.",
+      "Social Cognition": "References to public health emergencies, global agencies, and collaborative efforts involve group dynamics and potential in\u2011group/out\u2011group biases.",
+      "Attention & Memory": "The focus on Ebola and the framing of the outbreak may bias readers' attention and recall of related health threats."
+    }
+  },
+  "bias_instances": [],
+  "judge_result": {},
+  "summary": {
+    "dominant_categories": [],
+    "bias_type_count": 0,
+    "total_occurrences": 0,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 0,
+      "closing": 0
+    },
+    "by_category": {},
+    "pass0_paragraph_count": 30,
+    "pass0_avg_paragraphs_per_category": 6.9
+  }
+}

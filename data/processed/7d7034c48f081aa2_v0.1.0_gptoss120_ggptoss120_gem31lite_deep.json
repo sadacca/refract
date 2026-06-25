@@ -1,0 +1,116 @@
+{
+  "article_id": "7d7034c48f081aa2",
+  "source_url": "https://www.yahoo.com/sports/nba/breaking-news/article/stephen-curry-signs-new-shoe-deal-with-chinese-company-li-ning-after-under-armour-split-221435483.html",
+  "title": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split",
+  "evaluated_at": "2026-06-25T02:00:45.076646+00:00",
+  "framework_version": "v0.1.0",
+  "taxonomy_version": "v0.2.0",
+  "model": "groq/gpt-oss-120b",
+  "models": {
+    "triage": "cerebras/gpt-oss-120b",
+    "eval": "groq/gpt-oss-120b",
+    "judge": "gemini-3.1-flash-lite"
+  },
+  "mode": "deep",
+  "article_text": "Stephen Curry signs new shoe deal with Chinese company Li-Ning reportedly worth over $400 million after Under Armour split\nStephen Curry finally has his new shoe deal.\nCurry signed a massive 10-year shoe endorsement contract with Chinese company Li-Ning on Monday, according to ESPN\u2019s Shams Charania. Curry\u2019s deal will include basketball products, athleisure, a full golf line and the ability for him to sign other athletes under his brand in the future.\nAccording to Charania, the deal is worth over $400 million. He had at least one other offer that was more lucrative, too, but he opted to go with Li-Ning instead.\nThe Golden State Warriors star confirmed the partnership on Instagram, too, but did not disclose details of the deal.\nCurry has been a sneaker free agent since his shocking split with Under Armour last year. The two sides split in November, ending a 12-year partnership that saw Curry quickly become one of the main faces of the company. Curry was previously at Nike before he joined Under Armour in 2013.\nCurry and Under Armour launched the Curry Brand in 2020, and Curry eventually took over as president of that brand, which was later separated from the company in their split. Curry received significant Under Armour stock when he signed a new long-term deal with the company in 2023, too. Curry was one of just a handful of NBA players with lifetime shoe deals. Both LeBron James and Kevin Durant have lifetime contracts with Nike, and Damian Lillard has a similar deal with Adidas.\nMore NBA news\nCurry just wrapped up his 17th season in the league. The 12-time All-Star averaged 26.6 points and 4.7 assists per game last season, though he appeared in just 43 games while dealing with a lengthy right knee injury. The Warriors went 37-45 and missed the playoffs for the second time in three years.\nLi-Ning was founded in 1990 by former Olympic gymnast Li Ning. The company has signed several NBA players in the past, including former Cleveland Cavaliers guard Damon Jones back in 2006. Jimmy Butler, Dwyane Wade, Fred VanVleet, D\u2019Angelo Russell and CJ McCollum all have had deals with the company, too.\nWhile Curry is undoubtedly nearing the end of his playing career \u2014 he signed a one-year, $62.5 million extension to remain with the organization through the end of next season, when he\u2019ll be 39 years old \u2014 his brand now has a new home for the foreseeable future.",
+  "pass0_result": {
+    "paragraph_count": 11,
+    "category_paragraphs": {
+      "Attention & Memory": [],
+      "Judgment & Decision-Making": [
+        0,
+        3,
+        5,
+        10
+      ],
+      "Judgment & Metacognition": [
+        5,
+        6,
+        10
+      ],
+      "Judgment & Moral Reasoning": [],
+      "Memory": [
+        5,
+        6,
+        9
+      ],
+      "Metacognition": [
+        5,
+        6,
+        10
+      ],
+      "Probability Reasoning": [
+        0,
+        3
+      ],
+      "Social Cognition": [
+        0,
+        4,
+        9
+      ]
+    }
+  },
+  "pass1_result": {
+    "flagged_categories": [
+      "Judgment & Decision-Making",
+      "Social Cognition"
+    ],
+    "rationale": {
+      "Judgment & Decision-Making": "The article describes Curry's choice between multiple endorsement offers and the reasoning behind selecting Li\u2011Ning, which may involve decision\u2011making biases.",
+      "Social Cognition": "The piece references Curry's public image, comparisons to other NBA players, and the brand's cultural context (e.g., Chinese company), all of which can invoke social perception and group\u2011based biases."
+    }
+  },
+  "bias_instances": [
+    {
+      "bias_id": "framing-effect",
+      "bias_name": "Framing Effect",
+      "occurrences": [
+        {
+          "excerpt": "shocking split with Under Armour last year",
+          "char_start": 782,
+          "char_end": 824,
+          "paragraph_index": 2,
+          "text_region": "body",
+          "explanation": "The sentence frames Curry's departure from Under Armour using loss\u2011oriented language ('shocking split'), while an equally valid gain frame (e.g., 'new partnership with Li\u2011Ning') is omitted. This selective loss framing exploits asymmetric loss aversion, matching the identification criteria for the framing effect.",
+          "confidence": "high"
+        }
+      ],
+      "severity": "medium",
+      "author_exhibiting": true,
+      "source_reporting": false,
+      "category": "Judgment & Decision-Making"
+    }
+  ],
+  "judge_result": {
+    "judgments": [
+      {
+        "instance_id": "inst_000",
+        "bias_id": "framing-effect",
+        "rationale": "The term 'shocking' is a subjective descriptor that emphasizes the disruption of the status quo rather than the objective business transition. While it frames the event as a loss, it is a standard journalistic practice to describe high-profile contract terminations as 'shocking' when they end long-term partnerships, making the bias classification weak.",
+        "verdict": "suspect"
+      }
+    ],
+    "overall_quality": "medium",
+    "notes": "The evaluator correctly identified the framing, but the framing itself is common sports journalism parlance rather than a deliberate attempt to manipulate reader decision-making via loss aversion."
+  },
+  "summary": {
+    "dominant_categories": [
+      "Judgment & Decision-Making"
+    ],
+    "bias_type_count": 1,
+    "total_occurrences": 1,
+    "low_confidence_count": 0,
+    "recall_probe_finds": 0,
+    "by_region": {
+      "headline": 0,
+      "lede": 0,
+      "body": 1,
+      "closing": 0
+    },
+    "by_category": {
+      "Judgment & Decision-Making": 1
+    },
+    "pass0_paragraph_count": 11,
+    "pass0_avg_paragraphs_per_category": 2.2
+  }
+}
